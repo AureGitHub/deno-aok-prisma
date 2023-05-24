@@ -1,0 +1,23 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["deno"]
+  output = "../generated/client"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_POST")
+}
+
+model TC_tiposGastos {
+  id Int @id  @db.SmallInt
+  descripcion  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+

@@ -1,0 +1,9 @@
+(Para crear schema. Necesita url postgress)
+deno run -A npm:prisma@^4.5 db push    
+
+Hay que generar el proxy cada vez que se cambia el schema
+deno run -A  --unstable npm:prisma@^4.5 generate --data-proxy
+
+
+(Para lanzar seed. Necesita url prisma)
+deno run -A prisma/seed.ts  
