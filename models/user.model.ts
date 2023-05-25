@@ -3,6 +3,7 @@ export class userClass   {
     name:  string|undefined;
     email: string|undefined;    
     role: string|undefined;    
+    SessionexpiredIn: string|undefined; 
 
     constructor(param: any){
       this.id = param['id'];

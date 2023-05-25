@@ -3,9 +3,8 @@ export * as logger from "https://deno.land/x/oak_logger@1.0.0/mod.ts";
 
 export {
     create,
-    getNumericDate,
-    verify,
-  } from "https://deno.land/x/djwt@v2.7/mod.ts";
+    decode
+  } from "https://deno.land/x/djwt@v2.8/mod.ts";
 
   export type { Header, Payload } from "https://deno.land/x/djwt@v2.7/mod.ts";
 
@@ -26,3 +25,4 @@ export {
 
 
   export { Prisma } from "../generated/client/deno/edge.ts";
+

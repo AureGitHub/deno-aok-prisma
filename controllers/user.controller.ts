@@ -8,7 +8,7 @@ import  { userClass } from "../dep/deps.ts";
 const getMeController = async ({ state, response }: RouterContext<string>) => {
   try {
 
-    const id = parseInt(state.user_id);
+    const id = parseInt(state.user.id);
 
     const user = await prisma.user.findUnique({where: {id}});
 

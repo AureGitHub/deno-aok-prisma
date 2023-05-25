@@ -1,15 +1,82 @@
-import { RouterContext,prisma } from "../dep/deps.ts";
-import { signJwt, verifyJwt } from "../utils/jwt.ts";
+import { RouterContext,prisma, create, Context, decode } from "../dep/deps.ts";
 import { Prisma } from "../generated/client/deno/edge.ts";
 
 import  { userClass } from "../dep/deps.ts";
+import "https://deno.land/x/dotenv@v3.2.2/load.ts";
+
+
+const ACCESS_TOKEN_EXPIRES_IN = Deno.env.get('ACCESS_TOKEN_EXPIRES_IN') ;
+
+
+const secureTokenController =  async (ctx: Context, next) =>  {
+
+  if (!ctx.state.token){
+    await next();
+    return;
+  } 
+
+  let message = "Token session has expired";
+  try{
+    const [header, payload, signature] = decode(ctx.state.token);  
+    const decoded = payload;
+    ctx.state.user = decoded['user'];
+
+    const accessTokenExpiresIn=decoded['accessTokenExpiresIn'];
+
+    if(Date.now() > accessTokenExpiresIn){
+
+      const dateExpiresIn = new Date(accessTokenExpiresIn);
+      const SessionexpiredIn = `${dateExpiresIn.toLocaleDateString()} ${dateExpiresIn.toLocaleTimeString()}`;
+
+      message = `Token is timed out (${SessionexpiredIn})`;
+      ctx.state.user = null;
+    }
+    else{
+      const secure = await giveMeToken(ctx.state.user);
+      ctx.state.secure = secure;
+    }
+    
+  }
+  catch(ex){
+     message = "Token is invalid";
+  }
+
+    if (! ctx.state.user) {
+      ctx.response.status = 401;
+      ctx.response.body = {
+        status: "fail",
+        message,
+      };
+      return;
+    }
+
+    await next();
+};
+
+
+const giveMeToken = async(user: any) => {
+
+  const key = await crypto.subtle.generateKey(
+    { name: "HMAC", hash: "SHA-512" },
+    true,
+    ["sign", "verify"],
+  );
+
+  const accessTokenExpiresIn = Date.now() + ACCESS_TOKEN_EXPIRES_IN * 60 * 1000;
+  const token = await create({ alg: "HS512", typ: "JWT" }, {user,accessTokenExpiresIn} , key );
 
 
 
+  const dateExpiresIn = new Date(accessTokenExpiresIn);
+  const SessionexpiredIn = `${dateExpiresIn.toLocaleDateString()} ${dateExpiresIn.toLocaleTimeString()}`;
+  user.SessionexpiredIn = SessionexpiredIn;
+  return  {
+    user,
+    token
+  };
+}
 
 
-const ACCESS_TOKEN_EXPIRES_IN = 15;
-const REFRESH_TOKEN_EXPIRES_IN = 60;
 
 const signUpUserController = async ({
   request,
@@ -50,10 +117,10 @@ const signUpUserController = async ({
   }
 };
 
+
 const loginUserController = async ({
   request,
   response,
-  cookies,
 }: RouterContext<string>) => {
   try {
     const { email, password }: { email: string; password: string } =
@@ -72,41 +139,18 @@ const loginUserController = async ({
       return;
     }
 
-    const accessTokenExpiresIn = new Date(
-      Date.now() + ACCESS_TOKEN_EXPIRES_IN * 60 * 1000
-    );
-    const refreshTokenExpiresIn = new Date(
-      Date.now() + REFRESH_TOKEN_EXPIRES_IN * 60 * 1000
+    let userRet = new userClass(user);
+
+    const key = await crypto.subtle.generateKey(
+      { name: "HMAC", hash: "SHA-512" },
+      true,
+      ["sign", "verify"],
     );
 
-    const { token: access_token } = await signJwt({
-      user_id: user.id.toString(),
-      privateKeyPem: "ACCESS_TOKEN_PRIVATE_KEY",
-      expiresIn: accessTokenExpiresIn,
-      issuer: "website.com",
-    });
-    const { token: refresh_token } = await signJwt({
-      user_id: user.id.toString(),
-      privateKeyPem: "REFRESH_TOKEN_PRIVATE_KEY",
-      expiresIn: refreshTokenExpiresIn,
-      issuer: "website.com",
-    });
-
-    cookies.set("access_token", access_token, {
-      expires: accessTokenExpiresIn,
-      maxAge: ACCESS_TOKEN_EXPIRES_IN * 60,
-      httpOnly: true,
-      secure: false,
-    });
-    cookies.set("refresh_token", refresh_token, {
-      expires: refreshTokenExpiresIn,
-      maxAge: REFRESH_TOKEN_EXPIRES_IN * 60,
-      httpOnly: true,
-      secure: false,
-    });
+    const secure = await giveMeToken(userRet);
 
     response.status = 200;
-    response.body = { status: "success", access_token };
+    response.body = { status: "success", secure };
   } catch (error) {
     response.status = 500;
     response.body = { status: "error", message: error.message };
@@ -114,83 +158,21 @@ const loginUserController = async ({
   }
 };
 
-const refreshAccessTokenController = async ({
-  response,
-  cookies,
-}: RouterContext<string>) => {
-  try {
-    const refresh_token = await cookies.get("refresh_token");
 
-    const message = "Could not refresh access token";
 
-    if (!refresh_token) {
-      response.status = 403;
-      response.body = {
-        status: "fail",
-        message,
-      };
-      return;
-    }
+const logoutController = (ctx) => {
+ 
+  ctx.state.secure = null;
+  ctx.state.token = null;
 
-    const decoded = await verifyJwt<{ sub: string }>({
-      token: refresh_token,
-      publicKeyPem: "REFRESH_TOKEN_PUBLIC_KEY",
-    });
-
-    if (!decoded) {
-      response.status = 403;
-      response.body = {
-        status: "fail",
-        message,
-      };
-      return;
-    }
-
-    const accessTokenExpiresIn = new Date(
-      Date.now() + ACCESS_TOKEN_EXPIRES_IN * 60 * 1000
-    );
-
-    const { token: access_token } = await signJwt({
-      user_id: decoded.sub,
-      issuer: "website.com",
-      privateKeyPem: "ACCESS_TOKEN_PRIVATE_KEY",
-      expiresIn: accessTokenExpiresIn,
-    });
-
-    cookies.set("access_token", access_token, {
-      expires: accessTokenExpiresIn,
-      maxAge: ACCESS_TOKEN_EXPIRES_IN * 60,
-      httpOnly: true,
-      secure: false,
-    });
-
-    response.status = 200;
-    response.body = { status: "success", access_token };
-  } catch (error) {
-    response.status = 500;
-    response.body = { status: "error", message: error.message };
-    return;
-  }
+  ctx.response.status = 200;
+  ctx.response.body = { status: "success" };
 };
 
-const logoutController = ({ response, cookies }: RouterContext<string>) => {
-  cookies.set("access_token", "", {
-    httpOnly: true,
-    secure: false,
-    maxAge: -1,
-  });
-  cookies.set("refresh_token", "", {
-    httpOnly: true,
-    secure: false,
-    maxAge: -1,
-  });
 
-  response.status = 200;
-  response.body = { status: "success" };
-};
 export default {
   signUpUserController,
   loginUserController,
   logoutController,
-  refreshAccessTokenController,
+  secureTokenController
 };

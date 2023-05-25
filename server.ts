@@ -4,6 +4,8 @@ import { Application, isHttpError, logger, Router, RouterContext, Status } from 
 
 import appRouter from "./routes/index.ts";
 
+import authController from "./controllers/auth.controller.ts";
+
 const app = new Application();
 const router = new Router();
 
@@ -21,9 +23,28 @@ const now = `${today.toLocaleDateString()}  ${today.toLocaleTimeString()}`;
 
 
 app.use(async (ctx, next) => {
+
+  await next();
+  //Manda siempre secure... si esxiste
+  if(ctx.state.secure){
+    ctx.response.body['secure'] = ctx.state.secure;
+  }
+  
+ 
+});
+
+
+app.use(async (ctx, next) => {
+
+  //AQUI COJO EL TOKEN !!!!!!!!!!!!!!!!!!!!!!!
+  const token  = await ctx.request.headers.get('Authorization');
   ctx.state.now = now;
+  ctx.state.token = token;
   await next();
 });
+
+// este middel comprueba que el token sea correcto y lo refresca
+app.use(authController.secureTokenController);
   
 
 
@@ -50,6 +71,11 @@ app.use(async (ctx, next) => {
 });
 
 
+
+
+
+
+
 router.get<string>("/api/healthchecker", (ctx: RouterContext<string>) => {
   ctx.response.status = 200;
   ctx.response.body = {
@@ -64,6 +90,15 @@ appRouter.init(app);
 
 app.use(router.routes());
 app.use(router.allowedMethods());
+
+
+
+
+
+
+
+
+
 
 /**
  * Start server.

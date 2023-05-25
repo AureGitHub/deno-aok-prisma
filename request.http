@@ -4,8 +4,8 @@ POST http://localhost:3000/api/auth/register
 content-type: application/json
 
 {
-    "email" : "agod@a.es",
-    "name": "Dios",
+    "email" : "ago11d@a.es",
+    "name": "Dios 1",
     "role": "GOD",
     "password" : "12345678"    
 }
@@ -23,9 +23,11 @@ http://localhost:3000/api/auth/refresh
 
 ###
 http://localhost:3000/api/users/me
+Authorization : eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJuYW1lIjoiRGlvcyIsInJvbGUiOiJHT0QifSwiYWNjZXNzVG9rZW5FeHBpcmVzSW4iOjE2ODUwNDcwNTM2NzF9.Q5lB2N1SP2s8kue0c2fzxYv-RY14ZFo85OFYGIATmIAWkzt-OjdlE8yIbRBnKiOtMf5Zus-6BZSYjaCW9JmzHA
 
 ###
 http://localhost:3000/api/auth/logout
+Authorization : eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJuYW1lIjoiRGlvcyIsInJvbGUiOiJHT0QifSwiYWNjZXNzVG9rZW5FeHBpcmVzSW4iOjE2ODUwNDcwNTM2NzF9.Q5lB2N1SP2s8kue0c2fzxYv-RY14ZFo85OFYGIATmIAWkzt-OjdlE8yIbRBnKiOtMf5Zus-6BZSYjaCW9JmzHA
 
 ###
 PUT http://localhost:3000/api/users/1
