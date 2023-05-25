@@ -18,6 +18,17 @@ content-type: application/json
     "email" : "agod@a.es",   
     "password" : "12345678"    
 }
+
+###
+POST https://aure-deno-aok-prisma.deno.dev/api/auth/login
+content-type: application/json
+
+{
+    "email" : "agod@a.es",   
+    "password" : "12345678"    
+}
+
+
 ###
 http://localhost:3000/api/auth/refresh
 

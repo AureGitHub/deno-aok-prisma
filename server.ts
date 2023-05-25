@@ -98,6 +98,9 @@ app.use(router.allowedMethods());
 
 
 
+const Denoenv = Deno.env.get("PORT");
+
+const port: number = Denoenv ? parseInt(Denoenv) : 3000;
 
 
 /**
@@ -112,5 +115,4 @@ app.addEventListener("listen", ({ port, secure }) => {
   );
 });
 
-const port = 3000;
 app.listen({ port });
