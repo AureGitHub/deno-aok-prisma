@@ -8,7 +8,7 @@
             "request": "launch",
             "name": "Launch Program",
             "type": "node",
-            "program": "${workspaceFolder}/main.js",
+            "program": "${workspaceFolder}/server.ts",
             "cwd": "${workspaceFolder}",
             "runtimeExecutable": "C:\\Users\\Aure-remoto\\.deno\\bin\\deno.EXE",
             "runtimeArgs": [

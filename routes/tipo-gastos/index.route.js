@@ -1,5 +1,5 @@
-import { Router } from "https://deno.land/x/oak@v11.1.0/mod.ts";
-import prisma from "../prisma/db.js";
+import { Router,prisma } from "../../dep/deps.ts";
+
 
 const router = new Router();
 

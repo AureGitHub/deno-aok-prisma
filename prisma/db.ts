@@ -1,5 +1,5 @@
 import { PrismaClient } from "../generated/client/deno/edge.ts";
-import "https://deno.land/x/dotenv/load.ts";
+import "https://deno.land/x/dotenv@v3.2.2/load.ts";
 
 
 const prisma = new PrismaClient({
