@@ -116,9 +116,16 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   name: 'name',
   role: 'role',
+  estado: 'estado',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
+exports.Estado = {
+  ACTIVE: 'ACTIVE',
+  BLOCK: 'BLOCK',
+  UNSUBSCRIBED: 'UNSUBSCRIBED'
+};
+
 exports.Role = {
   USER: 'USER',
   ADMIN: 'ADMIN',

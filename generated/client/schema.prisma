@@ -22,11 +22,12 @@ model TC_tiposGastos {
 
 
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  password String
-  name    String?
-  role    Role     @default(USER)
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  password   String
+  name       String
+  role       Role       @default(USER)
+  estado     Estado     @default(BLOCK)
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
 }
@@ -35,6 +36,11 @@ enum Role {
   USER
   ADMIN
   GOD
+}
+enum Estado {  
+  ACTIVE
+  BLOCK
+  UNSUBSCRIBED 
 }
 
 

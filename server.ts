@@ -1,13 +1,27 @@
 
-import { Application, isHttpError, logger, Router, RouterContext, Status } from "./dep/deps.ts";
+import { Application, isHttpError, logger, Router, RouterContext, Status, send } from "./dep/deps.ts";
 //import router from "./routes/router.js"
 
 import appRouter from "./routes/index.ts";
 
 import authController from "./controllers/auth.controller.ts";
+import { oakCors } from "https://deno.land/x/cors/mod.ts";
+
+
+
+
+const ROOT_DIR = "./ionic";
+const ROOT_DIR_PATH = "/ionic";
 
 const app = new Application();
 const router = new Router();
+
+
+app.use(
+  oakCors({
+    origin: "http://localhost:8100"
+  }),
+);
 
 
 // Middleware Logger
@@ -20,6 +34,19 @@ const timeElapsed = Date.now();
 const today = new Date(timeElapsed);
 
 const now = `${today.toLocaleDateString()}  ${today.toLocaleTimeString()}`;
+
+
+// app.use(async (ctx, next) => {
+//   if (!ctx.request.url.pathname.startsWith(ROOT_DIR_PATH)) {
+//     next();
+//     return;
+//   }
+//   const filePath = ctx.request.url.pathname.replace(ROOT_DIR_PATH, "");
+//   await send(ctx, filePath, {
+//     root: ROOT_DIR,
+//   });
+// });
+
 
 
 app.use(async (ctx, next) => {
@@ -54,6 +81,7 @@ app.use(async (ctx, next) => {
     await next();
   } catch (err) {
     if (isHttpError(err)) {
+      console.log(err);
       switch (err.status) {
         case Status.NotFound:
           // handle NotFound

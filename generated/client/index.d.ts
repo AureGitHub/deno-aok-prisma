@@ -31,8 +31,9 @@ export type User = {
   id: number
   email: string
   password: string
-  name: string | null
+  name: string
   role: Role
+  estado: Estado
   createdAt: Date
   updatedAt: Date
 }
@@ -44,6 +45,15 @@ export type User = {
 
 // Based on
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+
+export const Estado: {
+  ACTIVE: 'ACTIVE',
+  BLOCK: 'BLOCK',
+  UNSUBSCRIBED: 'UNSUBSCRIBED'
+};
+
+export type Estado = (typeof Estado)[keyof typeof Estado]
+
 
 export const Role: {
   USER: 'USER',
@@ -1761,6 +1771,7 @@ export namespace Prisma {
     password: string | null
     name: string | null
     role: Role | null
+    estado: Estado | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1771,6 +1782,7 @@ export namespace Prisma {
     password: string | null
     name: string | null
     role: Role | null
+    estado: Estado | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1781,6 +1793,7 @@ export namespace Prisma {
     password: number
     name: number
     role: number
+    estado: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1801,6 +1814,7 @@ export namespace Prisma {
     password?: true
     name?: true
     role?: true
+    estado?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1811,6 +1825,7 @@ export namespace Prisma {
     password?: true
     name?: true
     role?: true
+    estado?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1821,6 +1836,7 @@ export namespace Prisma {
     password?: true
     name?: true
     role?: true
+    estado?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1917,8 +1933,9 @@ export namespace Prisma {
     id: number
     email: string
     password: string
-    name: string | null
+    name: string
     role: Role
+    estado: Estado
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -1948,6 +1965,7 @@ export namespace Prisma {
     password?: boolean
     name?: boolean
     role?: boolean
+    estado?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -2715,6 +2733,7 @@ export namespace Prisma {
     password: 'password',
     name: 'name',
     role: 'role',
+    estado: 'estado',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -2777,8 +2796,9 @@ export namespace Prisma {
     id?: IntFilter | number
     email?: StringFilter | string
     password?: StringFilter | string
-    name?: StringNullableFilter | string | null
+    name?: StringFilter | string
     role?: EnumRoleFilter | Role
+    estado?: EnumEstadoFilter | Estado
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
@@ -2789,6 +2809,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    estado?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -2804,6 +2825,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    estado?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -2820,8 +2842,9 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter | number
     email?: StringWithAggregatesFilter | string
     password?: StringWithAggregatesFilter | string
-    name?: StringNullableWithAggregatesFilter | string | null
+    name?: StringWithAggregatesFilter | string
     role?: EnumRoleWithAggregatesFilter | Role
+    estado?: EnumEstadoWithAggregatesFilter | Estado
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -2878,8 +2901,9 @@ export namespace Prisma {
   export type UserCreateInput = {
     email: string
     password: string
-    name?: string | null
+    name: string
     role?: Role
+    estado?: Estado
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -2888,8 +2912,9 @@ export namespace Prisma {
     id?: number
     email: string
     password: string
-    name?: string | null
+    name: string
     role?: Role
+    estado?: Estado
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -2897,8 +2922,9 @@ export namespace Prisma {
   export type UserUpdateInput = {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2907,8 +2933,9 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2917,8 +2944,9 @@ export namespace Prisma {
     id?: number
     email: string
     password: string
-    name?: string | null
+    name: string
     role?: Role
+    estado?: Estado
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -2926,8 +2954,9 @@ export namespace Prisma {
   export type UserUpdateManyMutationInput = {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2936,8 +2965,9 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3056,26 +3086,18 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter
   }
 
-  export type StringNullableFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | string | null
-    notIn?: Enumerable<string> | string | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    mode?: QueryMode
-    not?: NestedStringNullableFilter | string | null
-  }
-
   export type EnumRoleFilter = {
     equals?: Role
     in?: Enumerable<Role>
     notIn?: Enumerable<Role>
     not?: NestedEnumRoleFilter | Role
+  }
+
+  export type EnumEstadoFilter = {
+    equals?: Estado
+    in?: Enumerable<Estado>
+    notIn?: Enumerable<Estado>
+    not?: NestedEnumEstadoFilter | Estado
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -3084,6 +3106,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    estado?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -3098,6 +3121,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    estado?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -3108,30 +3132,13 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    estado?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
     id?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | string | null
-    notIn?: Enumerable<string> | string | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter | string | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedStringNullableFilter
-    _max?: NestedStringNullableFilter
   }
 
   export type EnumRoleWithAggregatesFilter = {
@@ -3142,6 +3149,16 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedEnumRoleFilter
     _max?: NestedEnumRoleFilter
+  }
+
+  export type EnumEstadoWithAggregatesFilter = {
+    equals?: Estado
+    in?: Enumerable<Estado>
+    notIn?: Enumerable<Estado>
+    not?: NestedEnumEstadoWithAggregatesFilter | Estado
+    _count?: NestedIntFilter
+    _min?: NestedEnumEstadoFilter
+    _max?: NestedEnumEstadoFilter
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -3160,12 +3177,12 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: Role
+  }
+
+  export type EnumEstadoFieldUpdateOperationsInput = {
+    set?: Estado
   }
 
   export type NestedIntFilter = {
@@ -3262,20 +3279,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter
   }
 
-  export type NestedStringNullableFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | string | null
-    notIn?: Enumerable<string> | string | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    not?: NestedStringNullableFilter | string | null
-  }
-
   export type NestedEnumRoleFilter = {
     equals?: Role
     in?: Enumerable<Role>
@@ -3283,32 +3286,11 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter | Role
   }
 
-  export type NestedStringNullableWithAggregatesFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | string | null
-    notIn?: Enumerable<string> | string | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    not?: NestedStringNullableWithAggregatesFilter | string | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedStringNullableFilter
-    _max?: NestedStringNullableFilter
-  }
-
-  export type NestedIntNullableFilter = {
-    equals?: number | null
-    in?: Enumerable<number> | number | null
-    notIn?: Enumerable<number> | number | null
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntNullableFilter | number | null
+  export type NestedEnumEstadoFilter = {
+    equals?: Estado
+    in?: Enumerable<Estado>
+    notIn?: Enumerable<Estado>
+    not?: NestedEnumEstadoFilter | Estado
   }
 
   export type NestedEnumRoleWithAggregatesFilter = {
@@ -3319,6 +3301,16 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedEnumRoleFilter
     _max?: NestedEnumRoleFilter
+  }
+
+  export type NestedEnumEstadoWithAggregatesFilter = {
+    equals?: Estado
+    in?: Enumerable<Estado>
+    notIn?: Enumerable<Estado>
+    not?: NestedEnumEstadoWithAggregatesFilter | Estado
+    _count?: NestedIntFilter
+    _min?: NestedEnumEstadoFilter
+    _max?: NestedEnumEstadoFilter
   }
 
 

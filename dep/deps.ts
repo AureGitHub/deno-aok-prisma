@@ -1,4 +1,4 @@
-export { Application, Router, isHttpError } from "https://deno.land/x/oak@v11.1.0/mod.ts";
+export { Application, Router, isHttpError, send  } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 export * as logger from "https://deno.land/x/oak_logger@1.0.0/mod.ts";
 
 export {

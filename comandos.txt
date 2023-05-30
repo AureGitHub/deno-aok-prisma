@@ -9,4 +9,4 @@ deno run -A  --unstable npm:prisma@^4.5 generate --data-proxy
 deno run -A prisma/seed.ts  
 
 
-deno run --unstable --watch  -A main.js
+deno run --unstable --watch  -A server.ts

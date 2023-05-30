@@ -1,6 +1,6 @@
 http://localhost:3000/api/healthchecker
 ###
-POST http://localhost:3000/api/auth/register
+POST http://localhost:3000/api/users/
 content-type: application/json
 
 {
@@ -15,7 +15,7 @@ POST http://localhost:3000/api/auth/login
 content-type: application/json
 
 {
-    "email" : "agod@a.es",   
+    "email" : "ago11d@a.es",   
     "password" : "12345678"    
 }
 
@@ -24,7 +24,7 @@ POST https://aure-deno-aok-prisma.deno.dev/api/auth/login
 content-type: application/json
 
 {
-    "email" : "agod@a.es",   
+    "email" : "ago11d@a.es",   
     "password" : "12345678"    
 }
 
@@ -34,20 +34,28 @@ http://localhost:3000/api/auth/refresh
 
 ###
 http://localhost:3000/api/users/me
-Authorization : eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJuYW1lIjoiRGlvcyIsInJvbGUiOiJHT0QifSwiYWNjZXNzVG9rZW5FeHBpcmVzSW4iOjE2ODUwNDcwNTM2NzF9.Q5lB2N1SP2s8kue0c2fzxYv-RY14ZFo85OFYGIATmIAWkzt-OjdlE8yIbRBnKiOtMf5Zus-6BZSYjaCW9JmzHA
+Authorization : eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJuYW1lIjoiRGlvcyIsInJvbGUiOiJHT0QifSwiYWNjZXNzVG9rZW5FeHBpcmVzSW4iOjE2ODUwODQ4NDExNDN9.ZJiOlRChRMClxknz675-ZfrmkkYkKjWaG2K52y6LglFF044VE9gSfIY0jYKDo97tS6pxni0r1QBjF1fC_qnaew
 
 ###
 http://localhost:3000/api/auth/logout
 Authorization : eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJuYW1lIjoiRGlvcyIsInJvbGUiOiJHT0QifSwiYWNjZXNzVG9rZW5FeHBpcmVzSW4iOjE2ODUwNDcwNTM2NzF9.Q5lB2N1SP2s8kue0c2fzxYv-RY14ZFo85OFYGIATmIAWkzt-OjdlE8yIbRBnKiOtMf5Zus-6BZSYjaCW9JmzHA
 
 ###
-PUT http://localhost:3000/api/users/1
+PUT http://localhost:300/60/api/users
 content-type: application/json
 
 { 
-    "password" : "123450"    
+    "estado" : "ACTIVE"    
 }
 
 
 ###
 DELETE http://localhost:3000/api/users/5
+
+###
+GET http://localhost:3000/api/users/6
+Authorization : eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJuYW1lIjoiRGlvcyIsInJvbGUiOiJHT0QifSwiYWNjZXNzVG9rZW5FeHBpcmVzSW4iOjE2ODUwODU3Njk4MjJ9.SQR8xZr5LGUMkZoBtsF-30YdLIW9zYcIE-AbYHggt_tNR4sEPXu-QzrWbV4szBH46V2aUZJ97biOuAXPBFHfnQ
+
+###
+GET http://localhost:3000/public/sample.txt
+
