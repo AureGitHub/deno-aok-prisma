@@ -86,6 +86,11 @@ Prisma.NullTypes = {
  * Enums
  */
 
+exports.Prisma.AppScalarFieldEnum = {
+  id: 'id',
+  descripcion: 'descripcion'
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -115,10 +120,15 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   name: 'name',
-  role: 'role',
-  estado: 'estado',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UserxAppScalarFieldEnum = {
+  userId: 'userId',
+  appId: 'appId',
+  role: 'role',
+  estado: 'estado'
 };
 exports.Estado = {
   ACTIVE: 'ACTIVE',
@@ -134,7 +144,9 @@ exports.Role = {
 
 exports.Prisma.ModelName = {
   TC_tiposGastos: 'TC_tiposGastos',
-  User: 'User'
+  User: 'User',
+  App: 'App',
+  UserxApp: 'UserxApp'
 };
 
 /**

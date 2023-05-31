@@ -4,11 +4,22 @@ export class userClass   {
     email: string|undefined;    
     role: string|undefined;    
     SessionexpiredIn: string|undefined; 
+    apps: any[]
 
-    constructor(param: any){
-      this.id = param['id'];
-      this.name = param['name'];
-      this.role = param['role'];
+    constructor(usarFromDB: any){
+      this.apps = [];
+      this.id = usarFromDB['id'];
+      this.name = usarFromDB['name'];
+      this.role = usarFromDB['role'];
+
+      usarFromDB.apps.forEach((userXapp: { app: any; role : any; estado: any })  => {
+
+
+        userXapp.app['role'] = userXapp.role;
+        userXapp.app['estado'] = userXapp.estado;
+
+        this.apps.push(userXapp.app);        
+      });
 
     }
   };

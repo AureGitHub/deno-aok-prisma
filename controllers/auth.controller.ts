@@ -126,9 +126,13 @@ const loginUserController = async ({
     const { email, password }: { email: string; password: string } =
       await request.body().value;
 
-      const result = await prisma.user.findMany({where: {email,password }});
+      const user = await prisma.user.findFirst(
+        {where: {email,password }, 
+        include : {
+          apps: {include : {app : true}}          
+        }
+      });
 
-      const user = result ? result[0] : null;
 
     if (!user) {
       response.status = 401;

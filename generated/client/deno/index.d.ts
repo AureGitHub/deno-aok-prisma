@@ -32,10 +32,28 @@ export type User = {
   email: string
   password: string
   name: string
-  role: Role
-  estado: Estado
   createdAt: Date
   updatedAt: Date
+}
+
+/**
+ * Model App
+ * 
+ */
+export type App = {
+  id: number
+  descripcion: string
+}
+
+/**
+ * Model UserxApp
+ * 
+ */
+export type UserxApp = {
+  userId: number
+  appId: number
+  role: Role
+  estado: Estado
 }
 
 
@@ -200,6 +218,26 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<GlobalReject>;
+
+  /**
+   * `prisma.app`: Exposes CRUD operations for the **App** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Apps
+    * const apps = await prisma.app.findMany()
+    * ```
+    */
+  get app(): Prisma.AppDelegate<GlobalReject>;
+
+  /**
+   * `prisma.userxApp`: Exposes CRUD operations for the **UserxApp** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserxApps
+    * const userxApps = await prisma.userxApp.findMany()
+    * ```
+    */
+  get userxApp(): Prisma.UserxAppDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -670,7 +708,9 @@ export namespace Prisma {
 
   export const ModelName: {
     TC_tiposGastos: 'TC_tiposGastos',
-    User: 'User'
+    User: 'User',
+    App: 'App',
+    UserxApp: 'UserxApp'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -829,6 +869,91 @@ export namespace Prisma {
   /**
    * Count Types
    */
+
+
+  /**
+   * Count Type UserCountOutputType
+   */
+
+
+  export type UserCountOutputType = {
+    apps: number
+  }
+
+  export type UserCountOutputTypeSelect = {
+    apps?: boolean
+  }
+
+  export type UserCountOutputTypeGetPayload<S extends boolean | null | undefined | UserCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UserCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (UserCountOutputTypeArgs)
+    ? UserCountOutputType 
+    : S extends { select: any } & (UserCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof UserCountOutputType ? UserCountOutputType[P] : never
+  } 
+      : UserCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type AppCountOutputType
+   */
+
+
+  export type AppCountOutputType = {
+    users: number
+  }
+
+  export type AppCountOutputTypeSelect = {
+    users?: boolean
+  }
+
+  export type AppCountOutputTypeGetPayload<S extends boolean | null | undefined | AppCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? AppCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (AppCountOutputTypeArgs)
+    ? AppCountOutputType 
+    : S extends { select: any } & (AppCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof AppCountOutputType ? AppCountOutputType[P] : never
+  } 
+      : AppCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * AppCountOutputType without action
+   */
+  export type AppCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the AppCountOutputType
+     */
+    select?: AppCountOutputTypeSelect | null
+  }
 
 
 
@@ -1770,8 +1895,6 @@ export namespace Prisma {
     email: string | null
     password: string | null
     name: string | null
-    role: Role | null
-    estado: Estado | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1781,8 +1904,6 @@ export namespace Prisma {
     email: string | null
     password: string | null
     name: string | null
-    role: Role | null
-    estado: Estado | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1792,8 +1913,6 @@ export namespace Prisma {
     email: number
     password: number
     name: number
-    role: number
-    estado: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1813,8 +1932,6 @@ export namespace Prisma {
     email?: true
     password?: true
     name?: true
-    role?: true
-    estado?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1824,8 +1941,6 @@ export namespace Prisma {
     email?: true
     password?: true
     name?: true
-    role?: true
-    estado?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1835,8 +1950,6 @@ export namespace Prisma {
     email?: true
     password?: true
     name?: true
-    role?: true
-    estado?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1934,8 +2047,6 @@ export namespace Prisma {
     email: string
     password: string
     name: string
-    role: Role
-    estado: Estado
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -1964,23 +2075,33 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     name?: boolean
-    role?: boolean
-    estado?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    apps?: boolean | User$appsArgs
+    _count?: boolean | UserCountOutputTypeArgs
   }
 
+
+  export type UserInclude = {
+    apps?: boolean | User$appsArgs
+    _count?: boolean | UserCountOutputTypeArgs
+  }
 
   export type UserGetPayload<S extends boolean | null | undefined | UserArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
     S extends true ? User :
     S extends undefined ? never :
     S extends { include: any } & (UserArgs | UserFindManyArgs)
-    ? User 
+    ? User  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'apps' ? Array < UserxAppGetPayload<S['include'][P]>>  :
+        P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
     : S extends { select: any } & (UserArgs | UserFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof User ? User[P] : never
+        P extends 'apps' ? Array < UserxAppGetPayload<S['select'][P]>>  :
+        P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
   } 
       : User
 
@@ -2352,6 +2473,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
+    apps<T extends User$appsArgs= {}>(args?: Subset<T, User$appsArgs>): Prisma.PrismaPromise<Array<UserxAppGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -2389,6 +2511,10 @@ export namespace Prisma {
      */
     select?: UserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -2415,6 +2541,10 @@ export namespace Prisma {
      */
     select?: UserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -2429,6 +2559,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the User
      */
     select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
     /**
      * Filter, which User to fetch.
      */
@@ -2486,6 +2620,10 @@ export namespace Prisma {
      */
     select?: UserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
      * Filter, which User to fetch.
      */
     where?: UserWhereInput
@@ -2531,6 +2669,10 @@ export namespace Prisma {
      */
     select?: UserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
      * Filter, which Users to fetch.
      */
     where?: UserWhereInput
@@ -2571,6 +2713,10 @@ export namespace Prisma {
      */
     select?: UserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
      * The data needed to create a User.
      */
     data: XOR<UserCreateInput, UserUncheckedCreateInput>
@@ -2597,6 +2743,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the User
      */
     select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
     /**
      * The data needed to update a User.
      */
@@ -2632,6 +2782,10 @@ export namespace Prisma {
      */
     select?: UserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
      * The filter to search for the User to update in case it exists.
      */
     where: UserWhereUniqueInput
@@ -2655,6 +2809,10 @@ export namespace Prisma {
      */
     select?: UserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+    /**
      * Filter which User to delete.
      */
     where: UserWhereUniqueInput
@@ -2673,6 +2831,27 @@ export namespace Prisma {
 
 
   /**
+   * User.apps
+   */
+  export type User$appsArgs = {
+    /**
+     * Select specific fields to fetch from the UserxApp
+     */
+    select?: UserxAppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserxAppInclude | null
+    where?: UserxAppWhereInput
+    orderBy?: Enumerable<UserxAppOrderByWithRelationInput>
+    cursor?: UserxAppWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<UserxAppScalarFieldEnum>
+  }
+
+
+  /**
    * User without action
    */
   export type UserArgs = {
@@ -2680,6 +2859,1943 @@ export namespace Prisma {
      * Select specific fields to fetch from the User
      */
     select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude | null
+  }
+
+
+
+  /**
+   * Model App
+   */
+
+
+  export type AggregateApp = {
+    _count: AppCountAggregateOutputType | null
+    _avg: AppAvgAggregateOutputType | null
+    _sum: AppSumAggregateOutputType | null
+    _min: AppMinAggregateOutputType | null
+    _max: AppMaxAggregateOutputType | null
+  }
+
+  export type AppAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type AppSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type AppMinAggregateOutputType = {
+    id: number | null
+    descripcion: string | null
+  }
+
+  export type AppMaxAggregateOutputType = {
+    id: number | null
+    descripcion: string | null
+  }
+
+  export type AppCountAggregateOutputType = {
+    id: number
+    descripcion: number
+    _all: number
+  }
+
+
+  export type AppAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type AppSumAggregateInputType = {
+    id?: true
+  }
+
+  export type AppMinAggregateInputType = {
+    id?: true
+    descripcion?: true
+  }
+
+  export type AppMaxAggregateInputType = {
+    id?: true
+    descripcion?: true
+  }
+
+  export type AppCountAggregateInputType = {
+    id?: true
+    descripcion?: true
+    _all?: true
+  }
+
+  export type AppAggregateArgs = {
+    /**
+     * Filter which App to aggregate.
+     */
+    where?: AppWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Apps to fetch.
+     */
+    orderBy?: Enumerable<AppOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AppWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Apps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Apps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Apps
+    **/
+    _count?: true | AppCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AppAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AppSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AppMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AppMaxAggregateInputType
+  }
+
+  export type GetAppAggregateType<T extends AppAggregateArgs> = {
+        [P in keyof T & keyof AggregateApp]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateApp[P]>
+      : GetScalarType<T[P], AggregateApp[P]>
+  }
+
+
+
+
+  export type AppGroupByArgs = {
+    where?: AppWhereInput
+    orderBy?: Enumerable<AppOrderByWithAggregationInput>
+    by: AppScalarFieldEnum[]
+    having?: AppScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AppCountAggregateInputType | true
+    _avg?: AppAvgAggregateInputType
+    _sum?: AppSumAggregateInputType
+    _min?: AppMinAggregateInputType
+    _max?: AppMaxAggregateInputType
+  }
+
+
+  export type AppGroupByOutputType = {
+    id: number
+    descripcion: string
+    _count: AppCountAggregateOutputType | null
+    _avg: AppAvgAggregateOutputType | null
+    _sum: AppSumAggregateOutputType | null
+    _min: AppMinAggregateOutputType | null
+    _max: AppMaxAggregateOutputType | null
+  }
+
+  type GetAppGroupByPayload<T extends AppGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<AppGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AppGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AppGroupByOutputType[P]>
+            : GetScalarType<T[P], AppGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AppSelect = {
+    id?: boolean
+    descripcion?: boolean
+    users?: boolean | App$usersArgs
+    _count?: boolean | AppCountOutputTypeArgs
+  }
+
+
+  export type AppInclude = {
+    users?: boolean | App$usersArgs
+    _count?: boolean | AppCountOutputTypeArgs
+  }
+
+  export type AppGetPayload<S extends boolean | null | undefined | AppArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? App :
+    S extends undefined ? never :
+    S extends { include: any } & (AppArgs | AppFindManyArgs)
+    ? App  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'users' ? Array < UserxAppGetPayload<S['include'][P]>>  :
+        P extends '_count' ? AppCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (AppArgs | AppFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'users' ? Array < UserxAppGetPayload<S['select'][P]>>  :
+        P extends '_count' ? AppCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof App ? App[P] : never
+  } 
+      : App
+
+
+  type AppCountArgs = 
+    Omit<AppFindManyArgs, 'select' | 'include'> & {
+      select?: AppCountAggregateInputType | true
+    }
+
+  export interface AppDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one App that matches the filter.
+     * @param {AppFindUniqueArgs} args - Arguments to find a App
+     * @example
+     * // Get one App
+     * const app = await prisma.app.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends AppFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, AppFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'App'> extends True ? Prisma__AppClient<AppGetPayload<T>> : Prisma__AppClient<AppGetPayload<T> | null, null>
+
+    /**
+     * Find one App that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {AppFindUniqueOrThrowArgs} args - Arguments to find a App
+     * @example
+     * // Get one App
+     * const app = await prisma.app.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AppFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AppFindUniqueOrThrowArgs>
+    ): Prisma__AppClient<AppGetPayload<T>>
+
+    /**
+     * Find the first App that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppFindFirstArgs} args - Arguments to find a App
+     * @example
+     * // Get one App
+     * const app = await prisma.app.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends AppFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, AppFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'App'> extends True ? Prisma__AppClient<AppGetPayload<T>> : Prisma__AppClient<AppGetPayload<T> | null, null>
+
+    /**
+     * Find the first App that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppFindFirstOrThrowArgs} args - Arguments to find a App
+     * @example
+     * // Get one App
+     * const app = await prisma.app.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AppFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AppFindFirstOrThrowArgs>
+    ): Prisma__AppClient<AppGetPayload<T>>
+
+    /**
+     * Find zero or more Apps that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Apps
+     * const apps = await prisma.app.findMany()
+     * 
+     * // Get first 10 Apps
+     * const apps = await prisma.app.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const appWithIdOnly = await prisma.app.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends AppFindManyArgs>(
+      args?: SelectSubset<T, AppFindManyArgs>
+    ): Prisma.PrismaPromise<Array<AppGetPayload<T>>>
+
+    /**
+     * Create a App.
+     * @param {AppCreateArgs} args - Arguments to create a App.
+     * @example
+     * // Create one App
+     * const App = await prisma.app.create({
+     *   data: {
+     *     // ... data to create a App
+     *   }
+     * })
+     * 
+    **/
+    create<T extends AppCreateArgs>(
+      args: SelectSubset<T, AppCreateArgs>
+    ): Prisma__AppClient<AppGetPayload<T>>
+
+    /**
+     * Create many Apps.
+     *     @param {AppCreateManyArgs} args - Arguments to create many Apps.
+     *     @example
+     *     // Create many Apps
+     *     const app = await prisma.app.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends AppCreateManyArgs>(
+      args?: SelectSubset<T, AppCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a App.
+     * @param {AppDeleteArgs} args - Arguments to delete one App.
+     * @example
+     * // Delete one App
+     * const App = await prisma.app.delete({
+     *   where: {
+     *     // ... filter to delete one App
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends AppDeleteArgs>(
+      args: SelectSubset<T, AppDeleteArgs>
+    ): Prisma__AppClient<AppGetPayload<T>>
+
+    /**
+     * Update one App.
+     * @param {AppUpdateArgs} args - Arguments to update one App.
+     * @example
+     * // Update one App
+     * const app = await prisma.app.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends AppUpdateArgs>(
+      args: SelectSubset<T, AppUpdateArgs>
+    ): Prisma__AppClient<AppGetPayload<T>>
+
+    /**
+     * Delete zero or more Apps.
+     * @param {AppDeleteManyArgs} args - Arguments to filter Apps to delete.
+     * @example
+     * // Delete a few Apps
+     * const { count } = await prisma.app.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends AppDeleteManyArgs>(
+      args?: SelectSubset<T, AppDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Apps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Apps
+     * const app = await prisma.app.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends AppUpdateManyArgs>(
+      args: SelectSubset<T, AppUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one App.
+     * @param {AppUpsertArgs} args - Arguments to update or create a App.
+     * @example
+     * // Update or create a App
+     * const app = await prisma.app.upsert({
+     *   create: {
+     *     // ... data to create a App
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the App we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends AppUpsertArgs>(
+      args: SelectSubset<T, AppUpsertArgs>
+    ): Prisma__AppClient<AppGetPayload<T>>
+
+    /**
+     * Count the number of Apps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppCountArgs} args - Arguments to filter Apps to count.
+     * @example
+     * // Count the number of Apps
+     * const count = await prisma.app.count({
+     *   where: {
+     *     // ... the filter for the Apps we want to count
+     *   }
+     * })
+    **/
+    count<T extends AppCountArgs>(
+      args?: Subset<T, AppCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AppCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a App.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AppAggregateArgs>(args: Subset<T, AppAggregateArgs>): Prisma.PrismaPromise<GetAppAggregateType<T>>
+
+    /**
+     * Group by App.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AppGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AppGroupByArgs['orderBy'] }
+        : { orderBy?: AppGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AppGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAppGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for App.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__AppClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    users<T extends App$usersArgs= {}>(args?: Subset<T, App$usersArgs>): Prisma.PrismaPromise<Array<UserxAppGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * App base type for findUnique actions
+   */
+  export type AppFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the App
+     */
+    select?: AppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AppInclude | null
+    /**
+     * Filter, which App to fetch.
+     */
+    where: AppWhereUniqueInput
+  }
+
+  /**
+   * App findUnique
+   */
+  export interface AppFindUniqueArgs extends AppFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * App findUniqueOrThrow
+   */
+  export type AppFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the App
+     */
+    select?: AppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AppInclude | null
+    /**
+     * Filter, which App to fetch.
+     */
+    where: AppWhereUniqueInput
+  }
+
+
+  /**
+   * App base type for findFirst actions
+   */
+  export type AppFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the App
+     */
+    select?: AppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AppInclude | null
+    /**
+     * Filter, which App to fetch.
+     */
+    where?: AppWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Apps to fetch.
+     */
+    orderBy?: Enumerable<AppOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Apps.
+     */
+    cursor?: AppWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Apps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Apps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Apps.
+     */
+    distinct?: Enumerable<AppScalarFieldEnum>
+  }
+
+  /**
+   * App findFirst
+   */
+  export interface AppFindFirstArgs extends AppFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * App findFirstOrThrow
+   */
+  export type AppFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the App
+     */
+    select?: AppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AppInclude | null
+    /**
+     * Filter, which App to fetch.
+     */
+    where?: AppWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Apps to fetch.
+     */
+    orderBy?: Enumerable<AppOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Apps.
+     */
+    cursor?: AppWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Apps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Apps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Apps.
+     */
+    distinct?: Enumerable<AppScalarFieldEnum>
+  }
+
+
+  /**
+   * App findMany
+   */
+  export type AppFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the App
+     */
+    select?: AppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AppInclude | null
+    /**
+     * Filter, which Apps to fetch.
+     */
+    where?: AppWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Apps to fetch.
+     */
+    orderBy?: Enumerable<AppOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Apps.
+     */
+    cursor?: AppWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Apps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Apps.
+     */
+    skip?: number
+    distinct?: Enumerable<AppScalarFieldEnum>
+  }
+
+
+  /**
+   * App create
+   */
+  export type AppCreateArgs = {
+    /**
+     * Select specific fields to fetch from the App
+     */
+    select?: AppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AppInclude | null
+    /**
+     * The data needed to create a App.
+     */
+    data: XOR<AppCreateInput, AppUncheckedCreateInput>
+  }
+
+
+  /**
+   * App createMany
+   */
+  export type AppCreateManyArgs = {
+    /**
+     * The data used to create many Apps.
+     */
+    data: Enumerable<AppCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * App update
+   */
+  export type AppUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the App
+     */
+    select?: AppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AppInclude | null
+    /**
+     * The data needed to update a App.
+     */
+    data: XOR<AppUpdateInput, AppUncheckedUpdateInput>
+    /**
+     * Choose, which App to update.
+     */
+    where: AppWhereUniqueInput
+  }
+
+
+  /**
+   * App updateMany
+   */
+  export type AppUpdateManyArgs = {
+    /**
+     * The data used to update Apps.
+     */
+    data: XOR<AppUpdateManyMutationInput, AppUncheckedUpdateManyInput>
+    /**
+     * Filter which Apps to update
+     */
+    where?: AppWhereInput
+  }
+
+
+  /**
+   * App upsert
+   */
+  export type AppUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the App
+     */
+    select?: AppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AppInclude | null
+    /**
+     * The filter to search for the App to update in case it exists.
+     */
+    where: AppWhereUniqueInput
+    /**
+     * In case the App found by the `where` argument doesn't exist, create a new App with this data.
+     */
+    create: XOR<AppCreateInput, AppUncheckedCreateInput>
+    /**
+     * In case the App was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AppUpdateInput, AppUncheckedUpdateInput>
+  }
+
+
+  /**
+   * App delete
+   */
+  export type AppDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the App
+     */
+    select?: AppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AppInclude | null
+    /**
+     * Filter which App to delete.
+     */
+    where: AppWhereUniqueInput
+  }
+
+
+  /**
+   * App deleteMany
+   */
+  export type AppDeleteManyArgs = {
+    /**
+     * Filter which Apps to delete
+     */
+    where?: AppWhereInput
+  }
+
+
+  /**
+   * App.users
+   */
+  export type App$usersArgs = {
+    /**
+     * Select specific fields to fetch from the UserxApp
+     */
+    select?: UserxAppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserxAppInclude | null
+    where?: UserxAppWhereInput
+    orderBy?: Enumerable<UserxAppOrderByWithRelationInput>
+    cursor?: UserxAppWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<UserxAppScalarFieldEnum>
+  }
+
+
+  /**
+   * App without action
+   */
+  export type AppArgs = {
+    /**
+     * Select specific fields to fetch from the App
+     */
+    select?: AppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AppInclude | null
+  }
+
+
+
+  /**
+   * Model UserxApp
+   */
+
+
+  export type AggregateUserxApp = {
+    _count: UserxAppCountAggregateOutputType | null
+    _avg: UserxAppAvgAggregateOutputType | null
+    _sum: UserxAppSumAggregateOutputType | null
+    _min: UserxAppMinAggregateOutputType | null
+    _max: UserxAppMaxAggregateOutputType | null
+  }
+
+  export type UserxAppAvgAggregateOutputType = {
+    userId: number | null
+    appId: number | null
+  }
+
+  export type UserxAppSumAggregateOutputType = {
+    userId: number | null
+    appId: number | null
+  }
+
+  export type UserxAppMinAggregateOutputType = {
+    userId: number | null
+    appId: number | null
+    role: Role | null
+    estado: Estado | null
+  }
+
+  export type UserxAppMaxAggregateOutputType = {
+    userId: number | null
+    appId: number | null
+    role: Role | null
+    estado: Estado | null
+  }
+
+  export type UserxAppCountAggregateOutputType = {
+    userId: number
+    appId: number
+    role: number
+    estado: number
+    _all: number
+  }
+
+
+  export type UserxAppAvgAggregateInputType = {
+    userId?: true
+    appId?: true
+  }
+
+  export type UserxAppSumAggregateInputType = {
+    userId?: true
+    appId?: true
+  }
+
+  export type UserxAppMinAggregateInputType = {
+    userId?: true
+    appId?: true
+    role?: true
+    estado?: true
+  }
+
+  export type UserxAppMaxAggregateInputType = {
+    userId?: true
+    appId?: true
+    role?: true
+    estado?: true
+  }
+
+  export type UserxAppCountAggregateInputType = {
+    userId?: true
+    appId?: true
+    role?: true
+    estado?: true
+    _all?: true
+  }
+
+  export type UserxAppAggregateArgs = {
+    /**
+     * Filter which UserxApp to aggregate.
+     */
+    where?: UserxAppWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserxApps to fetch.
+     */
+    orderBy?: Enumerable<UserxAppOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserxAppWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserxApps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserxApps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserxApps
+    **/
+    _count?: true | UserxAppCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserxAppAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserxAppSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserxAppMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserxAppMaxAggregateInputType
+  }
+
+  export type GetUserxAppAggregateType<T extends UserxAppAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserxApp]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserxApp[P]>
+      : GetScalarType<T[P], AggregateUserxApp[P]>
+  }
+
+
+
+
+  export type UserxAppGroupByArgs = {
+    where?: UserxAppWhereInput
+    orderBy?: Enumerable<UserxAppOrderByWithAggregationInput>
+    by: UserxAppScalarFieldEnum[]
+    having?: UserxAppScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserxAppCountAggregateInputType | true
+    _avg?: UserxAppAvgAggregateInputType
+    _sum?: UserxAppSumAggregateInputType
+    _min?: UserxAppMinAggregateInputType
+    _max?: UserxAppMaxAggregateInputType
+  }
+
+
+  export type UserxAppGroupByOutputType = {
+    userId: number
+    appId: number
+    role: Role
+    estado: Estado
+    _count: UserxAppCountAggregateOutputType | null
+    _avg: UserxAppAvgAggregateOutputType | null
+    _sum: UserxAppSumAggregateOutputType | null
+    _min: UserxAppMinAggregateOutputType | null
+    _max: UserxAppMaxAggregateOutputType | null
+  }
+
+  type GetUserxAppGroupByPayload<T extends UserxAppGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<UserxAppGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserxAppGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserxAppGroupByOutputType[P]>
+            : GetScalarType<T[P], UserxAppGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserxAppSelect = {
+    userId?: boolean
+    appId?: boolean
+    role?: boolean
+    estado?: boolean
+    user?: boolean | UserArgs
+    app?: boolean | AppArgs
+  }
+
+
+  export type UserxAppInclude = {
+    user?: boolean | UserArgs
+    app?: boolean | AppArgs
+  }
+
+  export type UserxAppGetPayload<S extends boolean | null | undefined | UserxAppArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UserxApp :
+    S extends undefined ? never :
+    S extends { include: any } & (UserxAppArgs | UserxAppFindManyArgs)
+    ? UserxApp  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :
+        P extends 'app' ? AppGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (UserxAppArgs | UserxAppFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :
+        P extends 'app' ? AppGetPayload<S['select'][P]> :  P extends keyof UserxApp ? UserxApp[P] : never
+  } 
+      : UserxApp
+
+
+  type UserxAppCountArgs = 
+    Omit<UserxAppFindManyArgs, 'select' | 'include'> & {
+      select?: UserxAppCountAggregateInputType | true
+    }
+
+  export interface UserxAppDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one UserxApp that matches the filter.
+     * @param {UserxAppFindUniqueArgs} args - Arguments to find a UserxApp
+     * @example
+     * // Get one UserxApp
+     * const userxApp = await prisma.userxApp.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends UserxAppFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, UserxAppFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'UserxApp'> extends True ? Prisma__UserxAppClient<UserxAppGetPayload<T>> : Prisma__UserxAppClient<UserxAppGetPayload<T> | null, null>
+
+    /**
+     * Find one UserxApp that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {UserxAppFindUniqueOrThrowArgs} args - Arguments to find a UserxApp
+     * @example
+     * // Get one UserxApp
+     * const userxApp = await prisma.userxApp.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends UserxAppFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, UserxAppFindUniqueOrThrowArgs>
+    ): Prisma__UserxAppClient<UserxAppGetPayload<T>>
+
+    /**
+     * Find the first UserxApp that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserxAppFindFirstArgs} args - Arguments to find a UserxApp
+     * @example
+     * // Get one UserxApp
+     * const userxApp = await prisma.userxApp.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends UserxAppFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, UserxAppFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'UserxApp'> extends True ? Prisma__UserxAppClient<UserxAppGetPayload<T>> : Prisma__UserxAppClient<UserxAppGetPayload<T> | null, null>
+
+    /**
+     * Find the first UserxApp that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserxAppFindFirstOrThrowArgs} args - Arguments to find a UserxApp
+     * @example
+     * // Get one UserxApp
+     * const userxApp = await prisma.userxApp.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends UserxAppFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, UserxAppFindFirstOrThrowArgs>
+    ): Prisma__UserxAppClient<UserxAppGetPayload<T>>
+
+    /**
+     * Find zero or more UserxApps that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserxAppFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserxApps
+     * const userxApps = await prisma.userxApp.findMany()
+     * 
+     * // Get first 10 UserxApps
+     * const userxApps = await prisma.userxApp.findMany({ take: 10 })
+     * 
+     * // Only select the `userId`
+     * const userxAppWithUserIdOnly = await prisma.userxApp.findMany({ select: { userId: true } })
+     * 
+    **/
+    findMany<T extends UserxAppFindManyArgs>(
+      args?: SelectSubset<T, UserxAppFindManyArgs>
+    ): Prisma.PrismaPromise<Array<UserxAppGetPayload<T>>>
+
+    /**
+     * Create a UserxApp.
+     * @param {UserxAppCreateArgs} args - Arguments to create a UserxApp.
+     * @example
+     * // Create one UserxApp
+     * const UserxApp = await prisma.userxApp.create({
+     *   data: {
+     *     // ... data to create a UserxApp
+     *   }
+     * })
+     * 
+    **/
+    create<T extends UserxAppCreateArgs>(
+      args: SelectSubset<T, UserxAppCreateArgs>
+    ): Prisma__UserxAppClient<UserxAppGetPayload<T>>
+
+    /**
+     * Create many UserxApps.
+     *     @param {UserxAppCreateManyArgs} args - Arguments to create many UserxApps.
+     *     @example
+     *     // Create many UserxApps
+     *     const userxApp = await prisma.userxApp.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends UserxAppCreateManyArgs>(
+      args?: SelectSubset<T, UserxAppCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a UserxApp.
+     * @param {UserxAppDeleteArgs} args - Arguments to delete one UserxApp.
+     * @example
+     * // Delete one UserxApp
+     * const UserxApp = await prisma.userxApp.delete({
+     *   where: {
+     *     // ... filter to delete one UserxApp
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends UserxAppDeleteArgs>(
+      args: SelectSubset<T, UserxAppDeleteArgs>
+    ): Prisma__UserxAppClient<UserxAppGetPayload<T>>
+
+    /**
+     * Update one UserxApp.
+     * @param {UserxAppUpdateArgs} args - Arguments to update one UserxApp.
+     * @example
+     * // Update one UserxApp
+     * const userxApp = await prisma.userxApp.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends UserxAppUpdateArgs>(
+      args: SelectSubset<T, UserxAppUpdateArgs>
+    ): Prisma__UserxAppClient<UserxAppGetPayload<T>>
+
+    /**
+     * Delete zero or more UserxApps.
+     * @param {UserxAppDeleteManyArgs} args - Arguments to filter UserxApps to delete.
+     * @example
+     * // Delete a few UserxApps
+     * const { count } = await prisma.userxApp.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends UserxAppDeleteManyArgs>(
+      args?: SelectSubset<T, UserxAppDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserxApps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserxAppUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserxApps
+     * const userxApp = await prisma.userxApp.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends UserxAppUpdateManyArgs>(
+      args: SelectSubset<T, UserxAppUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserxApp.
+     * @param {UserxAppUpsertArgs} args - Arguments to update or create a UserxApp.
+     * @example
+     * // Update or create a UserxApp
+     * const userxApp = await prisma.userxApp.upsert({
+     *   create: {
+     *     // ... data to create a UserxApp
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserxApp we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends UserxAppUpsertArgs>(
+      args: SelectSubset<T, UserxAppUpsertArgs>
+    ): Prisma__UserxAppClient<UserxAppGetPayload<T>>
+
+    /**
+     * Count the number of UserxApps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserxAppCountArgs} args - Arguments to filter UserxApps to count.
+     * @example
+     * // Count the number of UserxApps
+     * const count = await prisma.userxApp.count({
+     *   where: {
+     *     // ... the filter for the UserxApps we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserxAppCountArgs>(
+      args?: Subset<T, UserxAppCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserxAppCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserxApp.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserxAppAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserxAppAggregateArgs>(args: Subset<T, UserxAppAggregateArgs>): Prisma.PrismaPromise<GetUserxAppAggregateType<T>>
+
+    /**
+     * Group by UserxApp.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserxAppGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserxAppGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserxAppGroupByArgs['orderBy'] }
+        : { orderBy?: UserxAppGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserxAppGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserxAppGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserxApp.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__UserxAppClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    app<T extends AppArgs= {}>(args?: Subset<T, AppArgs>): Prisma__AppClient<AppGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UserxApp base type for findUnique actions
+   */
+  export type UserxAppFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the UserxApp
+     */
+    select?: UserxAppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserxAppInclude | null
+    /**
+     * Filter, which UserxApp to fetch.
+     */
+    where: UserxAppWhereUniqueInput
+  }
+
+  /**
+   * UserxApp findUnique
+   */
+  export interface UserxAppFindUniqueArgs extends UserxAppFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * UserxApp findUniqueOrThrow
+   */
+  export type UserxAppFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the UserxApp
+     */
+    select?: UserxAppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserxAppInclude | null
+    /**
+     * Filter, which UserxApp to fetch.
+     */
+    where: UserxAppWhereUniqueInput
+  }
+
+
+  /**
+   * UserxApp base type for findFirst actions
+   */
+  export type UserxAppFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the UserxApp
+     */
+    select?: UserxAppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserxAppInclude | null
+    /**
+     * Filter, which UserxApp to fetch.
+     */
+    where?: UserxAppWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserxApps to fetch.
+     */
+    orderBy?: Enumerable<UserxAppOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserxApps.
+     */
+    cursor?: UserxAppWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserxApps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserxApps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserxApps.
+     */
+    distinct?: Enumerable<UserxAppScalarFieldEnum>
+  }
+
+  /**
+   * UserxApp findFirst
+   */
+  export interface UserxAppFindFirstArgs extends UserxAppFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * UserxApp findFirstOrThrow
+   */
+  export type UserxAppFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the UserxApp
+     */
+    select?: UserxAppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserxAppInclude | null
+    /**
+     * Filter, which UserxApp to fetch.
+     */
+    where?: UserxAppWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserxApps to fetch.
+     */
+    orderBy?: Enumerable<UserxAppOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserxApps.
+     */
+    cursor?: UserxAppWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserxApps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserxApps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserxApps.
+     */
+    distinct?: Enumerable<UserxAppScalarFieldEnum>
+  }
+
+
+  /**
+   * UserxApp findMany
+   */
+  export type UserxAppFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the UserxApp
+     */
+    select?: UserxAppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserxAppInclude | null
+    /**
+     * Filter, which UserxApps to fetch.
+     */
+    where?: UserxAppWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserxApps to fetch.
+     */
+    orderBy?: Enumerable<UserxAppOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserxApps.
+     */
+    cursor?: UserxAppWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserxApps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserxApps.
+     */
+    skip?: number
+    distinct?: Enumerable<UserxAppScalarFieldEnum>
+  }
+
+
+  /**
+   * UserxApp create
+   */
+  export type UserxAppCreateArgs = {
+    /**
+     * Select specific fields to fetch from the UserxApp
+     */
+    select?: UserxAppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserxAppInclude | null
+    /**
+     * The data needed to create a UserxApp.
+     */
+    data: XOR<UserxAppCreateInput, UserxAppUncheckedCreateInput>
+  }
+
+
+  /**
+   * UserxApp createMany
+   */
+  export type UserxAppCreateManyArgs = {
+    /**
+     * The data used to create many UserxApps.
+     */
+    data: Enumerable<UserxAppCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * UserxApp update
+   */
+  export type UserxAppUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the UserxApp
+     */
+    select?: UserxAppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserxAppInclude | null
+    /**
+     * The data needed to update a UserxApp.
+     */
+    data: XOR<UserxAppUpdateInput, UserxAppUncheckedUpdateInput>
+    /**
+     * Choose, which UserxApp to update.
+     */
+    where: UserxAppWhereUniqueInput
+  }
+
+
+  /**
+   * UserxApp updateMany
+   */
+  export type UserxAppUpdateManyArgs = {
+    /**
+     * The data used to update UserxApps.
+     */
+    data: XOR<UserxAppUpdateManyMutationInput, UserxAppUncheckedUpdateManyInput>
+    /**
+     * Filter which UserxApps to update
+     */
+    where?: UserxAppWhereInput
+  }
+
+
+  /**
+   * UserxApp upsert
+   */
+  export type UserxAppUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the UserxApp
+     */
+    select?: UserxAppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserxAppInclude | null
+    /**
+     * The filter to search for the UserxApp to update in case it exists.
+     */
+    where: UserxAppWhereUniqueInput
+    /**
+     * In case the UserxApp found by the `where` argument doesn't exist, create a new UserxApp with this data.
+     */
+    create: XOR<UserxAppCreateInput, UserxAppUncheckedCreateInput>
+    /**
+     * In case the UserxApp was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserxAppUpdateInput, UserxAppUncheckedUpdateInput>
+  }
+
+
+  /**
+   * UserxApp delete
+   */
+  export type UserxAppDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the UserxApp
+     */
+    select?: UserxAppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserxAppInclude | null
+    /**
+     * Filter which UserxApp to delete.
+     */
+    where: UserxAppWhereUniqueInput
+  }
+
+
+  /**
+   * UserxApp deleteMany
+   */
+  export type UserxAppDeleteManyArgs = {
+    /**
+     * Filter which UserxApps to delete
+     */
+    where?: UserxAppWhereInput
+  }
+
+
+  /**
+   * UserxApp without action
+   */
+  export type UserxAppArgs = {
+    /**
+     * Select specific fields to fetch from the UserxApp
+     */
+    select?: UserxAppSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserxAppInclude | null
   }
 
 
@@ -2690,6 +4806,14 @@ export namespace Prisma {
 
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+
+  export const AppScalarFieldEnum: {
+    id: 'id',
+    descripcion: 'descripcion'
+  };
+
+  export type AppScalarFieldEnum = (typeof AppScalarFieldEnum)[keyof typeof AppScalarFieldEnum]
+
 
   export const QueryMode: {
     default: 'default',
@@ -2732,13 +4856,21 @@ export namespace Prisma {
     email: 'email',
     password: 'password',
     name: 'name',
-    role: 'role',
-    estado: 'estado',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const UserxAppScalarFieldEnum: {
+    userId: 'userId',
+    appId: 'appId',
+    role: 'role',
+    estado: 'estado'
+  };
+
+  export type UserxAppScalarFieldEnum = (typeof UserxAppScalarFieldEnum)[keyof typeof UserxAppScalarFieldEnum]
 
 
   /**
@@ -2797,10 +4929,9 @@ export namespace Prisma {
     email?: StringFilter | string
     password?: StringFilter | string
     name?: StringFilter | string
-    role?: EnumRoleFilter | Role
-    estado?: EnumEstadoFilter | Estado
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
+    apps?: UserxAppListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -2808,10 +4939,9 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     name?: SortOrder
-    role?: SortOrder
-    estado?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    apps?: UserxAppOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = {
@@ -2824,8 +4954,6 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     name?: SortOrder
-    role?: SortOrder
-    estado?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -2843,10 +4971,93 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter | string
     password?: StringWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
-    role?: EnumRoleWithAggregatesFilter | Role
-    estado?: EnumEstadoWithAggregatesFilter | Estado
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type AppWhereInput = {
+    AND?: Enumerable<AppWhereInput>
+    OR?: Enumerable<AppWhereInput>
+    NOT?: Enumerable<AppWhereInput>
+    id?: IntFilter | number
+    descripcion?: StringFilter | string
+    users?: UserxAppListRelationFilter
+  }
+
+  export type AppOrderByWithRelationInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    users?: UserxAppOrderByRelationAggregateInput
+  }
+
+  export type AppWhereUniqueInput = {
+    id?: number
+    descripcion?: string
+  }
+
+  export type AppOrderByWithAggregationInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    _count?: AppCountOrderByAggregateInput
+    _avg?: AppAvgOrderByAggregateInput
+    _max?: AppMaxOrderByAggregateInput
+    _min?: AppMinOrderByAggregateInput
+    _sum?: AppSumOrderByAggregateInput
+  }
+
+  export type AppScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<AppScalarWhereWithAggregatesInput>
+    OR?: Enumerable<AppScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<AppScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    descripcion?: StringWithAggregatesFilter | string
+  }
+
+  export type UserxAppWhereInput = {
+    AND?: Enumerable<UserxAppWhereInput>
+    OR?: Enumerable<UserxAppWhereInput>
+    NOT?: Enumerable<UserxAppWhereInput>
+    userId?: IntFilter | number
+    appId?: IntFilter | number
+    role?: EnumRoleFilter | Role
+    estado?: EnumEstadoFilter | Estado
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    app?: XOR<AppRelationFilter, AppWhereInput>
+  }
+
+  export type UserxAppOrderByWithRelationInput = {
+    userId?: SortOrder
+    appId?: SortOrder
+    role?: SortOrder
+    estado?: SortOrder
+    user?: UserOrderByWithRelationInput
+    app?: AppOrderByWithRelationInput
+  }
+
+  export type UserxAppWhereUniqueInput = {
+    userId_appId?: UserxAppUserIdAppIdCompoundUniqueInput
+  }
+
+  export type UserxAppOrderByWithAggregationInput = {
+    userId?: SortOrder
+    appId?: SortOrder
+    role?: SortOrder
+    estado?: SortOrder
+    _count?: UserxAppCountOrderByAggregateInput
+    _avg?: UserxAppAvgOrderByAggregateInput
+    _max?: UserxAppMaxOrderByAggregateInput
+    _min?: UserxAppMinOrderByAggregateInput
+    _sum?: UserxAppSumOrderByAggregateInput
+  }
+
+  export type UserxAppScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<UserxAppScalarWhereWithAggregatesInput>
+    OR?: Enumerable<UserxAppScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<UserxAppScalarWhereWithAggregatesInput>
+    userId?: IntWithAggregatesFilter | number
+    appId?: IntWithAggregatesFilter | number
+    role?: EnumRoleWithAggregatesFilter | Role
+    estado?: EnumEstadoWithAggregatesFilter | Estado
   }
 
   export type TC_tiposGastosCreateInput = {
@@ -2902,10 +5113,9 @@ export namespace Prisma {
     email: string
     password: string
     name: string
-    role?: Role
-    estado?: Estado
     createdAt?: Date | string
     updatedAt?: Date | string
+    apps?: UserxAppCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -2913,20 +5123,18 @@ export namespace Prisma {
     email: string
     password: string
     name: string
-    role?: Role
-    estado?: Estado
     createdAt?: Date | string
     updatedAt?: Date | string
+    apps?: UserxAppUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | Role
-    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apps?: UserxAppUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -2934,10 +5142,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | Role
-    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    apps?: UserxAppUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -2945,8 +5152,6 @@ export namespace Prisma {
     email: string
     password: string
     name: string
-    role?: Role
-    estado?: Estado
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -2955,8 +5160,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | Role
-    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2966,10 +5169,94 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | Role
-    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AppCreateInput = {
+    id: number
+    descripcion: string
+    users?: UserxAppCreateNestedManyWithoutAppInput
+  }
+
+  export type AppUncheckedCreateInput = {
+    id: number
+    descripcion: string
+    users?: UserxAppUncheckedCreateNestedManyWithoutAppInput
+  }
+
+  export type AppUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    users?: UserxAppUpdateManyWithoutAppNestedInput
+  }
+
+  export type AppUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    users?: UserxAppUncheckedUpdateManyWithoutAppNestedInput
+  }
+
+  export type AppCreateManyInput = {
+    id: number
+    descripcion: string
+  }
+
+  export type AppUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AppUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserxAppCreateInput = {
+    role?: Role
+    estado?: Estado
+    user: UserCreateNestedOneWithoutAppsInput
+    app: AppCreateNestedOneWithoutUsersInput
+  }
+
+  export type UserxAppUncheckedCreateInput = {
+    userId: number
+    appId: number
+    role?: Role
+    estado?: Estado
+  }
+
+  export type UserxAppUpdateInput = {
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
+    user?: UserUpdateOneRequiredWithoutAppsNestedInput
+    app?: AppUpdateOneRequiredWithoutUsersNestedInput
+  }
+
+  export type UserxAppUncheckedUpdateInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+    appId?: IntFieldUpdateOperationsInput | number
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
+  }
+
+  export type UserxAppCreateManyInput = {
+    userId: number
+    appId: number
+    role?: Role
+    estado?: Estado
+  }
+
+  export type UserxAppUpdateManyMutationInput = {
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
+  }
+
+  export type UserxAppUncheckedUpdateManyInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+    appId?: IntFieldUpdateOperationsInput | number
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
   }
 
   export type IntFilter = {
@@ -3086,6 +5373,74 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter
   }
 
+  export type UserxAppListRelationFilter = {
+    every?: UserxAppWhereInput
+    some?: UserxAppWhereInput
+    none?: UserxAppWhereInput
+  }
+
+  export type UserxAppOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type UserMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type AppCountOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type AppAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type AppMaxOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type AppMinOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type AppSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type EnumRoleFilter = {
     equals?: Role
     in?: Enumerable<Role>
@@ -3100,45 +5455,50 @@ export namespace Prisma {
     not?: NestedEnumEstadoFilter | Estado
   }
 
-  export type UserCountOrderByAggregateInput = {
-    id?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    name?: SortOrder
+  export type UserRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type AppRelationFilter = {
+    is?: AppWhereInput
+    isNot?: AppWhereInput
+  }
+
+  export type UserxAppUserIdAppIdCompoundUniqueInput = {
+    userId: number
+    appId: number
+  }
+
+  export type UserxAppCountOrderByAggregateInput = {
+    userId?: SortOrder
+    appId?: SortOrder
     role?: SortOrder
     estado?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
-  export type UserAvgOrderByAggregateInput = {
-    id?: SortOrder
+  export type UserxAppAvgOrderByAggregateInput = {
+    userId?: SortOrder
+    appId?: SortOrder
   }
 
-  export type UserMaxOrderByAggregateInput = {
-    id?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    name?: SortOrder
+  export type UserxAppMaxOrderByAggregateInput = {
+    userId?: SortOrder
+    appId?: SortOrder
     role?: SortOrder
     estado?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
-  export type UserMinOrderByAggregateInput = {
-    id?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    name?: SortOrder
+  export type UserxAppMinOrderByAggregateInput = {
+    userId?: SortOrder
+    appId?: SortOrder
     role?: SortOrder
     estado?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
-  export type UserSumOrderByAggregateInput = {
-    id?: SortOrder
+  export type UserxAppSumOrderByAggregateInput = {
+    userId?: SortOrder
+    appId?: SortOrder
   }
 
   export type EnumRoleWithAggregatesFilter = {
@@ -3177,12 +5537,124 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type UserxAppCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<UserxAppCreateWithoutUserInput>, Enumerable<UserxAppUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<UserxAppCreateOrConnectWithoutUserInput>
+    createMany?: UserxAppCreateManyUserInputEnvelope
+    connect?: Enumerable<UserxAppWhereUniqueInput>
+  }
+
+  export type UserxAppUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<UserxAppCreateWithoutUserInput>, Enumerable<UserxAppUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<UserxAppCreateOrConnectWithoutUserInput>
+    createMany?: UserxAppCreateManyUserInputEnvelope
+    connect?: Enumerable<UserxAppWhereUniqueInput>
+  }
+
+  export type UserxAppUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<UserxAppCreateWithoutUserInput>, Enumerable<UserxAppUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<UserxAppCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<UserxAppUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: UserxAppCreateManyUserInputEnvelope
+    set?: Enumerable<UserxAppWhereUniqueInput>
+    disconnect?: Enumerable<UserxAppWhereUniqueInput>
+    delete?: Enumerable<UserxAppWhereUniqueInput>
+    connect?: Enumerable<UserxAppWhereUniqueInput>
+    update?: Enumerable<UserxAppUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<UserxAppUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<UserxAppScalarWhereInput>
+  }
+
+  export type UserxAppUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<UserxAppCreateWithoutUserInput>, Enumerable<UserxAppUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<UserxAppCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<UserxAppUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: UserxAppCreateManyUserInputEnvelope
+    set?: Enumerable<UserxAppWhereUniqueInput>
+    disconnect?: Enumerable<UserxAppWhereUniqueInput>
+    delete?: Enumerable<UserxAppWhereUniqueInput>
+    connect?: Enumerable<UserxAppWhereUniqueInput>
+    update?: Enumerable<UserxAppUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<UserxAppUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<UserxAppScalarWhereInput>
+  }
+
+  export type UserxAppCreateNestedManyWithoutAppInput = {
+    create?: XOR<Enumerable<UserxAppCreateWithoutAppInput>, Enumerable<UserxAppUncheckedCreateWithoutAppInput>>
+    connectOrCreate?: Enumerable<UserxAppCreateOrConnectWithoutAppInput>
+    createMany?: UserxAppCreateManyAppInputEnvelope
+    connect?: Enumerable<UserxAppWhereUniqueInput>
+  }
+
+  export type UserxAppUncheckedCreateNestedManyWithoutAppInput = {
+    create?: XOR<Enumerable<UserxAppCreateWithoutAppInput>, Enumerable<UserxAppUncheckedCreateWithoutAppInput>>
+    connectOrCreate?: Enumerable<UserxAppCreateOrConnectWithoutAppInput>
+    createMany?: UserxAppCreateManyAppInputEnvelope
+    connect?: Enumerable<UserxAppWhereUniqueInput>
+  }
+
+  export type UserxAppUpdateManyWithoutAppNestedInput = {
+    create?: XOR<Enumerable<UserxAppCreateWithoutAppInput>, Enumerable<UserxAppUncheckedCreateWithoutAppInput>>
+    connectOrCreate?: Enumerable<UserxAppCreateOrConnectWithoutAppInput>
+    upsert?: Enumerable<UserxAppUpsertWithWhereUniqueWithoutAppInput>
+    createMany?: UserxAppCreateManyAppInputEnvelope
+    set?: Enumerable<UserxAppWhereUniqueInput>
+    disconnect?: Enumerable<UserxAppWhereUniqueInput>
+    delete?: Enumerable<UserxAppWhereUniqueInput>
+    connect?: Enumerable<UserxAppWhereUniqueInput>
+    update?: Enumerable<UserxAppUpdateWithWhereUniqueWithoutAppInput>
+    updateMany?: Enumerable<UserxAppUpdateManyWithWhereWithoutAppInput>
+    deleteMany?: Enumerable<UserxAppScalarWhereInput>
+  }
+
+  export type UserxAppUncheckedUpdateManyWithoutAppNestedInput = {
+    create?: XOR<Enumerable<UserxAppCreateWithoutAppInput>, Enumerable<UserxAppUncheckedCreateWithoutAppInput>>
+    connectOrCreate?: Enumerable<UserxAppCreateOrConnectWithoutAppInput>
+    upsert?: Enumerable<UserxAppUpsertWithWhereUniqueWithoutAppInput>
+    createMany?: UserxAppCreateManyAppInputEnvelope
+    set?: Enumerable<UserxAppWhereUniqueInput>
+    disconnect?: Enumerable<UserxAppWhereUniqueInput>
+    delete?: Enumerable<UserxAppWhereUniqueInput>
+    connect?: Enumerable<UserxAppWhereUniqueInput>
+    update?: Enumerable<UserxAppUpdateWithWhereUniqueWithoutAppInput>
+    updateMany?: Enumerable<UserxAppUpdateManyWithWhereWithoutAppInput>
+    deleteMany?: Enumerable<UserxAppScalarWhereInput>
+  }
+
+  export type UserCreateNestedOneWithoutAppsInput = {
+    create?: XOR<UserCreateWithoutAppsInput, UserUncheckedCreateWithoutAppsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAppsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AppCreateNestedOneWithoutUsersInput = {
+    create?: XOR<AppCreateWithoutUsersInput, AppUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: AppCreateOrConnectWithoutUsersInput
+    connect?: AppWhereUniqueInput
+  }
+
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: Role
   }
 
   export type EnumEstadoFieldUpdateOperationsInput = {
     set?: Estado
+  }
+
+  export type UserUpdateOneRequiredWithoutAppsNestedInput = {
+    create?: XOR<UserCreateWithoutAppsInput, UserUncheckedCreateWithoutAppsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAppsInput
+    upsert?: UserUpsertWithoutAppsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutAppsInput, UserUncheckedUpdateWithoutAppsInput>
+  }
+
+  export type AppUpdateOneRequiredWithoutUsersNestedInput = {
+    create?: XOR<AppCreateWithoutUsersInput, AppUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: AppCreateOrConnectWithoutUsersInput
+    upsert?: AppUpsertWithoutUsersInput
+    connect?: AppWhereUniqueInput
+    update?: XOR<AppUpdateWithoutUsersInput, AppUncheckedUpdateWithoutUsersInput>
   }
 
   export type NestedIntFilter = {
@@ -3311,6 +5783,214 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedEnumEstadoFilter
     _max?: NestedEnumEstadoFilter
+  }
+
+  export type UserxAppCreateWithoutUserInput = {
+    role?: Role
+    estado?: Estado
+    app: AppCreateNestedOneWithoutUsersInput
+  }
+
+  export type UserxAppUncheckedCreateWithoutUserInput = {
+    appId: number
+    role?: Role
+    estado?: Estado
+  }
+
+  export type UserxAppCreateOrConnectWithoutUserInput = {
+    where: UserxAppWhereUniqueInput
+    create: XOR<UserxAppCreateWithoutUserInput, UserxAppUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserxAppCreateManyUserInputEnvelope = {
+    data: Enumerable<UserxAppCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type UserxAppUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserxAppWhereUniqueInput
+    update: XOR<UserxAppUpdateWithoutUserInput, UserxAppUncheckedUpdateWithoutUserInput>
+    create: XOR<UserxAppCreateWithoutUserInput, UserxAppUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserxAppUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserxAppWhereUniqueInput
+    data: XOR<UserxAppUpdateWithoutUserInput, UserxAppUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserxAppUpdateManyWithWhereWithoutUserInput = {
+    where: UserxAppScalarWhereInput
+    data: XOR<UserxAppUpdateManyMutationInput, UserxAppUncheckedUpdateManyWithoutAppsInput>
+  }
+
+  export type UserxAppScalarWhereInput = {
+    AND?: Enumerable<UserxAppScalarWhereInput>
+    OR?: Enumerable<UserxAppScalarWhereInput>
+    NOT?: Enumerable<UserxAppScalarWhereInput>
+    userId?: IntFilter | number
+    appId?: IntFilter | number
+    role?: EnumRoleFilter | Role
+    estado?: EnumEstadoFilter | Estado
+  }
+
+  export type UserxAppCreateWithoutAppInput = {
+    role?: Role
+    estado?: Estado
+    user: UserCreateNestedOneWithoutAppsInput
+  }
+
+  export type UserxAppUncheckedCreateWithoutAppInput = {
+    userId: number
+    role?: Role
+    estado?: Estado
+  }
+
+  export type UserxAppCreateOrConnectWithoutAppInput = {
+    where: UserxAppWhereUniqueInput
+    create: XOR<UserxAppCreateWithoutAppInput, UserxAppUncheckedCreateWithoutAppInput>
+  }
+
+  export type UserxAppCreateManyAppInputEnvelope = {
+    data: Enumerable<UserxAppCreateManyAppInput>
+    skipDuplicates?: boolean
+  }
+
+  export type UserxAppUpsertWithWhereUniqueWithoutAppInput = {
+    where: UserxAppWhereUniqueInput
+    update: XOR<UserxAppUpdateWithoutAppInput, UserxAppUncheckedUpdateWithoutAppInput>
+    create: XOR<UserxAppCreateWithoutAppInput, UserxAppUncheckedCreateWithoutAppInput>
+  }
+
+  export type UserxAppUpdateWithWhereUniqueWithoutAppInput = {
+    where: UserxAppWhereUniqueInput
+    data: XOR<UserxAppUpdateWithoutAppInput, UserxAppUncheckedUpdateWithoutAppInput>
+  }
+
+  export type UserxAppUpdateManyWithWhereWithoutAppInput = {
+    where: UserxAppScalarWhereInput
+    data: XOR<UserxAppUpdateManyMutationInput, UserxAppUncheckedUpdateManyWithoutUsersInput>
+  }
+
+  export type UserCreateWithoutAppsInput = {
+    email: string
+    password: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserUncheckedCreateWithoutAppsInput = {
+    id?: number
+    email: string
+    password: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserCreateOrConnectWithoutAppsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAppsInput, UserUncheckedCreateWithoutAppsInput>
+  }
+
+  export type AppCreateWithoutUsersInput = {
+    id: number
+    descripcion: string
+  }
+
+  export type AppUncheckedCreateWithoutUsersInput = {
+    id: number
+    descripcion: string
+  }
+
+  export type AppCreateOrConnectWithoutUsersInput = {
+    where: AppWhereUniqueInput
+    create: XOR<AppCreateWithoutUsersInput, AppUncheckedCreateWithoutUsersInput>
+  }
+
+  export type UserUpsertWithoutAppsInput = {
+    update: XOR<UserUpdateWithoutAppsInput, UserUncheckedUpdateWithoutAppsInput>
+    create: XOR<UserCreateWithoutAppsInput, UserUncheckedCreateWithoutAppsInput>
+  }
+
+  export type UserUpdateWithoutAppsInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUncheckedUpdateWithoutAppsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AppUpsertWithoutUsersInput = {
+    update: XOR<AppUpdateWithoutUsersInput, AppUncheckedUpdateWithoutUsersInput>
+    create: XOR<AppCreateWithoutUsersInput, AppUncheckedCreateWithoutUsersInput>
+  }
+
+  export type AppUpdateWithoutUsersInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AppUncheckedUpdateWithoutUsersInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserxAppCreateManyUserInput = {
+    appId: number
+    role?: Role
+    estado?: Estado
+  }
+
+  export type UserxAppUpdateWithoutUserInput = {
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
+    app?: AppUpdateOneRequiredWithoutUsersNestedInput
+  }
+
+  export type UserxAppUncheckedUpdateWithoutUserInput = {
+    appId?: IntFieldUpdateOperationsInput | number
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
+  }
+
+  export type UserxAppUncheckedUpdateManyWithoutAppsInput = {
+    appId?: IntFieldUpdateOperationsInput | number
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
+  }
+
+  export type UserxAppCreateManyAppInput = {
+    userId: number
+    role?: Role
+    estado?: Estado
+  }
+
+  export type UserxAppUpdateWithoutAppInput = {
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
+    user?: UserUpdateOneRequiredWithoutAppsNestedInput
+  }
+
+  export type UserxAppUncheckedUpdateWithoutAppInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
+  }
+
+  export type UserxAppUncheckedUpdateManyWithoutUsersInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
   }
 
 
