@@ -4,7 +4,7 @@ import { Application, isHttpError, logger, Router, RouterContext, Status, send }
 
 import appRouter from "./routes/index.ts";
 
-import authController from "./controllers/auth.controller.ts";
+import authController from "./apps/general/controllers/auth.controller.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
 
 
@@ -36,16 +36,7 @@ const today = new Date(timeElapsed);
 const now = `${today.toLocaleDateString()}  ${today.toLocaleTimeString()}`;
 
 
-// app.use(async (ctx, next) => {
-//   if (!ctx.request.url.pathname.startsWith(ROOT_DIR_PATH)) {
-//     next();
-//     return;
-//   }
-//   const filePath = ctx.request.url.pathname.replace(ROOT_DIR_PATH, "");
-//   await send(ctx, filePath, {
-//     root: ROOT_DIR,
-//   });
-// });
+
 
 
 
@@ -122,7 +113,16 @@ app.use(router.allowedMethods());
 
 
 
-
+app.use(async (ctx, next) => {
+  if (!ctx.request.url.pathname.startsWith(ROOT_DIR_PATH)) {
+    next();
+    return;
+  }
+  const filePath = ctx.request.url.pathname.replace(ROOT_DIR_PATH, "");
+  await send(ctx, filePath, {
+    root: ROOT_DIR,
+  });
+});
 
 
 

@@ -1,5 +1,5 @@
 import { Router } from "../dep/deps.ts";
-import authController from "../controllers/auth.controller.ts";
+import authController from "../apps/general/controllers/auth.controller.ts";
 import requireUser from "../middleware/requireUser.ts";
 
 const router = new Router();

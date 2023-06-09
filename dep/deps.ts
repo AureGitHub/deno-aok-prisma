@@ -16,13 +16,3 @@ export {
   } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 
   export { Status } from "https://deno.land/std@0.152.0/http/http_status.ts";
-
-
-  import prisma from "../prisma/db.ts";
-  export {prisma};
-
-  export  {userClass} from "../models/user.model.ts"
-
-
-  export { Prisma } from "../generated/client/deno/edge.ts";
-

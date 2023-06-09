@@ -6,7 +6,8 @@ content-type: application/json
 {
     "email" : "ago11d@a.es",
     "name": "Dios 1",
-    "role": "GOD",
+    # "app" : 1,
+    # "role": "GOD",
     "password" : "12345678"    
 }
 
@@ -18,6 +19,34 @@ content-type: application/json
     "email" : "ago11d@a.es",   
     "password" : "12345678"    
 }
+
+###
+
+POST http://localhost:3000/api/casa/1
+Authorization :eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoiRGlvcyAxIiwicm9sZSI6IkdPRCIsImVzdGFkbyI6IkFDVElWRSIsImFwcHMiOltdLCJzb21lQXBwIjpmYWxzZSwiYXBwIjoiZ2VzdGlvbi1jYXNhIiwiYXBwSWQiOjEsImlzQWRtaW4iOnRydWUsImlzR29kIjp0cnVlfSwiYWNjZXNzVG9rZW5FeHBpcmVzSW4iOjE2ODYzMjU5OTU2NDR9.I7nEluKvhFtb55GRZpvgEQo1lsWvm9j0qday-dFGLh_n9Bq_gjBKMAWfStu9-zanG5r4qWym6XkNB4PmHN6VgA
+content-type: application/json
+
+{
+    
+    "nombre": "Zarza la mayor",
+    "baja": true
+    
+}
+
+###
+
+PUT http://localhost:3000/api/casa/1
+Authorization :eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoiRGlvcyAxIiwicm9sZSI6IkdPRCIsImVzdGFkbyI6IkFDVElWRSIsImFwcHMiOltdLCJzb21lQXBwIjpmYWxzZSwiYXBwIjoiZ2VzdGlvbi1jYXNhIiwiYXBwSWQiOjEsImlzQWRtaW4iOnRydWUsImlzR29kIjp0cnVlfSwiYWNjZXNzVG9rZW5FeHBpcmVzSW4iOjE2ODYzMjU5OTU2NDR9.I7nEluKvhFtb55GRZpvgEQo1lsWvm9j0qday-dFGLh_n9Bq_gjBKMAWfStu9-zanG5r4qWym6XkNB4PmHN6VgA
+content-type: application/json
+
+{
+    
+    "nombre": "Zarza la mayor",
+    "baja": false
+    
+}
+
+
 
 ###
 POST https://aure-deno-aok-prisma.deno.dev/api/auth/login 
