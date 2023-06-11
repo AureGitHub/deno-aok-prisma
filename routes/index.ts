@@ -1,13 +1,12 @@
 import { Application } from "../dep/deps.ts";
-import authRouter from "./auth.routes.ts";
-//import userRouter from "./user.routes.ts";
-import userRouter from "../apps/general/entity/user/router.ts";
-import casaRouter from  "../apps/gestion-casa/entity/casa/router.ts"
+
+import generalRouter from "../apps/general/router.js"
+import gestionCasaRouter from "../apps/gestion-casa/router.js"
+
 
 function init(app: Application) {
-  app.use(authRouter.prefix("/api/auth/").routes());
-  app.use(userRouter.routes());
-  app.use(casaRouter.routes());
+  app.use(generalRouter.routes());  
+  app.use(gestionCasaRouter.routes());
 }
 
 export default {

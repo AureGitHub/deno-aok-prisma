@@ -1,8 +1,7 @@
-import { RouterContext, create, Context, decode } from "../../../dep/deps.ts";
-import { Prisma } from "../generated/client/deno/edge.ts";
-import   prisma  from "../prisma/db.ts";
+import { RouterContext, create, Context, decode } from "../../../../dep/deps.ts";
+import   prisma  from "../../prisma/db.ts";
 
-import  { userClass } from "../models/user.model.ts";
+import  { userClass } from "../user/model.ts";
 import "https://deno.land/x/dotenv@v3.2.2/load.ts";
 
 
@@ -80,44 +79,6 @@ const giveMeToken = async(user: any) => {
 
 
 
-const signUpUserController = async ({
-  request,
-  response,
-}: RouterContext<string>) => {
-  try {
-    const user: Prisma.UserCreateInput = await request.body().value;
-    const {email} = user;
-
-
-
-   const userExists = await prisma.user.findUnique({where: {email}});
-    if (userExists) {
-      response.status = 409;
-      response.body = {
-        status: "fail",
-        message: "User with that email already exists",
-      };
-      return;
-    }
-
-    const userAdded = await prisma.user.create({
-      data: user
-    });
-
-    let userRet = new userClass(userAdded);
-
-
-    response.status = 201;
-    response.body = {
-      status: "success",
-      userRet,
-    };
-  } catch (error) {
-    response.status = 500;
-    response.body = { status: "error", message: error.message };
-    return;
-  }
-};
 
 
 const loginUserController = async ({
@@ -125,15 +86,19 @@ const loginUserController = async ({
   response,
 }: RouterContext<string>) => {
   try {
-    const { email, password }: { email: string; password: string } =
+    const { email, password, appId }: { email: string; password: string ; appId:number} =
       await request.body().value;
 
       const user = await prisma.user.findFirst(
         {where: {email,password }, 
         include : {
-          apps: {include : {app : true}}          
+          apps: {
+            where : {appId},
+            include : {app : true}
+          }          
         }
       });
+
 
 
     if (!user) {
@@ -141,6 +106,15 @@ const loginUserController = async ({
       response.body = {
         status: "fail",
         message: "Invalid email or password",
+      };
+      return;
+    }
+
+    if (user.apps.length ==0) {
+      response.status = 401;
+      response.body = {
+        status: "fail",
+        message: "no app",
       };
       return;
     }
@@ -186,7 +160,6 @@ const logoutController = (ctx) => {
 
 
 export default {
-  signUpUserController,
   loginUserController,
   logoutController,
   secureTokenController
