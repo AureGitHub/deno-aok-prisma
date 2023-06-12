@@ -1,29 +1,28 @@
-import type { Context } from "../../../../dep/deps.ts";
+import { Context , StatusCodes} from "../../../../dep/deps.ts";
 import  { Prisma } from "../../generated/client/deno/edge.ts";
 import   prisma  from "../../prisma/db.ts";
-
 
 
 const get= async (ctx: Context) => {
 
     const apps = await prisma.app.findMany();
-    ctx.response.status = 201;
+    ctx.response.status = 200;
     ctx.response.body = {
-      status: "success",
-      apps,
+      status: StatusCodes.OK,
+      data: apps,
     };
 
 };
 
 
-const getById= async (ctx: Context) => {
+const getById= async (ctx: any) => {
     const  id  = Number(ctx?.params?.id);
-    const user = await prisma.app.findFirst({where: {id}});
+    const app = await prisma.app.findFirst({where: {id}});
 
-    ctx.response.status = 201;
+    ctx.response.status = 200;
     ctx.response.body = {
-      status: "success",
-      user,
+      status: StatusCodes.OK,
+      data:  app,
     };
 
 };
@@ -38,7 +37,7 @@ const add = async (ctx: Context) => {
       if (appExists) {
         ctx.response.status = 409;
         ctx.response.body = {
-          status: "fail",
+          status: StatusCodes.CONFLICT,
           message: "App with that email already exists",
         };
         return;
@@ -52,18 +51,18 @@ const add = async (ctx: Context) => {
   
       ctx.response.status = 201;
       ctx.response.body = {
-        status: "success",
+        status: StatusCodes.OK,
         app: appCreate,
       };
     } catch (error) {
       ctx.response.status = 500;
-      ctx.response.body = { status: "error", message: error.message };
+      ctx.response.body = { status: StatusCodes.INTERNAL_SERVER_ERROR, message: error.message };
       return;
     }
   };
 
 
-  const update = async (ctx: Context) =>  {
+  const update = async (ctx: any) =>  {
     try {
   
   
@@ -79,13 +78,13 @@ const add = async (ctx: Context) => {
   
       ctx.response.status = 200;
       ctx.response.body = {
-        status: "success",
-        app,
+        status: StatusCodes.OK,
+       data: app,
       };
     } catch (error) {
       ctx.response.status = 500;
       ctx.response.body = {
-        status: "success",
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
         message: error.message,
       };
       return;
@@ -96,7 +95,7 @@ const add = async (ctx: Context) => {
   
 
   
-const del = async (ctx: Context) =>  {
+const del = async (ctx: any) =>  {
     try {
   
       const  id  = Number(ctx?.params?.id);
@@ -104,13 +103,13 @@ const del = async (ctx: Context) =>  {
   
       ctx.response.status = 200;
       ctx.response.body = {
-        status: "success",
-        app,
+        status: StatusCodes.OK,
+        data: app,
       };
     } catch (error) {
       ctx.response.status = 500;
       ctx.response.body = {
-        status: "success",
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
         message: error.message,
       };
       return;

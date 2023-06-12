@@ -17,7 +17,7 @@ const get= async (ctx: Context) => {
 };
 
 
-const getById= async (ctx: Context) => {
+const getById= async (ctx: any) => {
     const  id  = Number(ctx?.params?.id);
     const user = await prisma.user.findFirst({where: {id}});
 
@@ -32,11 +32,37 @@ const getById= async (ctx: Context) => {
 
 const add = async (ctx: Context) => {
     try {
-      const user: Prisma.UserCreateInput = await ctx.request.body().value;
+
+      const {user, app} = await ctx.request.body().value;
       const {email} = user;
   
-     const userExists = await prisma.user.findUnique({where: {email}});
-      if (userExists) {
+     const userExists = await prisma.user.findUnique(
+      {where: {email},
+      include : {
+        apps:{}
+      }
+    }
+      );
+
+
+
+      //existe la app
+
+      const appExist = await prisma.app.findFirst({where : {id:app.appId}});
+
+      if(!appExist){
+        ctx.response.status = 409;
+        ctx.response.body = {
+          status: "fail",
+          message: "app not exists",
+        };
+        return;
+      }
+
+
+      //existe el usuario en esa app
+
+      if(userExists && userExists.apps.some(a=> a.appId === app.appId)){
         ctx.response.status = 409;
         ctx.response.body = {
           status: "fail",
@@ -44,18 +70,58 @@ const add = async (ctx: Context) => {
         };
         return;
       }
+
+
+      // if (userExists) {
+      //   ctx.response.status = 409;
+      //   ctx.response.body = {
+      //     status: "fail",
+      //     message: "User with that email already exists",
+      //   };
+      //   return;
+      // }
   
-      const userAdded = await prisma.user.create({
-        data: user
-      });
-  
-      let userRet = new userClass(userAdded);
+
+
+      let userId = userExists ? userExists?.id : 0;
+
+      let userRet = null; 
+
+
+      if(!userExists){
+        const userAdded = await prisma.user.create({
+          data: user
+        });
+
+        userId = userAdded.id;
+
+        userRet = new userClass(userAdded);
+
+      }
+      else{
+        userRet = new userClass(userExists);
+      }
+
+      
+
+      const dataAdd =  {
+        userId ,
+        appId : app.appId
+      }
+
+      const addUserXapp =  await prisma.userxApp.create(
+        {
+          data: dataAdd
+        }
+      );
+
   
   
       ctx.response.status = 201;
       ctx.response.body = {
         status: "success",
-        userRet,
+        user :userRet, 
+        userxapp : addUserXapp 
       };
     } catch (error) {
       ctx.response.status = 500;
@@ -65,7 +131,7 @@ const add = async (ctx: Context) => {
   };
 
 
-  const update = async (ctx: Context) =>  {
+  const update = async (ctx: any) =>  {
     try {
   
   
@@ -98,7 +164,7 @@ const add = async (ctx: Context) => {
   
 
   
-const del = async (ctx: Context) =>  {
+const del = async (ctx: any) =>  {
     try {
   
       const  id  = Number(ctx?.params?.id);

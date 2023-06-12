@@ -16,3 +16,8 @@ export {
   } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 
   export { Status } from "https://deno.land/std@0.152.0/http/http_status.ts";
+
+  export {
+    StatusCodes,
+    ReasonPhrases,
+  } from "https://deno.land/x/https_status_codes/mod.ts"

@@ -1,15 +1,21 @@
 http://localhost:3000/api/healthchecker
 ###
-POST http://localhost:3000/api/users/
+POST http://localhost:3000/api/general/users/
 content-type: application/json
 
-{
-    "email" : "ago11d@a.es",
-    "name": "Dios 1",
-    # "app" : 1,
-    # "role": "GOD",
-    "password" : "12345678"    
-}
+    {
+        "user" : {
+            "email" : "juan@a.es",
+            "name": "juan",            
+            "password" : "12345678"    
+
+        },
+        "app": {
+            "appId" : 1
+
+        }
+    }
+    
 
 ###
 POST http://localhost:3000/api/general/auth/login

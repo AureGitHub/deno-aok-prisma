@@ -38,7 +38,7 @@ model UserxApp {
   user User       @relation(fields: [userId], references: [id])
   appId           Int
   app             App  @relation(fields: [appId], references: [id])
-  role       Role       @default(USER)
+  role       Role       @default(NORMAL)
   estado     Estado     @default(BLOCK)
 
   @@id([userId, appId])
@@ -46,7 +46,7 @@ model UserxApp {
 
 
 enum Role {  
-  USER
+  NORMAL
   ADMIN
   GOD
 }

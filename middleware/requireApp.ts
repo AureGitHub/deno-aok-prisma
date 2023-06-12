@@ -1,4 +1,4 @@
-import type { Context  } from "../dep/deps.ts";
+import { Context ,  StatusCodes } from "../dep/deps.ts";
 
 
 const requireApp = async (ctx: Context, next: () => Promise<unknown>, app : string) => {
@@ -9,7 +9,7 @@ const requireApp = async (ctx: Context, next: () => Promise<unknown>, app : stri
   if(app && (!ctx.state.app || ctx.state.user.app !=app))
   {
     ctx.response.body = {
-      status: "fail",
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
       message: "You don't have permission for this app",
     };
     return;

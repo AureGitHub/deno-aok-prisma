@@ -1,10 +1,10 @@
-import type { Context  } from "../dep/deps.ts";
+import { Context, StatusCodes  } from "../dep/deps.ts";
 
 const requireUser = async (ctx: Context, next: () => Promise<unknown>) => {
 
   if (!ctx.state.token){
     ctx.response.body = {
-      status: "fail",
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
       message: "You are not logged in",
     };
     return;

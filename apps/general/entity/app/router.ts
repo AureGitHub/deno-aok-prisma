@@ -8,7 +8,7 @@ const router = new Router({
 
 router
 .get("/",  controller.get)
-.get("/:id", requireGod, controller.getById)
+.get("/:id", controller.getById)
 .post("/", requireGod, controller.add)
 .put("/:id", requireGod,  controller.update)
 .delete("/:id", requireGod,  controller.del)

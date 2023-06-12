@@ -1,4 +1,4 @@
-import { RouterContext, create, Context, decode } from "../../../../dep/deps.ts";
+import { RouterContext, create, Context, decode, StatusCodes } from "../../../../dep/deps.ts";
 import   prisma  from "../../prisma/db.ts";
 
 import  { userClass } from "../user/model.ts";
@@ -6,10 +6,11 @@ import "https://deno.land/x/dotenv@v3.2.2/load.ts";
 
 
 
-const ACCESS_TOKEN_EXPIRES_IN = Deno.env.get('ACCESS_TOKEN_EXPIRES_IN') ;
 
 
-const secureTokenController =  async (ctx: Context, next) =>  {
+
+const secureTokenController =  async (ctx: any, next: any) =>  {
+
 
   if (!ctx.state.token){
     await next();
@@ -63,7 +64,10 @@ const giveMeToken = async(user: any) => {
     ["sign", "verify"],
   );
 
-  const accessTokenExpiresIn = Date.now() + ACCESS_TOKEN_EXPIRES_IN * 60 * 1000;
+  const expires_in = Deno.env.get('ACCESS_TOKEN_EXPIRES_IN') ;
+
+
+  const accessTokenExpiresIn = Date.now() + expires_in * 60 * 1000;
   const token = await create({ alg: "HS512", typ: "JWT" }, {user,accessTokenExpiresIn} , key );
 
 
@@ -102,18 +106,18 @@ const loginUserController = async ({
 
 
     if (!user) {
-      response.status = 401;
+      response.status = 200;
       response.body = {
-        status: "fail",
+        status:StatusCodes.CONFLICT,
         message: "Invalid email or password",
       };
       return;
     }
 
     if (user.apps.length ==0) {
-      response.status = 401;
+      response.status = 200;
       response.body = {
-        status: "fail",
+        status:StatusCodes.CONFLICT,
         message: "no app",
       };
       return;
@@ -122,7 +126,7 @@ const loginUserController = async ({
     if (user.id==0) {
       response.status = 401;
       response.body = {
-        status: "fail",
+        status:StatusCodes.CONFLICT,
         message: "No tiene aplicaciones asociadas",
       };
       return;
@@ -139,23 +143,25 @@ const loginUserController = async ({
     const secure = await giveMeToken(userRet);
 
     response.status = 200;
-    response.body = { status: "success", secure };
+    response.body = { 
+      status:StatusCodes.OK,
+      data: secure };
   } catch (error) {
     response.status = 500;
-    response.body = { status: "error", message: error.message };
+    response.body = {  status:StatusCodes.INTERNAL_SERVER_ERROR, message: error.message };
     return;
   }
 };
 
 
 
-const logoutController = (ctx) => {
+const logoutController = (ctx: any) => {
  
   ctx.state.secure = null;
   ctx.state.token = null;
 
   ctx.response.status = 200;
-  ctx.response.body = { status: "success" };
+  ctx.response.body = {  status:StatusCodes.OK };
 };
 
 
