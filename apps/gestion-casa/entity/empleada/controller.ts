@@ -6,11 +6,11 @@ import   prisma  from "../../prisma/db.ts";
 
 const get= async (ctx: any) => {
 
-    const users = await prisma.casa.findMany();
+    const data = await prisma.empleada.findMany();
     ctx.response.status = 201;
     ctx.response.body = {
       status: StatusCodes.OK,
-      users,
+      data,
     };
 
 };
@@ -18,12 +18,12 @@ const get= async (ctx: any) => {
 
 const getById= async (ctx: any) => {
     const  id  = Number(ctx?.params?.id);
-    const user = await prisma.casa.findFirst({where: {id}});
+    const data = await prisma.empleada.findFirst({where: {id}});
 
     ctx.response.status = 201;
     ctx.response.body = {
       status: StatusCodes.OK,
-      user,
+      data,
     };
 
 };
@@ -31,21 +31,21 @@ const getById= async (ctx: any) => {
 
 const add = async (ctx: any) => {
     try {
-      const user: Prisma.casaCreateInput = await ctx.request.body().value;
-      const {nombre} = user;
+      const empleada: Prisma.empleadaCreateInput = await ctx.request.body().value;
+      const {nombre} = empleada;
   
-     const userExists = await prisma.casa.findUnique({where: {nombre}});
-      if (userExists) {
+     const empleadaExists = await prisma.empleada.findUnique({where: {nombre}});
+      if (empleadaExists) {
         ctx.response.status = 409;
         ctx.response.body = {
           status: StatusCodes.CONFLICT,
-          message: "Casa with that email already exists",
+          message: "empleada with that name already exists",
         };
         return;
       }
   
-      const casa = await prisma.casa.create({
-        data: user
+      const data = await prisma.empleada.create({
+        data: empleada
       });
   
   
@@ -53,7 +53,7 @@ const add = async (ctx: any) => {
       ctx.response.status = 201;
       ctx.response.body = {
         status: StatusCodes.OK,
-        casa,
+        data,
       };
     } catch (error) {
       ctx.response.status = 500;
@@ -68,19 +68,19 @@ const add = async (ctx: any) => {
   
   
       const  id  = Number(ctx?.params?.id);
-      const userUpdateInput: Prisma.casaUpdateInput = await ctx.request.body().value;
+      const empleadaUpdateInput: Prisma.empleadaUpdateInput = await ctx.request.body().value;
       //const {id}  = await request.body().value;
   
-      const casa = await prisma.casa.updateMany({
+      const data = await prisma.empleada.updateMany({
         where: {id },
-        data: userUpdateInput
+        data: empleadaUpdateInput
       })
   
   
       ctx.response.status = 200;
       ctx.response.body = {
         status: StatusCodes.OK,
-        casa,
+        data,
       };
     } catch (error) {
       ctx.response.status = 500;
@@ -100,12 +100,12 @@ const del = async (ctx: any) =>  {
     try {
   
       const  id  = Number(ctx?.params?.id);
-      const casa = await prisma.casa.deleteMany({where: {id}});
+      const data = await prisma.empleada.deleteMany({where: {id}});
   
       ctx.response.status = 200;
       ctx.response.body = {
         status: StatusCodes.OK,
-        casa,
+        data,
       };
     } catch (error) {
       ctx.response.status = 500;

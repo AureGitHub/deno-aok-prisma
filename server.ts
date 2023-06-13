@@ -19,7 +19,7 @@ const router = new Router();
 
 app.use(
   oakCors({
-    origin: "http://localhost:8100"
+    origin: "http://localhost:8101"
   }),
 );
 
@@ -57,7 +57,10 @@ app.use(async (ctx, next) => {
   //AQUI COJO EL TOKEN !!!!!!!!!!!!!!!!!!!!!!!
   const token  = await ctx.request.headers.get('Authorization');
   ctx.state.now = now;
-  ctx.state.token = token;
+  if(token){
+    ctx.state.token = token;
+  }
+  
   await next();
 });
 

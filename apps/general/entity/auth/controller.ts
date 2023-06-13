@@ -32,6 +32,12 @@ const secureTokenController =  async (ctx: any, next: any) =>  {
 
       message = `Token is timed out (${SessionexpiredIn})`;
       ctx.state.user = null;
+
+      ctx.response.body = {
+        status: StatusCodes.REQUEST_TIMEOUT,
+        message,
+      };
+      return;
     }
     else{
       const secure = await giveMeToken(ctx.state.user);
