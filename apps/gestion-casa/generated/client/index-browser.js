@@ -107,6 +107,17 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.ServicioScalarFieldEnum = {
+  id: 'id',
+  fechaInicio: 'fechaInicio',
+  fechaFin: 'fechaFin',
+  suplLevantar: 'suplLevantar',
+  empleadaId: 'empleadaId',
+  pagado: 'pagado',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -130,7 +141,8 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.ModelName = {
   TC_tiposGastos: 'TC_tiposGastos',
   casa: 'casa',
-  empleada: 'empleada'
+  empleada: 'empleada',
+  servicio: 'servicio'
 };
 
 /**

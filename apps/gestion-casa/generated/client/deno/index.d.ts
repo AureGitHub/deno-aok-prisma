@@ -47,6 +47,21 @@ export type empleada = {
   updatedAt: Date
 }
 
+/**
+ * Model servicio
+ * 
+ */
+export type servicio = {
+  id: number
+  fechaInicio: Date
+  fechaFin: Date
+  suplLevantar: boolean
+  empleadaId: number
+  pagado: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -194,6 +209,16 @@ export class PrismaClient<
     * ```
     */
   get empleada(): Prisma.empleadaDelegate<GlobalReject>;
+
+  /**
+   * `prisma.servicio`: Exposes CRUD operations for the **servicio** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Servicios
+    * const servicios = await prisma.servicio.findMany()
+    * ```
+    */
+  get servicio(): Prisma.servicioDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -665,7 +690,8 @@ export namespace Prisma {
   export const ModelName: {
     TC_tiposGastos: 'TC_tiposGastos',
     casa: 'casa',
-    empleada: 'empleada'
+    empleada: 'empleada',
+    servicio: 'servicio'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -824,6 +850,48 @@ export namespace Prisma {
   /**
    * Count Types
    */
+
+
+  /**
+   * Count Type EmpleadaCountOutputType
+   */
+
+
+  export type EmpleadaCountOutputType = {
+    servicios: number
+  }
+
+  export type EmpleadaCountOutputTypeSelect = {
+    servicios?: boolean
+  }
+
+  export type EmpleadaCountOutputTypeGetPayload<S extends boolean | null | undefined | EmpleadaCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? EmpleadaCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (EmpleadaCountOutputTypeArgs)
+    ? EmpleadaCountOutputType 
+    : S extends { select: any } & (EmpleadaCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof EmpleadaCountOutputType ? EmpleadaCountOutputType[P] : never
+  } 
+      : EmpleadaCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * EmpleadaCountOutputType without action
+   */
+  export type EmpleadaCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the EmpleadaCountOutputType
+     */
+    select?: EmpleadaCountOutputTypeSelect | null
+  }
 
 
 
@@ -2855,19 +2923,31 @@ export namespace Prisma {
     baja?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    servicios?: boolean | empleada$serviciosArgs
+    _count?: boolean | EmpleadaCountOutputTypeArgs
   }
 
+
+  export type empleadaInclude = {
+    servicios?: boolean | empleada$serviciosArgs
+    _count?: boolean | EmpleadaCountOutputTypeArgs
+  }
 
   export type empleadaGetPayload<S extends boolean | null | undefined | empleadaArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
     S extends true ? empleada :
     S extends undefined ? never :
     S extends { include: any } & (empleadaArgs | empleadaFindManyArgs)
-    ? empleada 
+    ? empleada  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'servicios' ? Array < servicioGetPayload<S['include'][P]>>  :
+        P extends '_count' ? EmpleadaCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
     : S extends { select: any } & (empleadaArgs | empleadaFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof empleada ? empleada[P] : never
+        P extends 'servicios' ? Array < servicioGetPayload<S['select'][P]>>  :
+        P extends '_count' ? EmpleadaCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof empleada ? empleada[P] : never
   } 
       : empleada
 
@@ -3239,6 +3319,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
+    servicios<T extends empleada$serviciosArgs= {}>(args?: Subset<T, empleada$serviciosArgs>): Prisma.PrismaPromise<Array<servicioGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -3276,6 +3357,10 @@ export namespace Prisma {
      */
     select?: empleadaSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: empleadaInclude | null
+    /**
      * Filter, which empleada to fetch.
      */
     where: empleadaWhereUniqueInput
@@ -3302,6 +3387,10 @@ export namespace Prisma {
      */
     select?: empleadaSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: empleadaInclude | null
+    /**
      * Filter, which empleada to fetch.
      */
     where: empleadaWhereUniqueInput
@@ -3316,6 +3405,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the empleada
      */
     select?: empleadaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: empleadaInclude | null
     /**
      * Filter, which empleada to fetch.
      */
@@ -3373,6 +3466,10 @@ export namespace Prisma {
      */
     select?: empleadaSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: empleadaInclude | null
+    /**
      * Filter, which empleada to fetch.
      */
     where?: empleadaWhereInput
@@ -3418,6 +3515,10 @@ export namespace Prisma {
      */
     select?: empleadaSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: empleadaInclude | null
+    /**
      * Filter, which empleadas to fetch.
      */
     where?: empleadaWhereInput
@@ -3458,6 +3559,10 @@ export namespace Prisma {
      */
     select?: empleadaSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: empleadaInclude | null
+    /**
      * The data needed to create a empleada.
      */
     data: XOR<empleadaCreateInput, empleadaUncheckedCreateInput>
@@ -3484,6 +3589,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the empleada
      */
     select?: empleadaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: empleadaInclude | null
     /**
      * The data needed to update a empleada.
      */
@@ -3519,6 +3628,10 @@ export namespace Prisma {
      */
     select?: empleadaSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: empleadaInclude | null
+    /**
      * The filter to search for the empleada to update in case it exists.
      */
     where: empleadaWhereUniqueInput
@@ -3542,6 +3655,10 @@ export namespace Prisma {
      */
     select?: empleadaSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: empleadaInclude | null
+    /**
      * Filter which empleada to delete.
      */
     where: empleadaWhereUniqueInput
@@ -3560,6 +3677,27 @@ export namespace Prisma {
 
 
   /**
+   * empleada.servicios
+   */
+  export type empleada$serviciosArgs = {
+    /**
+     * Select specific fields to fetch from the servicio
+     */
+    select?: servicioSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: servicioInclude | null
+    where?: servicioWhereInput
+    orderBy?: Enumerable<servicioOrderByWithRelationInput>
+    cursor?: servicioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ServicioScalarFieldEnum>
+  }
+
+
+  /**
    * empleada without action
    */
   export type empleadaArgs = {
@@ -3567,6 +3705,1003 @@ export namespace Prisma {
      * Select specific fields to fetch from the empleada
      */
     select?: empleadaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: empleadaInclude | null
+  }
+
+
+
+  /**
+   * Model servicio
+   */
+
+
+  export type AggregateServicio = {
+    _count: ServicioCountAggregateOutputType | null
+    _avg: ServicioAvgAggregateOutputType | null
+    _sum: ServicioSumAggregateOutputType | null
+    _min: ServicioMinAggregateOutputType | null
+    _max: ServicioMaxAggregateOutputType | null
+  }
+
+  export type ServicioAvgAggregateOutputType = {
+    id: number | null
+    empleadaId: number | null
+  }
+
+  export type ServicioSumAggregateOutputType = {
+    id: number | null
+    empleadaId: number | null
+  }
+
+  export type ServicioMinAggregateOutputType = {
+    id: number | null
+    fechaInicio: Date | null
+    fechaFin: Date | null
+    suplLevantar: boolean | null
+    empleadaId: number | null
+    pagado: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ServicioMaxAggregateOutputType = {
+    id: number | null
+    fechaInicio: Date | null
+    fechaFin: Date | null
+    suplLevantar: boolean | null
+    empleadaId: number | null
+    pagado: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ServicioCountAggregateOutputType = {
+    id: number
+    fechaInicio: number
+    fechaFin: number
+    suplLevantar: number
+    empleadaId: number
+    pagado: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ServicioAvgAggregateInputType = {
+    id?: true
+    empleadaId?: true
+  }
+
+  export type ServicioSumAggregateInputType = {
+    id?: true
+    empleadaId?: true
+  }
+
+  export type ServicioMinAggregateInputType = {
+    id?: true
+    fechaInicio?: true
+    fechaFin?: true
+    suplLevantar?: true
+    empleadaId?: true
+    pagado?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ServicioMaxAggregateInputType = {
+    id?: true
+    fechaInicio?: true
+    fechaFin?: true
+    suplLevantar?: true
+    empleadaId?: true
+    pagado?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ServicioCountAggregateInputType = {
+    id?: true
+    fechaInicio?: true
+    fechaFin?: true
+    suplLevantar?: true
+    empleadaId?: true
+    pagado?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ServicioAggregateArgs = {
+    /**
+     * Filter which servicio to aggregate.
+     */
+    where?: servicioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of servicios to fetch.
+     */
+    orderBy?: Enumerable<servicioOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: servicioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` servicios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` servicios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned servicios
+    **/
+    _count?: true | ServicioCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ServicioAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ServicioSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ServicioMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ServicioMaxAggregateInputType
+  }
+
+  export type GetServicioAggregateType<T extends ServicioAggregateArgs> = {
+        [P in keyof T & keyof AggregateServicio]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateServicio[P]>
+      : GetScalarType<T[P], AggregateServicio[P]>
+  }
+
+
+
+
+  export type ServicioGroupByArgs = {
+    where?: servicioWhereInput
+    orderBy?: Enumerable<servicioOrderByWithAggregationInput>
+    by: ServicioScalarFieldEnum[]
+    having?: servicioScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ServicioCountAggregateInputType | true
+    _avg?: ServicioAvgAggregateInputType
+    _sum?: ServicioSumAggregateInputType
+    _min?: ServicioMinAggregateInputType
+    _max?: ServicioMaxAggregateInputType
+  }
+
+
+  export type ServicioGroupByOutputType = {
+    id: number
+    fechaInicio: Date
+    fechaFin: Date
+    suplLevantar: boolean
+    empleadaId: number
+    pagado: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ServicioCountAggregateOutputType | null
+    _avg: ServicioAvgAggregateOutputType | null
+    _sum: ServicioSumAggregateOutputType | null
+    _min: ServicioMinAggregateOutputType | null
+    _max: ServicioMaxAggregateOutputType | null
+  }
+
+  type GetServicioGroupByPayload<T extends ServicioGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<ServicioGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ServicioGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ServicioGroupByOutputType[P]>
+            : GetScalarType<T[P], ServicioGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type servicioSelect = {
+    id?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
+    suplLevantar?: boolean
+    empleadaId?: boolean
+    pagado?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    empleada?: boolean | empleadaArgs
+  }
+
+
+  export type servicioInclude = {
+    empleada?: boolean | empleadaArgs
+  }
+
+  export type servicioGetPayload<S extends boolean | null | undefined | servicioArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? servicio :
+    S extends undefined ? never :
+    S extends { include: any } & (servicioArgs | servicioFindManyArgs)
+    ? servicio  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'empleada' ? empleadaGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (servicioArgs | servicioFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'empleada' ? empleadaGetPayload<S['select'][P]> :  P extends keyof servicio ? servicio[P] : never
+  } 
+      : servicio
+
+
+  type servicioCountArgs = 
+    Omit<servicioFindManyArgs, 'select' | 'include'> & {
+      select?: ServicioCountAggregateInputType | true
+    }
+
+  export interface servicioDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Servicio that matches the filter.
+     * @param {servicioFindUniqueArgs} args - Arguments to find a Servicio
+     * @example
+     * // Get one Servicio
+     * const servicio = await prisma.servicio.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends servicioFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, servicioFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'servicio'> extends True ? Prisma__servicioClient<servicioGetPayload<T>> : Prisma__servicioClient<servicioGetPayload<T> | null, null>
+
+    /**
+     * Find one Servicio that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {servicioFindUniqueOrThrowArgs} args - Arguments to find a Servicio
+     * @example
+     * // Get one Servicio
+     * const servicio = await prisma.servicio.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends servicioFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, servicioFindUniqueOrThrowArgs>
+    ): Prisma__servicioClient<servicioGetPayload<T>>
+
+    /**
+     * Find the first Servicio that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {servicioFindFirstArgs} args - Arguments to find a Servicio
+     * @example
+     * // Get one Servicio
+     * const servicio = await prisma.servicio.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends servicioFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, servicioFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'servicio'> extends True ? Prisma__servicioClient<servicioGetPayload<T>> : Prisma__servicioClient<servicioGetPayload<T> | null, null>
+
+    /**
+     * Find the first Servicio that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {servicioFindFirstOrThrowArgs} args - Arguments to find a Servicio
+     * @example
+     * // Get one Servicio
+     * const servicio = await prisma.servicio.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends servicioFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, servicioFindFirstOrThrowArgs>
+    ): Prisma__servicioClient<servicioGetPayload<T>>
+
+    /**
+     * Find zero or more Servicios that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {servicioFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Servicios
+     * const servicios = await prisma.servicio.findMany()
+     * 
+     * // Get first 10 Servicios
+     * const servicios = await prisma.servicio.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const servicioWithIdOnly = await prisma.servicio.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends servicioFindManyArgs>(
+      args?: SelectSubset<T, servicioFindManyArgs>
+    ): Prisma.PrismaPromise<Array<servicioGetPayload<T>>>
+
+    /**
+     * Create a Servicio.
+     * @param {servicioCreateArgs} args - Arguments to create a Servicio.
+     * @example
+     * // Create one Servicio
+     * const Servicio = await prisma.servicio.create({
+     *   data: {
+     *     // ... data to create a Servicio
+     *   }
+     * })
+     * 
+    **/
+    create<T extends servicioCreateArgs>(
+      args: SelectSubset<T, servicioCreateArgs>
+    ): Prisma__servicioClient<servicioGetPayload<T>>
+
+    /**
+     * Create many Servicios.
+     *     @param {servicioCreateManyArgs} args - Arguments to create many Servicios.
+     *     @example
+     *     // Create many Servicios
+     *     const servicio = await prisma.servicio.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends servicioCreateManyArgs>(
+      args?: SelectSubset<T, servicioCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Servicio.
+     * @param {servicioDeleteArgs} args - Arguments to delete one Servicio.
+     * @example
+     * // Delete one Servicio
+     * const Servicio = await prisma.servicio.delete({
+     *   where: {
+     *     // ... filter to delete one Servicio
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends servicioDeleteArgs>(
+      args: SelectSubset<T, servicioDeleteArgs>
+    ): Prisma__servicioClient<servicioGetPayload<T>>
+
+    /**
+     * Update one Servicio.
+     * @param {servicioUpdateArgs} args - Arguments to update one Servicio.
+     * @example
+     * // Update one Servicio
+     * const servicio = await prisma.servicio.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends servicioUpdateArgs>(
+      args: SelectSubset<T, servicioUpdateArgs>
+    ): Prisma__servicioClient<servicioGetPayload<T>>
+
+    /**
+     * Delete zero or more Servicios.
+     * @param {servicioDeleteManyArgs} args - Arguments to filter Servicios to delete.
+     * @example
+     * // Delete a few Servicios
+     * const { count } = await prisma.servicio.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends servicioDeleteManyArgs>(
+      args?: SelectSubset<T, servicioDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Servicios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {servicioUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Servicios
+     * const servicio = await prisma.servicio.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends servicioUpdateManyArgs>(
+      args: SelectSubset<T, servicioUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Servicio.
+     * @param {servicioUpsertArgs} args - Arguments to update or create a Servicio.
+     * @example
+     * // Update or create a Servicio
+     * const servicio = await prisma.servicio.upsert({
+     *   create: {
+     *     // ... data to create a Servicio
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Servicio we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends servicioUpsertArgs>(
+      args: SelectSubset<T, servicioUpsertArgs>
+    ): Prisma__servicioClient<servicioGetPayload<T>>
+
+    /**
+     * Count the number of Servicios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {servicioCountArgs} args - Arguments to filter Servicios to count.
+     * @example
+     * // Count the number of Servicios
+     * const count = await prisma.servicio.count({
+     *   where: {
+     *     // ... the filter for the Servicios we want to count
+     *   }
+     * })
+    **/
+    count<T extends servicioCountArgs>(
+      args?: Subset<T, servicioCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ServicioCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Servicio.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServicioAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ServicioAggregateArgs>(args: Subset<T, ServicioAggregateArgs>): Prisma.PrismaPromise<GetServicioAggregateType<T>>
+
+    /**
+     * Group by Servicio.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServicioGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ServicioGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ServicioGroupByArgs['orderBy'] }
+        : { orderBy?: ServicioGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ServicioGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServicioGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for servicio.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__servicioClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    empleada<T extends empleadaArgs= {}>(args?: Subset<T, empleadaArgs>): Prisma__empleadaClient<empleadaGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * servicio base type for findUnique actions
+   */
+  export type servicioFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the servicio
+     */
+    select?: servicioSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: servicioInclude | null
+    /**
+     * Filter, which servicio to fetch.
+     */
+    where: servicioWhereUniqueInput
+  }
+
+  /**
+   * servicio findUnique
+   */
+  export interface servicioFindUniqueArgs extends servicioFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * servicio findUniqueOrThrow
+   */
+  export type servicioFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the servicio
+     */
+    select?: servicioSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: servicioInclude | null
+    /**
+     * Filter, which servicio to fetch.
+     */
+    where: servicioWhereUniqueInput
+  }
+
+
+  /**
+   * servicio base type for findFirst actions
+   */
+  export type servicioFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the servicio
+     */
+    select?: servicioSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: servicioInclude | null
+    /**
+     * Filter, which servicio to fetch.
+     */
+    where?: servicioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of servicios to fetch.
+     */
+    orderBy?: Enumerable<servicioOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for servicios.
+     */
+    cursor?: servicioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` servicios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` servicios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of servicios.
+     */
+    distinct?: Enumerable<ServicioScalarFieldEnum>
+  }
+
+  /**
+   * servicio findFirst
+   */
+  export interface servicioFindFirstArgs extends servicioFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * servicio findFirstOrThrow
+   */
+  export type servicioFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the servicio
+     */
+    select?: servicioSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: servicioInclude | null
+    /**
+     * Filter, which servicio to fetch.
+     */
+    where?: servicioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of servicios to fetch.
+     */
+    orderBy?: Enumerable<servicioOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for servicios.
+     */
+    cursor?: servicioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` servicios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` servicios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of servicios.
+     */
+    distinct?: Enumerable<ServicioScalarFieldEnum>
+  }
+
+
+  /**
+   * servicio findMany
+   */
+  export type servicioFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the servicio
+     */
+    select?: servicioSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: servicioInclude | null
+    /**
+     * Filter, which servicios to fetch.
+     */
+    where?: servicioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of servicios to fetch.
+     */
+    orderBy?: Enumerable<servicioOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing servicios.
+     */
+    cursor?: servicioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` servicios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` servicios.
+     */
+    skip?: number
+    distinct?: Enumerable<ServicioScalarFieldEnum>
+  }
+
+
+  /**
+   * servicio create
+   */
+  export type servicioCreateArgs = {
+    /**
+     * Select specific fields to fetch from the servicio
+     */
+    select?: servicioSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: servicioInclude | null
+    /**
+     * The data needed to create a servicio.
+     */
+    data: XOR<servicioCreateInput, servicioUncheckedCreateInput>
+  }
+
+
+  /**
+   * servicio createMany
+   */
+  export type servicioCreateManyArgs = {
+    /**
+     * The data used to create many servicios.
+     */
+    data: Enumerable<servicioCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * servicio update
+   */
+  export type servicioUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the servicio
+     */
+    select?: servicioSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: servicioInclude | null
+    /**
+     * The data needed to update a servicio.
+     */
+    data: XOR<servicioUpdateInput, servicioUncheckedUpdateInput>
+    /**
+     * Choose, which servicio to update.
+     */
+    where: servicioWhereUniqueInput
+  }
+
+
+  /**
+   * servicio updateMany
+   */
+  export type servicioUpdateManyArgs = {
+    /**
+     * The data used to update servicios.
+     */
+    data: XOR<servicioUpdateManyMutationInput, servicioUncheckedUpdateManyInput>
+    /**
+     * Filter which servicios to update
+     */
+    where?: servicioWhereInput
+  }
+
+
+  /**
+   * servicio upsert
+   */
+  export type servicioUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the servicio
+     */
+    select?: servicioSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: servicioInclude | null
+    /**
+     * The filter to search for the servicio to update in case it exists.
+     */
+    where: servicioWhereUniqueInput
+    /**
+     * In case the servicio found by the `where` argument doesn't exist, create a new servicio with this data.
+     */
+    create: XOR<servicioCreateInput, servicioUncheckedCreateInput>
+    /**
+     * In case the servicio was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<servicioUpdateInput, servicioUncheckedUpdateInput>
+  }
+
+
+  /**
+   * servicio delete
+   */
+  export type servicioDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the servicio
+     */
+    select?: servicioSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: servicioInclude | null
+    /**
+     * Filter which servicio to delete.
+     */
+    where: servicioWhereUniqueInput
+  }
+
+
+  /**
+   * servicio deleteMany
+   */
+  export type servicioDeleteManyArgs = {
+    /**
+     * Filter which servicios to delete
+     */
+    where?: servicioWhereInput
+  }
+
+
+  /**
+   * servicio without action
+   */
+  export type servicioArgs = {
+    /**
+     * Select specific fields to fetch from the servicio
+     */
+    select?: servicioSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: servicioInclude | null
   }
 
 
@@ -3606,6 +4741,20 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const ServicioScalarFieldEnum: {
+    id: 'id',
+    fechaInicio: 'fechaInicio',
+    fechaFin: 'fechaFin',
+    suplLevantar: 'suplLevantar',
+    empleadaId: 'empleadaId',
+    pagado: 'pagado',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ServicioScalarFieldEnum = (typeof ServicioScalarFieldEnum)[keyof typeof ServicioScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3741,6 +4890,7 @@ export namespace Prisma {
     baja?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
+    servicios?: ServicioListRelationFilter
   }
 
   export type empleadaOrderByWithRelationInput = {
@@ -3749,6 +4899,7 @@ export namespace Prisma {
     baja?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    servicios?: servicioOrderByRelationAggregateInput
   }
 
   export type empleadaWhereUniqueInput = {
@@ -3776,6 +4927,67 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter | number
     nombre?: StringWithAggregatesFilter | string
     baja?: BoolWithAggregatesFilter | boolean
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type servicioWhereInput = {
+    AND?: Enumerable<servicioWhereInput>
+    OR?: Enumerable<servicioWhereInput>
+    NOT?: Enumerable<servicioWhereInput>
+    id?: IntFilter | number
+    fechaInicio?: DateTimeFilter | Date | string
+    fechaFin?: DateTimeFilter | Date | string
+    suplLevantar?: BoolFilter | boolean
+    empleadaId?: IntFilter | number
+    pagado?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    empleada?: XOR<EmpleadaRelationFilter, empleadaWhereInput>
+  }
+
+  export type servicioOrderByWithRelationInput = {
+    id?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    suplLevantar?: SortOrder
+    empleadaId?: SortOrder
+    pagado?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    empleada?: empleadaOrderByWithRelationInput
+  }
+
+  export type servicioWhereUniqueInput = {
+    id?: number
+  }
+
+  export type servicioOrderByWithAggregationInput = {
+    id?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    suplLevantar?: SortOrder
+    empleadaId?: SortOrder
+    pagado?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: servicioCountOrderByAggregateInput
+    _avg?: servicioAvgOrderByAggregateInput
+    _max?: servicioMaxOrderByAggregateInput
+    _min?: servicioMinOrderByAggregateInput
+    _sum?: servicioSumOrderByAggregateInput
+  }
+
+  export type servicioScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<servicioScalarWhereWithAggregatesInput>
+    OR?: Enumerable<servicioScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<servicioScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    fechaInicio?: DateTimeWithAggregatesFilter | Date | string
+    fechaFin?: DateTimeWithAggregatesFilter | Date | string
+    suplLevantar?: BoolWithAggregatesFilter | boolean
+    empleadaId?: IntWithAggregatesFilter | number
+    pagado?: BoolWithAggregatesFilter | boolean
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -3887,6 +5099,7 @@ export namespace Prisma {
     baja: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    servicios?: servicioCreateNestedManyWithoutEmpleadaInput
   }
 
   export type empleadaUncheckedCreateInput = {
@@ -3895,6 +5108,7 @@ export namespace Prisma {
     baja: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    servicios?: servicioUncheckedCreateNestedManyWithoutEmpleadaInput
   }
 
   export type empleadaUpdateInput = {
@@ -3902,6 +5116,7 @@ export namespace Prisma {
     baja?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servicios?: servicioUpdateManyWithoutEmpleadaNestedInput
   }
 
   export type empleadaUncheckedUpdateInput = {
@@ -3910,6 +5125,7 @@ export namespace Prisma {
     baja?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    servicios?: servicioUncheckedUpdateManyWithoutEmpleadaNestedInput
   }
 
   export type empleadaCreateManyInput = {
@@ -3931,6 +5147,79 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     nombre?: StringFieldUpdateOperationsInput | string
     baja?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type servicioCreateInput = {
+    fechaInicio: Date | string
+    fechaFin: Date | string
+    suplLevantar?: boolean
+    pagado?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    empleada: empleadaCreateNestedOneWithoutServiciosInput
+  }
+
+  export type servicioUncheckedCreateInput = {
+    id?: number
+    fechaInicio: Date | string
+    fechaFin: Date | string
+    suplLevantar?: boolean
+    empleadaId: number
+    pagado?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type servicioUpdateInput = {
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    suplLevantar?: BoolFieldUpdateOperationsInput | boolean
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    empleada?: empleadaUpdateOneRequiredWithoutServiciosNestedInput
+  }
+
+  export type servicioUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    suplLevantar?: BoolFieldUpdateOperationsInput | boolean
+    empleadaId?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type servicioCreateManyInput = {
+    id?: number
+    fechaInicio: Date | string
+    fechaFin: Date | string
+    suplLevantar?: boolean
+    empleadaId: number
+    pagado?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type servicioUpdateManyMutationInput = {
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    suplLevantar?: BoolFieldUpdateOperationsInput | boolean
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type servicioUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    suplLevantar?: BoolFieldUpdateOperationsInput | boolean
+    empleadaId?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4094,6 +5383,16 @@ export namespace Prisma {
     _max?: NestedBoolFilter
   }
 
+  export type ServicioListRelationFilter = {
+    every?: servicioWhereInput
+    some?: servicioWhereInput
+    none?: servicioWhereInput
+  }
+
+  export type servicioOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type empleadaCountOrderByAggregateInput = {
     id?: SortOrder
     nombre?: SortOrder
@@ -4126,6 +5425,54 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type EmpleadaRelationFilter = {
+    is?: empleadaWhereInput
+    isNot?: empleadaWhereInput
+  }
+
+  export type servicioCountOrderByAggregateInput = {
+    id?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    suplLevantar?: SortOrder
+    empleadaId?: SortOrder
+    pagado?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type servicioAvgOrderByAggregateInput = {
+    id?: SortOrder
+    empleadaId?: SortOrder
+  }
+
+  export type servicioMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    suplLevantar?: SortOrder
+    empleadaId?: SortOrder
+    pagado?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type servicioMinOrderByAggregateInput = {
+    id?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    suplLevantar?: SortOrder
+    empleadaId?: SortOrder
+    pagado?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type servicioSumOrderByAggregateInput = {
+    id?: SortOrder
+    empleadaId?: SortOrder
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -4144,6 +5491,62 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type servicioCreateNestedManyWithoutEmpleadaInput = {
+    create?: XOR<Enumerable<servicioCreateWithoutEmpleadaInput>, Enumerable<servicioUncheckedCreateWithoutEmpleadaInput>>
+    connectOrCreate?: Enumerable<servicioCreateOrConnectWithoutEmpleadaInput>
+    createMany?: servicioCreateManyEmpleadaInputEnvelope
+    connect?: Enumerable<servicioWhereUniqueInput>
+  }
+
+  export type servicioUncheckedCreateNestedManyWithoutEmpleadaInput = {
+    create?: XOR<Enumerable<servicioCreateWithoutEmpleadaInput>, Enumerable<servicioUncheckedCreateWithoutEmpleadaInput>>
+    connectOrCreate?: Enumerable<servicioCreateOrConnectWithoutEmpleadaInput>
+    createMany?: servicioCreateManyEmpleadaInputEnvelope
+    connect?: Enumerable<servicioWhereUniqueInput>
+  }
+
+  export type servicioUpdateManyWithoutEmpleadaNestedInput = {
+    create?: XOR<Enumerable<servicioCreateWithoutEmpleadaInput>, Enumerable<servicioUncheckedCreateWithoutEmpleadaInput>>
+    connectOrCreate?: Enumerable<servicioCreateOrConnectWithoutEmpleadaInput>
+    upsert?: Enumerable<servicioUpsertWithWhereUniqueWithoutEmpleadaInput>
+    createMany?: servicioCreateManyEmpleadaInputEnvelope
+    set?: Enumerable<servicioWhereUniqueInput>
+    disconnect?: Enumerable<servicioWhereUniqueInput>
+    delete?: Enumerable<servicioWhereUniqueInput>
+    connect?: Enumerable<servicioWhereUniqueInput>
+    update?: Enumerable<servicioUpdateWithWhereUniqueWithoutEmpleadaInput>
+    updateMany?: Enumerable<servicioUpdateManyWithWhereWithoutEmpleadaInput>
+    deleteMany?: Enumerable<servicioScalarWhereInput>
+  }
+
+  export type servicioUncheckedUpdateManyWithoutEmpleadaNestedInput = {
+    create?: XOR<Enumerable<servicioCreateWithoutEmpleadaInput>, Enumerable<servicioUncheckedCreateWithoutEmpleadaInput>>
+    connectOrCreate?: Enumerable<servicioCreateOrConnectWithoutEmpleadaInput>
+    upsert?: Enumerable<servicioUpsertWithWhereUniqueWithoutEmpleadaInput>
+    createMany?: servicioCreateManyEmpleadaInputEnvelope
+    set?: Enumerable<servicioWhereUniqueInput>
+    disconnect?: Enumerable<servicioWhereUniqueInput>
+    delete?: Enumerable<servicioWhereUniqueInput>
+    connect?: Enumerable<servicioWhereUniqueInput>
+    update?: Enumerable<servicioUpdateWithWhereUniqueWithoutEmpleadaInput>
+    updateMany?: Enumerable<servicioUpdateManyWithWhereWithoutEmpleadaInput>
+    deleteMany?: Enumerable<servicioScalarWhereInput>
+  }
+
+  export type empleadaCreateNestedOneWithoutServiciosInput = {
+    create?: XOR<empleadaCreateWithoutServiciosInput, empleadaUncheckedCreateWithoutServiciosInput>
+    connectOrCreate?: empleadaCreateOrConnectWithoutServiciosInput
+    connect?: empleadaWhereUniqueInput
+  }
+
+  export type empleadaUpdateOneRequiredWithoutServiciosNestedInput = {
+    create?: XOR<empleadaCreateWithoutServiciosInput, empleadaUncheckedCreateWithoutServiciosInput>
+    connectOrCreate?: empleadaCreateOrConnectWithoutServiciosInput
+    upsert?: empleadaUpsertWithoutServiciosInput
+    connect?: empleadaWhereUniqueInput
+    update?: XOR<empleadaUpdateWithoutServiciosInput, empleadaUncheckedUpdateWithoutServiciosInput>
   }
 
   export type NestedIntFilter = {
@@ -4251,6 +5654,144 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedBoolFilter
     _max?: NestedBoolFilter
+  }
+
+  export type servicioCreateWithoutEmpleadaInput = {
+    fechaInicio: Date | string
+    fechaFin: Date | string
+    suplLevantar?: boolean
+    pagado?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type servicioUncheckedCreateWithoutEmpleadaInput = {
+    id?: number
+    fechaInicio: Date | string
+    fechaFin: Date | string
+    suplLevantar?: boolean
+    pagado?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type servicioCreateOrConnectWithoutEmpleadaInput = {
+    where: servicioWhereUniqueInput
+    create: XOR<servicioCreateWithoutEmpleadaInput, servicioUncheckedCreateWithoutEmpleadaInput>
+  }
+
+  export type servicioCreateManyEmpleadaInputEnvelope = {
+    data: Enumerable<servicioCreateManyEmpleadaInput>
+    skipDuplicates?: boolean
+  }
+
+  export type servicioUpsertWithWhereUniqueWithoutEmpleadaInput = {
+    where: servicioWhereUniqueInput
+    update: XOR<servicioUpdateWithoutEmpleadaInput, servicioUncheckedUpdateWithoutEmpleadaInput>
+    create: XOR<servicioCreateWithoutEmpleadaInput, servicioUncheckedCreateWithoutEmpleadaInput>
+  }
+
+  export type servicioUpdateWithWhereUniqueWithoutEmpleadaInput = {
+    where: servicioWhereUniqueInput
+    data: XOR<servicioUpdateWithoutEmpleadaInput, servicioUncheckedUpdateWithoutEmpleadaInput>
+  }
+
+  export type servicioUpdateManyWithWhereWithoutEmpleadaInput = {
+    where: servicioScalarWhereInput
+    data: XOR<servicioUpdateManyMutationInput, servicioUncheckedUpdateManyWithoutServiciosInput>
+  }
+
+  export type servicioScalarWhereInput = {
+    AND?: Enumerable<servicioScalarWhereInput>
+    OR?: Enumerable<servicioScalarWhereInput>
+    NOT?: Enumerable<servicioScalarWhereInput>
+    id?: IntFilter | number
+    fechaInicio?: DateTimeFilter | Date | string
+    fechaFin?: DateTimeFilter | Date | string
+    suplLevantar?: BoolFilter | boolean
+    empleadaId?: IntFilter | number
+    pagado?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type empleadaCreateWithoutServiciosInput = {
+    nombre: string
+    baja: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type empleadaUncheckedCreateWithoutServiciosInput = {
+    id?: number
+    nombre: string
+    baja: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type empleadaCreateOrConnectWithoutServiciosInput = {
+    where: empleadaWhereUniqueInput
+    create: XOR<empleadaCreateWithoutServiciosInput, empleadaUncheckedCreateWithoutServiciosInput>
+  }
+
+  export type empleadaUpsertWithoutServiciosInput = {
+    update: XOR<empleadaUpdateWithoutServiciosInput, empleadaUncheckedUpdateWithoutServiciosInput>
+    create: XOR<empleadaCreateWithoutServiciosInput, empleadaUncheckedCreateWithoutServiciosInput>
+  }
+
+  export type empleadaUpdateWithoutServiciosInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+    baja?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type empleadaUncheckedUpdateWithoutServiciosInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    baja?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type servicioCreateManyEmpleadaInput = {
+    id?: number
+    fechaInicio: Date | string
+    fechaFin: Date | string
+    suplLevantar?: boolean
+    pagado?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type servicioUpdateWithoutEmpleadaInput = {
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    suplLevantar?: BoolFieldUpdateOperationsInput | boolean
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type servicioUncheckedUpdateWithoutEmpleadaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    suplLevantar?: BoolFieldUpdateOperationsInput | boolean
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type servicioUncheckedUpdateManyWithoutServiciosInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    suplLevantar?: BoolFieldUpdateOperationsInput | boolean
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -36,10 +36,23 @@ model empleada {
   id         Int       @id @default(autoincrement())
   nombre     String    @unique
   baja       Boolean
+  servicios  servicio[]
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
 }
 
+
+model servicio {
+  id             Int       @id @default(autoincrement())
+  fechaInicio    DateTime  
+  fechaFin       DateTime  
+  suplLevantar   Boolean    @default(false)
+  empleadaId     Int
+  empleada       empleada   @relation(fields: [empleadaId], references: [id])
+  pagado         Boolean    @default(false)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
 
 
 
