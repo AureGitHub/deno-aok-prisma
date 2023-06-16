@@ -16,6 +16,77 @@ const get= async (ctx: any) => {
 };
 
 
+const getPresent= async (ctx: any) => {
+
+  const u=new URL(ctx.request.url);
+
+  const pagado =u.searchParams.get('pagado'); 
+
+
+  let where = Prisma.sql``;
+
+  switch(pagado){
+    case 'n' : where = Prisma.sql`where s."pagado" = false`;
+    break;
+    case 's' : where = Prisma.sql`where s."pagado" = true`;
+    break;
+    case 't' : where = Prisma.sql``;
+    break;
+  }
+
+
+  
+
+
+  const data  = await prisma.$queryRaw<any[]> `
+  select 
+      s.id , 
+      TO_CHAR (s.fecha , 'dd/mm/yyyy') as fecha ,
+      TO_CHAR (s."horaInicio" , 'HH24:MI') as horaInicio ,
+      TO_CHAR (s."horaFin" , 'HH24:MI') as horaFin , 
+      e.nombre as nombreEmpleada, 
+      case when s."suplLevantar" then 'Si' else 'No' end as suplLevantar , 
+      case when s."pagado" then 'Si' else 'No' end as pagado,
+      round( CAST(float8 (Extract(epoch FROM (s."horaFin" - s."horaInicio")) / 3600) as numeric), 2) AS horas,      
+      (Extract(epoch FROM (s."horaFin" - s."horaInicio")) / 60) * (8.0/60) +  case when s."suplLevantar" then 2 else 0 end as euros
+      from servicio s 
+      inner join empleada e on s."empleadaId" = e.id 
+      ${where }
+      order by s.fecha  desc
+
+  `;
+  ctx.response.status = 201;
+  ctx.response.body = {
+    status: StatusCodes.OK,
+    data,
+  };
+
+};
+
+
+const getResumenNoPagado= async (ctx: any) => {
+
+  const data  = await prisma.$queryRaw<any[]> `
+  select  
+  e.id as empleadaid, 
+e.nombre as nombreEmpleada,
+sum(round( CAST(float8 (Extract(epoch FROM (s."horaFin" - s."horaInicio")) / 3600) as numeric), 2)) AS horas,
+sum((Extract(epoch FROM (s."horaFin" - s."horaInicio")) / 60) * (8.0/60) +  case when s."suplLevantar" then 2 else 0 end) as euros
+from servicio s 
+inner join empleada e on s."empleadaId" = e.id 
+where s.pagado = false
+group by empleadaid,nombreEmpleada
+
+  `;
+  ctx.response.status = 201;
+  ctx.response.body = {
+    status: StatusCodes.OK,
+    data,
+  };
+
+};
+
+
 const getById= async (ctx: any) => {
     const  id  = Number(ctx?.params?.id);
     const data = await prisma.servicio.findFirst({where: {id}});
@@ -113,5 +184,7 @@ export default {
     getById,
     add, 
     update, 
-    del
+    del,
+    getPresent,
+    getResumenNoPagado
 };

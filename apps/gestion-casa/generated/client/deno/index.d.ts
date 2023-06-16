@@ -53,8 +53,9 @@ export type empleada = {
  */
 export type servicio = {
   id: number
-  fechaInicio: Date
-  fechaFin: Date
+  fecha: Date
+  horaInicio: Date
+  horaFin: Date
   suplLevantar: boolean
   empleadaId: number
   pagado: boolean
@@ -263,7 +264,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 4.14.1
-   * Query Engine version: d9a4c5988f480fa576d43970d5a23641aa77bc9c
+   * Query Engine version: 0362da9eebca54d94c8ef5edd3b2e90af99ba452
    */
   export type PrismaVersion = {
     client: string
@@ -3738,8 +3739,9 @@ export namespace Prisma {
 
   export type ServicioMinAggregateOutputType = {
     id: number | null
-    fechaInicio: Date | null
-    fechaFin: Date | null
+    fecha: Date | null
+    horaInicio: Date | null
+    horaFin: Date | null
     suplLevantar: boolean | null
     empleadaId: number | null
     pagado: boolean | null
@@ -3749,8 +3751,9 @@ export namespace Prisma {
 
   export type ServicioMaxAggregateOutputType = {
     id: number | null
-    fechaInicio: Date | null
-    fechaFin: Date | null
+    fecha: Date | null
+    horaInicio: Date | null
+    horaFin: Date | null
     suplLevantar: boolean | null
     empleadaId: number | null
     pagado: boolean | null
@@ -3760,8 +3763,9 @@ export namespace Prisma {
 
   export type ServicioCountAggregateOutputType = {
     id: number
-    fechaInicio: number
-    fechaFin: number
+    fecha: number
+    horaInicio: number
+    horaFin: number
     suplLevantar: number
     empleadaId: number
     pagado: number
@@ -3783,8 +3787,9 @@ export namespace Prisma {
 
   export type ServicioMinAggregateInputType = {
     id?: true
-    fechaInicio?: true
-    fechaFin?: true
+    fecha?: true
+    horaInicio?: true
+    horaFin?: true
     suplLevantar?: true
     empleadaId?: true
     pagado?: true
@@ -3794,8 +3799,9 @@ export namespace Prisma {
 
   export type ServicioMaxAggregateInputType = {
     id?: true
-    fechaInicio?: true
-    fechaFin?: true
+    fecha?: true
+    horaInicio?: true
+    horaFin?: true
     suplLevantar?: true
     empleadaId?: true
     pagado?: true
@@ -3805,8 +3811,9 @@ export namespace Prisma {
 
   export type ServicioCountAggregateInputType = {
     id?: true
-    fechaInicio?: true
-    fechaFin?: true
+    fecha?: true
+    horaInicio?: true
+    horaFin?: true
     suplLevantar?: true
     empleadaId?: true
     pagado?: true
@@ -3904,8 +3911,9 @@ export namespace Prisma {
 
   export type ServicioGroupByOutputType = {
     id: number
-    fechaInicio: Date
-    fechaFin: Date
+    fecha: Date
+    horaInicio: Date
+    horaFin: Date
     suplLevantar: boolean
     empleadaId: number
     pagado: boolean
@@ -3934,8 +3942,9 @@ export namespace Prisma {
 
   export type servicioSelect = {
     id?: boolean
-    fechaInicio?: boolean
-    fechaFin?: boolean
+    fecha?: boolean
+    horaInicio?: boolean
+    horaFin?: boolean
     suplLevantar?: boolean
     empleadaId?: boolean
     pagado?: boolean
@@ -4745,8 +4754,9 @@ export namespace Prisma {
 
   export const ServicioScalarFieldEnum: {
     id: 'id',
-    fechaInicio: 'fechaInicio',
-    fechaFin: 'fechaFin',
+    fecha: 'fecha',
+    horaInicio: 'horaInicio',
+    horaFin: 'horaFin',
     suplLevantar: 'suplLevantar',
     empleadaId: 'empleadaId',
     pagado: 'pagado',
@@ -4936,8 +4946,9 @@ export namespace Prisma {
     OR?: Enumerable<servicioWhereInput>
     NOT?: Enumerable<servicioWhereInput>
     id?: IntFilter | number
-    fechaInicio?: DateTimeFilter | Date | string
-    fechaFin?: DateTimeFilter | Date | string
+    fecha?: DateTimeFilter | Date | string
+    horaInicio?: DateTimeFilter | Date | string
+    horaFin?: DateTimeFilter | Date | string
     suplLevantar?: BoolFilter | boolean
     empleadaId?: IntFilter | number
     pagado?: BoolFilter | boolean
@@ -4948,8 +4959,9 @@ export namespace Prisma {
 
   export type servicioOrderByWithRelationInput = {
     id?: SortOrder
-    fechaInicio?: SortOrder
-    fechaFin?: SortOrder
+    fecha?: SortOrder
+    horaInicio?: SortOrder
+    horaFin?: SortOrder
     suplLevantar?: SortOrder
     empleadaId?: SortOrder
     pagado?: SortOrder
@@ -4964,8 +4976,9 @@ export namespace Prisma {
 
   export type servicioOrderByWithAggregationInput = {
     id?: SortOrder
-    fechaInicio?: SortOrder
-    fechaFin?: SortOrder
+    fecha?: SortOrder
+    horaInicio?: SortOrder
+    horaFin?: SortOrder
     suplLevantar?: SortOrder
     empleadaId?: SortOrder
     pagado?: SortOrder
@@ -4983,8 +4996,9 @@ export namespace Prisma {
     OR?: Enumerable<servicioScalarWhereWithAggregatesInput>
     NOT?: Enumerable<servicioScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
-    fechaInicio?: DateTimeWithAggregatesFilter | Date | string
-    fechaFin?: DateTimeWithAggregatesFilter | Date | string
+    fecha?: DateTimeWithAggregatesFilter | Date | string
+    horaInicio?: DateTimeWithAggregatesFilter | Date | string
+    horaFin?: DateTimeWithAggregatesFilter | Date | string
     suplLevantar?: BoolWithAggregatesFilter | boolean
     empleadaId?: IntWithAggregatesFilter | number
     pagado?: BoolWithAggregatesFilter | boolean
@@ -5152,8 +5166,9 @@ export namespace Prisma {
   }
 
   export type servicioCreateInput = {
-    fechaInicio: Date | string
-    fechaFin: Date | string
+    fecha: Date | string
+    horaInicio: Date | string
+    horaFin: Date | string
     suplLevantar?: boolean
     pagado?: boolean
     createdAt?: Date | string
@@ -5163,8 +5178,9 @@ export namespace Prisma {
 
   export type servicioUncheckedCreateInput = {
     id?: number
-    fechaInicio: Date | string
-    fechaFin: Date | string
+    fecha: Date | string
+    horaInicio: Date | string
+    horaFin: Date | string
     suplLevantar?: boolean
     empleadaId: number
     pagado?: boolean
@@ -5173,8 +5189,9 @@ export namespace Prisma {
   }
 
   export type servicioUpdateInput = {
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     pagado?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5184,8 +5201,9 @@ export namespace Prisma {
 
   export type servicioUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     empleadaId?: IntFieldUpdateOperationsInput | number
     pagado?: BoolFieldUpdateOperationsInput | boolean
@@ -5195,8 +5213,9 @@ export namespace Prisma {
 
   export type servicioCreateManyInput = {
     id?: number
-    fechaInicio: Date | string
-    fechaFin: Date | string
+    fecha: Date | string
+    horaInicio: Date | string
+    horaFin: Date | string
     suplLevantar?: boolean
     empleadaId: number
     pagado?: boolean
@@ -5205,8 +5224,9 @@ export namespace Prisma {
   }
 
   export type servicioUpdateManyMutationInput = {
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     pagado?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5215,8 +5235,9 @@ export namespace Prisma {
 
   export type servicioUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     empleadaId?: IntFieldUpdateOperationsInput | number
     pagado?: BoolFieldUpdateOperationsInput | boolean
@@ -5432,8 +5453,9 @@ export namespace Prisma {
 
   export type servicioCountOrderByAggregateInput = {
     id?: SortOrder
-    fechaInicio?: SortOrder
-    fechaFin?: SortOrder
+    fecha?: SortOrder
+    horaInicio?: SortOrder
+    horaFin?: SortOrder
     suplLevantar?: SortOrder
     empleadaId?: SortOrder
     pagado?: SortOrder
@@ -5448,8 +5470,9 @@ export namespace Prisma {
 
   export type servicioMaxOrderByAggregateInput = {
     id?: SortOrder
-    fechaInicio?: SortOrder
-    fechaFin?: SortOrder
+    fecha?: SortOrder
+    horaInicio?: SortOrder
+    horaFin?: SortOrder
     suplLevantar?: SortOrder
     empleadaId?: SortOrder
     pagado?: SortOrder
@@ -5459,8 +5482,9 @@ export namespace Prisma {
 
   export type servicioMinOrderByAggregateInput = {
     id?: SortOrder
-    fechaInicio?: SortOrder
-    fechaFin?: SortOrder
+    fecha?: SortOrder
+    horaInicio?: SortOrder
+    horaFin?: SortOrder
     suplLevantar?: SortOrder
     empleadaId?: SortOrder
     pagado?: SortOrder
@@ -5657,8 +5681,9 @@ export namespace Prisma {
   }
 
   export type servicioCreateWithoutEmpleadaInput = {
-    fechaInicio: Date | string
-    fechaFin: Date | string
+    fecha: Date | string
+    horaInicio: Date | string
+    horaFin: Date | string
     suplLevantar?: boolean
     pagado?: boolean
     createdAt?: Date | string
@@ -5667,8 +5692,9 @@ export namespace Prisma {
 
   export type servicioUncheckedCreateWithoutEmpleadaInput = {
     id?: number
-    fechaInicio: Date | string
-    fechaFin: Date | string
+    fecha: Date | string
+    horaInicio: Date | string
+    horaFin: Date | string
     suplLevantar?: boolean
     pagado?: boolean
     createdAt?: Date | string
@@ -5706,8 +5732,9 @@ export namespace Prisma {
     OR?: Enumerable<servicioScalarWhereInput>
     NOT?: Enumerable<servicioScalarWhereInput>
     id?: IntFilter | number
-    fechaInicio?: DateTimeFilter | Date | string
-    fechaFin?: DateTimeFilter | Date | string
+    fecha?: DateTimeFilter | Date | string
+    horaInicio?: DateTimeFilter | Date | string
+    horaFin?: DateTimeFilter | Date | string
     suplLevantar?: BoolFilter | boolean
     empleadaId?: IntFilter | number
     pagado?: BoolFilter | boolean
@@ -5757,8 +5784,9 @@ export namespace Prisma {
 
   export type servicioCreateManyEmpleadaInput = {
     id?: number
-    fechaInicio: Date | string
-    fechaFin: Date | string
+    fecha: Date | string
+    horaInicio: Date | string
+    horaFin: Date | string
     suplLevantar?: boolean
     pagado?: boolean
     createdAt?: Date | string
@@ -5766,8 +5794,9 @@ export namespace Prisma {
   }
 
   export type servicioUpdateWithoutEmpleadaInput = {
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     pagado?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5776,8 +5805,9 @@ export namespace Prisma {
 
   export type servicioUncheckedUpdateWithoutEmpleadaInput = {
     id?: IntFieldUpdateOperationsInput | number
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     pagado?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5786,8 +5816,9 @@ export namespace Prisma {
 
   export type servicioUncheckedUpdateManyWithoutServiciosInput = {
     id?: IntFieldUpdateOperationsInput | number
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     pagado?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

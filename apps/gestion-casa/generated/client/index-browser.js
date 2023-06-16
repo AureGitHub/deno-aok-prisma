@@ -14,11 +14,11 @@ exports.Prisma = Prisma
 
 /**
  * Prisma Client JS version: 4.14.1
- * Query Engine version: d9a4c5988f480fa576d43970d5a23641aa77bc9c
+ * Query Engine version: 0362da9eebca54d94c8ef5edd3b2e90af99ba452
  */
 Prisma.prismaVersion = {
   client: "4.14.1",
-  engine: "d9a4c5988f480fa576d43970d5a23641aa77bc9c"
+  engine: "0362da9eebca54d94c8ef5edd3b2e90af99ba452"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -109,8 +109,9 @@ exports.Prisma.QueryMode = {
 
 exports.Prisma.ServicioScalarFieldEnum = {
   id: 'id',
-  fechaInicio: 'fechaInicio',
-  fechaFin: 'fechaFin',
+  fecha: 'fecha',
+  horaInicio: 'horaInicio',
+  horaFin: 'horaFin',
   suplLevantar: 'suplLevantar',
   empleadaId: 'empleadaId',
   pagado: 'pagado',

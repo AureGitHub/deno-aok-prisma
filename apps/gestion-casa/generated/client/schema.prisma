@@ -44,10 +44,11 @@ model empleada {
 
 model servicio {
   id             Int       @id @default(autoincrement())
-  fechaInicio    DateTime  
-  fechaFin       DateTime  
+  fecha          DateTime  @db.Date       
+  horaInicio     DateTime   @db.Time()
+  horaFin        DateTime   @db.Time()
   suplLevantar   Boolean    @default(false)
-  empleadaId     Int
+  empleadaId     Int  
   empleada       empleada   @relation(fields: [empleadaId], references: [id])
   pagado         Boolean    @default(false)
   createdAt      DateTime   @default(now())
