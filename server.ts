@@ -36,11 +36,6 @@ const today = new Date(timeElapsed);
 
 const now = `${today.toLocaleDateString()}  ${today.toLocaleTimeString()}`;
 
-
-
-
-
-
 app.use(async (ctx, next) => {
 
   await next();
@@ -125,6 +120,7 @@ app.use(async (ctx, next) => {
   const filePath = ctx.request.url.pathname.replace(ROOT_DIR_PATH, "");
   await send(ctx, filePath, {
     root: ROOT_DIR,
+    index: 'index.html'
   });
 });
 
