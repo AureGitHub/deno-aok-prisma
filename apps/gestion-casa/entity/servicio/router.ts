@@ -15,8 +15,12 @@ router
 
 .get("/", requireUser, controller.get)
 .get("/:id", requireUser, controller.getById)
+
 .post("/", requireUser, controller.add)
+
+.put("/upServPagado/:empleadaid", requireUser,  controller.upServPagado)
 .put("/:id", requireUser,  controller.update)
+
 .delete("/:id", requireUser,  controller.del)
 
 

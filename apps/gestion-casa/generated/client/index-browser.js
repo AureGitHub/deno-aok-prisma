@@ -138,12 +138,19 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.TurnoScalarFieldEnum = {
+  id: 'id',
+  fecha: 'fecha',
+  quien: 'quien'
+};
+
 
 exports.Prisma.ModelName = {
   TC_tiposGastos: 'TC_tiposGastos',
   casa: 'casa',
   empleada: 'empleada',
-  servicio: 'servicio'
+  servicio: 'servicio',
+  turno: 'turno'
 };
 
 /**

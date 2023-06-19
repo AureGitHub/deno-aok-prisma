@@ -124,6 +124,37 @@ const add = async (ctx: any) => {
   };
 
 
+
+  const upServPagado = async (ctx: any) =>  {
+    try {
+  
+  
+      const  empleadaId  = Number(ctx?.params?.empleadaid);
+      
+      const data = await prisma.servicio.updateMany({
+        where: {empleadaId , pagado : false  },
+        data: {pagado: true}
+      })
+  
+  
+      ctx.response.status = 200;
+      ctx.response.body = {
+        status: StatusCodes.OK,
+        data,
+      };
+    } catch (error) {
+      ctx.response.status = 500;
+      ctx.response.body = {
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
+        message: error.message,
+      };
+      return;
+    }
+  };
+
+  
+
+
   const update = async (ctx: any) =>  {
     try {
   
@@ -186,5 +217,6 @@ export default {
     update, 
     del,
     getPresent,
-    getResumenNoPagado
+    getResumenNoPagado,
+    upServPagado
 };

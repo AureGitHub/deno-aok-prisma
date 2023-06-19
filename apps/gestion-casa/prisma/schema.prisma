@@ -56,6 +56,13 @@ model servicio {
 }
 
 
+model turno {
+  id         Int       @id @default(autoincrement())
+  fecha      DateTime  @db.Date     
+  quien      String
+}
+
+
 
 
 

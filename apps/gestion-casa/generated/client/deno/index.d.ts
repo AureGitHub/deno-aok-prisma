@@ -63,6 +63,16 @@ export type servicio = {
   updatedAt: Date
 }
 
+/**
+ * Model turno
+ * 
+ */
+export type turno = {
+  id: number
+  fecha: Date
+  quien: string
+}
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -220,6 +230,16 @@ export class PrismaClient<
     * ```
     */
   get servicio(): Prisma.servicioDelegate<GlobalReject>;
+
+  /**
+   * `prisma.turno`: Exposes CRUD operations for the **turno** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Turnos
+    * const turnos = await prisma.turno.findMany()
+    * ```
+    */
+  get turno(): Prisma.turnoDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -692,7 +712,8 @@ export namespace Prisma {
     TC_tiposGastos: 'TC_tiposGastos',
     casa: 'casa',
     empleada: 'empleada',
-    servicio: 'servicio'
+    servicio: 'servicio',
+    turno: 'turno'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -4716,6 +4737,906 @@ export namespace Prisma {
 
 
   /**
+   * Model turno
+   */
+
+
+  export type AggregateTurno = {
+    _count: TurnoCountAggregateOutputType | null
+    _avg: TurnoAvgAggregateOutputType | null
+    _sum: TurnoSumAggregateOutputType | null
+    _min: TurnoMinAggregateOutputType | null
+    _max: TurnoMaxAggregateOutputType | null
+  }
+
+  export type TurnoAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type TurnoSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type TurnoMinAggregateOutputType = {
+    id: number | null
+    fecha: Date | null
+    quien: string | null
+  }
+
+  export type TurnoMaxAggregateOutputType = {
+    id: number | null
+    fecha: Date | null
+    quien: string | null
+  }
+
+  export type TurnoCountAggregateOutputType = {
+    id: number
+    fecha: number
+    quien: number
+    _all: number
+  }
+
+
+  export type TurnoAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type TurnoSumAggregateInputType = {
+    id?: true
+  }
+
+  export type TurnoMinAggregateInputType = {
+    id?: true
+    fecha?: true
+    quien?: true
+  }
+
+  export type TurnoMaxAggregateInputType = {
+    id?: true
+    fecha?: true
+    quien?: true
+  }
+
+  export type TurnoCountAggregateInputType = {
+    id?: true
+    fecha?: true
+    quien?: true
+    _all?: true
+  }
+
+  export type TurnoAggregateArgs = {
+    /**
+     * Filter which turno to aggregate.
+     */
+    where?: turnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of turnos to fetch.
+     */
+    orderBy?: Enumerable<turnoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: turnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` turnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` turnos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned turnos
+    **/
+    _count?: true | TurnoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TurnoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TurnoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TurnoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TurnoMaxAggregateInputType
+  }
+
+  export type GetTurnoAggregateType<T extends TurnoAggregateArgs> = {
+        [P in keyof T & keyof AggregateTurno]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTurno[P]>
+      : GetScalarType<T[P], AggregateTurno[P]>
+  }
+
+
+
+
+  export type TurnoGroupByArgs = {
+    where?: turnoWhereInput
+    orderBy?: Enumerable<turnoOrderByWithAggregationInput>
+    by: TurnoScalarFieldEnum[]
+    having?: turnoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TurnoCountAggregateInputType | true
+    _avg?: TurnoAvgAggregateInputType
+    _sum?: TurnoSumAggregateInputType
+    _min?: TurnoMinAggregateInputType
+    _max?: TurnoMaxAggregateInputType
+  }
+
+
+  export type TurnoGroupByOutputType = {
+    id: number
+    fecha: Date
+    quien: string
+    _count: TurnoCountAggregateOutputType | null
+    _avg: TurnoAvgAggregateOutputType | null
+    _sum: TurnoSumAggregateOutputType | null
+    _min: TurnoMinAggregateOutputType | null
+    _max: TurnoMaxAggregateOutputType | null
+  }
+
+  type GetTurnoGroupByPayload<T extends TurnoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<TurnoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TurnoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TurnoGroupByOutputType[P]>
+            : GetScalarType<T[P], TurnoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type turnoSelect = {
+    id?: boolean
+    fecha?: boolean
+    quien?: boolean
+  }
+
+
+  export type turnoGetPayload<S extends boolean | null | undefined | turnoArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? turno :
+    S extends undefined ? never :
+    S extends { include: any } & (turnoArgs | turnoFindManyArgs)
+    ? turno 
+    : S extends { select: any } & (turnoArgs | turnoFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof turno ? turno[P] : never
+  } 
+      : turno
+
+
+  type turnoCountArgs = 
+    Omit<turnoFindManyArgs, 'select' | 'include'> & {
+      select?: TurnoCountAggregateInputType | true
+    }
+
+  export interface turnoDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Turno that matches the filter.
+     * @param {turnoFindUniqueArgs} args - Arguments to find a Turno
+     * @example
+     * // Get one Turno
+     * const turno = await prisma.turno.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends turnoFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, turnoFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'turno'> extends True ? Prisma__turnoClient<turnoGetPayload<T>> : Prisma__turnoClient<turnoGetPayload<T> | null, null>
+
+    /**
+     * Find one Turno that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {turnoFindUniqueOrThrowArgs} args - Arguments to find a Turno
+     * @example
+     * // Get one Turno
+     * const turno = await prisma.turno.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends turnoFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, turnoFindUniqueOrThrowArgs>
+    ): Prisma__turnoClient<turnoGetPayload<T>>
+
+    /**
+     * Find the first Turno that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {turnoFindFirstArgs} args - Arguments to find a Turno
+     * @example
+     * // Get one Turno
+     * const turno = await prisma.turno.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends turnoFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, turnoFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'turno'> extends True ? Prisma__turnoClient<turnoGetPayload<T>> : Prisma__turnoClient<turnoGetPayload<T> | null, null>
+
+    /**
+     * Find the first Turno that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {turnoFindFirstOrThrowArgs} args - Arguments to find a Turno
+     * @example
+     * // Get one Turno
+     * const turno = await prisma.turno.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends turnoFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, turnoFindFirstOrThrowArgs>
+    ): Prisma__turnoClient<turnoGetPayload<T>>
+
+    /**
+     * Find zero or more Turnos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {turnoFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Turnos
+     * const turnos = await prisma.turno.findMany()
+     * 
+     * // Get first 10 Turnos
+     * const turnos = await prisma.turno.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const turnoWithIdOnly = await prisma.turno.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends turnoFindManyArgs>(
+      args?: SelectSubset<T, turnoFindManyArgs>
+    ): Prisma.PrismaPromise<Array<turnoGetPayload<T>>>
+
+    /**
+     * Create a Turno.
+     * @param {turnoCreateArgs} args - Arguments to create a Turno.
+     * @example
+     * // Create one Turno
+     * const Turno = await prisma.turno.create({
+     *   data: {
+     *     // ... data to create a Turno
+     *   }
+     * })
+     * 
+    **/
+    create<T extends turnoCreateArgs>(
+      args: SelectSubset<T, turnoCreateArgs>
+    ): Prisma__turnoClient<turnoGetPayload<T>>
+
+    /**
+     * Create many Turnos.
+     *     @param {turnoCreateManyArgs} args - Arguments to create many Turnos.
+     *     @example
+     *     // Create many Turnos
+     *     const turno = await prisma.turno.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends turnoCreateManyArgs>(
+      args?: SelectSubset<T, turnoCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Turno.
+     * @param {turnoDeleteArgs} args - Arguments to delete one Turno.
+     * @example
+     * // Delete one Turno
+     * const Turno = await prisma.turno.delete({
+     *   where: {
+     *     // ... filter to delete one Turno
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends turnoDeleteArgs>(
+      args: SelectSubset<T, turnoDeleteArgs>
+    ): Prisma__turnoClient<turnoGetPayload<T>>
+
+    /**
+     * Update one Turno.
+     * @param {turnoUpdateArgs} args - Arguments to update one Turno.
+     * @example
+     * // Update one Turno
+     * const turno = await prisma.turno.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends turnoUpdateArgs>(
+      args: SelectSubset<T, turnoUpdateArgs>
+    ): Prisma__turnoClient<turnoGetPayload<T>>
+
+    /**
+     * Delete zero or more Turnos.
+     * @param {turnoDeleteManyArgs} args - Arguments to filter Turnos to delete.
+     * @example
+     * // Delete a few Turnos
+     * const { count } = await prisma.turno.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends turnoDeleteManyArgs>(
+      args?: SelectSubset<T, turnoDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Turnos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {turnoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Turnos
+     * const turno = await prisma.turno.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends turnoUpdateManyArgs>(
+      args: SelectSubset<T, turnoUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Turno.
+     * @param {turnoUpsertArgs} args - Arguments to update or create a Turno.
+     * @example
+     * // Update or create a Turno
+     * const turno = await prisma.turno.upsert({
+     *   create: {
+     *     // ... data to create a Turno
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Turno we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends turnoUpsertArgs>(
+      args: SelectSubset<T, turnoUpsertArgs>
+    ): Prisma__turnoClient<turnoGetPayload<T>>
+
+    /**
+     * Count the number of Turnos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {turnoCountArgs} args - Arguments to filter Turnos to count.
+     * @example
+     * // Count the number of Turnos
+     * const count = await prisma.turno.count({
+     *   where: {
+     *     // ... the filter for the Turnos we want to count
+     *   }
+     * })
+    **/
+    count<T extends turnoCountArgs>(
+      args?: Subset<T, turnoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TurnoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Turno.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TurnoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TurnoAggregateArgs>(args: Subset<T, TurnoAggregateArgs>): Prisma.PrismaPromise<GetTurnoAggregateType<T>>
+
+    /**
+     * Group by Turno.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TurnoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TurnoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TurnoGroupByArgs['orderBy'] }
+        : { orderBy?: TurnoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TurnoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTurnoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for turno.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__turnoClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * turno base type for findUnique actions
+   */
+  export type turnoFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the turno
+     */
+    select?: turnoSelect | null
+    /**
+     * Filter, which turno to fetch.
+     */
+    where: turnoWhereUniqueInput
+  }
+
+  /**
+   * turno findUnique
+   */
+  export interface turnoFindUniqueArgs extends turnoFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * turno findUniqueOrThrow
+   */
+  export type turnoFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the turno
+     */
+    select?: turnoSelect | null
+    /**
+     * Filter, which turno to fetch.
+     */
+    where: turnoWhereUniqueInput
+  }
+
+
+  /**
+   * turno base type for findFirst actions
+   */
+  export type turnoFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the turno
+     */
+    select?: turnoSelect | null
+    /**
+     * Filter, which turno to fetch.
+     */
+    where?: turnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of turnos to fetch.
+     */
+    orderBy?: Enumerable<turnoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for turnos.
+     */
+    cursor?: turnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` turnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` turnos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of turnos.
+     */
+    distinct?: Enumerable<TurnoScalarFieldEnum>
+  }
+
+  /**
+   * turno findFirst
+   */
+  export interface turnoFindFirstArgs extends turnoFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * turno findFirstOrThrow
+   */
+  export type turnoFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the turno
+     */
+    select?: turnoSelect | null
+    /**
+     * Filter, which turno to fetch.
+     */
+    where?: turnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of turnos to fetch.
+     */
+    orderBy?: Enumerable<turnoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for turnos.
+     */
+    cursor?: turnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` turnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` turnos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of turnos.
+     */
+    distinct?: Enumerable<TurnoScalarFieldEnum>
+  }
+
+
+  /**
+   * turno findMany
+   */
+  export type turnoFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the turno
+     */
+    select?: turnoSelect | null
+    /**
+     * Filter, which turnos to fetch.
+     */
+    where?: turnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of turnos to fetch.
+     */
+    orderBy?: Enumerable<turnoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing turnos.
+     */
+    cursor?: turnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` turnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` turnos.
+     */
+    skip?: number
+    distinct?: Enumerable<TurnoScalarFieldEnum>
+  }
+
+
+  /**
+   * turno create
+   */
+  export type turnoCreateArgs = {
+    /**
+     * Select specific fields to fetch from the turno
+     */
+    select?: turnoSelect | null
+    /**
+     * The data needed to create a turno.
+     */
+    data: XOR<turnoCreateInput, turnoUncheckedCreateInput>
+  }
+
+
+  /**
+   * turno createMany
+   */
+  export type turnoCreateManyArgs = {
+    /**
+     * The data used to create many turnos.
+     */
+    data: Enumerable<turnoCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * turno update
+   */
+  export type turnoUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the turno
+     */
+    select?: turnoSelect | null
+    /**
+     * The data needed to update a turno.
+     */
+    data: XOR<turnoUpdateInput, turnoUncheckedUpdateInput>
+    /**
+     * Choose, which turno to update.
+     */
+    where: turnoWhereUniqueInput
+  }
+
+
+  /**
+   * turno updateMany
+   */
+  export type turnoUpdateManyArgs = {
+    /**
+     * The data used to update turnos.
+     */
+    data: XOR<turnoUpdateManyMutationInput, turnoUncheckedUpdateManyInput>
+    /**
+     * Filter which turnos to update
+     */
+    where?: turnoWhereInput
+  }
+
+
+  /**
+   * turno upsert
+   */
+  export type turnoUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the turno
+     */
+    select?: turnoSelect | null
+    /**
+     * The filter to search for the turno to update in case it exists.
+     */
+    where: turnoWhereUniqueInput
+    /**
+     * In case the turno found by the `where` argument doesn't exist, create a new turno with this data.
+     */
+    create: XOR<turnoCreateInput, turnoUncheckedCreateInput>
+    /**
+     * In case the turno was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<turnoUpdateInput, turnoUncheckedUpdateInput>
+  }
+
+
+  /**
+   * turno delete
+   */
+  export type turnoDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the turno
+     */
+    select?: turnoSelect | null
+    /**
+     * Filter which turno to delete.
+     */
+    where: turnoWhereUniqueInput
+  }
+
+
+  /**
+   * turno deleteMany
+   */
+  export type turnoDeleteManyArgs = {
+    /**
+     * Filter which turnos to delete
+     */
+    where?: turnoWhereInput
+  }
+
+
+  /**
+   * turno without action
+   */
+  export type turnoArgs = {
+    /**
+     * Select specific fields to fetch from the turno
+     */
+    select?: turnoSelect | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -4793,6 +5714,15 @@ export namespace Prisma {
   };
 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+  export const TurnoScalarFieldEnum: {
+    id: 'id',
+    fecha: 'fecha',
+    quien: 'quien'
+  };
+
+  export type TurnoScalarFieldEnum = (typeof TurnoScalarFieldEnum)[keyof typeof TurnoScalarFieldEnum]
 
 
   /**
@@ -5004,6 +5934,45 @@ export namespace Prisma {
     pagado?: BoolWithAggregatesFilter | boolean
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type turnoWhereInput = {
+    AND?: Enumerable<turnoWhereInput>
+    OR?: Enumerable<turnoWhereInput>
+    NOT?: Enumerable<turnoWhereInput>
+    id?: IntFilter | number
+    fecha?: DateTimeFilter | Date | string
+    quien?: StringFilter | string
+  }
+
+  export type turnoOrderByWithRelationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    quien?: SortOrder
+  }
+
+  export type turnoWhereUniqueInput = {
+    id?: number
+  }
+
+  export type turnoOrderByWithAggregationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    quien?: SortOrder
+    _count?: turnoCountOrderByAggregateInput
+    _avg?: turnoAvgOrderByAggregateInput
+    _max?: turnoMaxOrderByAggregateInput
+    _min?: turnoMinOrderByAggregateInput
+    _sum?: turnoSumOrderByAggregateInput
+  }
+
+  export type turnoScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<turnoScalarWhereWithAggregatesInput>
+    OR?: Enumerable<turnoScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<turnoScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    fecha?: DateTimeWithAggregatesFilter | Date | string
+    quien?: StringWithAggregatesFilter | string
   }
 
   export type TC_tiposGastosCreateInput = {
@@ -5243,6 +6212,45 @@ export namespace Prisma {
     pagado?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type turnoCreateInput = {
+    fecha: Date | string
+    quien: string
+  }
+
+  export type turnoUncheckedCreateInput = {
+    id?: number
+    fecha: Date | string
+    quien: string
+  }
+
+  export type turnoUpdateInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    quien?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type turnoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    quien?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type turnoCreateManyInput = {
+    id?: number
+    fecha: Date | string
+    quien: string
+  }
+
+  export type turnoUpdateManyMutationInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    quien?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type turnoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    quien?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter = {
@@ -5495,6 +6503,32 @@ export namespace Prisma {
   export type servicioSumOrderByAggregateInput = {
     id?: SortOrder
     empleadaId?: SortOrder
+  }
+
+  export type turnoCountOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    quien?: SortOrder
+  }
+
+  export type turnoAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type turnoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    quien?: SortOrder
+  }
+
+  export type turnoMinOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    quien?: SortOrder
+  }
+
+  export type turnoSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type IntFieldUpdateOperationsInput = {
