@@ -86,6 +86,13 @@ Prisma.NullTypes = {
  * Enums
  */
 
+exports.Prisma.AgendaScalarFieldEnum = {
+  id: 'id',
+  fecha: 'fecha',
+  tipoagendaId: 'tipoagendaId',
+  observacion: 'observacion'
+};
+
 exports.Prisma.CasaScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
@@ -131,6 +138,11 @@ exports.Prisma.TC_tiposGastosScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TipoagendaScalarFieldEnum = {
+  id: 'id',
+  descripcion: 'descripcion'
+};
+
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
@@ -150,7 +162,9 @@ exports.Prisma.ModelName = {
   casa: 'casa',
   empleada: 'empleada',
   servicio: 'servicio',
-  turno: 'turno'
+  turno: 'turno',
+  agenda: 'agenda',
+  tipoagenda: 'tipoagenda'
 };
 
 /**

@@ -63,6 +63,21 @@ model turno {
 }
 
 
+model agenda {
+  id               Int       @id @default(autoincrement())
+  fecha            DateTime  @db.Date     
+  tipoagendaId     Int
+  tipo           tipoagenda   @relation(fields: [tipoagendaId], references: [id])
+  observacion      String
+}
+
+model tipoagenda {
+   id            Int  @id
+   descripcion   String  @unique
+   agendas      agenda[] 
+}
+
+
 
 
 

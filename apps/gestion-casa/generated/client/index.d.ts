@@ -73,6 +73,26 @@ export type turno = {
   quien: string
 }
 
+/**
+ * Model agenda
+ * 
+ */
+export type agenda = {
+  id: number
+  fecha: Date
+  tipoagendaId: number
+  observacion: string
+}
+
+/**
+ * Model tipoagenda
+ * 
+ */
+export type tipoagenda = {
+  id: number
+  descripcion: string
+}
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -240,6 +260,26 @@ export class PrismaClient<
     * ```
     */
   get turno(): Prisma.turnoDelegate<GlobalReject>;
+
+  /**
+   * `prisma.agenda`: Exposes CRUD operations for the **agenda** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Agenda
+    * const agenda = await prisma.agenda.findMany()
+    * ```
+    */
+  get agenda(): Prisma.agendaDelegate<GlobalReject>;
+
+  /**
+   * `prisma.tipoagenda`: Exposes CRUD operations for the **tipoagenda** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tipoagenda
+    * const tipoagenda = await prisma.tipoagenda.findMany()
+    * ```
+    */
+  get tipoagenda(): Prisma.tipoagendaDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -713,7 +753,9 @@ export namespace Prisma {
     casa: 'casa',
     empleada: 'empleada',
     servicio: 'servicio',
-    turno: 'turno'
+    turno: 'turno',
+    agenda: 'agenda',
+    tipoagenda: 'tipoagenda'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -913,6 +955,49 @@ export namespace Prisma {
      * Select specific fields to fetch from the EmpleadaCountOutputType
      */
     select?: EmpleadaCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type TipoagendaCountOutputType
+   */
+
+
+  export type TipoagendaCountOutputType = {
+    agendas: number
+  }
+
+  export type TipoagendaCountOutputTypeSelect = {
+    agendas?: boolean
+  }
+
+  export type TipoagendaCountOutputTypeGetPayload<S extends boolean | null | undefined | TipoagendaCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? TipoagendaCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (TipoagendaCountOutputTypeArgs)
+    ? TipoagendaCountOutputType 
+    : S extends { select: any } & (TipoagendaCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof TipoagendaCountOutputType ? TipoagendaCountOutputType[P] : never
+  } 
+      : TipoagendaCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * TipoagendaCountOutputType without action
+   */
+  export type TipoagendaCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the TipoagendaCountOutputType
+     */
+    select?: TipoagendaCountOutputTypeSelect | null
   }
 
 
@@ -5637,11 +5722,1948 @@ export namespace Prisma {
 
 
   /**
+   * Model agenda
+   */
+
+
+  export type AggregateAgenda = {
+    _count: AgendaCountAggregateOutputType | null
+    _avg: AgendaAvgAggregateOutputType | null
+    _sum: AgendaSumAggregateOutputType | null
+    _min: AgendaMinAggregateOutputType | null
+    _max: AgendaMaxAggregateOutputType | null
+  }
+
+  export type AgendaAvgAggregateOutputType = {
+    id: number | null
+    tipoagendaId: number | null
+  }
+
+  export type AgendaSumAggregateOutputType = {
+    id: number | null
+    tipoagendaId: number | null
+  }
+
+  export type AgendaMinAggregateOutputType = {
+    id: number | null
+    fecha: Date | null
+    tipoagendaId: number | null
+    observacion: string | null
+  }
+
+  export type AgendaMaxAggregateOutputType = {
+    id: number | null
+    fecha: Date | null
+    tipoagendaId: number | null
+    observacion: string | null
+  }
+
+  export type AgendaCountAggregateOutputType = {
+    id: number
+    fecha: number
+    tipoagendaId: number
+    observacion: number
+    _all: number
+  }
+
+
+  export type AgendaAvgAggregateInputType = {
+    id?: true
+    tipoagendaId?: true
+  }
+
+  export type AgendaSumAggregateInputType = {
+    id?: true
+    tipoagendaId?: true
+  }
+
+  export type AgendaMinAggregateInputType = {
+    id?: true
+    fecha?: true
+    tipoagendaId?: true
+    observacion?: true
+  }
+
+  export type AgendaMaxAggregateInputType = {
+    id?: true
+    fecha?: true
+    tipoagendaId?: true
+    observacion?: true
+  }
+
+  export type AgendaCountAggregateInputType = {
+    id?: true
+    fecha?: true
+    tipoagendaId?: true
+    observacion?: true
+    _all?: true
+  }
+
+  export type AgendaAggregateArgs = {
+    /**
+     * Filter which agenda to aggregate.
+     */
+    where?: agendaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of agenda to fetch.
+     */
+    orderBy?: Enumerable<agendaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: agendaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` agenda from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` agenda.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned agenda
+    **/
+    _count?: true | AgendaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AgendaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AgendaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AgendaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AgendaMaxAggregateInputType
+  }
+
+  export type GetAgendaAggregateType<T extends AgendaAggregateArgs> = {
+        [P in keyof T & keyof AggregateAgenda]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAgenda[P]>
+      : GetScalarType<T[P], AggregateAgenda[P]>
+  }
+
+
+
+
+  export type AgendaGroupByArgs = {
+    where?: agendaWhereInput
+    orderBy?: Enumerable<agendaOrderByWithAggregationInput>
+    by: AgendaScalarFieldEnum[]
+    having?: agendaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AgendaCountAggregateInputType | true
+    _avg?: AgendaAvgAggregateInputType
+    _sum?: AgendaSumAggregateInputType
+    _min?: AgendaMinAggregateInputType
+    _max?: AgendaMaxAggregateInputType
+  }
+
+
+  export type AgendaGroupByOutputType = {
+    id: number
+    fecha: Date
+    tipoagendaId: number
+    observacion: string
+    _count: AgendaCountAggregateOutputType | null
+    _avg: AgendaAvgAggregateOutputType | null
+    _sum: AgendaSumAggregateOutputType | null
+    _min: AgendaMinAggregateOutputType | null
+    _max: AgendaMaxAggregateOutputType | null
+  }
+
+  type GetAgendaGroupByPayload<T extends AgendaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<AgendaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AgendaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AgendaGroupByOutputType[P]>
+            : GetScalarType<T[P], AgendaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type agendaSelect = {
+    id?: boolean
+    fecha?: boolean
+    tipoagendaId?: boolean
+    observacion?: boolean
+    tipo?: boolean | tipoagendaArgs
+  }
+
+
+  export type agendaInclude = {
+    tipo?: boolean | tipoagendaArgs
+  }
+
+  export type agendaGetPayload<S extends boolean | null | undefined | agendaArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? agenda :
+    S extends undefined ? never :
+    S extends { include: any } & (agendaArgs | agendaFindManyArgs)
+    ? agenda  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'tipo' ? tipoagendaGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (agendaArgs | agendaFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'tipo' ? tipoagendaGetPayload<S['select'][P]> :  P extends keyof agenda ? agenda[P] : never
+  } 
+      : agenda
+
+
+  type agendaCountArgs = 
+    Omit<agendaFindManyArgs, 'select' | 'include'> & {
+      select?: AgendaCountAggregateInputType | true
+    }
+
+  export interface agendaDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Agenda that matches the filter.
+     * @param {agendaFindUniqueArgs} args - Arguments to find a Agenda
+     * @example
+     * // Get one Agenda
+     * const agenda = await prisma.agenda.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends agendaFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, agendaFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'agenda'> extends True ? Prisma__agendaClient<agendaGetPayload<T>> : Prisma__agendaClient<agendaGetPayload<T> | null, null>
+
+    /**
+     * Find one Agenda that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {agendaFindUniqueOrThrowArgs} args - Arguments to find a Agenda
+     * @example
+     * // Get one Agenda
+     * const agenda = await prisma.agenda.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends agendaFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, agendaFindUniqueOrThrowArgs>
+    ): Prisma__agendaClient<agendaGetPayload<T>>
+
+    /**
+     * Find the first Agenda that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {agendaFindFirstArgs} args - Arguments to find a Agenda
+     * @example
+     * // Get one Agenda
+     * const agenda = await prisma.agenda.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends agendaFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, agendaFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'agenda'> extends True ? Prisma__agendaClient<agendaGetPayload<T>> : Prisma__agendaClient<agendaGetPayload<T> | null, null>
+
+    /**
+     * Find the first Agenda that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {agendaFindFirstOrThrowArgs} args - Arguments to find a Agenda
+     * @example
+     * // Get one Agenda
+     * const agenda = await prisma.agenda.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends agendaFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, agendaFindFirstOrThrowArgs>
+    ): Prisma__agendaClient<agendaGetPayload<T>>
+
+    /**
+     * Find zero or more Agenda that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {agendaFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Agenda
+     * const agenda = await prisma.agenda.findMany()
+     * 
+     * // Get first 10 Agenda
+     * const agenda = await prisma.agenda.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const agendaWithIdOnly = await prisma.agenda.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends agendaFindManyArgs>(
+      args?: SelectSubset<T, agendaFindManyArgs>
+    ): Prisma.PrismaPromise<Array<agendaGetPayload<T>>>
+
+    /**
+     * Create a Agenda.
+     * @param {agendaCreateArgs} args - Arguments to create a Agenda.
+     * @example
+     * // Create one Agenda
+     * const Agenda = await prisma.agenda.create({
+     *   data: {
+     *     // ... data to create a Agenda
+     *   }
+     * })
+     * 
+    **/
+    create<T extends agendaCreateArgs>(
+      args: SelectSubset<T, agendaCreateArgs>
+    ): Prisma__agendaClient<agendaGetPayload<T>>
+
+    /**
+     * Create many Agenda.
+     *     @param {agendaCreateManyArgs} args - Arguments to create many Agenda.
+     *     @example
+     *     // Create many Agenda
+     *     const agenda = await prisma.agenda.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends agendaCreateManyArgs>(
+      args?: SelectSubset<T, agendaCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Agenda.
+     * @param {agendaDeleteArgs} args - Arguments to delete one Agenda.
+     * @example
+     * // Delete one Agenda
+     * const Agenda = await prisma.agenda.delete({
+     *   where: {
+     *     // ... filter to delete one Agenda
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends agendaDeleteArgs>(
+      args: SelectSubset<T, agendaDeleteArgs>
+    ): Prisma__agendaClient<agendaGetPayload<T>>
+
+    /**
+     * Update one Agenda.
+     * @param {agendaUpdateArgs} args - Arguments to update one Agenda.
+     * @example
+     * // Update one Agenda
+     * const agenda = await prisma.agenda.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends agendaUpdateArgs>(
+      args: SelectSubset<T, agendaUpdateArgs>
+    ): Prisma__agendaClient<agendaGetPayload<T>>
+
+    /**
+     * Delete zero or more Agenda.
+     * @param {agendaDeleteManyArgs} args - Arguments to filter Agenda to delete.
+     * @example
+     * // Delete a few Agenda
+     * const { count } = await prisma.agenda.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends agendaDeleteManyArgs>(
+      args?: SelectSubset<T, agendaDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Agenda.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {agendaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Agenda
+     * const agenda = await prisma.agenda.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends agendaUpdateManyArgs>(
+      args: SelectSubset<T, agendaUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Agenda.
+     * @param {agendaUpsertArgs} args - Arguments to update or create a Agenda.
+     * @example
+     * // Update or create a Agenda
+     * const agenda = await prisma.agenda.upsert({
+     *   create: {
+     *     // ... data to create a Agenda
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Agenda we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends agendaUpsertArgs>(
+      args: SelectSubset<T, agendaUpsertArgs>
+    ): Prisma__agendaClient<agendaGetPayload<T>>
+
+    /**
+     * Count the number of Agenda.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {agendaCountArgs} args - Arguments to filter Agenda to count.
+     * @example
+     * // Count the number of Agenda
+     * const count = await prisma.agenda.count({
+     *   where: {
+     *     // ... the filter for the Agenda we want to count
+     *   }
+     * })
+    **/
+    count<T extends agendaCountArgs>(
+      args?: Subset<T, agendaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AgendaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Agenda.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgendaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AgendaAggregateArgs>(args: Subset<T, AgendaAggregateArgs>): Prisma.PrismaPromise<GetAgendaAggregateType<T>>
+
+    /**
+     * Group by Agenda.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgendaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AgendaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AgendaGroupByArgs['orderBy'] }
+        : { orderBy?: AgendaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AgendaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAgendaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for agenda.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__agendaClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    tipo<T extends tipoagendaArgs= {}>(args?: Subset<T, tipoagendaArgs>): Prisma__tipoagendaClient<tipoagendaGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * agenda base type for findUnique actions
+   */
+  export type agendaFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the agenda
+     */
+    select?: agendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: agendaInclude | null
+    /**
+     * Filter, which agenda to fetch.
+     */
+    where: agendaWhereUniqueInput
+  }
+
+  /**
+   * agenda findUnique
+   */
+  export interface agendaFindUniqueArgs extends agendaFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * agenda findUniqueOrThrow
+   */
+  export type agendaFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the agenda
+     */
+    select?: agendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: agendaInclude | null
+    /**
+     * Filter, which agenda to fetch.
+     */
+    where: agendaWhereUniqueInput
+  }
+
+
+  /**
+   * agenda base type for findFirst actions
+   */
+  export type agendaFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the agenda
+     */
+    select?: agendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: agendaInclude | null
+    /**
+     * Filter, which agenda to fetch.
+     */
+    where?: agendaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of agenda to fetch.
+     */
+    orderBy?: Enumerable<agendaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for agenda.
+     */
+    cursor?: agendaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` agenda from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` agenda.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of agenda.
+     */
+    distinct?: Enumerable<AgendaScalarFieldEnum>
+  }
+
+  /**
+   * agenda findFirst
+   */
+  export interface agendaFindFirstArgs extends agendaFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * agenda findFirstOrThrow
+   */
+  export type agendaFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the agenda
+     */
+    select?: agendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: agendaInclude | null
+    /**
+     * Filter, which agenda to fetch.
+     */
+    where?: agendaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of agenda to fetch.
+     */
+    orderBy?: Enumerable<agendaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for agenda.
+     */
+    cursor?: agendaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` agenda from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` agenda.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of agenda.
+     */
+    distinct?: Enumerable<AgendaScalarFieldEnum>
+  }
+
+
+  /**
+   * agenda findMany
+   */
+  export type agendaFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the agenda
+     */
+    select?: agendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: agendaInclude | null
+    /**
+     * Filter, which agenda to fetch.
+     */
+    where?: agendaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of agenda to fetch.
+     */
+    orderBy?: Enumerable<agendaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing agenda.
+     */
+    cursor?: agendaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` agenda from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` agenda.
+     */
+    skip?: number
+    distinct?: Enumerable<AgendaScalarFieldEnum>
+  }
+
+
+  /**
+   * agenda create
+   */
+  export type agendaCreateArgs = {
+    /**
+     * Select specific fields to fetch from the agenda
+     */
+    select?: agendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: agendaInclude | null
+    /**
+     * The data needed to create a agenda.
+     */
+    data: XOR<agendaCreateInput, agendaUncheckedCreateInput>
+  }
+
+
+  /**
+   * agenda createMany
+   */
+  export type agendaCreateManyArgs = {
+    /**
+     * The data used to create many agenda.
+     */
+    data: Enumerable<agendaCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * agenda update
+   */
+  export type agendaUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the agenda
+     */
+    select?: agendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: agendaInclude | null
+    /**
+     * The data needed to update a agenda.
+     */
+    data: XOR<agendaUpdateInput, agendaUncheckedUpdateInput>
+    /**
+     * Choose, which agenda to update.
+     */
+    where: agendaWhereUniqueInput
+  }
+
+
+  /**
+   * agenda updateMany
+   */
+  export type agendaUpdateManyArgs = {
+    /**
+     * The data used to update agenda.
+     */
+    data: XOR<agendaUpdateManyMutationInput, agendaUncheckedUpdateManyInput>
+    /**
+     * Filter which agenda to update
+     */
+    where?: agendaWhereInput
+  }
+
+
+  /**
+   * agenda upsert
+   */
+  export type agendaUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the agenda
+     */
+    select?: agendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: agendaInclude | null
+    /**
+     * The filter to search for the agenda to update in case it exists.
+     */
+    where: agendaWhereUniqueInput
+    /**
+     * In case the agenda found by the `where` argument doesn't exist, create a new agenda with this data.
+     */
+    create: XOR<agendaCreateInput, agendaUncheckedCreateInput>
+    /**
+     * In case the agenda was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<agendaUpdateInput, agendaUncheckedUpdateInput>
+  }
+
+
+  /**
+   * agenda delete
+   */
+  export type agendaDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the agenda
+     */
+    select?: agendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: agendaInclude | null
+    /**
+     * Filter which agenda to delete.
+     */
+    where: agendaWhereUniqueInput
+  }
+
+
+  /**
+   * agenda deleteMany
+   */
+  export type agendaDeleteManyArgs = {
+    /**
+     * Filter which agenda to delete
+     */
+    where?: agendaWhereInput
+  }
+
+
+  /**
+   * agenda without action
+   */
+  export type agendaArgs = {
+    /**
+     * Select specific fields to fetch from the agenda
+     */
+    select?: agendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: agendaInclude | null
+  }
+
+
+
+  /**
+   * Model tipoagenda
+   */
+
+
+  export type AggregateTipoagenda = {
+    _count: TipoagendaCountAggregateOutputType | null
+    _avg: TipoagendaAvgAggregateOutputType | null
+    _sum: TipoagendaSumAggregateOutputType | null
+    _min: TipoagendaMinAggregateOutputType | null
+    _max: TipoagendaMaxAggregateOutputType | null
+  }
+
+  export type TipoagendaAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type TipoagendaSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type TipoagendaMinAggregateOutputType = {
+    id: number | null
+    descripcion: string | null
+  }
+
+  export type TipoagendaMaxAggregateOutputType = {
+    id: number | null
+    descripcion: string | null
+  }
+
+  export type TipoagendaCountAggregateOutputType = {
+    id: number
+    descripcion: number
+    _all: number
+  }
+
+
+  export type TipoagendaAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type TipoagendaSumAggregateInputType = {
+    id?: true
+  }
+
+  export type TipoagendaMinAggregateInputType = {
+    id?: true
+    descripcion?: true
+  }
+
+  export type TipoagendaMaxAggregateInputType = {
+    id?: true
+    descripcion?: true
+  }
+
+  export type TipoagendaCountAggregateInputType = {
+    id?: true
+    descripcion?: true
+    _all?: true
+  }
+
+  export type TipoagendaAggregateArgs = {
+    /**
+     * Filter which tipoagenda to aggregate.
+     */
+    where?: tipoagendaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tipoagenda to fetch.
+     */
+    orderBy?: Enumerable<tipoagendaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: tipoagendaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tipoagenda from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tipoagenda.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tipoagenda
+    **/
+    _count?: true | TipoagendaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TipoagendaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TipoagendaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TipoagendaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TipoagendaMaxAggregateInputType
+  }
+
+  export type GetTipoagendaAggregateType<T extends TipoagendaAggregateArgs> = {
+        [P in keyof T & keyof AggregateTipoagenda]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTipoagenda[P]>
+      : GetScalarType<T[P], AggregateTipoagenda[P]>
+  }
+
+
+
+
+  export type TipoagendaGroupByArgs = {
+    where?: tipoagendaWhereInput
+    orderBy?: Enumerable<tipoagendaOrderByWithAggregationInput>
+    by: TipoagendaScalarFieldEnum[]
+    having?: tipoagendaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TipoagendaCountAggregateInputType | true
+    _avg?: TipoagendaAvgAggregateInputType
+    _sum?: TipoagendaSumAggregateInputType
+    _min?: TipoagendaMinAggregateInputType
+    _max?: TipoagendaMaxAggregateInputType
+  }
+
+
+  export type TipoagendaGroupByOutputType = {
+    id: number
+    descripcion: string
+    _count: TipoagendaCountAggregateOutputType | null
+    _avg: TipoagendaAvgAggregateOutputType | null
+    _sum: TipoagendaSumAggregateOutputType | null
+    _min: TipoagendaMinAggregateOutputType | null
+    _max: TipoagendaMaxAggregateOutputType | null
+  }
+
+  type GetTipoagendaGroupByPayload<T extends TipoagendaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<TipoagendaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TipoagendaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TipoagendaGroupByOutputType[P]>
+            : GetScalarType<T[P], TipoagendaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tipoagendaSelect = {
+    id?: boolean
+    descripcion?: boolean
+    agendas?: boolean | tipoagenda$agendasArgs
+    _count?: boolean | TipoagendaCountOutputTypeArgs
+  }
+
+
+  export type tipoagendaInclude = {
+    agendas?: boolean | tipoagenda$agendasArgs
+    _count?: boolean | TipoagendaCountOutputTypeArgs
+  }
+
+  export type tipoagendaGetPayload<S extends boolean | null | undefined | tipoagendaArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? tipoagenda :
+    S extends undefined ? never :
+    S extends { include: any } & (tipoagendaArgs | tipoagendaFindManyArgs)
+    ? tipoagenda  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'agendas' ? Array < agendaGetPayload<S['include'][P]>>  :
+        P extends '_count' ? TipoagendaCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (tipoagendaArgs | tipoagendaFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'agendas' ? Array < agendaGetPayload<S['select'][P]>>  :
+        P extends '_count' ? TipoagendaCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof tipoagenda ? tipoagenda[P] : never
+  } 
+      : tipoagenda
+
+
+  type tipoagendaCountArgs = 
+    Omit<tipoagendaFindManyArgs, 'select' | 'include'> & {
+      select?: TipoagendaCountAggregateInputType | true
+    }
+
+  export interface tipoagendaDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Tipoagenda that matches the filter.
+     * @param {tipoagendaFindUniqueArgs} args - Arguments to find a Tipoagenda
+     * @example
+     * // Get one Tipoagenda
+     * const tipoagenda = await prisma.tipoagenda.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends tipoagendaFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, tipoagendaFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'tipoagenda'> extends True ? Prisma__tipoagendaClient<tipoagendaGetPayload<T>> : Prisma__tipoagendaClient<tipoagendaGetPayload<T> | null, null>
+
+    /**
+     * Find one Tipoagenda that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {tipoagendaFindUniqueOrThrowArgs} args - Arguments to find a Tipoagenda
+     * @example
+     * // Get one Tipoagenda
+     * const tipoagenda = await prisma.tipoagenda.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends tipoagendaFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, tipoagendaFindUniqueOrThrowArgs>
+    ): Prisma__tipoagendaClient<tipoagendaGetPayload<T>>
+
+    /**
+     * Find the first Tipoagenda that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tipoagendaFindFirstArgs} args - Arguments to find a Tipoagenda
+     * @example
+     * // Get one Tipoagenda
+     * const tipoagenda = await prisma.tipoagenda.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends tipoagendaFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, tipoagendaFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'tipoagenda'> extends True ? Prisma__tipoagendaClient<tipoagendaGetPayload<T>> : Prisma__tipoagendaClient<tipoagendaGetPayload<T> | null, null>
+
+    /**
+     * Find the first Tipoagenda that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tipoagendaFindFirstOrThrowArgs} args - Arguments to find a Tipoagenda
+     * @example
+     * // Get one Tipoagenda
+     * const tipoagenda = await prisma.tipoagenda.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends tipoagendaFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, tipoagendaFindFirstOrThrowArgs>
+    ): Prisma__tipoagendaClient<tipoagendaGetPayload<T>>
+
+    /**
+     * Find zero or more Tipoagenda that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tipoagendaFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tipoagenda
+     * const tipoagenda = await prisma.tipoagenda.findMany()
+     * 
+     * // Get first 10 Tipoagenda
+     * const tipoagenda = await prisma.tipoagenda.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tipoagendaWithIdOnly = await prisma.tipoagenda.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends tipoagendaFindManyArgs>(
+      args?: SelectSubset<T, tipoagendaFindManyArgs>
+    ): Prisma.PrismaPromise<Array<tipoagendaGetPayload<T>>>
+
+    /**
+     * Create a Tipoagenda.
+     * @param {tipoagendaCreateArgs} args - Arguments to create a Tipoagenda.
+     * @example
+     * // Create one Tipoagenda
+     * const Tipoagenda = await prisma.tipoagenda.create({
+     *   data: {
+     *     // ... data to create a Tipoagenda
+     *   }
+     * })
+     * 
+    **/
+    create<T extends tipoagendaCreateArgs>(
+      args: SelectSubset<T, tipoagendaCreateArgs>
+    ): Prisma__tipoagendaClient<tipoagendaGetPayload<T>>
+
+    /**
+     * Create many Tipoagenda.
+     *     @param {tipoagendaCreateManyArgs} args - Arguments to create many Tipoagenda.
+     *     @example
+     *     // Create many Tipoagenda
+     *     const tipoagenda = await prisma.tipoagenda.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends tipoagendaCreateManyArgs>(
+      args?: SelectSubset<T, tipoagendaCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Tipoagenda.
+     * @param {tipoagendaDeleteArgs} args - Arguments to delete one Tipoagenda.
+     * @example
+     * // Delete one Tipoagenda
+     * const Tipoagenda = await prisma.tipoagenda.delete({
+     *   where: {
+     *     // ... filter to delete one Tipoagenda
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends tipoagendaDeleteArgs>(
+      args: SelectSubset<T, tipoagendaDeleteArgs>
+    ): Prisma__tipoagendaClient<tipoagendaGetPayload<T>>
+
+    /**
+     * Update one Tipoagenda.
+     * @param {tipoagendaUpdateArgs} args - Arguments to update one Tipoagenda.
+     * @example
+     * // Update one Tipoagenda
+     * const tipoagenda = await prisma.tipoagenda.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends tipoagendaUpdateArgs>(
+      args: SelectSubset<T, tipoagendaUpdateArgs>
+    ): Prisma__tipoagendaClient<tipoagendaGetPayload<T>>
+
+    /**
+     * Delete zero or more Tipoagenda.
+     * @param {tipoagendaDeleteManyArgs} args - Arguments to filter Tipoagenda to delete.
+     * @example
+     * // Delete a few Tipoagenda
+     * const { count } = await prisma.tipoagenda.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends tipoagendaDeleteManyArgs>(
+      args?: SelectSubset<T, tipoagendaDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tipoagenda.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tipoagendaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tipoagenda
+     * const tipoagenda = await prisma.tipoagenda.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends tipoagendaUpdateManyArgs>(
+      args: SelectSubset<T, tipoagendaUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Tipoagenda.
+     * @param {tipoagendaUpsertArgs} args - Arguments to update or create a Tipoagenda.
+     * @example
+     * // Update or create a Tipoagenda
+     * const tipoagenda = await prisma.tipoagenda.upsert({
+     *   create: {
+     *     // ... data to create a Tipoagenda
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Tipoagenda we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends tipoagendaUpsertArgs>(
+      args: SelectSubset<T, tipoagendaUpsertArgs>
+    ): Prisma__tipoagendaClient<tipoagendaGetPayload<T>>
+
+    /**
+     * Count the number of Tipoagenda.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tipoagendaCountArgs} args - Arguments to filter Tipoagenda to count.
+     * @example
+     * // Count the number of Tipoagenda
+     * const count = await prisma.tipoagenda.count({
+     *   where: {
+     *     // ... the filter for the Tipoagenda we want to count
+     *   }
+     * })
+    **/
+    count<T extends tipoagendaCountArgs>(
+      args?: Subset<T, tipoagendaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TipoagendaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Tipoagenda.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TipoagendaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TipoagendaAggregateArgs>(args: Subset<T, TipoagendaAggregateArgs>): Prisma.PrismaPromise<GetTipoagendaAggregateType<T>>
+
+    /**
+     * Group by Tipoagenda.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TipoagendaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TipoagendaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TipoagendaGroupByArgs['orderBy'] }
+        : { orderBy?: TipoagendaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TipoagendaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTipoagendaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tipoagenda.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__tipoagendaClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    agendas<T extends tipoagenda$agendasArgs= {}>(args?: Subset<T, tipoagenda$agendasArgs>): Prisma.PrismaPromise<Array<agendaGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * tipoagenda base type for findUnique actions
+   */
+  export type tipoagendaFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the tipoagenda
+     */
+    select?: tipoagendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipoagendaInclude | null
+    /**
+     * Filter, which tipoagenda to fetch.
+     */
+    where: tipoagendaWhereUniqueInput
+  }
+
+  /**
+   * tipoagenda findUnique
+   */
+  export interface tipoagendaFindUniqueArgs extends tipoagendaFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * tipoagenda findUniqueOrThrow
+   */
+  export type tipoagendaFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the tipoagenda
+     */
+    select?: tipoagendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipoagendaInclude | null
+    /**
+     * Filter, which tipoagenda to fetch.
+     */
+    where: tipoagendaWhereUniqueInput
+  }
+
+
+  /**
+   * tipoagenda base type for findFirst actions
+   */
+  export type tipoagendaFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the tipoagenda
+     */
+    select?: tipoagendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipoagendaInclude | null
+    /**
+     * Filter, which tipoagenda to fetch.
+     */
+    where?: tipoagendaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tipoagenda to fetch.
+     */
+    orderBy?: Enumerable<tipoagendaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tipoagenda.
+     */
+    cursor?: tipoagendaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tipoagenda from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tipoagenda.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tipoagenda.
+     */
+    distinct?: Enumerable<TipoagendaScalarFieldEnum>
+  }
+
+  /**
+   * tipoagenda findFirst
+   */
+  export interface tipoagendaFindFirstArgs extends tipoagendaFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * tipoagenda findFirstOrThrow
+   */
+  export type tipoagendaFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the tipoagenda
+     */
+    select?: tipoagendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipoagendaInclude | null
+    /**
+     * Filter, which tipoagenda to fetch.
+     */
+    where?: tipoagendaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tipoagenda to fetch.
+     */
+    orderBy?: Enumerable<tipoagendaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tipoagenda.
+     */
+    cursor?: tipoagendaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tipoagenda from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tipoagenda.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tipoagenda.
+     */
+    distinct?: Enumerable<TipoagendaScalarFieldEnum>
+  }
+
+
+  /**
+   * tipoagenda findMany
+   */
+  export type tipoagendaFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the tipoagenda
+     */
+    select?: tipoagendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipoagendaInclude | null
+    /**
+     * Filter, which tipoagenda to fetch.
+     */
+    where?: tipoagendaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tipoagenda to fetch.
+     */
+    orderBy?: Enumerable<tipoagendaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tipoagenda.
+     */
+    cursor?: tipoagendaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tipoagenda from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tipoagenda.
+     */
+    skip?: number
+    distinct?: Enumerable<TipoagendaScalarFieldEnum>
+  }
+
+
+  /**
+   * tipoagenda create
+   */
+  export type tipoagendaCreateArgs = {
+    /**
+     * Select specific fields to fetch from the tipoagenda
+     */
+    select?: tipoagendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipoagendaInclude | null
+    /**
+     * The data needed to create a tipoagenda.
+     */
+    data: XOR<tipoagendaCreateInput, tipoagendaUncheckedCreateInput>
+  }
+
+
+  /**
+   * tipoagenda createMany
+   */
+  export type tipoagendaCreateManyArgs = {
+    /**
+     * The data used to create many tipoagenda.
+     */
+    data: Enumerable<tipoagendaCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * tipoagenda update
+   */
+  export type tipoagendaUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the tipoagenda
+     */
+    select?: tipoagendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipoagendaInclude | null
+    /**
+     * The data needed to update a tipoagenda.
+     */
+    data: XOR<tipoagendaUpdateInput, tipoagendaUncheckedUpdateInput>
+    /**
+     * Choose, which tipoagenda to update.
+     */
+    where: tipoagendaWhereUniqueInput
+  }
+
+
+  /**
+   * tipoagenda updateMany
+   */
+  export type tipoagendaUpdateManyArgs = {
+    /**
+     * The data used to update tipoagenda.
+     */
+    data: XOR<tipoagendaUpdateManyMutationInput, tipoagendaUncheckedUpdateManyInput>
+    /**
+     * Filter which tipoagenda to update
+     */
+    where?: tipoagendaWhereInput
+  }
+
+
+  /**
+   * tipoagenda upsert
+   */
+  export type tipoagendaUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the tipoagenda
+     */
+    select?: tipoagendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipoagendaInclude | null
+    /**
+     * The filter to search for the tipoagenda to update in case it exists.
+     */
+    where: tipoagendaWhereUniqueInput
+    /**
+     * In case the tipoagenda found by the `where` argument doesn't exist, create a new tipoagenda with this data.
+     */
+    create: XOR<tipoagendaCreateInput, tipoagendaUncheckedCreateInput>
+    /**
+     * In case the tipoagenda was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tipoagendaUpdateInput, tipoagendaUncheckedUpdateInput>
+  }
+
+
+  /**
+   * tipoagenda delete
+   */
+  export type tipoagendaDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the tipoagenda
+     */
+    select?: tipoagendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipoagendaInclude | null
+    /**
+     * Filter which tipoagenda to delete.
+     */
+    where: tipoagendaWhereUniqueInput
+  }
+
+
+  /**
+   * tipoagenda deleteMany
+   */
+  export type tipoagendaDeleteManyArgs = {
+    /**
+     * Filter which tipoagenda to delete
+     */
+    where?: tipoagendaWhereInput
+  }
+
+
+  /**
+   * tipoagenda.agendas
+   */
+  export type tipoagenda$agendasArgs = {
+    /**
+     * Select specific fields to fetch from the agenda
+     */
+    select?: agendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: agendaInclude | null
+    where?: agendaWhereInput
+    orderBy?: Enumerable<agendaOrderByWithRelationInput>
+    cursor?: agendaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AgendaScalarFieldEnum>
+  }
+
+
+  /**
+   * tipoagenda without action
+   */
+  export type tipoagendaArgs = {
+    /**
+     * Select specific fields to fetch from the tipoagenda
+     */
+    select?: tipoagendaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipoagendaInclude | null
+  }
+
+
+
+  /**
    * Enums
    */
 
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+
+  export const AgendaScalarFieldEnum: {
+    id: 'id',
+    fecha: 'fecha',
+    tipoagendaId: 'tipoagendaId',
+    observacion: 'observacion'
+  };
+
+  export type AgendaScalarFieldEnum = (typeof AgendaScalarFieldEnum)[keyof typeof AgendaScalarFieldEnum]
+
 
   export const CasaScalarFieldEnum: {
     id: 'id',
@@ -5704,6 +7726,14 @@ export namespace Prisma {
   };
 
   export type TC_tiposGastosScalarFieldEnum = (typeof TC_tiposGastosScalarFieldEnum)[keyof typeof TC_tiposGastosScalarFieldEnum]
+
+
+  export const TipoagendaScalarFieldEnum: {
+    id: 'id',
+    descripcion: 'descripcion'
+  };
+
+  export type TipoagendaScalarFieldEnum = (typeof TipoagendaScalarFieldEnum)[keyof typeof TipoagendaScalarFieldEnum]
 
 
   export const TransactionIsolationLevel: {
@@ -5973,6 +8003,89 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter | number
     fecha?: DateTimeWithAggregatesFilter | Date | string
     quien?: StringWithAggregatesFilter | string
+  }
+
+  export type agendaWhereInput = {
+    AND?: Enumerable<agendaWhereInput>
+    OR?: Enumerable<agendaWhereInput>
+    NOT?: Enumerable<agendaWhereInput>
+    id?: IntFilter | number
+    fecha?: DateTimeFilter | Date | string
+    tipoagendaId?: IntFilter | number
+    observacion?: StringFilter | string
+    tipo?: XOR<TipoagendaRelationFilter, tipoagendaWhereInput>
+  }
+
+  export type agendaOrderByWithRelationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    tipoagendaId?: SortOrder
+    observacion?: SortOrder
+    tipo?: tipoagendaOrderByWithRelationInput
+  }
+
+  export type agendaWhereUniqueInput = {
+    id?: number
+  }
+
+  export type agendaOrderByWithAggregationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    tipoagendaId?: SortOrder
+    observacion?: SortOrder
+    _count?: agendaCountOrderByAggregateInput
+    _avg?: agendaAvgOrderByAggregateInput
+    _max?: agendaMaxOrderByAggregateInput
+    _min?: agendaMinOrderByAggregateInput
+    _sum?: agendaSumOrderByAggregateInput
+  }
+
+  export type agendaScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<agendaScalarWhereWithAggregatesInput>
+    OR?: Enumerable<agendaScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<agendaScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    fecha?: DateTimeWithAggregatesFilter | Date | string
+    tipoagendaId?: IntWithAggregatesFilter | number
+    observacion?: StringWithAggregatesFilter | string
+  }
+
+  export type tipoagendaWhereInput = {
+    AND?: Enumerable<tipoagendaWhereInput>
+    OR?: Enumerable<tipoagendaWhereInput>
+    NOT?: Enumerable<tipoagendaWhereInput>
+    id?: IntFilter | number
+    descripcion?: StringFilter | string
+    agendas?: AgendaListRelationFilter
+  }
+
+  export type tipoagendaOrderByWithRelationInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    agendas?: agendaOrderByRelationAggregateInput
+  }
+
+  export type tipoagendaWhereUniqueInput = {
+    id?: number
+    descripcion?: string
+  }
+
+  export type tipoagendaOrderByWithAggregationInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    _count?: tipoagendaCountOrderByAggregateInput
+    _avg?: tipoagendaAvgOrderByAggregateInput
+    _max?: tipoagendaMaxOrderByAggregateInput
+    _min?: tipoagendaMinOrderByAggregateInput
+    _sum?: tipoagendaSumOrderByAggregateInput
+  }
+
+  export type tipoagendaScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<tipoagendaScalarWhereWithAggregatesInput>
+    OR?: Enumerable<tipoagendaScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<tipoagendaScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    descripcion?: StringWithAggregatesFilter | string
   }
 
   export type TC_tiposGastosCreateInput = {
@@ -6253,6 +8366,90 @@ export namespace Prisma {
     quien?: StringFieldUpdateOperationsInput | string
   }
 
+  export type agendaCreateInput = {
+    fecha: Date | string
+    observacion: string
+    tipo: tipoagendaCreateNestedOneWithoutAgendasInput
+  }
+
+  export type agendaUncheckedCreateInput = {
+    id?: number
+    fecha: Date | string
+    tipoagendaId: number
+    observacion: string
+  }
+
+  export type agendaUpdateInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacion?: StringFieldUpdateOperationsInput | string
+    tipo?: tipoagendaUpdateOneRequiredWithoutAgendasNestedInput
+  }
+
+  export type agendaUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipoagendaId?: IntFieldUpdateOperationsInput | number
+    observacion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type agendaCreateManyInput = {
+    id?: number
+    fecha: Date | string
+    tipoagendaId: number
+    observacion: string
+  }
+
+  export type agendaUpdateManyMutationInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type agendaUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipoagendaId?: IntFieldUpdateOperationsInput | number
+    observacion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type tipoagendaCreateInput = {
+    id: number
+    descripcion: string
+    agendas?: agendaCreateNestedManyWithoutTipoInput
+  }
+
+  export type tipoagendaUncheckedCreateInput = {
+    id: number
+    descripcion: string
+    agendas?: agendaUncheckedCreateNestedManyWithoutTipoInput
+  }
+
+  export type tipoagendaUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    agendas?: agendaUpdateManyWithoutTipoNestedInput
+  }
+
+  export type tipoagendaUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    agendas?: agendaUncheckedUpdateManyWithoutTipoNestedInput
+  }
+
+  export type tipoagendaCreateManyInput = {
+    id: number
+    descripcion: string
+  }
+
+  export type tipoagendaUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type tipoagendaUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
   export type IntFilter = {
     equals?: number
     in?: Enumerable<number> | number
@@ -6531,6 +8728,75 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type TipoagendaRelationFilter = {
+    is?: tipoagendaWhereInput
+    isNot?: tipoagendaWhereInput
+  }
+
+  export type agendaCountOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    tipoagendaId?: SortOrder
+    observacion?: SortOrder
+  }
+
+  export type agendaAvgOrderByAggregateInput = {
+    id?: SortOrder
+    tipoagendaId?: SortOrder
+  }
+
+  export type agendaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    tipoagendaId?: SortOrder
+    observacion?: SortOrder
+  }
+
+  export type agendaMinOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    tipoagendaId?: SortOrder
+    observacion?: SortOrder
+  }
+
+  export type agendaSumOrderByAggregateInput = {
+    id?: SortOrder
+    tipoagendaId?: SortOrder
+  }
+
+  export type AgendaListRelationFilter = {
+    every?: agendaWhereInput
+    some?: agendaWhereInput
+    none?: agendaWhereInput
+  }
+
+  export type agendaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type tipoagendaCountOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type tipoagendaAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type tipoagendaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type tipoagendaMinOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type tipoagendaSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -6605,6 +8871,62 @@ export namespace Prisma {
     upsert?: empleadaUpsertWithoutServiciosInput
     connect?: empleadaWhereUniqueInput
     update?: XOR<empleadaUpdateWithoutServiciosInput, empleadaUncheckedUpdateWithoutServiciosInput>
+  }
+
+  export type tipoagendaCreateNestedOneWithoutAgendasInput = {
+    create?: XOR<tipoagendaCreateWithoutAgendasInput, tipoagendaUncheckedCreateWithoutAgendasInput>
+    connectOrCreate?: tipoagendaCreateOrConnectWithoutAgendasInput
+    connect?: tipoagendaWhereUniqueInput
+  }
+
+  export type tipoagendaUpdateOneRequiredWithoutAgendasNestedInput = {
+    create?: XOR<tipoagendaCreateWithoutAgendasInput, tipoagendaUncheckedCreateWithoutAgendasInput>
+    connectOrCreate?: tipoagendaCreateOrConnectWithoutAgendasInput
+    upsert?: tipoagendaUpsertWithoutAgendasInput
+    connect?: tipoagendaWhereUniqueInput
+    update?: XOR<tipoagendaUpdateWithoutAgendasInput, tipoagendaUncheckedUpdateWithoutAgendasInput>
+  }
+
+  export type agendaCreateNestedManyWithoutTipoInput = {
+    create?: XOR<Enumerable<agendaCreateWithoutTipoInput>, Enumerable<agendaUncheckedCreateWithoutTipoInput>>
+    connectOrCreate?: Enumerable<agendaCreateOrConnectWithoutTipoInput>
+    createMany?: agendaCreateManyTipoInputEnvelope
+    connect?: Enumerable<agendaWhereUniqueInput>
+  }
+
+  export type agendaUncheckedCreateNestedManyWithoutTipoInput = {
+    create?: XOR<Enumerable<agendaCreateWithoutTipoInput>, Enumerable<agendaUncheckedCreateWithoutTipoInput>>
+    connectOrCreate?: Enumerable<agendaCreateOrConnectWithoutTipoInput>
+    createMany?: agendaCreateManyTipoInputEnvelope
+    connect?: Enumerable<agendaWhereUniqueInput>
+  }
+
+  export type agendaUpdateManyWithoutTipoNestedInput = {
+    create?: XOR<Enumerable<agendaCreateWithoutTipoInput>, Enumerable<agendaUncheckedCreateWithoutTipoInput>>
+    connectOrCreate?: Enumerable<agendaCreateOrConnectWithoutTipoInput>
+    upsert?: Enumerable<agendaUpsertWithWhereUniqueWithoutTipoInput>
+    createMany?: agendaCreateManyTipoInputEnvelope
+    set?: Enumerable<agendaWhereUniqueInput>
+    disconnect?: Enumerable<agendaWhereUniqueInput>
+    delete?: Enumerable<agendaWhereUniqueInput>
+    connect?: Enumerable<agendaWhereUniqueInput>
+    update?: Enumerable<agendaUpdateWithWhereUniqueWithoutTipoInput>
+    updateMany?: Enumerable<agendaUpdateManyWithWhereWithoutTipoInput>
+    deleteMany?: Enumerable<agendaScalarWhereInput>
+  }
+
+  export type agendaUncheckedUpdateManyWithoutTipoNestedInput = {
+    create?: XOR<Enumerable<agendaCreateWithoutTipoInput>, Enumerable<agendaUncheckedCreateWithoutTipoInput>>
+    connectOrCreate?: Enumerable<agendaCreateOrConnectWithoutTipoInput>
+    upsert?: Enumerable<agendaUpsertWithWhereUniqueWithoutTipoInput>
+    createMany?: agendaCreateManyTipoInputEnvelope
+    set?: Enumerable<agendaWhereUniqueInput>
+    disconnect?: Enumerable<agendaWhereUniqueInput>
+    delete?: Enumerable<agendaWhereUniqueInput>
+    connect?: Enumerable<agendaWhereUniqueInput>
+    update?: Enumerable<agendaUpdateWithWhereUniqueWithoutTipoInput>
+    updateMany?: Enumerable<agendaUpdateManyWithWhereWithoutTipoInput>
+    deleteMany?: Enumerable<agendaScalarWhereInput>
   }
 
   export type NestedIntFilter = {
@@ -6816,6 +9138,83 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type tipoagendaCreateWithoutAgendasInput = {
+    id: number
+    descripcion: string
+  }
+
+  export type tipoagendaUncheckedCreateWithoutAgendasInput = {
+    id: number
+    descripcion: string
+  }
+
+  export type tipoagendaCreateOrConnectWithoutAgendasInput = {
+    where: tipoagendaWhereUniqueInput
+    create: XOR<tipoagendaCreateWithoutAgendasInput, tipoagendaUncheckedCreateWithoutAgendasInput>
+  }
+
+  export type tipoagendaUpsertWithoutAgendasInput = {
+    update: XOR<tipoagendaUpdateWithoutAgendasInput, tipoagendaUncheckedUpdateWithoutAgendasInput>
+    create: XOR<tipoagendaCreateWithoutAgendasInput, tipoagendaUncheckedCreateWithoutAgendasInput>
+  }
+
+  export type tipoagendaUpdateWithoutAgendasInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type tipoagendaUncheckedUpdateWithoutAgendasInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type agendaCreateWithoutTipoInput = {
+    fecha: Date | string
+    observacion: string
+  }
+
+  export type agendaUncheckedCreateWithoutTipoInput = {
+    id?: number
+    fecha: Date | string
+    observacion: string
+  }
+
+  export type agendaCreateOrConnectWithoutTipoInput = {
+    where: agendaWhereUniqueInput
+    create: XOR<agendaCreateWithoutTipoInput, agendaUncheckedCreateWithoutTipoInput>
+  }
+
+  export type agendaCreateManyTipoInputEnvelope = {
+    data: Enumerable<agendaCreateManyTipoInput>
+    skipDuplicates?: boolean
+  }
+
+  export type agendaUpsertWithWhereUniqueWithoutTipoInput = {
+    where: agendaWhereUniqueInput
+    update: XOR<agendaUpdateWithoutTipoInput, agendaUncheckedUpdateWithoutTipoInput>
+    create: XOR<agendaCreateWithoutTipoInput, agendaUncheckedCreateWithoutTipoInput>
+  }
+
+  export type agendaUpdateWithWhereUniqueWithoutTipoInput = {
+    where: agendaWhereUniqueInput
+    data: XOR<agendaUpdateWithoutTipoInput, agendaUncheckedUpdateWithoutTipoInput>
+  }
+
+  export type agendaUpdateManyWithWhereWithoutTipoInput = {
+    where: agendaScalarWhereInput
+    data: XOR<agendaUpdateManyMutationInput, agendaUncheckedUpdateManyWithoutAgendasInput>
+  }
+
+  export type agendaScalarWhereInput = {
+    AND?: Enumerable<agendaScalarWhereInput>
+    OR?: Enumerable<agendaScalarWhereInput>
+    NOT?: Enumerable<agendaScalarWhereInput>
+    id?: IntFilter | number
+    fecha?: DateTimeFilter | Date | string
+    tipoagendaId?: IntFilter | number
+    observacion?: StringFilter | string
+  }
+
   export type servicioCreateManyEmpleadaInput = {
     id?: number
     fecha: Date | string
@@ -6857,6 +9256,29 @@ export namespace Prisma {
     pagado?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type agendaCreateManyTipoInput = {
+    id?: number
+    fecha: Date | string
+    observacion: string
+  }
+
+  export type agendaUpdateWithoutTipoInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type agendaUncheckedUpdateWithoutTipoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type agendaUncheckedUpdateManyWithoutAgendasInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    observacion?: StringFieldUpdateOperationsInput | string
   }
 
 

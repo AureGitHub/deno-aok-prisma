@@ -3,6 +3,8 @@ import casaRouter from "./entity/casa/router.ts";
 import empleadaRouter from "./entity/empleada/router.ts";
 import servicioRouter from "./entity/servicio/router.ts";
 import turnoRouter from "./entity/turnos/router.ts";
+import tipoagendaRouter from "./entity/tipoagenda/router.ts";
+
 // import requireApp from "../../middleware/requireApp.ts"
 
 
@@ -18,7 +20,7 @@ router.use(casaRouter.routes());
 router.use(empleadaRouter.routes()); 
 router.use(servicioRouter.routes());
 router.use(turnoRouter.routes());
-
+router.use(tipoagendaRouter.routes());
 
 export default router;
 
