@@ -13,10 +13,9 @@ await prisma.tipoagenda.deleteMany();
 
 await prisma.tipoagenda.createMany({
   data : [
-    {id: 1, descripcion : 'General'},
-    {id: 2, descripcion : 'Medicina'},
-    {id: 3, descripcion : 'Compras'},
-    {id: 4, descripcion : 'Empleadas'},
+    {id: 1, descripcion : 'General', color: 'blue'},
+    {id: 2, descripcion : 'Medicina', color: 'red'},
+    {id: 3, descripcion : 'Empleadas', color: 'green'},
   ]
 });
 

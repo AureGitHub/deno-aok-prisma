@@ -4,6 +4,7 @@ import empleadaRouter from "./entity/empleada/router.ts";
 import servicioRouter from "./entity/servicio/router.ts";
 import turnoRouter from "./entity/turnos/router.ts";
 import tipoagendaRouter from "./entity/tipoagenda/router.ts";
+import agendaRouter from "./entity/agenda/router.ts";
 
 // import requireApp from "../../middleware/requireApp.ts"
 
@@ -21,6 +22,8 @@ router.use(empleadaRouter.routes());
 router.use(servicioRouter.routes());
 router.use(turnoRouter.routes());
 router.use(tipoagendaRouter.routes());
+router.use(agendaRouter.routes());
+
 
 export default router;
 

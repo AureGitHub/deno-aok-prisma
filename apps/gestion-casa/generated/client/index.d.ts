@@ -91,6 +91,7 @@ export type agenda = {
 export type tipoagenda = {
   id: number
   descripcion: string
+  color: string
 }
 
 
@@ -6706,16 +6707,19 @@ export namespace Prisma {
   export type TipoagendaMinAggregateOutputType = {
     id: number | null
     descripcion: string | null
+    color: string | null
   }
 
   export type TipoagendaMaxAggregateOutputType = {
     id: number | null
     descripcion: string | null
+    color: string | null
   }
 
   export type TipoagendaCountAggregateOutputType = {
     id: number
     descripcion: number
+    color: number
     _all: number
   }
 
@@ -6731,16 +6735,19 @@ export namespace Prisma {
   export type TipoagendaMinAggregateInputType = {
     id?: true
     descripcion?: true
+    color?: true
   }
 
   export type TipoagendaMaxAggregateInputType = {
     id?: true
     descripcion?: true
+    color?: true
   }
 
   export type TipoagendaCountAggregateInputType = {
     id?: true
     descripcion?: true
+    color?: true
     _all?: true
   }
 
@@ -6834,6 +6841,7 @@ export namespace Prisma {
   export type TipoagendaGroupByOutputType = {
     id: number
     descripcion: string
+    color: string
     _count: TipoagendaCountAggregateOutputType | null
     _avg: TipoagendaAvgAggregateOutputType | null
     _sum: TipoagendaSumAggregateOutputType | null
@@ -6858,6 +6866,7 @@ export namespace Prisma {
   export type tipoagendaSelect = {
     id?: boolean
     descripcion?: boolean
+    color?: boolean
     agendas?: boolean | tipoagenda$agendasArgs
     _count?: boolean | TipoagendaCountOutputTypeArgs
   }
@@ -7730,7 +7739,8 @@ export namespace Prisma {
 
   export const TipoagendaScalarFieldEnum: {
     id: 'id',
-    descripcion: 'descripcion'
+    descripcion: 'descripcion',
+    color: 'color'
   };
 
   export type TipoagendaScalarFieldEnum = (typeof TipoagendaScalarFieldEnum)[keyof typeof TipoagendaScalarFieldEnum]
@@ -8056,12 +8066,14 @@ export namespace Prisma {
     NOT?: Enumerable<tipoagendaWhereInput>
     id?: IntFilter | number
     descripcion?: StringFilter | string
+    color?: StringFilter | string
     agendas?: AgendaListRelationFilter
   }
 
   export type tipoagendaOrderByWithRelationInput = {
     id?: SortOrder
     descripcion?: SortOrder
+    color?: SortOrder
     agendas?: agendaOrderByRelationAggregateInput
   }
 
@@ -8073,6 +8085,7 @@ export namespace Prisma {
   export type tipoagendaOrderByWithAggregationInput = {
     id?: SortOrder
     descripcion?: SortOrder
+    color?: SortOrder
     _count?: tipoagendaCountOrderByAggregateInput
     _avg?: tipoagendaAvgOrderByAggregateInput
     _max?: tipoagendaMaxOrderByAggregateInput
@@ -8086,6 +8099,7 @@ export namespace Prisma {
     NOT?: Enumerable<tipoagendaScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
     descripcion?: StringWithAggregatesFilter | string
+    color?: StringWithAggregatesFilter | string
   }
 
   export type TC_tiposGastosCreateInput = {
@@ -8414,40 +8428,47 @@ export namespace Prisma {
   export type tipoagendaCreateInput = {
     id: number
     descripcion: string
+    color: string
     agendas?: agendaCreateNestedManyWithoutTipoInput
   }
 
   export type tipoagendaUncheckedCreateInput = {
     id: number
     descripcion: string
+    color: string
     agendas?: agendaUncheckedCreateNestedManyWithoutTipoInput
   }
 
   export type tipoagendaUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
     agendas?: agendaUpdateManyWithoutTipoNestedInput
   }
 
   export type tipoagendaUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
     agendas?: agendaUncheckedUpdateManyWithoutTipoNestedInput
   }
 
   export type tipoagendaCreateManyInput = {
     id: number
     descripcion: string
+    color: string
   }
 
   export type tipoagendaUpdateManyMutationInput = {
     id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
   }
 
   export type tipoagendaUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter = {
@@ -8777,6 +8798,7 @@ export namespace Prisma {
   export type tipoagendaCountOrderByAggregateInput = {
     id?: SortOrder
     descripcion?: SortOrder
+    color?: SortOrder
   }
 
   export type tipoagendaAvgOrderByAggregateInput = {
@@ -8786,11 +8808,13 @@ export namespace Prisma {
   export type tipoagendaMaxOrderByAggregateInput = {
     id?: SortOrder
     descripcion?: SortOrder
+    color?: SortOrder
   }
 
   export type tipoagendaMinOrderByAggregateInput = {
     id?: SortOrder
     descripcion?: SortOrder
+    color?: SortOrder
   }
 
   export type tipoagendaSumOrderByAggregateInput = {
@@ -9141,11 +9165,13 @@ export namespace Prisma {
   export type tipoagendaCreateWithoutAgendasInput = {
     id: number
     descripcion: string
+    color: string
   }
 
   export type tipoagendaUncheckedCreateWithoutAgendasInput = {
     id: number
     descripcion: string
+    color: string
   }
 
   export type tipoagendaCreateOrConnectWithoutAgendasInput = {
@@ -9161,11 +9187,13 @@ export namespace Prisma {
   export type tipoagendaUpdateWithoutAgendasInput = {
     id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
   }
 
   export type tipoagendaUncheckedUpdateWithoutAgendasInput = {
     id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
   }
 
   export type agendaCreateWithoutTipoInput = {

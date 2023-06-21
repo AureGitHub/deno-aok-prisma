@@ -140,7 +140,8 @@ exports.Prisma.TC_tiposGastosScalarFieldEnum = {
 
 exports.Prisma.TipoagendaScalarFieldEnum = {
   id: 'id',
-  descripcion: 'descripcion'
+  descripcion: 'descripcion',
+  color: 'color'
 };
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({

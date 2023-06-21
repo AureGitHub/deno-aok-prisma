@@ -74,6 +74,7 @@ model agenda {
 model tipoagenda {
    id            Int  @id
    descripcion   String  @unique
+   color         String
    agendas      agenda[] 
 }
 
