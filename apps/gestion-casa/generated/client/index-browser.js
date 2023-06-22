@@ -109,6 +109,15 @@ exports.Prisma.EmpleadaScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.GastoScalarFieldEnum = {
+  id: 'id',
+  fecha: 'fecha',
+  tipogastoId: 'tipogastoId',
+  importe: 'importe',
+  observacion: 'observacion',
+  servicioId: 'servicioId'
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -122,6 +131,9 @@ exports.Prisma.ServicioScalarFieldEnum = {
   suplLevantar: 'suplLevantar',
   empleadaId: 'empleadaId',
   pagado: 'pagado',
+  horas: 'horas',
+  minutos: 'minutos',
+  importe: 'importe',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -131,14 +143,13 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.TC_tiposGastosScalarFieldEnum = {
+exports.Prisma.TipoagendaScalarFieldEnum = {
   id: 'id',
   descripcion: 'descripcion',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  color: 'color'
 };
 
-exports.Prisma.TipoagendaScalarFieldEnum = {
+exports.Prisma.TipogastoScalarFieldEnum = {
   id: 'id',
   descripcion: 'descripcion',
   color: 'color'
@@ -159,13 +170,14 @@ exports.Prisma.TurnoScalarFieldEnum = {
 
 
 exports.Prisma.ModelName = {
-  TC_tiposGastos: 'TC_tiposGastos',
   casa: 'casa',
   empleada: 'empleada',
   servicio: 'servicio',
   turno: 'turno',
   agenda: 'agenda',
-  tipoagenda: 'tipoagenda'
+  tipoagenda: 'tipoagenda',
+  gasto: 'gasto',
+  tipogasto: 'tipogasto'
 };
 
 /**

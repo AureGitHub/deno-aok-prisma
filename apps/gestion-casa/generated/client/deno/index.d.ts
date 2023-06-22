@@ -13,17 +13,6 @@ export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
 
 
 /**
- * Model TC_tiposGastos
- * 
- */
-export type TC_tiposGastos = {
-  id: number
-  descripcion: string
-  createdAt: Date
-  updatedAt: Date
-}
-
-/**
  * Model casa
  * 
  */
@@ -59,6 +48,9 @@ export type servicio = {
   suplLevantar: boolean
   empleadaId: number
   pagado: boolean
+  horas: number
+  minutos: number
+  importe: Prisma.Decimal
   createdAt: Date
   updatedAt: Date
 }
@@ -94,6 +86,29 @@ export type tipoagenda = {
   color: string
 }
 
+/**
+ * Model gasto
+ * 
+ */
+export type gasto = {
+  id: number
+  fecha: Date
+  tipogastoId: number
+  importe: Prisma.Decimal
+  observacion: string | null
+  servicioId: number | null
+}
+
+/**
+ * Model tipogasto
+ * 
+ */
+export type tipogasto = {
+  id: number
+  descripcion: string
+  color: string
+}
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -102,8 +117,8 @@ export type tipoagenda = {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more TC_tiposGastos
- * const tC_tiposGastos = await prisma.tC_tiposGastos.findMany()
+ * // Fetch zero or more Casas
+ * const casas = await prisma.casa.findMany()
  * ```
  *
  * 
@@ -123,8 +138,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more TC_tiposGastos
-   * const tC_tiposGastos = await prisma.tC_tiposGastos.findMany()
+   * // Fetch zero or more Casas
+   * const casas = await prisma.casa.findMany()
    * ```
    *
    * 
@@ -213,16 +228,6 @@ export class PrismaClient<
   $transaction<R>(fn: (prisma: Omit<this, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use">) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
 
       /**
-   * `prisma.tC_tiposGastos`: Exposes CRUD operations for the **TC_tiposGastos** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more TC_tiposGastos
-    * const tC_tiposGastos = await prisma.tC_tiposGastos.findMany()
-    * ```
-    */
-  get tC_tiposGastos(): Prisma.TC_tiposGastosDelegate<GlobalReject>;
-
-  /**
    * `prisma.casa`: Exposes CRUD operations for the **casa** model.
     * Example usage:
     * ```ts
@@ -281,6 +286,26 @@ export class PrismaClient<
     * ```
     */
   get tipoagenda(): Prisma.tipoagendaDelegate<GlobalReject>;
+
+  /**
+   * `prisma.gasto`: Exposes CRUD operations for the **gasto** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Gastos
+    * const gastos = await prisma.gasto.findMany()
+    * ```
+    */
+  get gasto(): Prisma.gastoDelegate<GlobalReject>;
+
+  /**
+   * `prisma.tipogasto`: Exposes CRUD operations for the **tipogasto** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tipogastos
+    * const tipogastos = await prisma.tipogasto.findMany()
+    * ```
+    */
+  get tipogasto(): Prisma.tipogastoDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -750,13 +775,14 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    TC_tiposGastos: 'TC_tiposGastos',
     casa: 'casa',
     empleada: 'empleada',
     servicio: 'servicio',
     turno: 'turno',
     agenda: 'agenda',
-    tipoagenda: 'tipoagenda'
+    tipoagenda: 'tipoagenda',
+    gasto: 'gasto',
+    tipogasto: 'tipogasto'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1004,916 +1030,51 @@ export namespace Prisma {
 
 
   /**
-   * Models
-   */
-
-  /**
-   * Model TC_tiposGastos
+   * Count Type TipogastoCountOutputType
    */
 
 
-  export type AggregateTC_tiposGastos = {
-    _count: TC_tiposGastosCountAggregateOutputType | null
-    _avg: TC_tiposGastosAvgAggregateOutputType | null
-    _sum: TC_tiposGastosSumAggregateOutputType | null
-    _min: TC_tiposGastosMinAggregateOutputType | null
-    _max: TC_tiposGastosMaxAggregateOutputType | null
+  export type TipogastoCountOutputType = {
+    gastos: number
   }
 
-  export type TC_tiposGastosAvgAggregateOutputType = {
-    id: number | null
+  export type TipogastoCountOutputTypeSelect = {
+    gastos?: boolean
   }
 
-  export type TC_tiposGastosSumAggregateOutputType = {
-    id: number | null
-  }
-
-  export type TC_tiposGastosMinAggregateOutputType = {
-    id: number | null
-    descripcion: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type TC_tiposGastosMaxAggregateOutputType = {
-    id: number | null
-    descripcion: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type TC_tiposGastosCountAggregateOutputType = {
-    id: number
-    descripcion: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type TC_tiposGastosAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type TC_tiposGastosSumAggregateInputType = {
-    id?: true
-  }
-
-  export type TC_tiposGastosMinAggregateInputType = {
-    id?: true
-    descripcion?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type TC_tiposGastosMaxAggregateInputType = {
-    id?: true
-    descripcion?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type TC_tiposGastosCountAggregateInputType = {
-    id?: true
-    descripcion?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type TC_tiposGastosAggregateArgs = {
-    /**
-     * Filter which TC_tiposGastos to aggregate.
-     */
-    where?: TC_tiposGastosWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TC_tiposGastos to fetch.
-     */
-    orderBy?: Enumerable<TC_tiposGastosOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: TC_tiposGastosWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TC_tiposGastos from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TC_tiposGastos.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned TC_tiposGastos
-    **/
-    _count?: true | TC_tiposGastosCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: TC_tiposGastosAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: TC_tiposGastosSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: TC_tiposGastosMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: TC_tiposGastosMaxAggregateInputType
-  }
-
-  export type GetTC_tiposGastosAggregateType<T extends TC_tiposGastosAggregateArgs> = {
-        [P in keyof T & keyof AggregateTC_tiposGastos]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateTC_tiposGastos[P]>
-      : GetScalarType<T[P], AggregateTC_tiposGastos[P]>
-  }
-
-
-
-
-  export type TC_tiposGastosGroupByArgs = {
-    where?: TC_tiposGastosWhereInput
-    orderBy?: Enumerable<TC_tiposGastosOrderByWithAggregationInput>
-    by: TC_tiposGastosScalarFieldEnum[]
-    having?: TC_tiposGastosScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: TC_tiposGastosCountAggregateInputType | true
-    _avg?: TC_tiposGastosAvgAggregateInputType
-    _sum?: TC_tiposGastosSumAggregateInputType
-    _min?: TC_tiposGastosMinAggregateInputType
-    _max?: TC_tiposGastosMaxAggregateInputType
-  }
-
-
-  export type TC_tiposGastosGroupByOutputType = {
-    id: number
-    descripcion: string
-    createdAt: Date
-    updatedAt: Date
-    _count: TC_tiposGastosCountAggregateOutputType | null
-    _avg: TC_tiposGastosAvgAggregateOutputType | null
-    _sum: TC_tiposGastosSumAggregateOutputType | null
-    _min: TC_tiposGastosMinAggregateOutputType | null
-    _max: TC_tiposGastosMaxAggregateOutputType | null
-  }
-
-  type GetTC_tiposGastosGroupByPayload<T extends TC_tiposGastosGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickArray<TC_tiposGastosGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof TC_tiposGastosGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], TC_tiposGastosGroupByOutputType[P]>
-            : GetScalarType<T[P], TC_tiposGastosGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type TC_tiposGastosSelect = {
-    id?: boolean
-    descripcion?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-
-  export type TC_tiposGastosGetPayload<S extends boolean | null | undefined | TC_tiposGastosArgs> =
+  export type TipogastoCountOutputTypeGetPayload<S extends boolean | null | undefined | TipogastoCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? TC_tiposGastos :
+    S extends true ? TipogastoCountOutputType :
     S extends undefined ? never :
-    S extends { include: any } & (TC_tiposGastosArgs | TC_tiposGastosFindManyArgs)
-    ? TC_tiposGastos 
-    : S extends { select: any } & (TC_tiposGastosArgs | TC_tiposGastosFindManyArgs)
+    S extends { include: any } & (TipogastoCountOutputTypeArgs)
+    ? TipogastoCountOutputType 
+    : S extends { select: any } & (TipogastoCountOutputTypeArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof TC_tiposGastos ? TC_tiposGastos[P] : never
+    P extends keyof TipogastoCountOutputType ? TipogastoCountOutputType[P] : never
   } 
-      : TC_tiposGastos
+      : TipogastoCountOutputType
 
-
-  type TC_tiposGastosCountArgs = 
-    Omit<TC_tiposGastosFindManyArgs, 'select' | 'include'> & {
-      select?: TC_tiposGastosCountAggregateInputType | true
-    }
-
-  export interface TC_tiposGastosDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
-    /**
-     * Find zero or one TC_tiposGastos that matches the filter.
-     * @param {TC_tiposGastosFindUniqueArgs} args - Arguments to find a TC_tiposGastos
-     * @example
-     * // Get one TC_tiposGastos
-     * const tC_tiposGastos = await prisma.tC_tiposGastos.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends TC_tiposGastosFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, TC_tiposGastosFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'TC_tiposGastos'> extends True ? Prisma__TC_tiposGastosClient<TC_tiposGastosGetPayload<T>> : Prisma__TC_tiposGastosClient<TC_tiposGastosGetPayload<T> | null, null>
-
-    /**
-     * Find one TC_tiposGastos that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {TC_tiposGastosFindUniqueOrThrowArgs} args - Arguments to find a TC_tiposGastos
-     * @example
-     * // Get one TC_tiposGastos
-     * const tC_tiposGastos = await prisma.tC_tiposGastos.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends TC_tiposGastosFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, TC_tiposGastosFindUniqueOrThrowArgs>
-    ): Prisma__TC_tiposGastosClient<TC_tiposGastosGetPayload<T>>
-
-    /**
-     * Find the first TC_tiposGastos that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TC_tiposGastosFindFirstArgs} args - Arguments to find a TC_tiposGastos
-     * @example
-     * // Get one TC_tiposGastos
-     * const tC_tiposGastos = await prisma.tC_tiposGastos.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends TC_tiposGastosFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, TC_tiposGastosFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'TC_tiposGastos'> extends True ? Prisma__TC_tiposGastosClient<TC_tiposGastosGetPayload<T>> : Prisma__TC_tiposGastosClient<TC_tiposGastosGetPayload<T> | null, null>
-
-    /**
-     * Find the first TC_tiposGastos that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TC_tiposGastosFindFirstOrThrowArgs} args - Arguments to find a TC_tiposGastos
-     * @example
-     * // Get one TC_tiposGastos
-     * const tC_tiposGastos = await prisma.tC_tiposGastos.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends TC_tiposGastosFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, TC_tiposGastosFindFirstOrThrowArgs>
-    ): Prisma__TC_tiposGastosClient<TC_tiposGastosGetPayload<T>>
-
-    /**
-     * Find zero or more TC_tiposGastos that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TC_tiposGastosFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all TC_tiposGastos
-     * const tC_tiposGastos = await prisma.tC_tiposGastos.findMany()
-     * 
-     * // Get first 10 TC_tiposGastos
-     * const tC_tiposGastos = await prisma.tC_tiposGastos.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const tC_tiposGastosWithIdOnly = await prisma.tC_tiposGastos.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends TC_tiposGastosFindManyArgs>(
-      args?: SelectSubset<T, TC_tiposGastosFindManyArgs>
-    ): Prisma.PrismaPromise<Array<TC_tiposGastosGetPayload<T>>>
-
-    /**
-     * Create a TC_tiposGastos.
-     * @param {TC_tiposGastosCreateArgs} args - Arguments to create a TC_tiposGastos.
-     * @example
-     * // Create one TC_tiposGastos
-     * const TC_tiposGastos = await prisma.tC_tiposGastos.create({
-     *   data: {
-     *     // ... data to create a TC_tiposGastos
-     *   }
-     * })
-     * 
-    **/
-    create<T extends TC_tiposGastosCreateArgs>(
-      args: SelectSubset<T, TC_tiposGastosCreateArgs>
-    ): Prisma__TC_tiposGastosClient<TC_tiposGastosGetPayload<T>>
-
-    /**
-     * Create many TC_tiposGastos.
-     *     @param {TC_tiposGastosCreateManyArgs} args - Arguments to create many TC_tiposGastos.
-     *     @example
-     *     // Create many TC_tiposGastos
-     *     const tC_tiposGastos = await prisma.tC_tiposGastos.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends TC_tiposGastosCreateManyArgs>(
-      args?: SelectSubset<T, TC_tiposGastosCreateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a TC_tiposGastos.
-     * @param {TC_tiposGastosDeleteArgs} args - Arguments to delete one TC_tiposGastos.
-     * @example
-     * // Delete one TC_tiposGastos
-     * const TC_tiposGastos = await prisma.tC_tiposGastos.delete({
-     *   where: {
-     *     // ... filter to delete one TC_tiposGastos
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends TC_tiposGastosDeleteArgs>(
-      args: SelectSubset<T, TC_tiposGastosDeleteArgs>
-    ): Prisma__TC_tiposGastosClient<TC_tiposGastosGetPayload<T>>
-
-    /**
-     * Update one TC_tiposGastos.
-     * @param {TC_tiposGastosUpdateArgs} args - Arguments to update one TC_tiposGastos.
-     * @example
-     * // Update one TC_tiposGastos
-     * const tC_tiposGastos = await prisma.tC_tiposGastos.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends TC_tiposGastosUpdateArgs>(
-      args: SelectSubset<T, TC_tiposGastosUpdateArgs>
-    ): Prisma__TC_tiposGastosClient<TC_tiposGastosGetPayload<T>>
-
-    /**
-     * Delete zero or more TC_tiposGastos.
-     * @param {TC_tiposGastosDeleteManyArgs} args - Arguments to filter TC_tiposGastos to delete.
-     * @example
-     * // Delete a few TC_tiposGastos
-     * const { count } = await prisma.tC_tiposGastos.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends TC_tiposGastosDeleteManyArgs>(
-      args?: SelectSubset<T, TC_tiposGastosDeleteManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more TC_tiposGastos.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TC_tiposGastosUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many TC_tiposGastos
-     * const tC_tiposGastos = await prisma.tC_tiposGastos.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends TC_tiposGastosUpdateManyArgs>(
-      args: SelectSubset<T, TC_tiposGastosUpdateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one TC_tiposGastos.
-     * @param {TC_tiposGastosUpsertArgs} args - Arguments to update or create a TC_tiposGastos.
-     * @example
-     * // Update or create a TC_tiposGastos
-     * const tC_tiposGastos = await prisma.tC_tiposGastos.upsert({
-     *   create: {
-     *     // ... data to create a TC_tiposGastos
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the TC_tiposGastos we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends TC_tiposGastosUpsertArgs>(
-      args: SelectSubset<T, TC_tiposGastosUpsertArgs>
-    ): Prisma__TC_tiposGastosClient<TC_tiposGastosGetPayload<T>>
-
-    /**
-     * Count the number of TC_tiposGastos.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TC_tiposGastosCountArgs} args - Arguments to filter TC_tiposGastos to count.
-     * @example
-     * // Count the number of TC_tiposGastos
-     * const count = await prisma.tC_tiposGastos.count({
-     *   where: {
-     *     // ... the filter for the TC_tiposGastos we want to count
-     *   }
-     * })
-    **/
-    count<T extends TC_tiposGastosCountArgs>(
-      args?: Subset<T, TC_tiposGastosCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], TC_tiposGastosCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a TC_tiposGastos.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TC_tiposGastosAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends TC_tiposGastosAggregateArgs>(args: Subset<T, TC_tiposGastosAggregateArgs>): Prisma.PrismaPromise<GetTC_tiposGastosAggregateType<T>>
-
-    /**
-     * Group by TC_tiposGastos.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TC_tiposGastosGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends TC_tiposGastosGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: TC_tiposGastosGroupByArgs['orderBy'] }
-        : { orderBy?: TC_tiposGastosGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends TupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, TC_tiposGastosGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTC_tiposGastosGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for TC_tiposGastos.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__TC_tiposGastosClient<T, Null = never> implements Prisma.PrismaPromise<T> {
-    private readonly _dmmf;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
 
 
 
   // Custom InputTypes
 
   /**
-   * TC_tiposGastos base type for findUnique actions
+   * TipogastoCountOutputType without action
    */
-  export type TC_tiposGastosFindUniqueArgsBase = {
+  export type TipogastoCountOutputTypeArgs = {
     /**
-     * Select specific fields to fetch from the TC_tiposGastos
+     * Select specific fields to fetch from the TipogastoCountOutputType
      */
-    select?: TC_tiposGastosSelect | null
-    /**
-     * Filter, which TC_tiposGastos to fetch.
-     */
-    where: TC_tiposGastosWhereUniqueInput
+    select?: TipogastoCountOutputTypeSelect | null
   }
 
-  /**
-   * TC_tiposGastos findUnique
-   */
-  export interface TC_tiposGastosFindUniqueArgs extends TC_tiposGastosFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * TC_tiposGastos findUniqueOrThrow
-   */
-  export type TC_tiposGastosFindUniqueOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the TC_tiposGastos
-     */
-    select?: TC_tiposGastosSelect | null
-    /**
-     * Filter, which TC_tiposGastos to fetch.
-     */
-    where: TC_tiposGastosWhereUniqueInput
-  }
 
 
   /**
-   * TC_tiposGastos base type for findFirst actions
+   * Models
    */
-  export type TC_tiposGastosFindFirstArgsBase = {
-    /**
-     * Select specific fields to fetch from the TC_tiposGastos
-     */
-    select?: TC_tiposGastosSelect | null
-    /**
-     * Filter, which TC_tiposGastos to fetch.
-     */
-    where?: TC_tiposGastosWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TC_tiposGastos to fetch.
-     */
-    orderBy?: Enumerable<TC_tiposGastosOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for TC_tiposGastos.
-     */
-    cursor?: TC_tiposGastosWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TC_tiposGastos from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TC_tiposGastos.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of TC_tiposGastos.
-     */
-    distinct?: Enumerable<TC_tiposGastosScalarFieldEnum>
-  }
-
-  /**
-   * TC_tiposGastos findFirst
-   */
-  export interface TC_tiposGastosFindFirstArgs extends TC_tiposGastosFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * TC_tiposGastos findFirstOrThrow
-   */
-  export type TC_tiposGastosFindFirstOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the TC_tiposGastos
-     */
-    select?: TC_tiposGastosSelect | null
-    /**
-     * Filter, which TC_tiposGastos to fetch.
-     */
-    where?: TC_tiposGastosWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TC_tiposGastos to fetch.
-     */
-    orderBy?: Enumerable<TC_tiposGastosOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for TC_tiposGastos.
-     */
-    cursor?: TC_tiposGastosWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TC_tiposGastos from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TC_tiposGastos.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of TC_tiposGastos.
-     */
-    distinct?: Enumerable<TC_tiposGastosScalarFieldEnum>
-  }
-
-
-  /**
-   * TC_tiposGastos findMany
-   */
-  export type TC_tiposGastosFindManyArgs = {
-    /**
-     * Select specific fields to fetch from the TC_tiposGastos
-     */
-    select?: TC_tiposGastosSelect | null
-    /**
-     * Filter, which TC_tiposGastos to fetch.
-     */
-    where?: TC_tiposGastosWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TC_tiposGastos to fetch.
-     */
-    orderBy?: Enumerable<TC_tiposGastosOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing TC_tiposGastos.
-     */
-    cursor?: TC_tiposGastosWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TC_tiposGastos from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TC_tiposGastos.
-     */
-    skip?: number
-    distinct?: Enumerable<TC_tiposGastosScalarFieldEnum>
-  }
-
-
-  /**
-   * TC_tiposGastos create
-   */
-  export type TC_tiposGastosCreateArgs = {
-    /**
-     * Select specific fields to fetch from the TC_tiposGastos
-     */
-    select?: TC_tiposGastosSelect | null
-    /**
-     * The data needed to create a TC_tiposGastos.
-     */
-    data: XOR<TC_tiposGastosCreateInput, TC_tiposGastosUncheckedCreateInput>
-  }
-
-
-  /**
-   * TC_tiposGastos createMany
-   */
-  export type TC_tiposGastosCreateManyArgs = {
-    /**
-     * The data used to create many TC_tiposGastos.
-     */
-    data: Enumerable<TC_tiposGastosCreateManyInput>
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * TC_tiposGastos update
-   */
-  export type TC_tiposGastosUpdateArgs = {
-    /**
-     * Select specific fields to fetch from the TC_tiposGastos
-     */
-    select?: TC_tiposGastosSelect | null
-    /**
-     * The data needed to update a TC_tiposGastos.
-     */
-    data: XOR<TC_tiposGastosUpdateInput, TC_tiposGastosUncheckedUpdateInput>
-    /**
-     * Choose, which TC_tiposGastos to update.
-     */
-    where: TC_tiposGastosWhereUniqueInput
-  }
-
-
-  /**
-   * TC_tiposGastos updateMany
-   */
-  export type TC_tiposGastosUpdateManyArgs = {
-    /**
-     * The data used to update TC_tiposGastos.
-     */
-    data: XOR<TC_tiposGastosUpdateManyMutationInput, TC_tiposGastosUncheckedUpdateManyInput>
-    /**
-     * Filter which TC_tiposGastos to update
-     */
-    where?: TC_tiposGastosWhereInput
-  }
-
-
-  /**
-   * TC_tiposGastos upsert
-   */
-  export type TC_tiposGastosUpsertArgs = {
-    /**
-     * Select specific fields to fetch from the TC_tiposGastos
-     */
-    select?: TC_tiposGastosSelect | null
-    /**
-     * The filter to search for the TC_tiposGastos to update in case it exists.
-     */
-    where: TC_tiposGastosWhereUniqueInput
-    /**
-     * In case the TC_tiposGastos found by the `where` argument doesn't exist, create a new TC_tiposGastos with this data.
-     */
-    create: XOR<TC_tiposGastosCreateInput, TC_tiposGastosUncheckedCreateInput>
-    /**
-     * In case the TC_tiposGastos was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<TC_tiposGastosUpdateInput, TC_tiposGastosUncheckedUpdateInput>
-  }
-
-
-  /**
-   * TC_tiposGastos delete
-   */
-  export type TC_tiposGastosDeleteArgs = {
-    /**
-     * Select specific fields to fetch from the TC_tiposGastos
-     */
-    select?: TC_tiposGastosSelect | null
-    /**
-     * Filter which TC_tiposGastos to delete.
-     */
-    where: TC_tiposGastosWhereUniqueInput
-  }
-
-
-  /**
-   * TC_tiposGastos deleteMany
-   */
-  export type TC_tiposGastosDeleteManyArgs = {
-    /**
-     * Filter which TC_tiposGastos to delete
-     */
-    where?: TC_tiposGastosWhereInput
-  }
-
-
-  /**
-   * TC_tiposGastos without action
-   */
-  export type TC_tiposGastosArgs = {
-    /**
-     * Select specific fields to fetch from the TC_tiposGastos
-     */
-    select?: TC_tiposGastosSelect | null
-  }
-
-
 
   /**
    * Model casa
@@ -3837,11 +2998,17 @@ export namespace Prisma {
   export type ServicioAvgAggregateOutputType = {
     id: number | null
     empleadaId: number | null
+    horas: number | null
+    minutos: number | null
+    importe: Decimal | null
   }
 
   export type ServicioSumAggregateOutputType = {
     id: number | null
     empleadaId: number | null
+    horas: number | null
+    minutos: number | null
+    importe: Decimal | null
   }
 
   export type ServicioMinAggregateOutputType = {
@@ -3852,6 +3019,9 @@ export namespace Prisma {
     suplLevantar: boolean | null
     empleadaId: number | null
     pagado: boolean | null
+    horas: number | null
+    minutos: number | null
+    importe: Decimal | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3864,6 +3034,9 @@ export namespace Prisma {
     suplLevantar: boolean | null
     empleadaId: number | null
     pagado: boolean | null
+    horas: number | null
+    minutos: number | null
+    importe: Decimal | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3876,6 +3049,9 @@ export namespace Prisma {
     suplLevantar: number
     empleadaId: number
     pagado: number
+    horas: number
+    minutos: number
+    importe: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3885,11 +3061,17 @@ export namespace Prisma {
   export type ServicioAvgAggregateInputType = {
     id?: true
     empleadaId?: true
+    horas?: true
+    minutos?: true
+    importe?: true
   }
 
   export type ServicioSumAggregateInputType = {
     id?: true
     empleadaId?: true
+    horas?: true
+    minutos?: true
+    importe?: true
   }
 
   export type ServicioMinAggregateInputType = {
@@ -3900,6 +3082,9 @@ export namespace Prisma {
     suplLevantar?: true
     empleadaId?: true
     pagado?: true
+    horas?: true
+    minutos?: true
+    importe?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3912,6 +3097,9 @@ export namespace Prisma {
     suplLevantar?: true
     empleadaId?: true
     pagado?: true
+    horas?: true
+    minutos?: true
+    importe?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3924,6 +3112,9 @@ export namespace Prisma {
     suplLevantar?: true
     empleadaId?: true
     pagado?: true
+    horas?: true
+    minutos?: true
+    importe?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4024,6 +3215,9 @@ export namespace Prisma {
     suplLevantar: boolean
     empleadaId: number
     pagado: boolean
+    horas: number
+    minutos: number
+    importe: Decimal
     createdAt: Date
     updatedAt: Date
     _count: ServicioCountAggregateOutputType | null
@@ -4055,14 +3249,19 @@ export namespace Prisma {
     suplLevantar?: boolean
     empleadaId?: boolean
     pagado?: boolean
+    horas?: boolean
+    minutos?: boolean
+    importe?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     empleada?: boolean | empleadaArgs
+    gasto?: boolean | gastoArgs
   }
 
 
   export type servicioInclude = {
     empleada?: boolean | empleadaArgs
+    gasto?: boolean | gastoArgs
   }
 
   export type servicioGetPayload<S extends boolean | null | undefined | servicioArgs> =
@@ -4072,12 +3271,14 @@ export namespace Prisma {
     S extends { include: any } & (servicioArgs | servicioFindManyArgs)
     ? servicio  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'empleada' ? empleadaGetPayload<S['include'][P]> :  never
+        P extends 'empleada' ? empleadaGetPayload<S['include'][P]> :
+        P extends 'gasto' ? gastoGetPayload<S['include'][P]> | null :  never
   } 
     : S extends { select: any } & (servicioArgs | servicioFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'empleada' ? empleadaGetPayload<S['select'][P]> :  P extends keyof servicio ? servicio[P] : never
+        P extends 'empleada' ? empleadaGetPayload<S['select'][P]> :
+        P extends 'gasto' ? gastoGetPayload<S['select'][P]> | null :  P extends keyof servicio ? servicio[P] : never
   } 
       : servicio
 
@@ -4450,6 +3651,8 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
     empleada<T extends empleadaArgs= {}>(args?: Subset<T, empleadaArgs>): Prisma__empleadaClient<empleadaGetPayload<T> | Null>;
+
+    gasto<T extends gastoArgs= {}>(args?: Subset<T, gastoArgs>): Prisma__gastoClient<gastoGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -7658,6 +6861,1971 @@ export namespace Prisma {
 
 
   /**
+   * Model gasto
+   */
+
+
+  export type AggregateGasto = {
+    _count: GastoCountAggregateOutputType | null
+    _avg: GastoAvgAggregateOutputType | null
+    _sum: GastoSumAggregateOutputType | null
+    _min: GastoMinAggregateOutputType | null
+    _max: GastoMaxAggregateOutputType | null
+  }
+
+  export type GastoAvgAggregateOutputType = {
+    id: number | null
+    tipogastoId: number | null
+    importe: Decimal | null
+    servicioId: number | null
+  }
+
+  export type GastoSumAggregateOutputType = {
+    id: number | null
+    tipogastoId: number | null
+    importe: Decimal | null
+    servicioId: number | null
+  }
+
+  export type GastoMinAggregateOutputType = {
+    id: number | null
+    fecha: Date | null
+    tipogastoId: number | null
+    importe: Decimal | null
+    observacion: string | null
+    servicioId: number | null
+  }
+
+  export type GastoMaxAggregateOutputType = {
+    id: number | null
+    fecha: Date | null
+    tipogastoId: number | null
+    importe: Decimal | null
+    observacion: string | null
+    servicioId: number | null
+  }
+
+  export type GastoCountAggregateOutputType = {
+    id: number
+    fecha: number
+    tipogastoId: number
+    importe: number
+    observacion: number
+    servicioId: number
+    _all: number
+  }
+
+
+  export type GastoAvgAggregateInputType = {
+    id?: true
+    tipogastoId?: true
+    importe?: true
+    servicioId?: true
+  }
+
+  export type GastoSumAggregateInputType = {
+    id?: true
+    tipogastoId?: true
+    importe?: true
+    servicioId?: true
+  }
+
+  export type GastoMinAggregateInputType = {
+    id?: true
+    fecha?: true
+    tipogastoId?: true
+    importe?: true
+    observacion?: true
+    servicioId?: true
+  }
+
+  export type GastoMaxAggregateInputType = {
+    id?: true
+    fecha?: true
+    tipogastoId?: true
+    importe?: true
+    observacion?: true
+    servicioId?: true
+  }
+
+  export type GastoCountAggregateInputType = {
+    id?: true
+    fecha?: true
+    tipogastoId?: true
+    importe?: true
+    observacion?: true
+    servicioId?: true
+    _all?: true
+  }
+
+  export type GastoAggregateArgs = {
+    /**
+     * Filter which gasto to aggregate.
+     */
+    where?: gastoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of gastos to fetch.
+     */
+    orderBy?: Enumerable<gastoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: gastoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` gastos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` gastos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned gastos
+    **/
+    _count?: true | GastoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GastoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GastoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GastoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GastoMaxAggregateInputType
+  }
+
+  export type GetGastoAggregateType<T extends GastoAggregateArgs> = {
+        [P in keyof T & keyof AggregateGasto]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGasto[P]>
+      : GetScalarType<T[P], AggregateGasto[P]>
+  }
+
+
+
+
+  export type GastoGroupByArgs = {
+    where?: gastoWhereInput
+    orderBy?: Enumerable<gastoOrderByWithAggregationInput>
+    by: GastoScalarFieldEnum[]
+    having?: gastoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GastoCountAggregateInputType | true
+    _avg?: GastoAvgAggregateInputType
+    _sum?: GastoSumAggregateInputType
+    _min?: GastoMinAggregateInputType
+    _max?: GastoMaxAggregateInputType
+  }
+
+
+  export type GastoGroupByOutputType = {
+    id: number
+    fecha: Date
+    tipogastoId: number
+    importe: Decimal
+    observacion: string | null
+    servicioId: number | null
+    _count: GastoCountAggregateOutputType | null
+    _avg: GastoAvgAggregateOutputType | null
+    _sum: GastoSumAggregateOutputType | null
+    _min: GastoMinAggregateOutputType | null
+    _max: GastoMaxAggregateOutputType | null
+  }
+
+  type GetGastoGroupByPayload<T extends GastoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<GastoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GastoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GastoGroupByOutputType[P]>
+            : GetScalarType<T[P], GastoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type gastoSelect = {
+    id?: boolean
+    fecha?: boolean
+    tipogastoId?: boolean
+    importe?: boolean
+    observacion?: boolean
+    servicioId?: boolean
+    tipo?: boolean | tipogastoArgs
+    servicio?: boolean | servicioArgs
+  }
+
+
+  export type gastoInclude = {
+    tipo?: boolean | tipogastoArgs
+    servicio?: boolean | servicioArgs
+  }
+
+  export type gastoGetPayload<S extends boolean | null | undefined | gastoArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? gasto :
+    S extends undefined ? never :
+    S extends { include: any } & (gastoArgs | gastoFindManyArgs)
+    ? gasto  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'tipo' ? tipogastoGetPayload<S['include'][P]> :
+        P extends 'servicio' ? servicioGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (gastoArgs | gastoFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'tipo' ? tipogastoGetPayload<S['select'][P]> :
+        P extends 'servicio' ? servicioGetPayload<S['select'][P]> | null :  P extends keyof gasto ? gasto[P] : never
+  } 
+      : gasto
+
+
+  type gastoCountArgs = 
+    Omit<gastoFindManyArgs, 'select' | 'include'> & {
+      select?: GastoCountAggregateInputType | true
+    }
+
+  export interface gastoDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Gasto that matches the filter.
+     * @param {gastoFindUniqueArgs} args - Arguments to find a Gasto
+     * @example
+     * // Get one Gasto
+     * const gasto = await prisma.gasto.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends gastoFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, gastoFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'gasto'> extends True ? Prisma__gastoClient<gastoGetPayload<T>> : Prisma__gastoClient<gastoGetPayload<T> | null, null>
+
+    /**
+     * Find one Gasto that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {gastoFindUniqueOrThrowArgs} args - Arguments to find a Gasto
+     * @example
+     * // Get one Gasto
+     * const gasto = await prisma.gasto.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends gastoFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, gastoFindUniqueOrThrowArgs>
+    ): Prisma__gastoClient<gastoGetPayload<T>>
+
+    /**
+     * Find the first Gasto that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {gastoFindFirstArgs} args - Arguments to find a Gasto
+     * @example
+     * // Get one Gasto
+     * const gasto = await prisma.gasto.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends gastoFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, gastoFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'gasto'> extends True ? Prisma__gastoClient<gastoGetPayload<T>> : Prisma__gastoClient<gastoGetPayload<T> | null, null>
+
+    /**
+     * Find the first Gasto that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {gastoFindFirstOrThrowArgs} args - Arguments to find a Gasto
+     * @example
+     * // Get one Gasto
+     * const gasto = await prisma.gasto.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends gastoFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, gastoFindFirstOrThrowArgs>
+    ): Prisma__gastoClient<gastoGetPayload<T>>
+
+    /**
+     * Find zero or more Gastos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {gastoFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Gastos
+     * const gastos = await prisma.gasto.findMany()
+     * 
+     * // Get first 10 Gastos
+     * const gastos = await prisma.gasto.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gastoWithIdOnly = await prisma.gasto.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends gastoFindManyArgs>(
+      args?: SelectSubset<T, gastoFindManyArgs>
+    ): Prisma.PrismaPromise<Array<gastoGetPayload<T>>>
+
+    /**
+     * Create a Gasto.
+     * @param {gastoCreateArgs} args - Arguments to create a Gasto.
+     * @example
+     * // Create one Gasto
+     * const Gasto = await prisma.gasto.create({
+     *   data: {
+     *     // ... data to create a Gasto
+     *   }
+     * })
+     * 
+    **/
+    create<T extends gastoCreateArgs>(
+      args: SelectSubset<T, gastoCreateArgs>
+    ): Prisma__gastoClient<gastoGetPayload<T>>
+
+    /**
+     * Create many Gastos.
+     *     @param {gastoCreateManyArgs} args - Arguments to create many Gastos.
+     *     @example
+     *     // Create many Gastos
+     *     const gasto = await prisma.gasto.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends gastoCreateManyArgs>(
+      args?: SelectSubset<T, gastoCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Gasto.
+     * @param {gastoDeleteArgs} args - Arguments to delete one Gasto.
+     * @example
+     * // Delete one Gasto
+     * const Gasto = await prisma.gasto.delete({
+     *   where: {
+     *     // ... filter to delete one Gasto
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends gastoDeleteArgs>(
+      args: SelectSubset<T, gastoDeleteArgs>
+    ): Prisma__gastoClient<gastoGetPayload<T>>
+
+    /**
+     * Update one Gasto.
+     * @param {gastoUpdateArgs} args - Arguments to update one Gasto.
+     * @example
+     * // Update one Gasto
+     * const gasto = await prisma.gasto.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends gastoUpdateArgs>(
+      args: SelectSubset<T, gastoUpdateArgs>
+    ): Prisma__gastoClient<gastoGetPayload<T>>
+
+    /**
+     * Delete zero or more Gastos.
+     * @param {gastoDeleteManyArgs} args - Arguments to filter Gastos to delete.
+     * @example
+     * // Delete a few Gastos
+     * const { count } = await prisma.gasto.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends gastoDeleteManyArgs>(
+      args?: SelectSubset<T, gastoDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Gastos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {gastoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Gastos
+     * const gasto = await prisma.gasto.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends gastoUpdateManyArgs>(
+      args: SelectSubset<T, gastoUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Gasto.
+     * @param {gastoUpsertArgs} args - Arguments to update or create a Gasto.
+     * @example
+     * // Update or create a Gasto
+     * const gasto = await prisma.gasto.upsert({
+     *   create: {
+     *     // ... data to create a Gasto
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Gasto we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends gastoUpsertArgs>(
+      args: SelectSubset<T, gastoUpsertArgs>
+    ): Prisma__gastoClient<gastoGetPayload<T>>
+
+    /**
+     * Count the number of Gastos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {gastoCountArgs} args - Arguments to filter Gastos to count.
+     * @example
+     * // Count the number of Gastos
+     * const count = await prisma.gasto.count({
+     *   where: {
+     *     // ... the filter for the Gastos we want to count
+     *   }
+     * })
+    **/
+    count<T extends gastoCountArgs>(
+      args?: Subset<T, gastoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GastoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Gasto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GastoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GastoAggregateArgs>(args: Subset<T, GastoAggregateArgs>): Prisma.PrismaPromise<GetGastoAggregateType<T>>
+
+    /**
+     * Group by Gasto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GastoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GastoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GastoGroupByArgs['orderBy'] }
+        : { orderBy?: GastoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GastoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGastoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for gasto.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__gastoClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    tipo<T extends tipogastoArgs= {}>(args?: Subset<T, tipogastoArgs>): Prisma__tipogastoClient<tipogastoGetPayload<T> | Null>;
+
+    servicio<T extends servicioArgs= {}>(args?: Subset<T, servicioArgs>): Prisma__servicioClient<servicioGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * gasto base type for findUnique actions
+   */
+  export type gastoFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the gasto
+     */
+    select?: gastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: gastoInclude | null
+    /**
+     * Filter, which gasto to fetch.
+     */
+    where: gastoWhereUniqueInput
+  }
+
+  /**
+   * gasto findUnique
+   */
+  export interface gastoFindUniqueArgs extends gastoFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * gasto findUniqueOrThrow
+   */
+  export type gastoFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the gasto
+     */
+    select?: gastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: gastoInclude | null
+    /**
+     * Filter, which gasto to fetch.
+     */
+    where: gastoWhereUniqueInput
+  }
+
+
+  /**
+   * gasto base type for findFirst actions
+   */
+  export type gastoFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the gasto
+     */
+    select?: gastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: gastoInclude | null
+    /**
+     * Filter, which gasto to fetch.
+     */
+    where?: gastoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of gastos to fetch.
+     */
+    orderBy?: Enumerable<gastoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for gastos.
+     */
+    cursor?: gastoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` gastos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` gastos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of gastos.
+     */
+    distinct?: Enumerable<GastoScalarFieldEnum>
+  }
+
+  /**
+   * gasto findFirst
+   */
+  export interface gastoFindFirstArgs extends gastoFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * gasto findFirstOrThrow
+   */
+  export type gastoFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the gasto
+     */
+    select?: gastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: gastoInclude | null
+    /**
+     * Filter, which gasto to fetch.
+     */
+    where?: gastoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of gastos to fetch.
+     */
+    orderBy?: Enumerable<gastoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for gastos.
+     */
+    cursor?: gastoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` gastos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` gastos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of gastos.
+     */
+    distinct?: Enumerable<GastoScalarFieldEnum>
+  }
+
+
+  /**
+   * gasto findMany
+   */
+  export type gastoFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the gasto
+     */
+    select?: gastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: gastoInclude | null
+    /**
+     * Filter, which gastos to fetch.
+     */
+    where?: gastoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of gastos to fetch.
+     */
+    orderBy?: Enumerable<gastoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing gastos.
+     */
+    cursor?: gastoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` gastos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` gastos.
+     */
+    skip?: number
+    distinct?: Enumerable<GastoScalarFieldEnum>
+  }
+
+
+  /**
+   * gasto create
+   */
+  export type gastoCreateArgs = {
+    /**
+     * Select specific fields to fetch from the gasto
+     */
+    select?: gastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: gastoInclude | null
+    /**
+     * The data needed to create a gasto.
+     */
+    data: XOR<gastoCreateInput, gastoUncheckedCreateInput>
+  }
+
+
+  /**
+   * gasto createMany
+   */
+  export type gastoCreateManyArgs = {
+    /**
+     * The data used to create many gastos.
+     */
+    data: Enumerable<gastoCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * gasto update
+   */
+  export type gastoUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the gasto
+     */
+    select?: gastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: gastoInclude | null
+    /**
+     * The data needed to update a gasto.
+     */
+    data: XOR<gastoUpdateInput, gastoUncheckedUpdateInput>
+    /**
+     * Choose, which gasto to update.
+     */
+    where: gastoWhereUniqueInput
+  }
+
+
+  /**
+   * gasto updateMany
+   */
+  export type gastoUpdateManyArgs = {
+    /**
+     * The data used to update gastos.
+     */
+    data: XOR<gastoUpdateManyMutationInput, gastoUncheckedUpdateManyInput>
+    /**
+     * Filter which gastos to update
+     */
+    where?: gastoWhereInput
+  }
+
+
+  /**
+   * gasto upsert
+   */
+  export type gastoUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the gasto
+     */
+    select?: gastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: gastoInclude | null
+    /**
+     * The filter to search for the gasto to update in case it exists.
+     */
+    where: gastoWhereUniqueInput
+    /**
+     * In case the gasto found by the `where` argument doesn't exist, create a new gasto with this data.
+     */
+    create: XOR<gastoCreateInput, gastoUncheckedCreateInput>
+    /**
+     * In case the gasto was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<gastoUpdateInput, gastoUncheckedUpdateInput>
+  }
+
+
+  /**
+   * gasto delete
+   */
+  export type gastoDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the gasto
+     */
+    select?: gastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: gastoInclude | null
+    /**
+     * Filter which gasto to delete.
+     */
+    where: gastoWhereUniqueInput
+  }
+
+
+  /**
+   * gasto deleteMany
+   */
+  export type gastoDeleteManyArgs = {
+    /**
+     * Filter which gastos to delete
+     */
+    where?: gastoWhereInput
+  }
+
+
+  /**
+   * gasto without action
+   */
+  export type gastoArgs = {
+    /**
+     * Select specific fields to fetch from the gasto
+     */
+    select?: gastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: gastoInclude | null
+  }
+
+
+
+  /**
+   * Model tipogasto
+   */
+
+
+  export type AggregateTipogasto = {
+    _count: TipogastoCountAggregateOutputType | null
+    _avg: TipogastoAvgAggregateOutputType | null
+    _sum: TipogastoSumAggregateOutputType | null
+    _min: TipogastoMinAggregateOutputType | null
+    _max: TipogastoMaxAggregateOutputType | null
+  }
+
+  export type TipogastoAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type TipogastoSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type TipogastoMinAggregateOutputType = {
+    id: number | null
+    descripcion: string | null
+    color: string | null
+  }
+
+  export type TipogastoMaxAggregateOutputType = {
+    id: number | null
+    descripcion: string | null
+    color: string | null
+  }
+
+  export type TipogastoCountAggregateOutputType = {
+    id: number
+    descripcion: number
+    color: number
+    _all: number
+  }
+
+
+  export type TipogastoAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type TipogastoSumAggregateInputType = {
+    id?: true
+  }
+
+  export type TipogastoMinAggregateInputType = {
+    id?: true
+    descripcion?: true
+    color?: true
+  }
+
+  export type TipogastoMaxAggregateInputType = {
+    id?: true
+    descripcion?: true
+    color?: true
+  }
+
+  export type TipogastoCountAggregateInputType = {
+    id?: true
+    descripcion?: true
+    color?: true
+    _all?: true
+  }
+
+  export type TipogastoAggregateArgs = {
+    /**
+     * Filter which tipogasto to aggregate.
+     */
+    where?: tipogastoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tipogastos to fetch.
+     */
+    orderBy?: Enumerable<tipogastoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: tipogastoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tipogastos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tipogastos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tipogastos
+    **/
+    _count?: true | TipogastoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TipogastoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TipogastoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TipogastoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TipogastoMaxAggregateInputType
+  }
+
+  export type GetTipogastoAggregateType<T extends TipogastoAggregateArgs> = {
+        [P in keyof T & keyof AggregateTipogasto]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTipogasto[P]>
+      : GetScalarType<T[P], AggregateTipogasto[P]>
+  }
+
+
+
+
+  export type TipogastoGroupByArgs = {
+    where?: tipogastoWhereInput
+    orderBy?: Enumerable<tipogastoOrderByWithAggregationInput>
+    by: TipogastoScalarFieldEnum[]
+    having?: tipogastoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TipogastoCountAggregateInputType | true
+    _avg?: TipogastoAvgAggregateInputType
+    _sum?: TipogastoSumAggregateInputType
+    _min?: TipogastoMinAggregateInputType
+    _max?: TipogastoMaxAggregateInputType
+  }
+
+
+  export type TipogastoGroupByOutputType = {
+    id: number
+    descripcion: string
+    color: string
+    _count: TipogastoCountAggregateOutputType | null
+    _avg: TipogastoAvgAggregateOutputType | null
+    _sum: TipogastoSumAggregateOutputType | null
+    _min: TipogastoMinAggregateOutputType | null
+    _max: TipogastoMaxAggregateOutputType | null
+  }
+
+  type GetTipogastoGroupByPayload<T extends TipogastoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<TipogastoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TipogastoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TipogastoGroupByOutputType[P]>
+            : GetScalarType<T[P], TipogastoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tipogastoSelect = {
+    id?: boolean
+    descripcion?: boolean
+    color?: boolean
+    gastos?: boolean | tipogasto$gastosArgs
+    _count?: boolean | TipogastoCountOutputTypeArgs
+  }
+
+
+  export type tipogastoInclude = {
+    gastos?: boolean | tipogasto$gastosArgs
+    _count?: boolean | TipogastoCountOutputTypeArgs
+  }
+
+  export type tipogastoGetPayload<S extends boolean | null | undefined | tipogastoArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? tipogasto :
+    S extends undefined ? never :
+    S extends { include: any } & (tipogastoArgs | tipogastoFindManyArgs)
+    ? tipogasto  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'gastos' ? Array < gastoGetPayload<S['include'][P]>>  :
+        P extends '_count' ? TipogastoCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (tipogastoArgs | tipogastoFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'gastos' ? Array < gastoGetPayload<S['select'][P]>>  :
+        P extends '_count' ? TipogastoCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof tipogasto ? tipogasto[P] : never
+  } 
+      : tipogasto
+
+
+  type tipogastoCountArgs = 
+    Omit<tipogastoFindManyArgs, 'select' | 'include'> & {
+      select?: TipogastoCountAggregateInputType | true
+    }
+
+  export interface tipogastoDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Tipogasto that matches the filter.
+     * @param {tipogastoFindUniqueArgs} args - Arguments to find a Tipogasto
+     * @example
+     * // Get one Tipogasto
+     * const tipogasto = await prisma.tipogasto.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends tipogastoFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, tipogastoFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'tipogasto'> extends True ? Prisma__tipogastoClient<tipogastoGetPayload<T>> : Prisma__tipogastoClient<tipogastoGetPayload<T> | null, null>
+
+    /**
+     * Find one Tipogasto that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {tipogastoFindUniqueOrThrowArgs} args - Arguments to find a Tipogasto
+     * @example
+     * // Get one Tipogasto
+     * const tipogasto = await prisma.tipogasto.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends tipogastoFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, tipogastoFindUniqueOrThrowArgs>
+    ): Prisma__tipogastoClient<tipogastoGetPayload<T>>
+
+    /**
+     * Find the first Tipogasto that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tipogastoFindFirstArgs} args - Arguments to find a Tipogasto
+     * @example
+     * // Get one Tipogasto
+     * const tipogasto = await prisma.tipogasto.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends tipogastoFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, tipogastoFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'tipogasto'> extends True ? Prisma__tipogastoClient<tipogastoGetPayload<T>> : Prisma__tipogastoClient<tipogastoGetPayload<T> | null, null>
+
+    /**
+     * Find the first Tipogasto that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tipogastoFindFirstOrThrowArgs} args - Arguments to find a Tipogasto
+     * @example
+     * // Get one Tipogasto
+     * const tipogasto = await prisma.tipogasto.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends tipogastoFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, tipogastoFindFirstOrThrowArgs>
+    ): Prisma__tipogastoClient<tipogastoGetPayload<T>>
+
+    /**
+     * Find zero or more Tipogastos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tipogastoFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tipogastos
+     * const tipogastos = await prisma.tipogasto.findMany()
+     * 
+     * // Get first 10 Tipogastos
+     * const tipogastos = await prisma.tipogasto.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tipogastoWithIdOnly = await prisma.tipogasto.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends tipogastoFindManyArgs>(
+      args?: SelectSubset<T, tipogastoFindManyArgs>
+    ): Prisma.PrismaPromise<Array<tipogastoGetPayload<T>>>
+
+    /**
+     * Create a Tipogasto.
+     * @param {tipogastoCreateArgs} args - Arguments to create a Tipogasto.
+     * @example
+     * // Create one Tipogasto
+     * const Tipogasto = await prisma.tipogasto.create({
+     *   data: {
+     *     // ... data to create a Tipogasto
+     *   }
+     * })
+     * 
+    **/
+    create<T extends tipogastoCreateArgs>(
+      args: SelectSubset<T, tipogastoCreateArgs>
+    ): Prisma__tipogastoClient<tipogastoGetPayload<T>>
+
+    /**
+     * Create many Tipogastos.
+     *     @param {tipogastoCreateManyArgs} args - Arguments to create many Tipogastos.
+     *     @example
+     *     // Create many Tipogastos
+     *     const tipogasto = await prisma.tipogasto.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends tipogastoCreateManyArgs>(
+      args?: SelectSubset<T, tipogastoCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Tipogasto.
+     * @param {tipogastoDeleteArgs} args - Arguments to delete one Tipogasto.
+     * @example
+     * // Delete one Tipogasto
+     * const Tipogasto = await prisma.tipogasto.delete({
+     *   where: {
+     *     // ... filter to delete one Tipogasto
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends tipogastoDeleteArgs>(
+      args: SelectSubset<T, tipogastoDeleteArgs>
+    ): Prisma__tipogastoClient<tipogastoGetPayload<T>>
+
+    /**
+     * Update one Tipogasto.
+     * @param {tipogastoUpdateArgs} args - Arguments to update one Tipogasto.
+     * @example
+     * // Update one Tipogasto
+     * const tipogasto = await prisma.tipogasto.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends tipogastoUpdateArgs>(
+      args: SelectSubset<T, tipogastoUpdateArgs>
+    ): Prisma__tipogastoClient<tipogastoGetPayload<T>>
+
+    /**
+     * Delete zero or more Tipogastos.
+     * @param {tipogastoDeleteManyArgs} args - Arguments to filter Tipogastos to delete.
+     * @example
+     * // Delete a few Tipogastos
+     * const { count } = await prisma.tipogasto.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends tipogastoDeleteManyArgs>(
+      args?: SelectSubset<T, tipogastoDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tipogastos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tipogastoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tipogastos
+     * const tipogasto = await prisma.tipogasto.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends tipogastoUpdateManyArgs>(
+      args: SelectSubset<T, tipogastoUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Tipogasto.
+     * @param {tipogastoUpsertArgs} args - Arguments to update or create a Tipogasto.
+     * @example
+     * // Update or create a Tipogasto
+     * const tipogasto = await prisma.tipogasto.upsert({
+     *   create: {
+     *     // ... data to create a Tipogasto
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Tipogasto we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends tipogastoUpsertArgs>(
+      args: SelectSubset<T, tipogastoUpsertArgs>
+    ): Prisma__tipogastoClient<tipogastoGetPayload<T>>
+
+    /**
+     * Count the number of Tipogastos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tipogastoCountArgs} args - Arguments to filter Tipogastos to count.
+     * @example
+     * // Count the number of Tipogastos
+     * const count = await prisma.tipogasto.count({
+     *   where: {
+     *     // ... the filter for the Tipogastos we want to count
+     *   }
+     * })
+    **/
+    count<T extends tipogastoCountArgs>(
+      args?: Subset<T, tipogastoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TipogastoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Tipogasto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TipogastoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TipogastoAggregateArgs>(args: Subset<T, TipogastoAggregateArgs>): Prisma.PrismaPromise<GetTipogastoAggregateType<T>>
+
+    /**
+     * Group by Tipogasto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TipogastoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TipogastoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TipogastoGroupByArgs['orderBy'] }
+        : { orderBy?: TipogastoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TipogastoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTipogastoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tipogasto.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__tipogastoClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    gastos<T extends tipogasto$gastosArgs= {}>(args?: Subset<T, tipogasto$gastosArgs>): Prisma.PrismaPromise<Array<gastoGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * tipogasto base type for findUnique actions
+   */
+  export type tipogastoFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the tipogasto
+     */
+    select?: tipogastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipogastoInclude | null
+    /**
+     * Filter, which tipogasto to fetch.
+     */
+    where: tipogastoWhereUniqueInput
+  }
+
+  /**
+   * tipogasto findUnique
+   */
+  export interface tipogastoFindUniqueArgs extends tipogastoFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * tipogasto findUniqueOrThrow
+   */
+  export type tipogastoFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the tipogasto
+     */
+    select?: tipogastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipogastoInclude | null
+    /**
+     * Filter, which tipogasto to fetch.
+     */
+    where: tipogastoWhereUniqueInput
+  }
+
+
+  /**
+   * tipogasto base type for findFirst actions
+   */
+  export type tipogastoFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the tipogasto
+     */
+    select?: tipogastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipogastoInclude | null
+    /**
+     * Filter, which tipogasto to fetch.
+     */
+    where?: tipogastoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tipogastos to fetch.
+     */
+    orderBy?: Enumerable<tipogastoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tipogastos.
+     */
+    cursor?: tipogastoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tipogastos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tipogastos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tipogastos.
+     */
+    distinct?: Enumerable<TipogastoScalarFieldEnum>
+  }
+
+  /**
+   * tipogasto findFirst
+   */
+  export interface tipogastoFindFirstArgs extends tipogastoFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * tipogasto findFirstOrThrow
+   */
+  export type tipogastoFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the tipogasto
+     */
+    select?: tipogastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipogastoInclude | null
+    /**
+     * Filter, which tipogasto to fetch.
+     */
+    where?: tipogastoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tipogastos to fetch.
+     */
+    orderBy?: Enumerable<tipogastoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tipogastos.
+     */
+    cursor?: tipogastoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tipogastos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tipogastos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tipogastos.
+     */
+    distinct?: Enumerable<TipogastoScalarFieldEnum>
+  }
+
+
+  /**
+   * tipogasto findMany
+   */
+  export type tipogastoFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the tipogasto
+     */
+    select?: tipogastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipogastoInclude | null
+    /**
+     * Filter, which tipogastos to fetch.
+     */
+    where?: tipogastoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tipogastos to fetch.
+     */
+    orderBy?: Enumerable<tipogastoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tipogastos.
+     */
+    cursor?: tipogastoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tipogastos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tipogastos.
+     */
+    skip?: number
+    distinct?: Enumerable<TipogastoScalarFieldEnum>
+  }
+
+
+  /**
+   * tipogasto create
+   */
+  export type tipogastoCreateArgs = {
+    /**
+     * Select specific fields to fetch from the tipogasto
+     */
+    select?: tipogastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipogastoInclude | null
+    /**
+     * The data needed to create a tipogasto.
+     */
+    data: XOR<tipogastoCreateInput, tipogastoUncheckedCreateInput>
+  }
+
+
+  /**
+   * tipogasto createMany
+   */
+  export type tipogastoCreateManyArgs = {
+    /**
+     * The data used to create many tipogastos.
+     */
+    data: Enumerable<tipogastoCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * tipogasto update
+   */
+  export type tipogastoUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the tipogasto
+     */
+    select?: tipogastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipogastoInclude | null
+    /**
+     * The data needed to update a tipogasto.
+     */
+    data: XOR<tipogastoUpdateInput, tipogastoUncheckedUpdateInput>
+    /**
+     * Choose, which tipogasto to update.
+     */
+    where: tipogastoWhereUniqueInput
+  }
+
+
+  /**
+   * tipogasto updateMany
+   */
+  export type tipogastoUpdateManyArgs = {
+    /**
+     * The data used to update tipogastos.
+     */
+    data: XOR<tipogastoUpdateManyMutationInput, tipogastoUncheckedUpdateManyInput>
+    /**
+     * Filter which tipogastos to update
+     */
+    where?: tipogastoWhereInput
+  }
+
+
+  /**
+   * tipogasto upsert
+   */
+  export type tipogastoUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the tipogasto
+     */
+    select?: tipogastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipogastoInclude | null
+    /**
+     * The filter to search for the tipogasto to update in case it exists.
+     */
+    where: tipogastoWhereUniqueInput
+    /**
+     * In case the tipogasto found by the `where` argument doesn't exist, create a new tipogasto with this data.
+     */
+    create: XOR<tipogastoCreateInput, tipogastoUncheckedCreateInput>
+    /**
+     * In case the tipogasto was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tipogastoUpdateInput, tipogastoUncheckedUpdateInput>
+  }
+
+
+  /**
+   * tipogasto delete
+   */
+  export type tipogastoDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the tipogasto
+     */
+    select?: tipogastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipogastoInclude | null
+    /**
+     * Filter which tipogasto to delete.
+     */
+    where: tipogastoWhereUniqueInput
+  }
+
+
+  /**
+   * tipogasto deleteMany
+   */
+  export type tipogastoDeleteManyArgs = {
+    /**
+     * Filter which tipogastos to delete
+     */
+    where?: tipogastoWhereInput
+  }
+
+
+  /**
+   * tipogasto.gastos
+   */
+  export type tipogasto$gastosArgs = {
+    /**
+     * Select specific fields to fetch from the gasto
+     */
+    select?: gastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: gastoInclude | null
+    where?: gastoWhereInput
+    orderBy?: Enumerable<gastoOrderByWithRelationInput>
+    cursor?: gastoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<GastoScalarFieldEnum>
+  }
+
+
+  /**
+   * tipogasto without action
+   */
+  export type tipogastoArgs = {
+    /**
+     * Select specific fields to fetch from the tipogasto
+     */
+    select?: tipogastoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: tipogastoInclude | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -7696,6 +8864,18 @@ export namespace Prisma {
   export type EmpleadaScalarFieldEnum = (typeof EmpleadaScalarFieldEnum)[keyof typeof EmpleadaScalarFieldEnum]
 
 
+  export const GastoScalarFieldEnum: {
+    id: 'id',
+    fecha: 'fecha',
+    tipogastoId: 'tipogastoId',
+    importe: 'importe',
+    observacion: 'observacion',
+    servicioId: 'servicioId'
+  };
+
+  export type GastoScalarFieldEnum = (typeof GastoScalarFieldEnum)[keyof typeof GastoScalarFieldEnum]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -7712,6 +8892,9 @@ export namespace Prisma {
     suplLevantar: 'suplLevantar',
     empleadaId: 'empleadaId',
     pagado: 'pagado',
+    horas: 'horas',
+    minutos: 'minutos',
+    importe: 'importe',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -7727,16 +8910,6 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const TC_tiposGastosScalarFieldEnum: {
-    id: 'id',
-    descripcion: 'descripcion',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type TC_tiposGastosScalarFieldEnum = (typeof TC_tiposGastosScalarFieldEnum)[keyof typeof TC_tiposGastosScalarFieldEnum]
-
-
   export const TipoagendaScalarFieldEnum: {
     id: 'id',
     descripcion: 'descripcion',
@@ -7744,6 +8917,15 @@ export namespace Prisma {
   };
 
   export type TipoagendaScalarFieldEnum = (typeof TipoagendaScalarFieldEnum)[keyof typeof TipoagendaScalarFieldEnum]
+
+
+  export const TipogastoScalarFieldEnum: {
+    id: 'id',
+    descripcion: 'descripcion',
+    color: 'color'
+  };
+
+  export type TipogastoScalarFieldEnum = (typeof TipogastoScalarFieldEnum)[keyof typeof TipogastoScalarFieldEnum]
 
 
   export const TransactionIsolationLevel: {
@@ -7769,49 +8951,6 @@ export namespace Prisma {
    * Deep Input Types
    */
 
-
-  export type TC_tiposGastosWhereInput = {
-    AND?: Enumerable<TC_tiposGastosWhereInput>
-    OR?: Enumerable<TC_tiposGastosWhereInput>
-    NOT?: Enumerable<TC_tiposGastosWhereInput>
-    id?: IntFilter | number
-    descripcion?: StringFilter | string
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
-  }
-
-  export type TC_tiposGastosOrderByWithRelationInput = {
-    id?: SortOrder
-    descripcion?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type TC_tiposGastosWhereUniqueInput = {
-    id?: number
-  }
-
-  export type TC_tiposGastosOrderByWithAggregationInput = {
-    id?: SortOrder
-    descripcion?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: TC_tiposGastosCountOrderByAggregateInput
-    _avg?: TC_tiposGastosAvgOrderByAggregateInput
-    _max?: TC_tiposGastosMaxOrderByAggregateInput
-    _min?: TC_tiposGastosMinOrderByAggregateInput
-    _sum?: TC_tiposGastosSumOrderByAggregateInput
-  }
-
-  export type TC_tiposGastosScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<TC_tiposGastosScalarWhereWithAggregatesInput>
-    OR?: Enumerable<TC_tiposGastosScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<TC_tiposGastosScalarWhereWithAggregatesInput>
-    id?: IntWithAggregatesFilter | number
-    descripcion?: StringWithAggregatesFilter | string
-    createdAt?: DateTimeWithAggregatesFilter | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter | Date | string
-  }
 
   export type casaWhereInput = {
     AND?: Enumerable<casaWhereInput>
@@ -7922,9 +9061,13 @@ export namespace Prisma {
     suplLevantar?: BoolFilter | boolean
     empleadaId?: IntFilter | number
     pagado?: BoolFilter | boolean
+    horas?: IntFilter | number
+    minutos?: IntFilter | number
+    importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     empleada?: XOR<EmpleadaRelationFilter, empleadaWhereInput>
+    gasto?: XOR<GastoRelationFilter, gastoWhereInput> | null
   }
 
   export type servicioOrderByWithRelationInput = {
@@ -7935,9 +9078,13 @@ export namespace Prisma {
     suplLevantar?: SortOrder
     empleadaId?: SortOrder
     pagado?: SortOrder
+    horas?: SortOrder
+    minutos?: SortOrder
+    importe?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     empleada?: empleadaOrderByWithRelationInput
+    gasto?: gastoOrderByWithRelationInput
   }
 
   export type servicioWhereUniqueInput = {
@@ -7952,6 +9099,9 @@ export namespace Prisma {
     suplLevantar?: SortOrder
     empleadaId?: SortOrder
     pagado?: SortOrder
+    horas?: SortOrder
+    minutos?: SortOrder
+    importe?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: servicioCountOrderByAggregateInput
@@ -7972,6 +9122,9 @@ export namespace Prisma {
     suplLevantar?: BoolWithAggregatesFilter | boolean
     empleadaId?: IntWithAggregatesFilter | number
     pagado?: BoolWithAggregatesFilter | boolean
+    horas?: IntWithAggregatesFilter | number
+    minutos?: IntWithAggregatesFilter | number
+    importe?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -8102,53 +9255,102 @@ export namespace Prisma {
     color?: StringWithAggregatesFilter | string
   }
 
-  export type TC_tiposGastosCreateInput = {
-    id: number
-    descripcion: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type gastoWhereInput = {
+    AND?: Enumerable<gastoWhereInput>
+    OR?: Enumerable<gastoWhereInput>
+    NOT?: Enumerable<gastoWhereInput>
+    id?: IntFilter | number
+    fecha?: DateTimeFilter | Date | string
+    tipogastoId?: IntFilter | number
+    importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    observacion?: StringNullableFilter | string | null
+    servicioId?: IntNullableFilter | number | null
+    tipo?: XOR<TipogastoRelationFilter, tipogastoWhereInput>
+    servicio?: XOR<ServicioRelationFilter, servicioWhereInput> | null
   }
 
-  export type TC_tiposGastosUncheckedCreateInput = {
-    id: number
-    descripcion: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type gastoOrderByWithRelationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    tipogastoId?: SortOrder
+    importe?: SortOrder
+    observacion?: SortOrder
+    servicioId?: SortOrder
+    tipo?: tipogastoOrderByWithRelationInput
+    servicio?: servicioOrderByWithRelationInput
   }
 
-  export type TC_tiposGastosUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type gastoWhereUniqueInput = {
+    id?: number
+    servicioId?: number
   }
 
-  export type TC_tiposGastosUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type gastoOrderByWithAggregationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    tipogastoId?: SortOrder
+    importe?: SortOrder
+    observacion?: SortOrder
+    servicioId?: SortOrder
+    _count?: gastoCountOrderByAggregateInput
+    _avg?: gastoAvgOrderByAggregateInput
+    _max?: gastoMaxOrderByAggregateInput
+    _min?: gastoMinOrderByAggregateInput
+    _sum?: gastoSumOrderByAggregateInput
   }
 
-  export type TC_tiposGastosCreateManyInput = {
-    id: number
-    descripcion: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type gastoScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<gastoScalarWhereWithAggregatesInput>
+    OR?: Enumerable<gastoScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<gastoScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    fecha?: DateTimeWithAggregatesFilter | Date | string
+    tipogastoId?: IntWithAggregatesFilter | number
+    importe?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    observacion?: StringNullableWithAggregatesFilter | string | null
+    servicioId?: IntNullableWithAggregatesFilter | number | null
   }
 
-  export type TC_tiposGastosUpdateManyMutationInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type tipogastoWhereInput = {
+    AND?: Enumerable<tipogastoWhereInput>
+    OR?: Enumerable<tipogastoWhereInput>
+    NOT?: Enumerable<tipogastoWhereInput>
+    id?: IntFilter | number
+    descripcion?: StringFilter | string
+    color?: StringFilter | string
+    gastos?: GastoListRelationFilter
   }
 
-  export type TC_tiposGastosUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type tipogastoOrderByWithRelationInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    color?: SortOrder
+    gastos?: gastoOrderByRelationAggregateInput
+  }
+
+  export type tipogastoWhereUniqueInput = {
+    id?: number
+    descripcion?: string
+  }
+
+  export type tipogastoOrderByWithAggregationInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    color?: SortOrder
+    _count?: tipogastoCountOrderByAggregateInput
+    _avg?: tipogastoAvgOrderByAggregateInput
+    _max?: tipogastoMaxOrderByAggregateInput
+    _min?: tipogastoMinOrderByAggregateInput
+    _sum?: tipogastoSumOrderByAggregateInput
+  }
+
+  export type tipogastoScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<tipogastoScalarWhereWithAggregatesInput>
+    OR?: Enumerable<tipogastoScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<tipogastoScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    descripcion?: StringWithAggregatesFilter | string
+    color?: StringWithAggregatesFilter | string
   }
 
   export type casaCreateInput = {
@@ -8267,9 +9469,13 @@ export namespace Prisma {
     horaFin: Date | string
     suplLevantar?: boolean
     pagado?: boolean
+    horas: number
+    minutos: number
+    importe: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
     empleada: empleadaCreateNestedOneWithoutServiciosInput
+    gasto?: gastoCreateNestedOneWithoutServicioInput
   }
 
   export type servicioUncheckedCreateInput = {
@@ -8280,8 +9486,12 @@ export namespace Prisma {
     suplLevantar?: boolean
     empleadaId: number
     pagado?: boolean
+    horas: number
+    minutos: number
+    importe: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    gasto?: gastoUncheckedCreateNestedOneWithoutServicioInput
   }
 
   export type servicioUpdateInput = {
@@ -8290,9 +9500,13 @@ export namespace Prisma {
     horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     pagado?: BoolFieldUpdateOperationsInput | boolean
+    horas?: IntFieldUpdateOperationsInput | number
+    minutos?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     empleada?: empleadaUpdateOneRequiredWithoutServiciosNestedInput
+    gasto?: gastoUpdateOneWithoutServicioNestedInput
   }
 
   export type servicioUncheckedUpdateInput = {
@@ -8303,8 +9517,12 @@ export namespace Prisma {
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     empleadaId?: IntFieldUpdateOperationsInput | number
     pagado?: BoolFieldUpdateOperationsInput | boolean
+    horas?: IntFieldUpdateOperationsInput | number
+    minutos?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    gasto?: gastoUncheckedUpdateOneWithoutServicioNestedInput
   }
 
   export type servicioCreateManyInput = {
@@ -8315,6 +9533,9 @@ export namespace Prisma {
     suplLevantar?: boolean
     empleadaId: number
     pagado?: boolean
+    horas: number
+    minutos: number
+    importe: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8325,6 +9546,9 @@ export namespace Prisma {
     horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     pagado?: BoolFieldUpdateOperationsInput | boolean
+    horas?: IntFieldUpdateOperationsInput | number
+    minutos?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8337,6 +9561,9 @@ export namespace Prisma {
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     empleadaId?: IntFieldUpdateOperationsInput | number
     pagado?: BoolFieldUpdateOperationsInput | boolean
+    horas?: IntFieldUpdateOperationsInput | number
+    minutos?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8471,6 +9698,110 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
   }
 
+  export type gastoCreateInput = {
+    fecha: Date | string
+    importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
+    tipo: tipogastoCreateNestedOneWithoutGastosInput
+    servicio?: servicioCreateNestedOneWithoutGastoInput
+  }
+
+  export type gastoUncheckedCreateInput = {
+    id?: number
+    fecha: Date | string
+    tipogastoId: number
+    importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
+    servicioId?: number | null
+  }
+
+  export type gastoUpdateInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: tipogastoUpdateOneRequiredWithoutGastosNestedInput
+    servicio?: servicioUpdateOneWithoutGastoNestedInput
+  }
+
+  export type gastoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipogastoId?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
+    servicioId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type gastoCreateManyInput = {
+    id?: number
+    fecha: Date | string
+    tipogastoId: number
+    importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
+    servicioId?: number | null
+  }
+
+  export type gastoUpdateManyMutationInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type gastoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipogastoId?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
+    servicioId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type tipogastoCreateInput = {
+    id: number
+    descripcion: string
+    color: string
+    gastos?: gastoCreateNestedManyWithoutTipoInput
+  }
+
+  export type tipogastoUncheckedCreateInput = {
+    id: number
+    descripcion: string
+    color: string
+    gastos?: gastoUncheckedCreateNestedManyWithoutTipoInput
+  }
+
+  export type tipogastoUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    gastos?: gastoUpdateManyWithoutTipoNestedInput
+  }
+
+  export type tipogastoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    gastos?: gastoUncheckedUpdateManyWithoutTipoNestedInput
+  }
+
+  export type tipogastoCreateManyInput = {
+    id: number
+    descripcion: string
+    color: string
+  }
+
+  export type tipogastoUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type tipogastoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+  }
+
   export type IntFilter = {
     equals?: number
     in?: Enumerable<number> | number
@@ -8497,6 +9828,11 @@ export namespace Prisma {
     not?: NestedStringFilter | string
   }
 
+  export type BoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
   export type DateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string> | Date | string
@@ -8508,32 +9844,35 @@ export namespace Prisma {
     not?: NestedDateTimeFilter | Date | string
   }
 
-  export type TC_tiposGastosCountOrderByAggregateInput = {
+  export type casaCountOrderByAggregateInput = {
     id?: SortOrder
-    descripcion?: SortOrder
+    nombre?: SortOrder
+    baja?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type TC_tiposGastosAvgOrderByAggregateInput = {
+  export type casaAvgOrderByAggregateInput = {
     id?: SortOrder
   }
 
-  export type TC_tiposGastosMaxOrderByAggregateInput = {
+  export type casaMaxOrderByAggregateInput = {
     id?: SortOrder
-    descripcion?: SortOrder
+    nombre?: SortOrder
+    baja?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type TC_tiposGastosMinOrderByAggregateInput = {
+  export type casaMinOrderByAggregateInput = {
     id?: SortOrder
-    descripcion?: SortOrder
+    nombre?: SortOrder
+    baja?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type TC_tiposGastosSumOrderByAggregateInput = {
+  export type casaSumOrderByAggregateInput = {
     id?: SortOrder
   }
 
@@ -8571,6 +9910,14 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
+  export type BoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
+  }
+
   export type DateTimeWithAggregatesFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string> | Date | string
@@ -8583,51 +9930,6 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedDateTimeFilter
     _max?: NestedDateTimeFilter
-  }
-
-  export type BoolFilter = {
-    equals?: boolean
-    not?: NestedBoolFilter | boolean
-  }
-
-  export type casaCountOrderByAggregateInput = {
-    id?: SortOrder
-    nombre?: SortOrder
-    baja?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type casaAvgOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type casaMaxOrderByAggregateInput = {
-    id?: SortOrder
-    nombre?: SortOrder
-    baja?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type casaMinOrderByAggregateInput = {
-    id?: SortOrder
-    nombre?: SortOrder
-    baja?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type casaSumOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    _count?: NestedIntFilter
-    _min?: NestedBoolFilter
-    _max?: NestedBoolFilter
   }
 
   export type ServicioListRelationFilter = {
@@ -8672,9 +9974,25 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type DecimalFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
+  }
+
   export type EmpleadaRelationFilter = {
     is?: empleadaWhereInput
     isNot?: empleadaWhereInput
+  }
+
+  export type GastoRelationFilter = {
+    is?: gastoWhereInput | null
+    isNot?: gastoWhereInput | null
   }
 
   export type servicioCountOrderByAggregateInput = {
@@ -8685,6 +10003,9 @@ export namespace Prisma {
     suplLevantar?: SortOrder
     empleadaId?: SortOrder
     pagado?: SortOrder
+    horas?: SortOrder
+    minutos?: SortOrder
+    importe?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8692,6 +10013,9 @@ export namespace Prisma {
   export type servicioAvgOrderByAggregateInput = {
     id?: SortOrder
     empleadaId?: SortOrder
+    horas?: SortOrder
+    minutos?: SortOrder
+    importe?: SortOrder
   }
 
   export type servicioMaxOrderByAggregateInput = {
@@ -8702,6 +10026,9 @@ export namespace Prisma {
     suplLevantar?: SortOrder
     empleadaId?: SortOrder
     pagado?: SortOrder
+    horas?: SortOrder
+    minutos?: SortOrder
+    importe?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8714,6 +10041,9 @@ export namespace Prisma {
     suplLevantar?: SortOrder
     empleadaId?: SortOrder
     pagado?: SortOrder
+    horas?: SortOrder
+    minutos?: SortOrder
+    importe?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8721,6 +10051,25 @@ export namespace Prisma {
   export type servicioSumOrderByAggregateInput = {
     id?: SortOrder
     empleadaId?: SortOrder
+    horas?: SortOrder
+    minutos?: SortOrder
+    importe?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter
+    _avg?: NestedDecimalFilter
+    _sum?: NestedDecimalFilter
+    _min?: NestedDecimalFilter
+    _max?: NestedDecimalFilter
   }
 
   export type turnoCountOrderByAggregateInput = {
@@ -8821,24 +10170,171 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type StringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | string | null
+    notIn?: Enumerable<string> | string | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type IntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | number | null
+    notIn?: Enumerable<number> | number | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
+  }
+
+  export type TipogastoRelationFilter = {
+    is?: tipogastoWhereInput
+    isNot?: tipogastoWhereInput
+  }
+
+  export type ServicioRelationFilter = {
+    is?: servicioWhereInput | null
+    isNot?: servicioWhereInput | null
+  }
+
+  export type gastoCountOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    tipogastoId?: SortOrder
+    importe?: SortOrder
+    observacion?: SortOrder
+    servicioId?: SortOrder
+  }
+
+  export type gastoAvgOrderByAggregateInput = {
+    id?: SortOrder
+    tipogastoId?: SortOrder
+    importe?: SortOrder
+    servicioId?: SortOrder
+  }
+
+  export type gastoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    tipogastoId?: SortOrder
+    importe?: SortOrder
+    observacion?: SortOrder
+    servicioId?: SortOrder
+  }
+
+  export type gastoMinOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    tipogastoId?: SortOrder
+    importe?: SortOrder
+    observacion?: SortOrder
+    servicioId?: SortOrder
+  }
+
+  export type gastoSumOrderByAggregateInput = {
+    id?: SortOrder
+    tipogastoId?: SortOrder
+    importe?: SortOrder
+    servicioId?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | string | null
+    notIn?: Enumerable<string> | string | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
+  }
+
+  export type IntNullableWithAggregatesFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | number | null
+    notIn?: Enumerable<number> | number | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedIntNullableFilter
+    _min?: NestedIntNullableFilter
+    _max?: NestedIntNullableFilter
+  }
+
+  export type GastoListRelationFilter = {
+    every?: gastoWhereInput
+    some?: gastoWhereInput
+    none?: gastoWhereInput
+  }
+
+  export type gastoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type tipogastoCountOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    color?: SortOrder
+  }
+
+  export type tipogastoAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type tipogastoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    color?: SortOrder
+  }
+
+  export type tipogastoMinOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    color?: SortOrder
+  }
+
+  export type tipogastoSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type servicioCreateNestedManyWithoutEmpleadaInput = {
@@ -8889,12 +10385,52 @@ export namespace Prisma {
     connect?: empleadaWhereUniqueInput
   }
 
+  export type gastoCreateNestedOneWithoutServicioInput = {
+    create?: XOR<gastoCreateWithoutServicioInput, gastoUncheckedCreateWithoutServicioInput>
+    connectOrCreate?: gastoCreateOrConnectWithoutServicioInput
+    connect?: gastoWhereUniqueInput
+  }
+
+  export type gastoUncheckedCreateNestedOneWithoutServicioInput = {
+    create?: XOR<gastoCreateWithoutServicioInput, gastoUncheckedCreateWithoutServicioInput>
+    connectOrCreate?: gastoCreateOrConnectWithoutServicioInput
+    connect?: gastoWhereUniqueInput
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
   export type empleadaUpdateOneRequiredWithoutServiciosNestedInput = {
     create?: XOR<empleadaCreateWithoutServiciosInput, empleadaUncheckedCreateWithoutServiciosInput>
     connectOrCreate?: empleadaCreateOrConnectWithoutServiciosInput
     upsert?: empleadaUpsertWithoutServiciosInput
     connect?: empleadaWhereUniqueInput
     update?: XOR<empleadaUpdateWithoutServiciosInput, empleadaUncheckedUpdateWithoutServiciosInput>
+  }
+
+  export type gastoUpdateOneWithoutServicioNestedInput = {
+    create?: XOR<gastoCreateWithoutServicioInput, gastoUncheckedCreateWithoutServicioInput>
+    connectOrCreate?: gastoCreateOrConnectWithoutServicioInput
+    upsert?: gastoUpsertWithoutServicioInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: gastoWhereUniqueInput
+    update?: XOR<gastoUpdateWithoutServicioInput, gastoUncheckedUpdateWithoutServicioInput>
+  }
+
+  export type gastoUncheckedUpdateOneWithoutServicioNestedInput = {
+    create?: XOR<gastoCreateWithoutServicioInput, gastoUncheckedCreateWithoutServicioInput>
+    connectOrCreate?: gastoCreateOrConnectWithoutServicioInput
+    upsert?: gastoUpsertWithoutServicioInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: gastoWhereUniqueInput
+    update?: XOR<gastoUpdateWithoutServicioInput, gastoUncheckedUpdateWithoutServicioInput>
   }
 
   export type tipoagendaCreateNestedOneWithoutAgendasInput = {
@@ -8953,6 +10489,90 @@ export namespace Prisma {
     deleteMany?: Enumerable<agendaScalarWhereInput>
   }
 
+  export type tipogastoCreateNestedOneWithoutGastosInput = {
+    create?: XOR<tipogastoCreateWithoutGastosInput, tipogastoUncheckedCreateWithoutGastosInput>
+    connectOrCreate?: tipogastoCreateOrConnectWithoutGastosInput
+    connect?: tipogastoWhereUniqueInput
+  }
+
+  export type servicioCreateNestedOneWithoutGastoInput = {
+    create?: XOR<servicioCreateWithoutGastoInput, servicioUncheckedCreateWithoutGastoInput>
+    connectOrCreate?: servicioCreateOrConnectWithoutGastoInput
+    connect?: servicioWhereUniqueInput
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type tipogastoUpdateOneRequiredWithoutGastosNestedInput = {
+    create?: XOR<tipogastoCreateWithoutGastosInput, tipogastoUncheckedCreateWithoutGastosInput>
+    connectOrCreate?: tipogastoCreateOrConnectWithoutGastosInput
+    upsert?: tipogastoUpsertWithoutGastosInput
+    connect?: tipogastoWhereUniqueInput
+    update?: XOR<tipogastoUpdateWithoutGastosInput, tipogastoUncheckedUpdateWithoutGastosInput>
+  }
+
+  export type servicioUpdateOneWithoutGastoNestedInput = {
+    create?: XOR<servicioCreateWithoutGastoInput, servicioUncheckedCreateWithoutGastoInput>
+    connectOrCreate?: servicioCreateOrConnectWithoutGastoInput
+    upsert?: servicioUpsertWithoutGastoInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: servicioWhereUniqueInput
+    update?: XOR<servicioUpdateWithoutGastoInput, servicioUncheckedUpdateWithoutGastoInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type gastoCreateNestedManyWithoutTipoInput = {
+    create?: XOR<Enumerable<gastoCreateWithoutTipoInput>, Enumerable<gastoUncheckedCreateWithoutTipoInput>>
+    connectOrCreate?: Enumerable<gastoCreateOrConnectWithoutTipoInput>
+    createMany?: gastoCreateManyTipoInputEnvelope
+    connect?: Enumerable<gastoWhereUniqueInput>
+  }
+
+  export type gastoUncheckedCreateNestedManyWithoutTipoInput = {
+    create?: XOR<Enumerable<gastoCreateWithoutTipoInput>, Enumerable<gastoUncheckedCreateWithoutTipoInput>>
+    connectOrCreate?: Enumerable<gastoCreateOrConnectWithoutTipoInput>
+    createMany?: gastoCreateManyTipoInputEnvelope
+    connect?: Enumerable<gastoWhereUniqueInput>
+  }
+
+  export type gastoUpdateManyWithoutTipoNestedInput = {
+    create?: XOR<Enumerable<gastoCreateWithoutTipoInput>, Enumerable<gastoUncheckedCreateWithoutTipoInput>>
+    connectOrCreate?: Enumerable<gastoCreateOrConnectWithoutTipoInput>
+    upsert?: Enumerable<gastoUpsertWithWhereUniqueWithoutTipoInput>
+    createMany?: gastoCreateManyTipoInputEnvelope
+    set?: Enumerable<gastoWhereUniqueInput>
+    disconnect?: Enumerable<gastoWhereUniqueInput>
+    delete?: Enumerable<gastoWhereUniqueInput>
+    connect?: Enumerable<gastoWhereUniqueInput>
+    update?: Enumerable<gastoUpdateWithWhereUniqueWithoutTipoInput>
+    updateMany?: Enumerable<gastoUpdateManyWithWhereWithoutTipoInput>
+    deleteMany?: Enumerable<gastoScalarWhereInput>
+  }
+
+  export type gastoUncheckedUpdateManyWithoutTipoNestedInput = {
+    create?: XOR<Enumerable<gastoCreateWithoutTipoInput>, Enumerable<gastoUncheckedCreateWithoutTipoInput>>
+    connectOrCreate?: Enumerable<gastoCreateOrConnectWithoutTipoInput>
+    upsert?: Enumerable<gastoUpsertWithWhereUniqueWithoutTipoInput>
+    createMany?: gastoCreateManyTipoInputEnvelope
+    set?: Enumerable<gastoWhereUniqueInput>
+    disconnect?: Enumerable<gastoWhereUniqueInput>
+    delete?: Enumerable<gastoWhereUniqueInput>
+    connect?: Enumerable<gastoWhereUniqueInput>
+    update?: Enumerable<gastoUpdateWithWhereUniqueWithoutTipoInput>
+    updateMany?: Enumerable<gastoUpdateManyWithWhereWithoutTipoInput>
+    deleteMany?: Enumerable<gastoScalarWhereInput>
+  }
+
   export type NestedIntFilter = {
     equals?: number
     in?: Enumerable<number> | number
@@ -8976,6 +10596,11 @@ export namespace Prisma {
     startsWith?: string
     endsWith?: string
     not?: NestedStringFilter | string
+  }
+
+  export type NestedBoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
   }
 
   export type NestedDateTimeFilter = {
@@ -9033,6 +10658,14 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
+  export type NestedBoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
+  }
+
   export type NestedDateTimeWithAggregatesFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string> | Date | string
@@ -9047,17 +10680,100 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter
   }
 
-  export type NestedBoolFilter = {
-    equals?: boolean
-    not?: NestedBoolFilter | boolean
+  export type NestedDecimalFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
   }
 
-  export type NestedBoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
+  export type NestedDecimalWithAggregatesFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     _count?: NestedIntFilter
-    _min?: NestedBoolFilter
-    _max?: NestedBoolFilter
+    _avg?: NestedDecimalFilter
+    _sum?: NestedDecimalFilter
+    _min?: NestedDecimalFilter
+    _max?: NestedDecimalFilter
+  }
+
+  export type NestedStringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | string | null
+    notIn?: Enumerable<string> | string | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | number | null
+    notIn?: Enumerable<number> | number | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | string | null
+    notIn?: Enumerable<string> | string | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
+  }
+
+  export type NestedIntNullableWithAggregatesFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | number | null
+    notIn?: Enumerable<number> | number | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedIntNullableFilter
+    _min?: NestedIntNullableFilter
+    _max?: NestedIntNullableFilter
+  }
+
+  export type NestedFloatNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | number | null
+    notIn?: Enumerable<number> | number | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatNullableFilter | number | null
   }
 
   export type servicioCreateWithoutEmpleadaInput = {
@@ -9066,8 +10782,12 @@ export namespace Prisma {
     horaFin: Date | string
     suplLevantar?: boolean
     pagado?: boolean
+    horas: number
+    minutos: number
+    importe: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    gasto?: gastoCreateNestedOneWithoutServicioInput
   }
 
   export type servicioUncheckedCreateWithoutEmpleadaInput = {
@@ -9077,8 +10797,12 @@ export namespace Prisma {
     horaFin: Date | string
     suplLevantar?: boolean
     pagado?: boolean
+    horas: number
+    minutos: number
+    importe: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    gasto?: gastoUncheckedCreateNestedOneWithoutServicioInput
   }
 
   export type servicioCreateOrConnectWithoutEmpleadaInput = {
@@ -9118,6 +10842,9 @@ export namespace Prisma {
     suplLevantar?: BoolFilter | boolean
     empleadaId?: IntFilter | number
     pagado?: BoolFilter | boolean
+    horas?: IntFilter | number
+    minutos?: IntFilter | number
+    importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
@@ -9142,6 +10869,26 @@ export namespace Prisma {
     create: XOR<empleadaCreateWithoutServiciosInput, empleadaUncheckedCreateWithoutServiciosInput>
   }
 
+  export type gastoCreateWithoutServicioInput = {
+    fecha: Date | string
+    importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
+    tipo: tipogastoCreateNestedOneWithoutGastosInput
+  }
+
+  export type gastoUncheckedCreateWithoutServicioInput = {
+    id?: number
+    fecha: Date | string
+    tipogastoId: number
+    importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
+  }
+
+  export type gastoCreateOrConnectWithoutServicioInput = {
+    where: gastoWhereUniqueInput
+    create: XOR<gastoCreateWithoutServicioInput, gastoUncheckedCreateWithoutServicioInput>
+  }
+
   export type empleadaUpsertWithoutServiciosInput = {
     update: XOR<empleadaUpdateWithoutServiciosInput, empleadaUncheckedUpdateWithoutServiciosInput>
     create: XOR<empleadaCreateWithoutServiciosInput, empleadaUncheckedCreateWithoutServiciosInput>
@@ -9160,6 +10907,26 @@ export namespace Prisma {
     baja?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type gastoUpsertWithoutServicioInput = {
+    update: XOR<gastoUpdateWithoutServicioInput, gastoUncheckedUpdateWithoutServicioInput>
+    create: XOR<gastoCreateWithoutServicioInput, gastoUncheckedCreateWithoutServicioInput>
+  }
+
+  export type gastoUpdateWithoutServicioInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: tipogastoUpdateOneRequiredWithoutGastosNestedInput
+  }
+
+  export type gastoUncheckedUpdateWithoutServicioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipogastoId?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type tipoagendaCreateWithoutAgendasInput = {
@@ -9243,6 +11010,161 @@ export namespace Prisma {
     observacion?: StringFilter | string
   }
 
+  export type tipogastoCreateWithoutGastosInput = {
+    id: number
+    descripcion: string
+    color: string
+  }
+
+  export type tipogastoUncheckedCreateWithoutGastosInput = {
+    id: number
+    descripcion: string
+    color: string
+  }
+
+  export type tipogastoCreateOrConnectWithoutGastosInput = {
+    where: tipogastoWhereUniqueInput
+    create: XOR<tipogastoCreateWithoutGastosInput, tipogastoUncheckedCreateWithoutGastosInput>
+  }
+
+  export type servicioCreateWithoutGastoInput = {
+    fecha: Date | string
+    horaInicio: Date | string
+    horaFin: Date | string
+    suplLevantar?: boolean
+    pagado?: boolean
+    horas: number
+    minutos: number
+    importe: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    empleada: empleadaCreateNestedOneWithoutServiciosInput
+  }
+
+  export type servicioUncheckedCreateWithoutGastoInput = {
+    id?: number
+    fecha: Date | string
+    horaInicio: Date | string
+    horaFin: Date | string
+    suplLevantar?: boolean
+    empleadaId: number
+    pagado?: boolean
+    horas: number
+    minutos: number
+    importe: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type servicioCreateOrConnectWithoutGastoInput = {
+    where: servicioWhereUniqueInput
+    create: XOR<servicioCreateWithoutGastoInput, servicioUncheckedCreateWithoutGastoInput>
+  }
+
+  export type tipogastoUpsertWithoutGastosInput = {
+    update: XOR<tipogastoUpdateWithoutGastosInput, tipogastoUncheckedUpdateWithoutGastosInput>
+    create: XOR<tipogastoCreateWithoutGastosInput, tipogastoUncheckedCreateWithoutGastosInput>
+  }
+
+  export type tipogastoUpdateWithoutGastosInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type tipogastoUncheckedUpdateWithoutGastosInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type servicioUpsertWithoutGastoInput = {
+    update: XOR<servicioUpdateWithoutGastoInput, servicioUncheckedUpdateWithoutGastoInput>
+    create: XOR<servicioCreateWithoutGastoInput, servicioUncheckedCreateWithoutGastoInput>
+  }
+
+  export type servicioUpdateWithoutGastoInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    suplLevantar?: BoolFieldUpdateOperationsInput | boolean
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    horas?: IntFieldUpdateOperationsInput | number
+    minutos?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    empleada?: empleadaUpdateOneRequiredWithoutServiciosNestedInput
+  }
+
+  export type servicioUncheckedUpdateWithoutGastoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    suplLevantar?: BoolFieldUpdateOperationsInput | boolean
+    empleadaId?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    horas?: IntFieldUpdateOperationsInput | number
+    minutos?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type gastoCreateWithoutTipoInput = {
+    fecha: Date | string
+    importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
+    servicio?: servicioCreateNestedOneWithoutGastoInput
+  }
+
+  export type gastoUncheckedCreateWithoutTipoInput = {
+    id?: number
+    fecha: Date | string
+    importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
+    servicioId?: number | null
+  }
+
+  export type gastoCreateOrConnectWithoutTipoInput = {
+    where: gastoWhereUniqueInput
+    create: XOR<gastoCreateWithoutTipoInput, gastoUncheckedCreateWithoutTipoInput>
+  }
+
+  export type gastoCreateManyTipoInputEnvelope = {
+    data: Enumerable<gastoCreateManyTipoInput>
+    skipDuplicates?: boolean
+  }
+
+  export type gastoUpsertWithWhereUniqueWithoutTipoInput = {
+    where: gastoWhereUniqueInput
+    update: XOR<gastoUpdateWithoutTipoInput, gastoUncheckedUpdateWithoutTipoInput>
+    create: XOR<gastoCreateWithoutTipoInput, gastoUncheckedCreateWithoutTipoInput>
+  }
+
+  export type gastoUpdateWithWhereUniqueWithoutTipoInput = {
+    where: gastoWhereUniqueInput
+    data: XOR<gastoUpdateWithoutTipoInput, gastoUncheckedUpdateWithoutTipoInput>
+  }
+
+  export type gastoUpdateManyWithWhereWithoutTipoInput = {
+    where: gastoScalarWhereInput
+    data: XOR<gastoUpdateManyMutationInput, gastoUncheckedUpdateManyWithoutGastosInput>
+  }
+
+  export type gastoScalarWhereInput = {
+    AND?: Enumerable<gastoScalarWhereInput>
+    OR?: Enumerable<gastoScalarWhereInput>
+    NOT?: Enumerable<gastoScalarWhereInput>
+    id?: IntFilter | number
+    fecha?: DateTimeFilter | Date | string
+    tipogastoId?: IntFilter | number
+    importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    observacion?: StringNullableFilter | string | null
+    servicioId?: IntNullableFilter | number | null
+  }
+
   export type servicioCreateManyEmpleadaInput = {
     id?: number
     fecha: Date | string
@@ -9250,6 +11172,9 @@ export namespace Prisma {
     horaFin: Date | string
     suplLevantar?: boolean
     pagado?: boolean
+    horas: number
+    minutos: number
+    importe: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9260,8 +11185,12 @@ export namespace Prisma {
     horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     pagado?: BoolFieldUpdateOperationsInput | boolean
+    horas?: IntFieldUpdateOperationsInput | number
+    minutos?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    gasto?: gastoUpdateOneWithoutServicioNestedInput
   }
 
   export type servicioUncheckedUpdateWithoutEmpleadaInput = {
@@ -9271,8 +11200,12 @@ export namespace Prisma {
     horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     pagado?: BoolFieldUpdateOperationsInput | boolean
+    horas?: IntFieldUpdateOperationsInput | number
+    minutos?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    gasto?: gastoUncheckedUpdateOneWithoutServicioNestedInput
   }
 
   export type servicioUncheckedUpdateManyWithoutServiciosInput = {
@@ -9282,6 +11215,9 @@ export namespace Prisma {
     horaFin?: DateTimeFieldUpdateOperationsInput | Date | string
     suplLevantar?: BoolFieldUpdateOperationsInput | boolean
     pagado?: BoolFieldUpdateOperationsInput | boolean
+    horas?: IntFieldUpdateOperationsInput | number
+    minutos?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9307,6 +11243,37 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     observacion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type gastoCreateManyTipoInput = {
+    id?: number
+    fecha: Date | string
+    importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
+    servicioId?: number | null
+  }
+
+  export type gastoUpdateWithoutTipoInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
+    servicio?: servicioUpdateOneWithoutGastoNestedInput
+  }
+
+  export type gastoUncheckedUpdateWithoutTipoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
+    servicioId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type gastoUncheckedUpdateManyWithoutGastosInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
+    servicioId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
 

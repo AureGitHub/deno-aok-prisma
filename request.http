@@ -33,13 +33,12 @@ content-type: application/json
 ###
 
 POST http://localhost:3000/api/gestion-casa/servicios/
-Authorization :eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoiRGlvcyAxIiwicm9sZSI6IkdPRCIsImVzdGFkbyI6IkFDVElWRSIsImFwcHMiOltdLCJhcHAiOiJnZXN0aW9uLWNhc2EiLCJhcHBJZCI6MSwiaXNBZG1pbiI6dHJ1ZSwiaXNHb2QiOnRydWV9LCJhY2Nlc3NUb2tlbkV4cGlyZXNJbiI6MTY4NjkyNDE5OTYyMX0.Sonw2SSjyiT929Z6PcnPIwjh9m5W-atVhHnSxR61vGj-d0zuKBi7j9EsRdfYTk9EqiLeVXH6NB8zUy4hQE9uGA
 content-type: application/json
 
 {
   "fecha" : "2023-06-15T12:45:00.000Z",
   "horaInicio" : "2020-12-23T10:00:00.000Z",
-  "horaFin" : "2020-12-23T11:30:00.000Z",
+  "horaFin" : "2020-12-23T11:01:00.000Z",
   "suplLevantar" : false,
   "empleadaId" : 1,
   "pagado": false

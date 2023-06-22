@@ -2,6 +2,37 @@ import { Context, StatusCodes } from "../../../../dep/deps.ts";
 import  { Prisma } from "../../generated/client/deno/edge.ts";
 import   prisma  from "../../prisma/db.ts";
 
+const precioHora = 8.0;
+const precionSuplLevantar = 2.0;
+
+const  toHoursAndMinutes = (totalMinutes: number) => {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return { hours, minutes };
+}
+
+const getHoras = (shoraInicio : string, shoraFin: string)=>{
+  const horaInicio = new Date(shoraInicio);
+  const horaFin = new Date(shoraFin);
+  const resta = (horaFin.getTime() - horaInicio.getTime()) / 60000;
+  return toHoursAndMinutes(resta);
+}
+
+const getImporte = (shoraInicio : string, shoraFin: string, suplLevantar : boolean)=>{
+  const tiempo = getHoras(shoraInicio,shoraFin );
+  //{ "hours": 1, "minutes": 45}
+
+  let importe = suplLevantar ? precionSuplLevantar : 0;
+  //horas
+  importe+= tiempo.hours * precioHora;
+  //minutos
+  importe+= (tiempo.minutes * precioHora) / 60;
+
+  return {
+    tiempo, importe
+  }
+
+}
 
 
 const get= async (ctx: any) => {
@@ -35,7 +66,8 @@ const getPresent= async (ctx: any) => {
   }
 
 
-  
+  // round( CAST(float8 (Extract(epoch FROM (s."horaFin" - s."horaInicio")) / 3600) as numeric), 2) AS horas,      
+  // (Extract(epoch FROM (s."horaFin" - s."horaInicio")) / 60) * (8.0/60) +  case when s."suplLevantar" then 2 else 0 end as euros
 
 
   const data  = await prisma.$queryRaw<any[]> `
@@ -47,8 +79,8 @@ const getPresent= async (ctx: any) => {
       e.nombre as nombreEmpleada, 
       case when s."suplLevantar" then 'Si' else 'No' end as suplLevantar , 
       case when s."pagado" then 'Si' else 'No' end as pagado,
-      round( CAST(float8 (Extract(epoch FROM (s."horaFin" - s."horaInicio")) / 3600) as numeric), 2) AS horas,      
-      (Extract(epoch FROM (s."horaFin" - s."horaInicio")) / 60) * (8.0/60) +  case when s."suplLevantar" then 2 else 0 end as euros
+      CONCAT(s.horas,',',s.minutos)  AS horas,  
+      importe    as euros
       from servicio s 
       inner join empleada e on s."empleadaId" = e.id 
       ${where }
@@ -102,12 +134,32 @@ const getById= async (ctx: any) => {
 
 const add = async (ctx: any) => {
     try {
-      const empleada: Prisma.servicioCreateInput = await ctx.request.body().value;
+      const servicioToAdd: Prisma.servicioCreateInput = await ctx.request.body().value;
       
   
+      const horas = getImporte(servicioToAdd.horaInicio, servicioToAdd.horaFin, servicioToAdd.suplLevantar);
+
+     
+      servicioToAdd.horas = horas.tiempo.hours;
+      servicioToAdd.minutos = horas.tiempo.minutes;
+      servicioToAdd.importe = horas.importe;
+
       const data = await prisma.servicio.create({
-        data: empleada
+        data: servicioToAdd,        
       });
+
+      if(servicioToAdd.pagado){
+        // creo  gasto del servicio
+          await prisma.gasto.create({
+            data : {
+               servicioId : data.id,
+               fecha : data.fecha,
+               tipogastoId : 1,
+               importe : servicioToAdd.importe
+            }
+          })        
+      };
+
   
   
   
@@ -130,10 +182,27 @@ const add = async (ctx: any) => {
   
   
       const  empleadaId  = Number(ctx?.params?.empleadaid);
+
+      //obtengo los Id que se van a poner como pagados para crear los gastos
+      const lstIds = await prisma.servicio.findMany({
+        where: {empleadaId , pagado : false  },
+      }
+      );
       
       const data = await prisma.servicio.updateMany({
         where: {empleadaId , pagado : false  },
         data: {pagado: true}
+      })
+
+      lstIds.forEach(async serv=> {
+        await prisma.gasto.create({
+          data : {
+             servicioId : serv.id,
+             fecha : serv.fecha,
+             tipogastoId : 1,
+             importe : serv.importe
+          }
+        })     
       })
   
   
@@ -163,10 +232,38 @@ const add = async (ctx: any) => {
       const servicioUpdateInput: Prisma.servicioUpdateInput = await ctx.request.body().value;
       //const {id}  = await request.body().value;
   
+
+      const horas = getImporte(servicioUpdateInput.horaInicio, servicioUpdateInput.horaFin, servicioUpdateInput.suplLevantar);
+      servicioUpdateInput.horas = horas.tiempo.hours;
+      servicioUpdateInput.minutos = horas.tiempo.minutes;
+      servicioUpdateInput.importe = horas.importe;
+
       const data = await prisma.servicio.updateMany({
         where: {id },
         data: servicioUpdateInput
-      })
+      });
+
+      // borro el gesto... si existía
+      await prisma.gasto.deleteMany({where: {servicioId :id }});
+
+      if(servicioUpdateInput.pagado){
+        // creo  gasto del servicio
+        const servicio = await prisma.servicio.findUnique({where: {id}});
+
+        if(servicio){
+          await prisma.gasto.create({
+            data : {
+               servicioId : servicio.id,
+               fecha : servicio.fecha,
+               tipogastoId : 1,
+               importe : servicio.importe
+            }
+          })        
+        }
+          
+      };
+
+
   
   
       ctx.response.status = 200;
