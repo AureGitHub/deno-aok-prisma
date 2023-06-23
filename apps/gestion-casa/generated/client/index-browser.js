@@ -134,6 +134,7 @@ exports.Prisma.ServicioScalarFieldEnum = {
   horas: 'horas',
   minutos: 'minutos',
   importe: 'importe',
+  observacion: 'observacion',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

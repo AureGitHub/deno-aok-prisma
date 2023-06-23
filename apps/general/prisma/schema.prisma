@@ -47,6 +47,7 @@ model UserxApp {
 
 enum Role {  
   NORMAL
+  EMPLOYEE
   ADMIN
   GOD
 }

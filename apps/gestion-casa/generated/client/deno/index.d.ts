@@ -51,6 +51,7 @@ export type servicio = {
   horas: number
   minutos: number
   importe: Prisma.Decimal
+  observacion: string | null
   createdAt: Date
   updatedAt: Date
 }
@@ -3022,6 +3023,7 @@ export namespace Prisma {
     horas: number | null
     minutos: number | null
     importe: Decimal | null
+    observacion: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3037,6 +3039,7 @@ export namespace Prisma {
     horas: number | null
     minutos: number | null
     importe: Decimal | null
+    observacion: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3052,6 +3055,7 @@ export namespace Prisma {
     horas: number
     minutos: number
     importe: number
+    observacion: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3085,6 +3089,7 @@ export namespace Prisma {
     horas?: true
     minutos?: true
     importe?: true
+    observacion?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3100,6 +3105,7 @@ export namespace Prisma {
     horas?: true
     minutos?: true
     importe?: true
+    observacion?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3115,6 +3121,7 @@ export namespace Prisma {
     horas?: true
     minutos?: true
     importe?: true
+    observacion?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3218,6 +3225,7 @@ export namespace Prisma {
     horas: number
     minutos: number
     importe: Decimal
+    observacion: string | null
     createdAt: Date
     updatedAt: Date
     _count: ServicioCountAggregateOutputType | null
@@ -3252,6 +3260,7 @@ export namespace Prisma {
     horas?: boolean
     minutos?: boolean
     importe?: boolean
+    observacion?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     empleada?: boolean | empleadaArgs
@@ -8895,6 +8904,7 @@ export namespace Prisma {
     horas: 'horas',
     minutos: 'minutos',
     importe: 'importe',
+    observacion: 'observacion',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9064,6 +9074,7 @@ export namespace Prisma {
     horas?: IntFilter | number
     minutos?: IntFilter | number
     importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    observacion?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     empleada?: XOR<EmpleadaRelationFilter, empleadaWhereInput>
@@ -9081,6 +9092,7 @@ export namespace Prisma {
     horas?: SortOrder
     minutos?: SortOrder
     importe?: SortOrder
+    observacion?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     empleada?: empleadaOrderByWithRelationInput
@@ -9102,6 +9114,7 @@ export namespace Prisma {
     horas?: SortOrder
     minutos?: SortOrder
     importe?: SortOrder
+    observacion?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: servicioCountOrderByAggregateInput
@@ -9125,6 +9138,7 @@ export namespace Prisma {
     horas?: IntWithAggregatesFilter | number
     minutos?: IntWithAggregatesFilter | number
     importe?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    observacion?: StringNullableWithAggregatesFilter | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -9472,6 +9486,7 @@ export namespace Prisma {
     horas: number
     minutos: number
     importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     empleada: empleadaCreateNestedOneWithoutServiciosInput
@@ -9489,6 +9504,7 @@ export namespace Prisma {
     horas: number
     minutos: number
     importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     gasto?: gastoUncheckedCreateNestedOneWithoutServicioInput
@@ -9503,6 +9519,7 @@ export namespace Prisma {
     horas?: IntFieldUpdateOperationsInput | number
     minutos?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     empleada?: empleadaUpdateOneRequiredWithoutServiciosNestedInput
@@ -9520,6 +9537,7 @@ export namespace Prisma {
     horas?: IntFieldUpdateOperationsInput | number
     minutos?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     gasto?: gastoUncheckedUpdateOneWithoutServicioNestedInput
@@ -9536,6 +9554,7 @@ export namespace Prisma {
     horas: number
     minutos: number
     importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9549,6 +9568,7 @@ export namespace Prisma {
     horas?: IntFieldUpdateOperationsInput | number
     minutos?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9564,6 +9584,7 @@ export namespace Prisma {
     horas?: IntFieldUpdateOperationsInput | number
     minutos?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9653,21 +9674,19 @@ export namespace Prisma {
   }
 
   export type tipoagendaCreateInput = {
-    id: number
     descripcion: string
     color: string
     agendas?: agendaCreateNestedManyWithoutTipoInput
   }
 
   export type tipoagendaUncheckedCreateInput = {
-    id: number
+    id?: number
     descripcion: string
     color: string
     agendas?: agendaUncheckedCreateNestedManyWithoutTipoInput
   }
 
   export type tipoagendaUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
     color?: StringFieldUpdateOperationsInput | string
     agendas?: agendaUpdateManyWithoutTipoNestedInput
@@ -9681,13 +9700,12 @@ export namespace Prisma {
   }
 
   export type tipoagendaCreateManyInput = {
-    id: number
+    id?: number
     descripcion: string
     color: string
   }
 
   export type tipoagendaUpdateManyMutationInput = {
-    id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
     color?: StringFieldUpdateOperationsInput | string
   }
@@ -9757,21 +9775,19 @@ export namespace Prisma {
   }
 
   export type tipogastoCreateInput = {
-    id: number
     descripcion: string
     color: string
     gastos?: gastoCreateNestedManyWithoutTipoInput
   }
 
   export type tipogastoUncheckedCreateInput = {
-    id: number
+    id?: number
     descripcion: string
     color: string
     gastos?: gastoUncheckedCreateNestedManyWithoutTipoInput
   }
 
   export type tipogastoUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
     color?: StringFieldUpdateOperationsInput | string
     gastos?: gastoUpdateManyWithoutTipoNestedInput
@@ -9785,13 +9801,12 @@ export namespace Prisma {
   }
 
   export type tipogastoCreateManyInput = {
-    id: number
+    id?: number
     descripcion: string
     color: string
   }
 
   export type tipogastoUpdateManyMutationInput = {
-    id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
     color?: StringFieldUpdateOperationsInput | string
   }
@@ -9985,6 +10000,21 @@ export namespace Prisma {
     not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
   }
 
+  export type StringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | string | null
+    notIn?: Enumerable<string> | string | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableFilter | string | null
+  }
+
   export type EmpleadaRelationFilter = {
     is?: empleadaWhereInput
     isNot?: empleadaWhereInput
@@ -10006,6 +10036,7 @@ export namespace Prisma {
     horas?: SortOrder
     minutos?: SortOrder
     importe?: SortOrder
+    observacion?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10029,6 +10060,7 @@ export namespace Prisma {
     horas?: SortOrder
     minutos?: SortOrder
     importe?: SortOrder
+    observacion?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10044,6 +10076,7 @@ export namespace Prisma {
     horas?: SortOrder
     minutos?: SortOrder
     importe?: SortOrder
+    observacion?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10070,6 +10103,24 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter
     _min?: NestedDecimalFilter
     _max?: NestedDecimalFilter
+  }
+
+  export type StringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | string | null
+    notIn?: Enumerable<string> | string | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
   }
 
   export type turnoCountOrderByAggregateInput = {
@@ -10170,21 +10221,6 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type StringNullableFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | string | null
-    notIn?: Enumerable<string> | string | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    mode?: QueryMode
-    not?: NestedStringNullableFilter | string | null
-  }
-
   export type IntNullableFilter = {
     equals?: number | null
     in?: Enumerable<number> | number | null
@@ -10245,24 +10281,6 @@ export namespace Prisma {
     tipogastoId?: SortOrder
     importe?: SortOrder
     servicioId?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | string | null
-    notIn?: Enumerable<string> | string | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter | string | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedStringNullableFilter
-    _max?: NestedStringNullableFilter
   }
 
   export type IntNullableWithAggregatesFilter = {
@@ -10405,6 +10423,10 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type empleadaUpdateOneRequiredWithoutServiciosNestedInput = {
     create?: XOR<empleadaCreateWithoutServiciosInput, empleadaUncheckedCreateWithoutServiciosInput>
     connectOrCreate?: empleadaCreateOrConnectWithoutServiciosInput
@@ -10499,10 +10521,6 @@ export namespace Prisma {
     create?: XOR<servicioCreateWithoutGastoInput, servicioUncheckedCreateWithoutGastoInput>
     connectOrCreate?: servicioCreateOrConnectWithoutGastoInput
     connect?: servicioWhereUniqueInput
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type tipogastoUpdateOneRequiredWithoutGastosNestedInput = {
@@ -10691,22 +10709,6 @@ export namespace Prisma {
     not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
   }
 
-  export type NestedDecimalWithAggregatesFilter = {
-    equals?: Decimal | DecimalJsLike | number | string
-    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
-    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
-    lt?: Decimal | DecimalJsLike | number | string
-    lte?: Decimal | DecimalJsLike | number | string
-    gt?: Decimal | DecimalJsLike | number | string
-    gte?: Decimal | DecimalJsLike | number | string
-    not?: NestedDecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter
-    _avg?: NestedDecimalFilter
-    _sum?: NestedDecimalFilter
-    _min?: NestedDecimalFilter
-    _max?: NestedDecimalFilter
-  }
-
   export type NestedStringNullableFilter = {
     equals?: string | null
     in?: Enumerable<string> | string | null
@@ -10721,15 +10723,20 @@ export namespace Prisma {
     not?: NestedStringNullableFilter | string | null
   }
 
-  export type NestedIntNullableFilter = {
-    equals?: number | null
-    in?: Enumerable<number> | number | null
-    notIn?: Enumerable<number> | number | null
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntNullableFilter | number | null
+  export type NestedDecimalWithAggregatesFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter
+    _avg?: NestedDecimalFilter
+    _sum?: NestedDecimalFilter
+    _min?: NestedDecimalFilter
+    _max?: NestedDecimalFilter
   }
 
   export type NestedStringNullableWithAggregatesFilter = {
@@ -10747,6 +10754,17 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter
     _min?: NestedStringNullableFilter
     _max?: NestedStringNullableFilter
+  }
+
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | number | null
+    notIn?: Enumerable<number> | number | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
   }
 
   export type NestedIntNullableWithAggregatesFilter = {
@@ -10785,6 +10803,7 @@ export namespace Prisma {
     horas: number
     minutos: number
     importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     gasto?: gastoCreateNestedOneWithoutServicioInput
@@ -10800,6 +10819,7 @@ export namespace Prisma {
     horas: number
     minutos: number
     importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     gasto?: gastoUncheckedCreateNestedOneWithoutServicioInput
@@ -10845,6 +10865,7 @@ export namespace Prisma {
     horas?: IntFilter | number
     minutos?: IntFilter | number
     importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    observacion?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
@@ -10930,13 +10951,12 @@ export namespace Prisma {
   }
 
   export type tipoagendaCreateWithoutAgendasInput = {
-    id: number
     descripcion: string
     color: string
   }
 
   export type tipoagendaUncheckedCreateWithoutAgendasInput = {
-    id: number
+    id?: number
     descripcion: string
     color: string
   }
@@ -10952,7 +10972,6 @@ export namespace Prisma {
   }
 
   export type tipoagendaUpdateWithoutAgendasInput = {
-    id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
     color?: StringFieldUpdateOperationsInput | string
   }
@@ -11011,13 +11030,12 @@ export namespace Prisma {
   }
 
   export type tipogastoCreateWithoutGastosInput = {
-    id: number
     descripcion: string
     color: string
   }
 
   export type tipogastoUncheckedCreateWithoutGastosInput = {
-    id: number
+    id?: number
     descripcion: string
     color: string
   }
@@ -11036,6 +11054,7 @@ export namespace Prisma {
     horas: number
     minutos: number
     importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     empleada: empleadaCreateNestedOneWithoutServiciosInput
@@ -11052,6 +11071,7 @@ export namespace Prisma {
     horas: number
     minutos: number
     importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11067,7 +11087,6 @@ export namespace Prisma {
   }
 
   export type tipogastoUpdateWithoutGastosInput = {
-    id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
     color?: StringFieldUpdateOperationsInput | string
   }
@@ -11092,6 +11111,7 @@ export namespace Prisma {
     horas?: IntFieldUpdateOperationsInput | number
     minutos?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     empleada?: empleadaUpdateOneRequiredWithoutServiciosNestedInput
@@ -11108,6 +11128,7 @@ export namespace Prisma {
     horas?: IntFieldUpdateOperationsInput | number
     minutos?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11175,6 +11196,7 @@ export namespace Prisma {
     horas: number
     minutos: number
     importe: Decimal | DecimalJsLike | number | string
+    observacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11188,6 +11210,7 @@ export namespace Prisma {
     horas?: IntFieldUpdateOperationsInput | number
     minutos?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     gasto?: gastoUpdateOneWithoutServicioNestedInput
@@ -11203,6 +11226,7 @@ export namespace Prisma {
     horas?: IntFieldUpdateOperationsInput | number
     minutos?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     gasto?: gastoUncheckedUpdateOneWithoutServicioNestedInput
@@ -11218,6 +11242,7 @@ export namespace Prisma {
     horas?: IntFieldUpdateOperationsInput | number
     minutos?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    observacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

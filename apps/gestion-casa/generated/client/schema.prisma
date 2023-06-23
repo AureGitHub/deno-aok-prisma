@@ -46,6 +46,7 @@ model servicio {
   horas          Int
   minutos        Int
   importe        Decimal @db.Decimal(9,2)
+  observacion    String?  
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt 
   gasto          gasto?
@@ -69,10 +70,10 @@ model agenda {
 }
 
 model tipoagenda {
-   id            Int  @id
+   id            Int  @id  @default(autoincrement())
    descripcion   String  @unique
    color         String
-   agendas      agenda[] 
+   agendas      agenda[]
 }
 
 model gasto {
@@ -89,7 +90,7 @@ model gasto {
 }
 
 model tipogasto {
-   id            Int  @id
+   id            Int  @id  @default(autoincrement())
    descripcion   String  @unique
    color         String
    gastos        gasto[] 
