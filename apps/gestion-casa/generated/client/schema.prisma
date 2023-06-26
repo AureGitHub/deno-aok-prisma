@@ -85,6 +85,7 @@ model gasto {
   observacion      String?  
   servicio         servicio?   @relation(fields: [servicioId], references: [id])
   servicioId        Int?        @unique
+  pendientecobro    Boolean    @default(false)
   
 
 }

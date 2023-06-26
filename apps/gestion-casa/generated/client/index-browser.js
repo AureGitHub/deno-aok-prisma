@@ -115,7 +115,8 @@ exports.Prisma.GastoScalarFieldEnum = {
   tipogastoId: 'tipogastoId',
   importe: 'importe',
   observacion: 'observacion',
-  servicioId: 'servicioId'
+  servicioId: 'servicioId',
+  pendientecobro: 'pendientecobro'
 };
 
 exports.Prisma.QueryMode = {

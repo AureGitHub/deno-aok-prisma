@@ -12,7 +12,8 @@ const get = async (ctx: any) => {
 select g.*,
 TO_CHAR (g.fecha , 'dd/mm/yyyy') as fecha_p,
 t.descripcion, t.color,
-case when g."tipogastoId" =1 then e.nombre  else g.observacion  end as obs_p  
+case when g."tipogastoId" =1 then e.nombre  else g.observacion  end as obs_p,
+pendientecobro
 from gasto g 
 inner join tipogasto t on g."tipogastoId" = t.id
 left join servicio s on g."servicioId" = s.id 

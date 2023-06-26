@@ -77,8 +77,8 @@ const getPresent= async (ctx: any) => {
       TO_CHAR (s."horaInicio" , 'HH24:MI') as horaInicio ,
       TO_CHAR (s."horaFin" , 'HH24:MI') as horaFin , 
       e.nombre as nombreEmpleada, 
-      case when s."suplLevantar" then 'Si' else 'No' end as suplLevantar , 
-      case when s."pagado" then 'Si' else 'No' end as pagado,
+      s."suplLevantar", 
+      s."pagado" ,
       CONCAT(s.horas,',',s.minutos)  AS horas,  
       importe    as euros
       from servicio s 

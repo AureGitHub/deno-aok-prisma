@@ -98,6 +98,7 @@ export type gasto = {
   importe: Prisma.Decimal
   observacion: string | null
   servicioId: number | null
+  pendientecobro: boolean
 }
 
 /**
@@ -6903,6 +6904,7 @@ export namespace Prisma {
     importe: Decimal | null
     observacion: string | null
     servicioId: number | null
+    pendientecobro: boolean | null
   }
 
   export type GastoMaxAggregateOutputType = {
@@ -6912,6 +6914,7 @@ export namespace Prisma {
     importe: Decimal | null
     observacion: string | null
     servicioId: number | null
+    pendientecobro: boolean | null
   }
 
   export type GastoCountAggregateOutputType = {
@@ -6921,6 +6924,7 @@ export namespace Prisma {
     importe: number
     observacion: number
     servicioId: number
+    pendientecobro: number
     _all: number
   }
 
@@ -6946,6 +6950,7 @@ export namespace Prisma {
     importe?: true
     observacion?: true
     servicioId?: true
+    pendientecobro?: true
   }
 
   export type GastoMaxAggregateInputType = {
@@ -6955,6 +6960,7 @@ export namespace Prisma {
     importe?: true
     observacion?: true
     servicioId?: true
+    pendientecobro?: true
   }
 
   export type GastoCountAggregateInputType = {
@@ -6964,6 +6970,7 @@ export namespace Prisma {
     importe?: true
     observacion?: true
     servicioId?: true
+    pendientecobro?: true
     _all?: true
   }
 
@@ -7061,6 +7068,7 @@ export namespace Prisma {
     importe: Decimal
     observacion: string | null
     servicioId: number | null
+    pendientecobro: boolean
     _count: GastoCountAggregateOutputType | null
     _avg: GastoAvgAggregateOutputType | null
     _sum: GastoSumAggregateOutputType | null
@@ -7089,6 +7097,7 @@ export namespace Prisma {
     importe?: boolean
     observacion?: boolean
     servicioId?: boolean
+    pendientecobro?: boolean
     tipo?: boolean | tipogastoArgs
     servicio?: boolean | servicioArgs
   }
@@ -8879,7 +8888,8 @@ export namespace Prisma {
     tipogastoId: 'tipogastoId',
     importe: 'importe',
     observacion: 'observacion',
-    servicioId: 'servicioId'
+    servicioId: 'servicioId',
+    pendientecobro: 'pendientecobro'
   };
 
   export type GastoScalarFieldEnum = (typeof GastoScalarFieldEnum)[keyof typeof GastoScalarFieldEnum]
@@ -9279,6 +9289,7 @@ export namespace Prisma {
     importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
     observacion?: StringNullableFilter | string | null
     servicioId?: IntNullableFilter | number | null
+    pendientecobro?: BoolFilter | boolean
     tipo?: XOR<TipogastoRelationFilter, tipogastoWhereInput>
     servicio?: XOR<ServicioRelationFilter, servicioWhereInput> | null
   }
@@ -9290,6 +9301,7 @@ export namespace Prisma {
     importe?: SortOrder
     observacion?: SortOrder
     servicioId?: SortOrder
+    pendientecobro?: SortOrder
     tipo?: tipogastoOrderByWithRelationInput
     servicio?: servicioOrderByWithRelationInput
   }
@@ -9306,6 +9318,7 @@ export namespace Prisma {
     importe?: SortOrder
     observacion?: SortOrder
     servicioId?: SortOrder
+    pendientecobro?: SortOrder
     _count?: gastoCountOrderByAggregateInput
     _avg?: gastoAvgOrderByAggregateInput
     _max?: gastoMaxOrderByAggregateInput
@@ -9323,6 +9336,7 @@ export namespace Prisma {
     importe?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     observacion?: StringNullableWithAggregatesFilter | string | null
     servicioId?: IntNullableWithAggregatesFilter | number | null
+    pendientecobro?: BoolWithAggregatesFilter | boolean
   }
 
   export type tipogastoWhereInput = {
@@ -9720,6 +9734,7 @@ export namespace Prisma {
     fecha: Date | string
     importe: Decimal | DecimalJsLike | number | string
     observacion?: string | null
+    pendientecobro?: boolean
     tipo: tipogastoCreateNestedOneWithoutGastosInput
     servicio?: servicioCreateNestedOneWithoutGastoInput
   }
@@ -9731,12 +9746,14 @@ export namespace Prisma {
     importe: Decimal | DecimalJsLike | number | string
     observacion?: string | null
     servicioId?: number | null
+    pendientecobro?: boolean
   }
 
   export type gastoUpdateInput = {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     observacion?: NullableStringFieldUpdateOperationsInput | string | null
+    pendientecobro?: BoolFieldUpdateOperationsInput | boolean
     tipo?: tipogastoUpdateOneRequiredWithoutGastosNestedInput
     servicio?: servicioUpdateOneWithoutGastoNestedInput
   }
@@ -9748,6 +9765,7 @@ export namespace Prisma {
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     observacion?: NullableStringFieldUpdateOperationsInput | string | null
     servicioId?: NullableIntFieldUpdateOperationsInput | number | null
+    pendientecobro?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type gastoCreateManyInput = {
@@ -9757,12 +9775,14 @@ export namespace Prisma {
     importe: Decimal | DecimalJsLike | number | string
     observacion?: string | null
     servicioId?: number | null
+    pendientecobro?: boolean
   }
 
   export type gastoUpdateManyMutationInput = {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     observacion?: NullableStringFieldUpdateOperationsInput | string | null
+    pendientecobro?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type gastoUncheckedUpdateManyInput = {
@@ -9772,6 +9792,7 @@ export namespace Prisma {
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     observacion?: NullableStringFieldUpdateOperationsInput | string | null
     servicioId?: NullableIntFieldUpdateOperationsInput | number | null
+    pendientecobro?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type tipogastoCreateInput = {
@@ -10249,6 +10270,7 @@ export namespace Prisma {
     importe?: SortOrder
     observacion?: SortOrder
     servicioId?: SortOrder
+    pendientecobro?: SortOrder
   }
 
   export type gastoAvgOrderByAggregateInput = {
@@ -10265,6 +10287,7 @@ export namespace Prisma {
     importe?: SortOrder
     observacion?: SortOrder
     servicioId?: SortOrder
+    pendientecobro?: SortOrder
   }
 
   export type gastoMinOrderByAggregateInput = {
@@ -10274,6 +10297,7 @@ export namespace Prisma {
     importe?: SortOrder
     observacion?: SortOrder
     servicioId?: SortOrder
+    pendientecobro?: SortOrder
   }
 
   export type gastoSumOrderByAggregateInput = {
@@ -10894,6 +10918,7 @@ export namespace Prisma {
     fecha: Date | string
     importe: Decimal | DecimalJsLike | number | string
     observacion?: string | null
+    pendientecobro?: boolean
     tipo: tipogastoCreateNestedOneWithoutGastosInput
   }
 
@@ -10903,6 +10928,7 @@ export namespace Prisma {
     tipogastoId: number
     importe: Decimal | DecimalJsLike | number | string
     observacion?: string | null
+    pendientecobro?: boolean
   }
 
   export type gastoCreateOrConnectWithoutServicioInput = {
@@ -10939,6 +10965,7 @@ export namespace Prisma {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     observacion?: NullableStringFieldUpdateOperationsInput | string | null
+    pendientecobro?: BoolFieldUpdateOperationsInput | boolean
     tipo?: tipogastoUpdateOneRequiredWithoutGastosNestedInput
   }
 
@@ -10948,6 +10975,7 @@ export namespace Prisma {
     tipogastoId?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     observacion?: NullableStringFieldUpdateOperationsInput | string | null
+    pendientecobro?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type tipoagendaCreateWithoutAgendasInput = {
@@ -11137,6 +11165,7 @@ export namespace Prisma {
     fecha: Date | string
     importe: Decimal | DecimalJsLike | number | string
     observacion?: string | null
+    pendientecobro?: boolean
     servicio?: servicioCreateNestedOneWithoutGastoInput
   }
 
@@ -11146,6 +11175,7 @@ export namespace Prisma {
     importe: Decimal | DecimalJsLike | number | string
     observacion?: string | null
     servicioId?: number | null
+    pendientecobro?: boolean
   }
 
   export type gastoCreateOrConnectWithoutTipoInput = {
@@ -11184,6 +11214,7 @@ export namespace Prisma {
     importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
     observacion?: StringNullableFilter | string | null
     servicioId?: IntNullableFilter | number | null
+    pendientecobro?: BoolFilter | boolean
   }
 
   export type servicioCreateManyEmpleadaInput = {
@@ -11276,12 +11307,14 @@ export namespace Prisma {
     importe: Decimal | DecimalJsLike | number | string
     observacion?: string | null
     servicioId?: number | null
+    pendientecobro?: boolean
   }
 
   export type gastoUpdateWithoutTipoInput = {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     observacion?: NullableStringFieldUpdateOperationsInput | string | null
+    pendientecobro?: BoolFieldUpdateOperationsInput | boolean
     servicio?: servicioUpdateOneWithoutGastoNestedInput
   }
 
@@ -11291,6 +11324,7 @@ export namespace Prisma {
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     observacion?: NullableStringFieldUpdateOperationsInput | string | null
     servicioId?: NullableIntFieldUpdateOperationsInput | number | null
+    pendientecobro?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type gastoUncheckedUpdateManyWithoutGastosInput = {
@@ -11299,6 +11333,7 @@ export namespace Prisma {
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     observacion?: NullableStringFieldUpdateOperationsInput | string | null
     servicioId?: NullableIntFieldUpdateOperationsInput | number | null
+    pendientecobro?: BoolFieldUpdateOperationsInput | boolean
   }
 
 
