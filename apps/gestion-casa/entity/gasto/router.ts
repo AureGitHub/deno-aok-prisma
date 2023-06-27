@@ -3,7 +3,7 @@ import controller from "./controller.ts";
 import requireUser from "../../../../middleware/requireUser.ts";
 
 const router = new Router({
-    prefix: "/gastos",
+    prefix: "/gasto",
   });
 
 router
