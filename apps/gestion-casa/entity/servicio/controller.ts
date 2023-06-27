@@ -289,6 +289,11 @@ const del = async (ctx: any) =>  {
     try {
   
       const  id  = Number(ctx?.params?.id);
+
+
+      //primero borro sus gastos asociados... si los tuviese...
+      await prisma.gasto.deleteMany({where : {servicioId : id}});
+
       const data = await prisma.servicio.deleteMany({where: {id}});
   
       ctx.response.status = 200;
