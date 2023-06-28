@@ -34,6 +34,11 @@ const getImporte = (shoraInicio : string, shoraFin: string, suplLevantar : boole
 
 }
 
+const getIdTipoGasto = async () => {
+  const tipogasto = await prisma.tipogasto.findFirst({where : {descripcion : 'servicio'}});
+  return tipogasto ? tipogasto.id : null;
+}
+
 
 const get= async (ctx: any) => {
 
@@ -150,14 +155,19 @@ const add = async (ctx: any) => {
 
       if(servicioToAdd.pagado){
         // creo  gasto del servicio
+        const tipogastoId = await getIdTipoGasto();
+        if(tipogastoId){
           await prisma.gasto.create({
             data : {
                servicioId : data.id,
                fecha : data.fecha,
-               tipogastoId : 1,
+               tipogastoId ,
                importe : servicioToAdd.importe
             }
           })        
+
+        }
+          
       };
 
   
@@ -195,14 +205,19 @@ const add = async (ctx: any) => {
       })
 
       lstIds.forEach(async serv=> {
-        await prisma.gasto.create({
-          data : {
-             servicioId : serv.id,
-             fecha : serv.fecha,
-             tipogastoId : 1,
-             importe : serv.importe
-          }
-        })     
+        const tipogastoId = await getIdTipoGasto();
+        if(tipogastoId){
+          await prisma.gasto.create({
+            data : {
+               servicioId : serv.id,
+               fecha : serv.fecha,
+               tipogastoId,
+               importe : serv.importe
+            }
+          })     
+
+        }
+        
       })
   
   
@@ -251,14 +266,18 @@ const add = async (ctx: any) => {
         const servicio = await prisma.servicio.findUnique({where: {id}});
 
         if(servicio){
-          await prisma.gasto.create({
-            data : {
-               servicioId : servicio.id,
-               fecha : servicio.fecha,
-               tipogastoId : 1,
-               importe : servicio.importe
-            }
-          })        
+          const tipogastoId = await getIdTipoGasto();
+          if(tipogastoId){
+            await prisma.gasto.create({
+              data : {
+                 servicioId : servicio.id,
+                 fecha : servicio.fecha,
+                 tipogastoId,
+                 importe : servicio.importe
+              }
+            })     
+          }
+             
         }
           
       };
