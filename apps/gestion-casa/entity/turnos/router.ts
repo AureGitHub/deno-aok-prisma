@@ -7,11 +7,7 @@ const router = new Router({
   });
 
 router
-.get("/", requireUser, controller.get)
-.post("/", requireUser, controller.add)
-.delete("/:id", requireUser,  controller.del)
-
-
+.post("/AllOperations", requireUser, controller.AllOperations)
 ;
 
 export default router;

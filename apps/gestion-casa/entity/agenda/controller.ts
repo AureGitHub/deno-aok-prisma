@@ -9,11 +9,17 @@ const get = async (ctx: any) => {
 
 
   const data = await prisma.$queryRaw<any[]> `
+
+
    select a.*,
+   case when a.fecha is null  then tu.fecha else a.fecha end as fechaG,
  TO_CHAR (a.fecha , 'dd/mm/yyyy') as fecha_p,
- t.descripcion, t.color
+ t.descripcion, t.color,
+ tu.quien as turno
  from agenda a
-inner join tipoagenda t on a."tipoagendaId" = t.id
+ inner join tipoagenda t on a."tipoagendaId" = t.id
+ full outer join turno tu on a.fecha =tu.fecha 
+ order by tu.fecha 
   
     `;
 
