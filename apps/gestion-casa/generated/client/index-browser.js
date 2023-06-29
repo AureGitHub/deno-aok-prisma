@@ -119,6 +119,15 @@ exports.Prisma.GastoScalarFieldEnum = {
   pendientecobro: 'pendientecobro'
 };
 
+exports.Prisma.ListaCompraScalarFieldEnum = {
+  productoId: 'productoId'
+};
+
+exports.Prisma.ProductoScalarFieldEnum = {
+  id: 'id',
+  descripcion: 'descripcion'
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -179,7 +188,9 @@ exports.Prisma.ModelName = {
   agenda: 'agenda',
   tipoagenda: 'tipoagenda',
   gasto: 'gasto',
-  tipogasto: 'tipogasto'
+  tipogasto: 'tipogasto',
+  producto: 'producto',
+  ListaCompra: 'ListaCompra'
 };
 
 /**

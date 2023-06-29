@@ -111,6 +111,23 @@ export type tipogasto = {
   color: string
 }
 
+/**
+ * Model producto
+ * 
+ */
+export type producto = {
+  id: number
+  descripcion: string
+}
+
+/**
+ * Model ListaCompra
+ * 
+ */
+export type ListaCompra = {
+  productoId: number
+}
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -308,6 +325,26 @@ export class PrismaClient<
     * ```
     */
   get tipogasto(): Prisma.tipogastoDelegate<GlobalReject>;
+
+  /**
+   * `prisma.producto`: Exposes CRUD operations for the **producto** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Productos
+    * const productos = await prisma.producto.findMany()
+    * ```
+    */
+  get producto(): Prisma.productoDelegate<GlobalReject>;
+
+  /**
+   * `prisma.listaCompra`: Exposes CRUD operations for the **ListaCompra** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ListaCompras
+    * const listaCompras = await prisma.listaCompra.findMany()
+    * ```
+    */
+  get listaCompra(): Prisma.ListaCompraDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -784,7 +821,9 @@ export namespace Prisma {
     agenda: 'agenda',
     tipoagenda: 'tipoagenda',
     gasto: 'gasto',
-    tipogasto: 'tipogasto'
+    tipogasto: 'tipogasto',
+    producto: 'producto',
+    ListaCompra: 'ListaCompra'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1070,6 +1109,49 @@ export namespace Prisma {
      * Select specific fields to fetch from the TipogastoCountOutputType
      */
     select?: TipogastoCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type ProductoCountOutputType
+   */
+
+
+  export type ProductoCountOutputType = {
+    ListaCompras: number
+  }
+
+  export type ProductoCountOutputTypeSelect = {
+    ListaCompras?: boolean
+  }
+
+  export type ProductoCountOutputTypeGetPayload<S extends boolean | null | undefined | ProductoCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ProductoCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (ProductoCountOutputTypeArgs)
+    ? ProductoCountOutputType 
+    : S extends { select: any } & (ProductoCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof ProductoCountOutputType ? ProductoCountOutputType[P] : never
+  } 
+      : ProductoCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ProductoCountOutputType without action
+   */
+  export type ProductoCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the ProductoCountOutputType
+     */
+    select?: ProductoCountOutputTypeSelect | null
   }
 
 
@@ -8844,6 +8926,1905 @@ export namespace Prisma {
 
 
   /**
+   * Model producto
+   */
+
+
+  export type AggregateProducto = {
+    _count: ProductoCountAggregateOutputType | null
+    _avg: ProductoAvgAggregateOutputType | null
+    _sum: ProductoSumAggregateOutputType | null
+    _min: ProductoMinAggregateOutputType | null
+    _max: ProductoMaxAggregateOutputType | null
+  }
+
+  export type ProductoAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ProductoSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ProductoMinAggregateOutputType = {
+    id: number | null
+    descripcion: string | null
+  }
+
+  export type ProductoMaxAggregateOutputType = {
+    id: number | null
+    descripcion: string | null
+  }
+
+  export type ProductoCountAggregateOutputType = {
+    id: number
+    descripcion: number
+    _all: number
+  }
+
+
+  export type ProductoAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type ProductoSumAggregateInputType = {
+    id?: true
+  }
+
+  export type ProductoMinAggregateInputType = {
+    id?: true
+    descripcion?: true
+  }
+
+  export type ProductoMaxAggregateInputType = {
+    id?: true
+    descripcion?: true
+  }
+
+  export type ProductoCountAggregateInputType = {
+    id?: true
+    descripcion?: true
+    _all?: true
+  }
+
+  export type ProductoAggregateArgs = {
+    /**
+     * Filter which producto to aggregate.
+     */
+    where?: productoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of productos to fetch.
+     */
+    orderBy?: Enumerable<productoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: productoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` productos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` productos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned productos
+    **/
+    _count?: true | ProductoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProductoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProductoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProductoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProductoMaxAggregateInputType
+  }
+
+  export type GetProductoAggregateType<T extends ProductoAggregateArgs> = {
+        [P in keyof T & keyof AggregateProducto]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProducto[P]>
+      : GetScalarType<T[P], AggregateProducto[P]>
+  }
+
+
+
+
+  export type ProductoGroupByArgs = {
+    where?: productoWhereInput
+    orderBy?: Enumerable<productoOrderByWithAggregationInput>
+    by: ProductoScalarFieldEnum[]
+    having?: productoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProductoCountAggregateInputType | true
+    _avg?: ProductoAvgAggregateInputType
+    _sum?: ProductoSumAggregateInputType
+    _min?: ProductoMinAggregateInputType
+    _max?: ProductoMaxAggregateInputType
+  }
+
+
+  export type ProductoGroupByOutputType = {
+    id: number
+    descripcion: string
+    _count: ProductoCountAggregateOutputType | null
+    _avg: ProductoAvgAggregateOutputType | null
+    _sum: ProductoSumAggregateOutputType | null
+    _min: ProductoMinAggregateOutputType | null
+    _max: ProductoMaxAggregateOutputType | null
+  }
+
+  type GetProductoGroupByPayload<T extends ProductoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<ProductoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProductoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProductoGroupByOutputType[P]>
+            : GetScalarType<T[P], ProductoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type productoSelect = {
+    id?: boolean
+    descripcion?: boolean
+    ListaCompras?: boolean | producto$ListaComprasArgs
+    _count?: boolean | ProductoCountOutputTypeArgs
+  }
+
+
+  export type productoInclude = {
+    ListaCompras?: boolean | producto$ListaComprasArgs
+    _count?: boolean | ProductoCountOutputTypeArgs
+  }
+
+  export type productoGetPayload<S extends boolean | null | undefined | productoArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? producto :
+    S extends undefined ? never :
+    S extends { include: any } & (productoArgs | productoFindManyArgs)
+    ? producto  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'ListaCompras' ? Array < ListaCompraGetPayload<S['include'][P]>>  :
+        P extends '_count' ? ProductoCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (productoArgs | productoFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'ListaCompras' ? Array < ListaCompraGetPayload<S['select'][P]>>  :
+        P extends '_count' ? ProductoCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof producto ? producto[P] : never
+  } 
+      : producto
+
+
+  type productoCountArgs = 
+    Omit<productoFindManyArgs, 'select' | 'include'> & {
+      select?: ProductoCountAggregateInputType | true
+    }
+
+  export interface productoDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Producto that matches the filter.
+     * @param {productoFindUniqueArgs} args - Arguments to find a Producto
+     * @example
+     * // Get one Producto
+     * const producto = await prisma.producto.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends productoFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, productoFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'producto'> extends True ? Prisma__productoClient<productoGetPayload<T>> : Prisma__productoClient<productoGetPayload<T> | null, null>
+
+    /**
+     * Find one Producto that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {productoFindUniqueOrThrowArgs} args - Arguments to find a Producto
+     * @example
+     * // Get one Producto
+     * const producto = await prisma.producto.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends productoFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, productoFindUniqueOrThrowArgs>
+    ): Prisma__productoClient<productoGetPayload<T>>
+
+    /**
+     * Find the first Producto that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {productoFindFirstArgs} args - Arguments to find a Producto
+     * @example
+     * // Get one Producto
+     * const producto = await prisma.producto.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends productoFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, productoFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'producto'> extends True ? Prisma__productoClient<productoGetPayload<T>> : Prisma__productoClient<productoGetPayload<T> | null, null>
+
+    /**
+     * Find the first Producto that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {productoFindFirstOrThrowArgs} args - Arguments to find a Producto
+     * @example
+     * // Get one Producto
+     * const producto = await prisma.producto.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends productoFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, productoFindFirstOrThrowArgs>
+    ): Prisma__productoClient<productoGetPayload<T>>
+
+    /**
+     * Find zero or more Productos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {productoFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Productos
+     * const productos = await prisma.producto.findMany()
+     * 
+     * // Get first 10 Productos
+     * const productos = await prisma.producto.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const productoWithIdOnly = await prisma.producto.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends productoFindManyArgs>(
+      args?: SelectSubset<T, productoFindManyArgs>
+    ): Prisma.PrismaPromise<Array<productoGetPayload<T>>>
+
+    /**
+     * Create a Producto.
+     * @param {productoCreateArgs} args - Arguments to create a Producto.
+     * @example
+     * // Create one Producto
+     * const Producto = await prisma.producto.create({
+     *   data: {
+     *     // ... data to create a Producto
+     *   }
+     * })
+     * 
+    **/
+    create<T extends productoCreateArgs>(
+      args: SelectSubset<T, productoCreateArgs>
+    ): Prisma__productoClient<productoGetPayload<T>>
+
+    /**
+     * Create many Productos.
+     *     @param {productoCreateManyArgs} args - Arguments to create many Productos.
+     *     @example
+     *     // Create many Productos
+     *     const producto = await prisma.producto.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends productoCreateManyArgs>(
+      args?: SelectSubset<T, productoCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Producto.
+     * @param {productoDeleteArgs} args - Arguments to delete one Producto.
+     * @example
+     * // Delete one Producto
+     * const Producto = await prisma.producto.delete({
+     *   where: {
+     *     // ... filter to delete one Producto
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends productoDeleteArgs>(
+      args: SelectSubset<T, productoDeleteArgs>
+    ): Prisma__productoClient<productoGetPayload<T>>
+
+    /**
+     * Update one Producto.
+     * @param {productoUpdateArgs} args - Arguments to update one Producto.
+     * @example
+     * // Update one Producto
+     * const producto = await prisma.producto.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends productoUpdateArgs>(
+      args: SelectSubset<T, productoUpdateArgs>
+    ): Prisma__productoClient<productoGetPayload<T>>
+
+    /**
+     * Delete zero or more Productos.
+     * @param {productoDeleteManyArgs} args - Arguments to filter Productos to delete.
+     * @example
+     * // Delete a few Productos
+     * const { count } = await prisma.producto.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends productoDeleteManyArgs>(
+      args?: SelectSubset<T, productoDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Productos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {productoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Productos
+     * const producto = await prisma.producto.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends productoUpdateManyArgs>(
+      args: SelectSubset<T, productoUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Producto.
+     * @param {productoUpsertArgs} args - Arguments to update or create a Producto.
+     * @example
+     * // Update or create a Producto
+     * const producto = await prisma.producto.upsert({
+     *   create: {
+     *     // ... data to create a Producto
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Producto we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends productoUpsertArgs>(
+      args: SelectSubset<T, productoUpsertArgs>
+    ): Prisma__productoClient<productoGetPayload<T>>
+
+    /**
+     * Count the number of Productos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {productoCountArgs} args - Arguments to filter Productos to count.
+     * @example
+     * // Count the number of Productos
+     * const count = await prisma.producto.count({
+     *   where: {
+     *     // ... the filter for the Productos we want to count
+     *   }
+     * })
+    **/
+    count<T extends productoCountArgs>(
+      args?: Subset<T, productoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProductoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Producto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProductoAggregateArgs>(args: Subset<T, ProductoAggregateArgs>): Prisma.PrismaPromise<GetProductoAggregateType<T>>
+
+    /**
+     * Group by Producto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProductoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProductoGroupByArgs['orderBy'] }
+        : { orderBy?: ProductoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProductoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProductoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for producto.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__productoClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    ListaCompras<T extends producto$ListaComprasArgs= {}>(args?: Subset<T, producto$ListaComprasArgs>): Prisma.PrismaPromise<Array<ListaCompraGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * producto base type for findUnique actions
+   */
+  export type productoFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the producto
+     */
+    select?: productoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productoInclude | null
+    /**
+     * Filter, which producto to fetch.
+     */
+    where: productoWhereUniqueInput
+  }
+
+  /**
+   * producto findUnique
+   */
+  export interface productoFindUniqueArgs extends productoFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * producto findUniqueOrThrow
+   */
+  export type productoFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the producto
+     */
+    select?: productoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productoInclude | null
+    /**
+     * Filter, which producto to fetch.
+     */
+    where: productoWhereUniqueInput
+  }
+
+
+  /**
+   * producto base type for findFirst actions
+   */
+  export type productoFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the producto
+     */
+    select?: productoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productoInclude | null
+    /**
+     * Filter, which producto to fetch.
+     */
+    where?: productoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of productos to fetch.
+     */
+    orderBy?: Enumerable<productoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for productos.
+     */
+    cursor?: productoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` productos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` productos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of productos.
+     */
+    distinct?: Enumerable<ProductoScalarFieldEnum>
+  }
+
+  /**
+   * producto findFirst
+   */
+  export interface productoFindFirstArgs extends productoFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * producto findFirstOrThrow
+   */
+  export type productoFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the producto
+     */
+    select?: productoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productoInclude | null
+    /**
+     * Filter, which producto to fetch.
+     */
+    where?: productoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of productos to fetch.
+     */
+    orderBy?: Enumerable<productoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for productos.
+     */
+    cursor?: productoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` productos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` productos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of productos.
+     */
+    distinct?: Enumerable<ProductoScalarFieldEnum>
+  }
+
+
+  /**
+   * producto findMany
+   */
+  export type productoFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the producto
+     */
+    select?: productoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productoInclude | null
+    /**
+     * Filter, which productos to fetch.
+     */
+    where?: productoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of productos to fetch.
+     */
+    orderBy?: Enumerable<productoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing productos.
+     */
+    cursor?: productoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` productos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` productos.
+     */
+    skip?: number
+    distinct?: Enumerable<ProductoScalarFieldEnum>
+  }
+
+
+  /**
+   * producto create
+   */
+  export type productoCreateArgs = {
+    /**
+     * Select specific fields to fetch from the producto
+     */
+    select?: productoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productoInclude | null
+    /**
+     * The data needed to create a producto.
+     */
+    data: XOR<productoCreateInput, productoUncheckedCreateInput>
+  }
+
+
+  /**
+   * producto createMany
+   */
+  export type productoCreateManyArgs = {
+    /**
+     * The data used to create many productos.
+     */
+    data: Enumerable<productoCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * producto update
+   */
+  export type productoUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the producto
+     */
+    select?: productoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productoInclude | null
+    /**
+     * The data needed to update a producto.
+     */
+    data: XOR<productoUpdateInput, productoUncheckedUpdateInput>
+    /**
+     * Choose, which producto to update.
+     */
+    where: productoWhereUniqueInput
+  }
+
+
+  /**
+   * producto updateMany
+   */
+  export type productoUpdateManyArgs = {
+    /**
+     * The data used to update productos.
+     */
+    data: XOR<productoUpdateManyMutationInput, productoUncheckedUpdateManyInput>
+    /**
+     * Filter which productos to update
+     */
+    where?: productoWhereInput
+  }
+
+
+  /**
+   * producto upsert
+   */
+  export type productoUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the producto
+     */
+    select?: productoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productoInclude | null
+    /**
+     * The filter to search for the producto to update in case it exists.
+     */
+    where: productoWhereUniqueInput
+    /**
+     * In case the producto found by the `where` argument doesn't exist, create a new producto with this data.
+     */
+    create: XOR<productoCreateInput, productoUncheckedCreateInput>
+    /**
+     * In case the producto was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<productoUpdateInput, productoUncheckedUpdateInput>
+  }
+
+
+  /**
+   * producto delete
+   */
+  export type productoDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the producto
+     */
+    select?: productoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productoInclude | null
+    /**
+     * Filter which producto to delete.
+     */
+    where: productoWhereUniqueInput
+  }
+
+
+  /**
+   * producto deleteMany
+   */
+  export type productoDeleteManyArgs = {
+    /**
+     * Filter which productos to delete
+     */
+    where?: productoWhereInput
+  }
+
+
+  /**
+   * producto.ListaCompras
+   */
+  export type producto$ListaComprasArgs = {
+    /**
+     * Select specific fields to fetch from the ListaCompra
+     */
+    select?: ListaCompraSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ListaCompraInclude | null
+    where?: ListaCompraWhereInput
+    orderBy?: Enumerable<ListaCompraOrderByWithRelationInput>
+    cursor?: ListaCompraWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ListaCompraScalarFieldEnum>
+  }
+
+
+  /**
+   * producto without action
+   */
+  export type productoArgs = {
+    /**
+     * Select specific fields to fetch from the producto
+     */
+    select?: productoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: productoInclude | null
+  }
+
+
+
+  /**
+   * Model ListaCompra
+   */
+
+
+  export type AggregateListaCompra = {
+    _count: ListaCompraCountAggregateOutputType | null
+    _avg: ListaCompraAvgAggregateOutputType | null
+    _sum: ListaCompraSumAggregateOutputType | null
+    _min: ListaCompraMinAggregateOutputType | null
+    _max: ListaCompraMaxAggregateOutputType | null
+  }
+
+  export type ListaCompraAvgAggregateOutputType = {
+    productoId: number | null
+  }
+
+  export type ListaCompraSumAggregateOutputType = {
+    productoId: number | null
+  }
+
+  export type ListaCompraMinAggregateOutputType = {
+    productoId: number | null
+  }
+
+  export type ListaCompraMaxAggregateOutputType = {
+    productoId: number | null
+  }
+
+  export type ListaCompraCountAggregateOutputType = {
+    productoId: number
+    _all: number
+  }
+
+
+  export type ListaCompraAvgAggregateInputType = {
+    productoId?: true
+  }
+
+  export type ListaCompraSumAggregateInputType = {
+    productoId?: true
+  }
+
+  export type ListaCompraMinAggregateInputType = {
+    productoId?: true
+  }
+
+  export type ListaCompraMaxAggregateInputType = {
+    productoId?: true
+  }
+
+  export type ListaCompraCountAggregateInputType = {
+    productoId?: true
+    _all?: true
+  }
+
+  export type ListaCompraAggregateArgs = {
+    /**
+     * Filter which ListaCompra to aggregate.
+     */
+    where?: ListaCompraWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ListaCompras to fetch.
+     */
+    orderBy?: Enumerable<ListaCompraOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ListaCompraWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ListaCompras from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ListaCompras.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ListaCompras
+    **/
+    _count?: true | ListaCompraCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ListaCompraAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ListaCompraSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ListaCompraMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ListaCompraMaxAggregateInputType
+  }
+
+  export type GetListaCompraAggregateType<T extends ListaCompraAggregateArgs> = {
+        [P in keyof T & keyof AggregateListaCompra]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateListaCompra[P]>
+      : GetScalarType<T[P], AggregateListaCompra[P]>
+  }
+
+
+
+
+  export type ListaCompraGroupByArgs = {
+    where?: ListaCompraWhereInput
+    orderBy?: Enumerable<ListaCompraOrderByWithAggregationInput>
+    by: ListaCompraScalarFieldEnum[]
+    having?: ListaCompraScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ListaCompraCountAggregateInputType | true
+    _avg?: ListaCompraAvgAggregateInputType
+    _sum?: ListaCompraSumAggregateInputType
+    _min?: ListaCompraMinAggregateInputType
+    _max?: ListaCompraMaxAggregateInputType
+  }
+
+
+  export type ListaCompraGroupByOutputType = {
+    productoId: number
+    _count: ListaCompraCountAggregateOutputType | null
+    _avg: ListaCompraAvgAggregateOutputType | null
+    _sum: ListaCompraSumAggregateOutputType | null
+    _min: ListaCompraMinAggregateOutputType | null
+    _max: ListaCompraMaxAggregateOutputType | null
+  }
+
+  type GetListaCompraGroupByPayload<T extends ListaCompraGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<ListaCompraGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ListaCompraGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ListaCompraGroupByOutputType[P]>
+            : GetScalarType<T[P], ListaCompraGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ListaCompraSelect = {
+    productoId?: boolean
+    producto?: boolean | productoArgs
+  }
+
+
+  export type ListaCompraInclude = {
+    producto?: boolean | productoArgs
+  }
+
+  export type ListaCompraGetPayload<S extends boolean | null | undefined | ListaCompraArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ListaCompra :
+    S extends undefined ? never :
+    S extends { include: any } & (ListaCompraArgs | ListaCompraFindManyArgs)
+    ? ListaCompra  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'producto' ? productoGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (ListaCompraArgs | ListaCompraFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'producto' ? productoGetPayload<S['select'][P]> :  P extends keyof ListaCompra ? ListaCompra[P] : never
+  } 
+      : ListaCompra
+
+
+  type ListaCompraCountArgs = 
+    Omit<ListaCompraFindManyArgs, 'select' | 'include'> & {
+      select?: ListaCompraCountAggregateInputType | true
+    }
+
+  export interface ListaCompraDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one ListaCompra that matches the filter.
+     * @param {ListaCompraFindUniqueArgs} args - Arguments to find a ListaCompra
+     * @example
+     * // Get one ListaCompra
+     * const listaCompra = await prisma.listaCompra.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ListaCompraFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ListaCompraFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ListaCompra'> extends True ? Prisma__ListaCompraClient<ListaCompraGetPayload<T>> : Prisma__ListaCompraClient<ListaCompraGetPayload<T> | null, null>
+
+    /**
+     * Find one ListaCompra that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ListaCompraFindUniqueOrThrowArgs} args - Arguments to find a ListaCompra
+     * @example
+     * // Get one ListaCompra
+     * const listaCompra = await prisma.listaCompra.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ListaCompraFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ListaCompraFindUniqueOrThrowArgs>
+    ): Prisma__ListaCompraClient<ListaCompraGetPayload<T>>
+
+    /**
+     * Find the first ListaCompra that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ListaCompraFindFirstArgs} args - Arguments to find a ListaCompra
+     * @example
+     * // Get one ListaCompra
+     * const listaCompra = await prisma.listaCompra.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ListaCompraFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ListaCompraFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ListaCompra'> extends True ? Prisma__ListaCompraClient<ListaCompraGetPayload<T>> : Prisma__ListaCompraClient<ListaCompraGetPayload<T> | null, null>
+
+    /**
+     * Find the first ListaCompra that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ListaCompraFindFirstOrThrowArgs} args - Arguments to find a ListaCompra
+     * @example
+     * // Get one ListaCompra
+     * const listaCompra = await prisma.listaCompra.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ListaCompraFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ListaCompraFindFirstOrThrowArgs>
+    ): Prisma__ListaCompraClient<ListaCompraGetPayload<T>>
+
+    /**
+     * Find zero or more ListaCompras that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ListaCompraFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ListaCompras
+     * const listaCompras = await prisma.listaCompra.findMany()
+     * 
+     * // Get first 10 ListaCompras
+     * const listaCompras = await prisma.listaCompra.findMany({ take: 10 })
+     * 
+     * // Only select the `productoId`
+     * const listaCompraWithProductoIdOnly = await prisma.listaCompra.findMany({ select: { productoId: true } })
+     * 
+    **/
+    findMany<T extends ListaCompraFindManyArgs>(
+      args?: SelectSubset<T, ListaCompraFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ListaCompraGetPayload<T>>>
+
+    /**
+     * Create a ListaCompra.
+     * @param {ListaCompraCreateArgs} args - Arguments to create a ListaCompra.
+     * @example
+     * // Create one ListaCompra
+     * const ListaCompra = await prisma.listaCompra.create({
+     *   data: {
+     *     // ... data to create a ListaCompra
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ListaCompraCreateArgs>(
+      args: SelectSubset<T, ListaCompraCreateArgs>
+    ): Prisma__ListaCompraClient<ListaCompraGetPayload<T>>
+
+    /**
+     * Create many ListaCompras.
+     *     @param {ListaCompraCreateManyArgs} args - Arguments to create many ListaCompras.
+     *     @example
+     *     // Create many ListaCompras
+     *     const listaCompra = await prisma.listaCompra.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ListaCompraCreateManyArgs>(
+      args?: SelectSubset<T, ListaCompraCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ListaCompra.
+     * @param {ListaCompraDeleteArgs} args - Arguments to delete one ListaCompra.
+     * @example
+     * // Delete one ListaCompra
+     * const ListaCompra = await prisma.listaCompra.delete({
+     *   where: {
+     *     // ... filter to delete one ListaCompra
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ListaCompraDeleteArgs>(
+      args: SelectSubset<T, ListaCompraDeleteArgs>
+    ): Prisma__ListaCompraClient<ListaCompraGetPayload<T>>
+
+    /**
+     * Update one ListaCompra.
+     * @param {ListaCompraUpdateArgs} args - Arguments to update one ListaCompra.
+     * @example
+     * // Update one ListaCompra
+     * const listaCompra = await prisma.listaCompra.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ListaCompraUpdateArgs>(
+      args: SelectSubset<T, ListaCompraUpdateArgs>
+    ): Prisma__ListaCompraClient<ListaCompraGetPayload<T>>
+
+    /**
+     * Delete zero or more ListaCompras.
+     * @param {ListaCompraDeleteManyArgs} args - Arguments to filter ListaCompras to delete.
+     * @example
+     * // Delete a few ListaCompras
+     * const { count } = await prisma.listaCompra.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ListaCompraDeleteManyArgs>(
+      args?: SelectSubset<T, ListaCompraDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ListaCompras.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ListaCompraUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ListaCompras
+     * const listaCompra = await prisma.listaCompra.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ListaCompraUpdateManyArgs>(
+      args: SelectSubset<T, ListaCompraUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ListaCompra.
+     * @param {ListaCompraUpsertArgs} args - Arguments to update or create a ListaCompra.
+     * @example
+     * // Update or create a ListaCompra
+     * const listaCompra = await prisma.listaCompra.upsert({
+     *   create: {
+     *     // ... data to create a ListaCompra
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ListaCompra we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ListaCompraUpsertArgs>(
+      args: SelectSubset<T, ListaCompraUpsertArgs>
+    ): Prisma__ListaCompraClient<ListaCompraGetPayload<T>>
+
+    /**
+     * Count the number of ListaCompras.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ListaCompraCountArgs} args - Arguments to filter ListaCompras to count.
+     * @example
+     * // Count the number of ListaCompras
+     * const count = await prisma.listaCompra.count({
+     *   where: {
+     *     // ... the filter for the ListaCompras we want to count
+     *   }
+     * })
+    **/
+    count<T extends ListaCompraCountArgs>(
+      args?: Subset<T, ListaCompraCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ListaCompraCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ListaCompra.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ListaCompraAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ListaCompraAggregateArgs>(args: Subset<T, ListaCompraAggregateArgs>): Prisma.PrismaPromise<GetListaCompraAggregateType<T>>
+
+    /**
+     * Group by ListaCompra.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ListaCompraGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ListaCompraGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ListaCompraGroupByArgs['orderBy'] }
+        : { orderBy?: ListaCompraGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ListaCompraGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetListaCompraGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ListaCompra.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ListaCompraClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    producto<T extends productoArgs= {}>(args?: Subset<T, productoArgs>): Prisma__productoClient<productoGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ListaCompra base type for findUnique actions
+   */
+  export type ListaCompraFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the ListaCompra
+     */
+    select?: ListaCompraSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ListaCompraInclude | null
+    /**
+     * Filter, which ListaCompra to fetch.
+     */
+    where: ListaCompraWhereUniqueInput
+  }
+
+  /**
+   * ListaCompra findUnique
+   */
+  export interface ListaCompraFindUniqueArgs extends ListaCompraFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ListaCompra findUniqueOrThrow
+   */
+  export type ListaCompraFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ListaCompra
+     */
+    select?: ListaCompraSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ListaCompraInclude | null
+    /**
+     * Filter, which ListaCompra to fetch.
+     */
+    where: ListaCompraWhereUniqueInput
+  }
+
+
+  /**
+   * ListaCompra base type for findFirst actions
+   */
+  export type ListaCompraFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the ListaCompra
+     */
+    select?: ListaCompraSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ListaCompraInclude | null
+    /**
+     * Filter, which ListaCompra to fetch.
+     */
+    where?: ListaCompraWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ListaCompras to fetch.
+     */
+    orderBy?: Enumerable<ListaCompraOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ListaCompras.
+     */
+    cursor?: ListaCompraWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ListaCompras from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ListaCompras.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ListaCompras.
+     */
+    distinct?: Enumerable<ListaCompraScalarFieldEnum>
+  }
+
+  /**
+   * ListaCompra findFirst
+   */
+  export interface ListaCompraFindFirstArgs extends ListaCompraFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ListaCompra findFirstOrThrow
+   */
+  export type ListaCompraFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ListaCompra
+     */
+    select?: ListaCompraSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ListaCompraInclude | null
+    /**
+     * Filter, which ListaCompra to fetch.
+     */
+    where?: ListaCompraWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ListaCompras to fetch.
+     */
+    orderBy?: Enumerable<ListaCompraOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ListaCompras.
+     */
+    cursor?: ListaCompraWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ListaCompras from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ListaCompras.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ListaCompras.
+     */
+    distinct?: Enumerable<ListaCompraScalarFieldEnum>
+  }
+
+
+  /**
+   * ListaCompra findMany
+   */
+  export type ListaCompraFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the ListaCompra
+     */
+    select?: ListaCompraSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ListaCompraInclude | null
+    /**
+     * Filter, which ListaCompras to fetch.
+     */
+    where?: ListaCompraWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ListaCompras to fetch.
+     */
+    orderBy?: Enumerable<ListaCompraOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ListaCompras.
+     */
+    cursor?: ListaCompraWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ListaCompras from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ListaCompras.
+     */
+    skip?: number
+    distinct?: Enumerable<ListaCompraScalarFieldEnum>
+  }
+
+
+  /**
+   * ListaCompra create
+   */
+  export type ListaCompraCreateArgs = {
+    /**
+     * Select specific fields to fetch from the ListaCompra
+     */
+    select?: ListaCompraSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ListaCompraInclude | null
+    /**
+     * The data needed to create a ListaCompra.
+     */
+    data: XOR<ListaCompraCreateInput, ListaCompraUncheckedCreateInput>
+  }
+
+
+  /**
+   * ListaCompra createMany
+   */
+  export type ListaCompraCreateManyArgs = {
+    /**
+     * The data used to create many ListaCompras.
+     */
+    data: Enumerable<ListaCompraCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * ListaCompra update
+   */
+  export type ListaCompraUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the ListaCompra
+     */
+    select?: ListaCompraSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ListaCompraInclude | null
+    /**
+     * The data needed to update a ListaCompra.
+     */
+    data: XOR<ListaCompraUpdateInput, ListaCompraUncheckedUpdateInput>
+    /**
+     * Choose, which ListaCompra to update.
+     */
+    where: ListaCompraWhereUniqueInput
+  }
+
+
+  /**
+   * ListaCompra updateMany
+   */
+  export type ListaCompraUpdateManyArgs = {
+    /**
+     * The data used to update ListaCompras.
+     */
+    data: XOR<ListaCompraUpdateManyMutationInput, ListaCompraUncheckedUpdateManyInput>
+    /**
+     * Filter which ListaCompras to update
+     */
+    where?: ListaCompraWhereInput
+  }
+
+
+  /**
+   * ListaCompra upsert
+   */
+  export type ListaCompraUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the ListaCompra
+     */
+    select?: ListaCompraSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ListaCompraInclude | null
+    /**
+     * The filter to search for the ListaCompra to update in case it exists.
+     */
+    where: ListaCompraWhereUniqueInput
+    /**
+     * In case the ListaCompra found by the `where` argument doesn't exist, create a new ListaCompra with this data.
+     */
+    create: XOR<ListaCompraCreateInput, ListaCompraUncheckedCreateInput>
+    /**
+     * In case the ListaCompra was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ListaCompraUpdateInput, ListaCompraUncheckedUpdateInput>
+  }
+
+
+  /**
+   * ListaCompra delete
+   */
+  export type ListaCompraDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the ListaCompra
+     */
+    select?: ListaCompraSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ListaCompraInclude | null
+    /**
+     * Filter which ListaCompra to delete.
+     */
+    where: ListaCompraWhereUniqueInput
+  }
+
+
+  /**
+   * ListaCompra deleteMany
+   */
+  export type ListaCompraDeleteManyArgs = {
+    /**
+     * Filter which ListaCompras to delete
+     */
+    where?: ListaCompraWhereInput
+  }
+
+
+  /**
+   * ListaCompra without action
+   */
+  export type ListaCompraArgs = {
+    /**
+     * Select specific fields to fetch from the ListaCompra
+     */
+    select?: ListaCompraSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ListaCompraInclude | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -8893,6 +10874,21 @@ export namespace Prisma {
   };
 
   export type GastoScalarFieldEnum = (typeof GastoScalarFieldEnum)[keyof typeof GastoScalarFieldEnum]
+
+
+  export const ListaCompraScalarFieldEnum: {
+    productoId: 'productoId'
+  };
+
+  export type ListaCompraScalarFieldEnum = (typeof ListaCompraScalarFieldEnum)[keyof typeof ListaCompraScalarFieldEnum]
+
+
+  export const ProductoScalarFieldEnum: {
+    id: 'id',
+    descripcion: 'descripcion'
+  };
+
+  export type ProductoScalarFieldEnum = (typeof ProductoScalarFieldEnum)[keyof typeof ProductoScalarFieldEnum]
 
 
   export const QueryMode: {
@@ -9381,6 +11377,77 @@ export namespace Prisma {
     color?: StringWithAggregatesFilter | string
   }
 
+  export type productoWhereInput = {
+    AND?: Enumerable<productoWhereInput>
+    OR?: Enumerable<productoWhereInput>
+    NOT?: Enumerable<productoWhereInput>
+    id?: IntFilter | number
+    descripcion?: StringFilter | string
+    ListaCompras?: ListaCompraListRelationFilter
+  }
+
+  export type productoOrderByWithRelationInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    ListaCompras?: ListaCompraOrderByRelationAggregateInput
+  }
+
+  export type productoWhereUniqueInput = {
+    id?: number
+    descripcion?: string
+  }
+
+  export type productoOrderByWithAggregationInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    _count?: productoCountOrderByAggregateInput
+    _avg?: productoAvgOrderByAggregateInput
+    _max?: productoMaxOrderByAggregateInput
+    _min?: productoMinOrderByAggregateInput
+    _sum?: productoSumOrderByAggregateInput
+  }
+
+  export type productoScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<productoScalarWhereWithAggregatesInput>
+    OR?: Enumerable<productoScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<productoScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    descripcion?: StringWithAggregatesFilter | string
+  }
+
+  export type ListaCompraWhereInput = {
+    AND?: Enumerable<ListaCompraWhereInput>
+    OR?: Enumerable<ListaCompraWhereInput>
+    NOT?: Enumerable<ListaCompraWhereInput>
+    productoId?: IntFilter | number
+    producto?: XOR<ProductoRelationFilter, productoWhereInput>
+  }
+
+  export type ListaCompraOrderByWithRelationInput = {
+    productoId?: SortOrder
+    producto?: productoOrderByWithRelationInput
+  }
+
+  export type ListaCompraWhereUniqueInput = {
+    productoId?: number
+  }
+
+  export type ListaCompraOrderByWithAggregationInput = {
+    productoId?: SortOrder
+    _count?: ListaCompraCountOrderByAggregateInput
+    _avg?: ListaCompraAvgOrderByAggregateInput
+    _max?: ListaCompraMaxOrderByAggregateInput
+    _min?: ListaCompraMinOrderByAggregateInput
+    _sum?: ListaCompraSumOrderByAggregateInput
+  }
+
+  export type ListaCompraScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ListaCompraScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ListaCompraScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ListaCompraScalarWhereWithAggregatesInput>
+    productoId?: IntWithAggregatesFilter | number
+  }
+
   export type casaCreateInput = {
     nombre: string
     baja: boolean
@@ -9836,6 +11903,70 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
     color?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type productoCreateInput = {
+    descripcion: string
+    ListaCompras?: ListaCompraCreateNestedManyWithoutProductoInput
+  }
+
+  export type productoUncheckedCreateInput = {
+    id?: number
+    descripcion: string
+    ListaCompras?: ListaCompraUncheckedCreateNestedManyWithoutProductoInput
+  }
+
+  export type productoUpdateInput = {
+    descripcion?: StringFieldUpdateOperationsInput | string
+    ListaCompras?: ListaCompraUpdateManyWithoutProductoNestedInput
+  }
+
+  export type productoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    ListaCompras?: ListaCompraUncheckedUpdateManyWithoutProductoNestedInput
+  }
+
+  export type productoCreateManyInput = {
+    id?: number
+    descripcion: string
+  }
+
+  export type productoUpdateManyMutationInput = {
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type productoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ListaCompraCreateInput = {
+    producto: productoCreateNestedOneWithoutListaComprasInput
+  }
+
+  export type ListaCompraUncheckedCreateInput = {
+    productoId: number
+  }
+
+  export type ListaCompraUpdateInput = {
+    producto?: productoUpdateOneRequiredWithoutListaComprasNestedInput
+  }
+
+  export type ListaCompraUncheckedUpdateInput = {
+    productoId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ListaCompraCreateManyInput = {
+    productoId: number
+  }
+
+  export type ListaCompraUpdateManyMutationInput = {
+
+  }
+
+  export type ListaCompraUncheckedUpdateManyInput = {
+    productoId?: IntFieldUpdateOperationsInput | number
   }
 
   export type IntFilter = {
@@ -10359,6 +12490,64 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type ListaCompraListRelationFilter = {
+    every?: ListaCompraWhereInput
+    some?: ListaCompraWhereInput
+    none?: ListaCompraWhereInput
+  }
+
+  export type ListaCompraOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type productoCountOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type productoAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type productoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type productoMinOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type productoSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type ProductoRelationFilter = {
+    is?: productoWhereInput
+    isNot?: productoWhereInput
+  }
+
+  export type ListaCompraCountOrderByAggregateInput = {
+    productoId?: SortOrder
+  }
+
+  export type ListaCompraAvgOrderByAggregateInput = {
+    productoId?: SortOrder
+  }
+
+  export type ListaCompraMaxOrderByAggregateInput = {
+    productoId?: SortOrder
+  }
+
+  export type ListaCompraMinOrderByAggregateInput = {
+    productoId?: SortOrder
+  }
+
+  export type ListaCompraSumOrderByAggregateInput = {
+    productoId?: SortOrder
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -10613,6 +12802,60 @@ export namespace Prisma {
     update?: Enumerable<gastoUpdateWithWhereUniqueWithoutTipoInput>
     updateMany?: Enumerable<gastoUpdateManyWithWhereWithoutTipoInput>
     deleteMany?: Enumerable<gastoScalarWhereInput>
+  }
+
+  export type ListaCompraCreateNestedManyWithoutProductoInput = {
+    create?: XOR<Enumerable<ListaCompraCreateWithoutProductoInput>, Enumerable<ListaCompraUncheckedCreateWithoutProductoInput>>
+    connectOrCreate?: Enumerable<ListaCompraCreateOrConnectWithoutProductoInput>
+    createMany?: ListaCompraCreateManyProductoInputEnvelope
+    connect?: Enumerable<ListaCompraWhereUniqueInput>
+  }
+
+  export type ListaCompraUncheckedCreateNestedManyWithoutProductoInput = {
+    create?: XOR<Enumerable<ListaCompraCreateWithoutProductoInput>, Enumerable<ListaCompraUncheckedCreateWithoutProductoInput>>
+    connectOrCreate?: Enumerable<ListaCompraCreateOrConnectWithoutProductoInput>
+    createMany?: ListaCompraCreateManyProductoInputEnvelope
+    connect?: Enumerable<ListaCompraWhereUniqueInput>
+  }
+
+  export type ListaCompraUpdateManyWithoutProductoNestedInput = {
+    create?: XOR<Enumerable<ListaCompraCreateWithoutProductoInput>, Enumerable<ListaCompraUncheckedCreateWithoutProductoInput>>
+    connectOrCreate?: Enumerable<ListaCompraCreateOrConnectWithoutProductoInput>
+    createMany?: ListaCompraCreateManyProductoInputEnvelope
+    set?: Enumerable<ListaCompraWhereUniqueInput>
+    disconnect?: Enumerable<ListaCompraWhereUniqueInput>
+    delete?: Enumerable<ListaCompraWhereUniqueInput>
+    connect?: Enumerable<ListaCompraWhereUniqueInput>
+    update?: Enumerable<ListaCompraUpdateWithWhereUniqueWithoutProductoInput>
+    updateMany?: Enumerable<ListaCompraUpdateManyWithWhereWithoutProductoInput>
+    deleteMany?: Enumerable<ListaCompraScalarWhereInput>
+  }
+
+  export type ListaCompraUncheckedUpdateManyWithoutProductoNestedInput = {
+    create?: XOR<Enumerable<ListaCompraCreateWithoutProductoInput>, Enumerable<ListaCompraUncheckedCreateWithoutProductoInput>>
+    connectOrCreate?: Enumerable<ListaCompraCreateOrConnectWithoutProductoInput>
+    createMany?: ListaCompraCreateManyProductoInputEnvelope
+    set?: Enumerable<ListaCompraWhereUniqueInput>
+    disconnect?: Enumerable<ListaCompraWhereUniqueInput>
+    delete?: Enumerable<ListaCompraWhereUniqueInput>
+    connect?: Enumerable<ListaCompraWhereUniqueInput>
+    update?: Enumerable<ListaCompraUpdateWithWhereUniqueWithoutProductoInput>
+    updateMany?: Enumerable<ListaCompraUpdateManyWithWhereWithoutProductoInput>
+    deleteMany?: Enumerable<ListaCompraScalarWhereInput>
+  }
+
+  export type productoCreateNestedOneWithoutListaComprasInput = {
+    create?: XOR<productoCreateWithoutListaComprasInput, productoUncheckedCreateWithoutListaComprasInput>
+    connectOrCreate?: productoCreateOrConnectWithoutListaComprasInput
+    connect?: productoWhereUniqueInput
+  }
+
+  export type productoUpdateOneRequiredWithoutListaComprasNestedInput = {
+    create?: XOR<productoCreateWithoutListaComprasInput, productoUncheckedCreateWithoutListaComprasInput>
+    connectOrCreate?: productoCreateOrConnectWithoutListaComprasInput
+    upsert?: productoUpsertWithoutListaComprasInput
+    connect?: productoWhereUniqueInput
+    update?: XOR<productoUpdateWithoutListaComprasInput, productoUncheckedUpdateWithoutListaComprasInput>
   }
 
   export type NestedIntFilter = {
@@ -11217,6 +13460,69 @@ export namespace Prisma {
     pendientecobro?: BoolFilter | boolean
   }
 
+  export type ListaCompraCreateWithoutProductoInput = {
+
+  }
+
+  export type ListaCompraUncheckedCreateWithoutProductoInput = {
+
+  }
+
+  export type ListaCompraCreateOrConnectWithoutProductoInput = {
+    where: ListaCompraWhereUniqueInput
+    create: XOR<ListaCompraCreateWithoutProductoInput, ListaCompraUncheckedCreateWithoutProductoInput>
+  }
+
+  export type ListaCompraCreateManyProductoInputEnvelope = {
+    data: Enumerable<ListaCompraCreateManyProductoInput>
+    skipDuplicates?: boolean
+  }
+
+  export type ListaCompraUpdateWithWhereUniqueWithoutProductoInput = {
+    where: ListaCompraWhereUniqueInput
+    data: XOR<ListaCompraUpdateWithoutProductoInput, ListaCompraUncheckedUpdateWithoutProductoInput>
+  }
+
+  export type ListaCompraUpdateManyWithWhereWithoutProductoInput = {
+    where: ListaCompraScalarWhereInput
+    data: XOR<ListaCompraUpdateManyMutationInput, ListaCompraUncheckedUpdateManyWithoutListaComprasInput>
+  }
+
+  export type ListaCompraScalarWhereInput = {
+    AND?: Enumerable<ListaCompraScalarWhereInput>
+    OR?: Enumerable<ListaCompraScalarWhereInput>
+    NOT?: Enumerable<ListaCompraScalarWhereInput>
+    productoId?: IntFilter | number
+  }
+
+  export type productoCreateWithoutListaComprasInput = {
+    descripcion: string
+  }
+
+  export type productoUncheckedCreateWithoutListaComprasInput = {
+    id?: number
+    descripcion: string
+  }
+
+  export type productoCreateOrConnectWithoutListaComprasInput = {
+    where: productoWhereUniqueInput
+    create: XOR<productoCreateWithoutListaComprasInput, productoUncheckedCreateWithoutListaComprasInput>
+  }
+
+  export type productoUpsertWithoutListaComprasInput = {
+    update: XOR<productoUpdateWithoutListaComprasInput, productoUncheckedUpdateWithoutListaComprasInput>
+    create: XOR<productoCreateWithoutListaComprasInput, productoUncheckedCreateWithoutListaComprasInput>
+  }
+
+  export type productoUpdateWithoutListaComprasInput = {
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type productoUncheckedUpdateWithoutListaComprasInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
   export type servicioCreateManyEmpleadaInput = {
     id?: number
     fecha: Date | string
@@ -11334,6 +13640,22 @@ export namespace Prisma {
     observacion?: NullableStringFieldUpdateOperationsInput | string | null
     servicioId?: NullableIntFieldUpdateOperationsInput | number | null
     pendientecobro?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ListaCompraCreateManyProductoInput = {
+
+  }
+
+  export type ListaCompraUpdateWithoutProductoInput = {
+
+  }
+
+  export type ListaCompraUncheckedUpdateWithoutProductoInput = {
+
+  }
+
+  export type ListaCompraUncheckedUpdateManyWithoutListaComprasInput = {
+
   }
 
 

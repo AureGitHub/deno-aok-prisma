@@ -98,6 +98,18 @@ model tipogasto {
 }
 
 
+model producto {
+   id            Int  @id  @default(autoincrement())
+   descripcion   String  @unique
+   ListaCompras  ListaCompra[]
+}
+
+model ListaCompra {
+   productoId            Int  @id  
+   producto     producto @relation(fields: [productoId], references: [id])
+}
+
+
 
 
 
