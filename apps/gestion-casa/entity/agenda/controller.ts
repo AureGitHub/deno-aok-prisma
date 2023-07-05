@@ -31,6 +31,33 @@ const get = async (ctx: any) => {
 
 };
 
+const getResumen = async (ctx: any) => {
+
+
+
+  const data = await prisma.$queryRaw<any[]> `
+
+
+select 
+ TO_CHAR (a.fecha , 'dd/mm/yyyy') as fecha_p,
+ a.observacion,
+ t.descripcion, t.color 
+ from agenda a
+ inner join tipoagenda t on a."tipoagendaId" = t.id
+ where CURRENT_DATE < a.fecha
+ order by a.fecha 
+ LIMIT 3
+  
+    `;
+
+  ctx.response.status = 201;
+  ctx.response.body = {
+    status: StatusCodes.OK,
+    data,
+  };
+
+};
+
 
 const getById = async (ctx: any) => {
   const id = Number(ctx?.params?.id);
@@ -125,6 +152,7 @@ const del = async (ctx: any) => {
 
 export default {
   get,
+  getResumen,
   getById,
   add,
   update,

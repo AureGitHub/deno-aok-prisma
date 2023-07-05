@@ -7,6 +7,8 @@ const router = new Router({
   });
 
 router
+
+.get("/getResumen", requireUser, controller.getResumen)
 .get("/", requireUser, controller.get)
 .get("/:id", requireUser, controller.getById)
 .post("/", requireUser, controller.add)

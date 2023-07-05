@@ -18,6 +18,7 @@ from gasto g
 inner join tipogasto t on g."tipogastoId" = t.id
 left join servicio s on g."servicioId" = s.id 
 left join empleada e on s."empleadaId" =e.id 
+order by g.fecha desc
   
     `;
 
