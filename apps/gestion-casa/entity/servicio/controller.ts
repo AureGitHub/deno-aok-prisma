@@ -2,8 +2,6 @@ import { Context, StatusCodes } from "../../../../dep/deps.ts";
 import  { Prisma } from "../../generated/client/deno/edge.ts";
 import   prisma  from "../../prisma/db.ts";
 
-const precioHora = 8.0;
-const precionSuplLevantar = 2.0;
 
 const  toHoursAndMinutes = (totalMinutes: number) => {
   const hours = Math.floor(totalMinutes / 60);
@@ -18,9 +16,15 @@ const getHoras = (shoraInicio : string, shoraFin: string)=>{
   return toHoursAndMinutes(resta);
 }
 
-const getImporte = (shoraInicio : string, shoraFin: string, suplLevantar : boolean)=>{
+const getImporte = async (shoraInicio : string, shoraFin: string, suplLevantar : boolean)=>{
   const tiempo = getHoras(shoraInicio,shoraFin );
   //{ "hours": 1, "minutes": 45}
+
+  
+const confprecioHora = await prisma.configuracion.findFirst({where : {key : 'precio-hora'}});
+const confprecionSuplLevantar = await prisma.configuracion.findFirst({where : {key : 'suplemento-levantar'}});
+const  precioHora = confprecioHora?.value ? parseFloat(confprecioHora.value) : 0.0;
+const  precionSuplLevantar = confprecionSuplLevantar?.value ?parseFloat(confprecionSuplLevantar?.value) : 0.0;
 
   let importe = suplLevantar ? precionSuplLevantar : 0;
   //horas
@@ -142,7 +146,7 @@ const add = async (ctx: any) => {
       const servicioToAdd: Prisma.servicioCreateInput = await ctx.request.body().value;
       
   
-      const horas = getImporte(servicioToAdd.horaInicio, servicioToAdd.horaFin, servicioToAdd.suplLevantar);
+      const horas = await getImporte(servicioToAdd.horaInicio, servicioToAdd.horaFin, servicioToAdd.suplLevantar);
 
      
       servicioToAdd.horas = horas.tiempo.hours;
@@ -248,7 +252,7 @@ const add = async (ctx: any) => {
       //const {id}  = await request.body().value;
   
 
-      const horas = getImporte(servicioUpdateInput.horaInicio, servicioUpdateInput.horaFin, servicioUpdateInput.suplLevantar);
+      const horas = await getImporte(servicioUpdateInput.horaInicio, servicioUpdateInput.horaFin, servicioUpdateInput.suplLevantar);
       servicioUpdateInput.horas = horas.tiempo.hours;
       servicioUpdateInput.minutos = horas.tiempo.minutes;
       servicioUpdateInput.importe = horas.importe;

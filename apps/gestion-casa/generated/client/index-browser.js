@@ -101,6 +101,11 @@ exports.Prisma.CasaScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ConfiguracionScalarFieldEnum = {
+  key: 'key',
+  value: 'value'
+};
+
 exports.Prisma.EmpleadaScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
@@ -190,7 +195,8 @@ exports.Prisma.ModelName = {
   gasto: 'gasto',
   tipogasto: 'tipogasto',
   producto: 'producto',
-  ListaCompra: 'ListaCompra'
+  ListaCompra: 'ListaCompra',
+  configuracion: 'configuracion'
 };
 
 /**

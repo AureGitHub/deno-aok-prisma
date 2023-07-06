@@ -9,6 +9,7 @@ import agendaRouter from "./entity/agenda/router.ts";
 import gastoRouter from "./entity/gasto/router.ts";
 import productoRouter from "./entity/producto/router.ts";
 import ListaCompraRouter from "./entity/ListaCompra/router.ts";
+import configuracionRouter from "./entity/configuracion/router.ts";
 
 
 // import requireApp from "../../middleware/requireApp.ts"
@@ -32,6 +33,8 @@ router.use(gastoRouter.routes());
 router.use(tipogastoRouter.routes());
 router.use(productoRouter.routes());
 router.use(ListaCompraRouter.routes());
+router.use(configuracionRouter.routes());
+
 
 
 

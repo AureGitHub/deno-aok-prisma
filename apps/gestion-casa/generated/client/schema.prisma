@@ -109,6 +109,11 @@ model ListaCompra {
    producto     producto @relation(fields: [productoId], references: [id])
 }
 
+model configuracion {
+  key String @id
+  value String 
+}
+
 
 
 
