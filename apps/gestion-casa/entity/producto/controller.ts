@@ -73,7 +73,7 @@ const update = async (ctx: any) =>  {
     const productoUpdateInput: Prisma.productoUpdateInput = await ctx.request.body().value;
     //const {id}  = await request.body().value;
 
-    const data = await prisma.tipogasto.updateMany({
+    const data = await prisma.producto.updateMany({
       where: {id },
       data: productoUpdateInput
     })
