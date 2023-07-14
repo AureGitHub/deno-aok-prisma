@@ -23,8 +23,8 @@ POST http://localhost:3000/api/general/auth/login
 content-type: application/json
 
 {
-    "email" : "ago11d@a.es",   
-    "password" : "12345678" ,
+    "email" : "auredeveloper@gmail.com",   
+    "password" : "jas11jas11" ,
     "appId" : 1
 }
 
