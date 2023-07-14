@@ -10,3 +10,7 @@ deno run -A prisma/seed/seed.js
 
 
 deno run --unstable --watch  -A server.ts
+
+https://clients.cloudclusters.io/applications/5df28b734cdb444da2aa3b570f6d9004/dbuser
+
+version actual deno:  v12.22.12
