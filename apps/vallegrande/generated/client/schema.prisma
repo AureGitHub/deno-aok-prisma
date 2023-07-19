@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["deno"]
+  output = "../generated/client"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_POST_VALLEGRANDE")
+}
+
+
+model categoria {
+  id         Int       @id
+  descripcion     String    @unique  
+  categoriaxproducto  categoriaxproducto[]
+}
+
+model categoriaxproducto {
+  id         Int       @id
+  categoriaI  Int
+  categoria       categoria   @relation(fields: [categoriaI], references: [id])
+  descripcion     String
+}
+
+
+
+
+
+
+
+
+

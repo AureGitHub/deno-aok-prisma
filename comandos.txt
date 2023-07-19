@@ -13,4 +13,9 @@ deno run --unstable --watch  -A server.ts
 
 https://clients.cloudclusters.io/applications/5df28b734cdb444da2aa3b570f6d9004/dbuser
 
+
+Crear proxy (login with github)
+https://cloud.prisma.io/projects
+
+
 version actual deno:  v12.22.12
