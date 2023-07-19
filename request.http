@@ -90,17 +90,34 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3000/api/general/app
-# Authorization :eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoiRGlvcyAxIiwicm9sZSI6IkdPRCIsImVzdGFkbyI6IkFDVElWRSIsImFwcHMiOltdLCJzb21lQXBwIjpmYWxzZSwiYXBwIjoiZ2VzdGlvbi1jYXNhIiwiYXBwSWQiOjEsImlzQWRtaW4iOnRydWUsImlzR29kIjp0cnVlfSwiYWNjZXNzVG9rZW5FeHBpcmVzSW4iOjE2ODYzMjU5OTU2NDR9.I7nEluKvhFtb55GRZpvgEQo1lsWvm9j0qday-dFGLh_n9Bq_gjBKMAWfStu9-zanG5r4qWym6XkNB4PmHN6VgA
-# content-type: application/json
+GET http://localhost:3000/api/vallegrande/categoria/1
 
-# {
-    
-#     "nombre": "Zarza la mayor",
-#     "baja": false
-    
-# }
+###
+POST http://localhost:3000/api/vallegrande/categoria
+content-type: application/json
 
+ {
+    
+     "id": 2,
+     "descripcion": "bocadillos1"
+    
+ }
+
+###
+
+DELETE http://localhost:3000/api/vallegrande/categoria/2
+
+
+###
+
+PUT http://localhost:3000/api/vallegrande/categoria/1
+content-type: application/json
+
+ {
+    
+     "descripcion": "bocadillos"
+    
+ }
 
 ###
 POST https://aure-deno-aok-prisma.deno.dev/api/auth/login 
