@@ -8,7 +8,7 @@ import vallegrandeRouter from "../apps/vallegrande/router.js"
 function init(app: Application) {
   app.use(generalRouter.routes());  
   app.use(gestionCasaRouter.routes());
-  app.use(vallegrandeRouter.routes());
+  // app.use(vallegrandeRouter.routes());
 }
 
 export default {
