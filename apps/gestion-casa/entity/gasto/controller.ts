@@ -8,6 +8,26 @@ const get = async (ctx: any) => {
 
 
 
+  const u = new URL(ctx.request.url);
+  const limit = u.searchParams.get('limit') ?  parseInt(u.searchParams.get('limit')) : 0;
+  let offset = u.searchParams.get('offset') ?  parseInt(u.searchParams.get('offset')) : 0;
+  offset *= limit;
+  
+  const sql_limit = Prisma.sql`  offset ${offset} limit ${limit}`;
+
+
+  const countSql =  await prisma.$queryRaw` 
+  select  to_char(count(*), '9999999')  as total
+  from gasto g 
+  inner join tipogasto t on g."tipogastoId" = t.id
+  left join servicio s on g."servicioId" = s.id 
+  left join empleada e on s."empleadaId" =e.id 
+      `;
+
+
+const count = countSql && countSql[0]  ? parseInt(countSql[0].total) : 0;
+
+
   const data = await prisma.$queryRaw<any[]> ` 
 select g.*,
 TO_CHAR (g.fecha , 'dd/mm/yyyy') as fecha_p,
@@ -18,14 +38,14 @@ from gasto g
 inner join tipogasto t on g."tipogastoId" = t.id
 left join servicio s on g."servicioId" = s.id 
 left join empleada e on s."empleadaId" =e.id 
-order by g.fecha desc
-  
+order by g.fecha desc  
+${sql_limit}
     `;
 
   ctx.response.status = 201;
   ctx.response.body = {
     status: StatusCodes.OK,
-    data,
+    data : {data, count },
   };
 
 };
