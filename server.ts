@@ -53,9 +53,14 @@ app.use(async (ctx, next) => {
 
   //AQUI COJO EL TOKEN !!!!!!!!!!!!!!!!!!!!!!!
   const token  = await ctx.request.headers.get('Authorization');
+  const objPagFilterOrder  = await ctx.request.headers.get('objPagFilterOrder');
   ctx.state.now = now;
   if(token){
     ctx.state.token = token;
+  }
+
+  if(objPagFilterOrder){
+    ctx.state.objPagFilterOrder = JSON.parse(objPagFilterOrder);
   }
   
   await next();

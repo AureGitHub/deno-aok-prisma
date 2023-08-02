@@ -8,11 +8,20 @@ const get = async (ctx: any) => {
 
 
 
-  const u = new URL(ctx.request.url);
-  const limit = u.searchParams.get('limit') ?  parseInt(u.searchParams.get('limit')) : 0;
-  let offset = u.searchParams.get('offset') ?  parseInt(u.searchParams.get('offset')) : 0;
+  // const u = new URL(ctx.request.url);
+  // const limit = u.searchParams.get('limit') ?  parseInt(u.searchParams.get('limit')) : 0;
+  // let offset = u.searchParams.get('offset') ?  parseInt(u.searchParams.get('offset')) : 0;
+
+
+  const limit = ctx.state.objPagFilterOrder.pagination.limit;
+  let offset = ctx.state.objPagFilterOrder.pagination.offset;
+
+  const columns = ctx.state.objPagFilterOrder.columns;
+
+
   offset *= limit;
-  
+
+
   const sql_limit = Prisma.sql`  offset ${offset} limit ${limit}`;
 
 
