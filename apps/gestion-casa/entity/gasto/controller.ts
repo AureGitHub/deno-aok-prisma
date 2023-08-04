@@ -3,56 +3,80 @@ import { Prisma } from "../../generated/client/deno/edge.ts";
 import prisma from "../../prisma/db.ts";
 
 
+const getFilter = (colums : any[]) =>{
+  let cadena =  `WHERE 1=1 `;
+  colums.forEach(col => {
+    if(col['filter']){
+      cadena+=` and ${col.prop} like '%${col['filter']}%' `;
+    }
+  })
+  return  cadena ;
+}
+
+
+
+const getOrderBy = (colums : any[]) =>{
+  let cadena =  colums.some(a=>a.order) ? 'order by ' : '';
+  colums.forEach(col => {
+    if(col['order']){
+      cadena+=` ${col.prop} ${col['order']}`;
+    }
+  })
+  return  cadena ;
+}
+
+
 
 const get = async (ctx: any) => {
 
 
-
-  // const u = new URL(ctx.request.url);
-  // const limit = u.searchParams.get('limit') ?  parseInt(u.searchParams.get('limit')) : 0;
-  // let offset = u.searchParams.get('offset') ?  parseInt(u.searchParams.get('offset')) : 0;
-
-
   const limit = ctx.state.objPagFilterOrder.pagination.limit;
   let offset = ctx.state.objPagFilterOrder.pagination.offset;
-
   const columns = ctx.state.objPagFilterOrder.columns;
-
-
+  const mode = ctx.state.objPagFilterOrder.mode;   // 'C' => Consulta    'P'=>Paginación
   offset *= limit;
+  let  count = ctx.state.objPagFilterOrder.pagination.count;
 
 
-  const sql_limit = Prisma.sql`  offset ${offset} limit ${limit}`;
+  const sqlSelectOnlyCount =` select  to_char(count(*), '9999999')  as total `;
 
+  const sqlSelect = `   
+  select g.*,
+  TO_CHAR (g.fecha , 'dd/mm/yyyy') as fecha_p,
+  t.descripcion  as "t.descripcion", t.color,
+  case when t."descripcion" ='servicio' then e.nombre  else g.observacion  end as obs_p,
+  pendientecobro 
+  `;
 
-  const countSql =  await prisma.$queryRaw` 
-  select  to_char(count(*), '9999999')  as total
+  const sqlFrom =`
   from gasto g 
   inner join tipogasto t on g."tipogastoId" = t.id
   left join servicio s on g."servicioId" = s.id 
   left join empleada e on s."empleadaId" =e.id 
-      `;
+  `;
+  const orderBydefect = ` order by g.fecha desc  `;
 
 
-const count = countSql && countSql[0]  ? parseInt(countSql[0].total) : 0;
+  const strPrismaFilter = getFilter(columns);
+
+  const strOrderBy = getOrderBy(columns);
+  
+
+  if(mode == 'C'){
+    const countSql =  await prisma.$queryRawUnsafe(sqlSelectOnlyCount + sqlFrom + strPrismaFilter);   
+    count = countSql && countSql[0]  ? parseInt(countSql[0].total) : 0;
+  }
 
 
-  const data = await prisma.$queryRaw<any[]> ` 
-select g.*,
-TO_CHAR (g.fecha , 'dd/mm/yyyy') as fecha_p,
-t.descripcion, t.color,
-case when t."descripcion" ='servicio' then e.nombre  else g.observacion  end as obs_p,
-pendientecobro
-from gasto g 
-inner join tipogasto t on g."tipogastoId" = t.id
-left join servicio s on g."servicioId" = s.id 
-left join empleada e on s."empleadaId" =e.id 
-order by g.fecha desc  
-${sql_limit}
-    `;
+  const sql_limit = `  offset ${offset} limit ${limit}`;
+
+  const  order = strOrderBy ? strOrderBy : orderBydefect;
+
+  
+  const data = await prisma.$queryRawUnsafe( sqlSelect + sqlFrom + strPrismaFilter + order + sql_limit );
 
   ctx.response.status = 201;
-  ctx.response.body = {
+  ctx.response.body = { 
     status: StatusCodes.OK,
     data : {data, count },
   };
