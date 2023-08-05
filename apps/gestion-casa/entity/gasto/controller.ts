@@ -19,10 +19,10 @@ const getOrderBy = (colums : any[]) =>{
   let cadena =  colums.some(a=>a.order) ? 'order by ' : '';
   colums.forEach(col => {
     if(col['order']){
-      cadena+=` ${col.prop} ${col['order']}`;
+      cadena+=` ${col.prop} ${col['order']},`;
     }
   })
-  return  cadena ;
+  return  cadena.substring(0,cadena.length-1) ;
 }
 
 
