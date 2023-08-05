@@ -29,13 +29,30 @@ const getOrderBy = (colums : any[]) =>{
 
 const get = async (ctx: any) => {
 
+  let offset =0;
+  let limit=0;
+  let  count=0;
 
-  const limit = ctx.state.objPagFilterOrder.pagination.limit;
-  let offset = ctx.state.objPagFilterOrder.pagination.offset;
+
+  if(!ctx.state.objPagFilterOrder){
+
+
+   ctx.state.objPagFilterOrder.pagination = {};
+  ctx.state.objPagFilterOrder.pagination.limit = 10;
+  ctx.state.objPagFilterOrder.pagination.offset=0;
+  ctx.state.objPagFilterOrder.columns = [];
+  ctx.state.objPagFilterOrder.mode = 'C';   // 'C' => Consulta    'P'=>Paginación
+  offset *= limit;
+  ctx.state.objPagFilterOrder.pagination.count =0;;
+
+  }
+
+  limit = ctx.state.objPagFilterOrder.pagination.limit;
+  offset = ctx.state.objPagFilterOrder.pagination.offset;
   const columns = ctx.state.objPagFilterOrder.columns;
   const mode = ctx.state.objPagFilterOrder.mode;   // 'C' => Consulta    'P'=>Paginación
   offset *= limit;
-  let  count = ctx.state.objPagFilterOrder.pagination.count;
+  count = ctx.state.objPagFilterOrder.pagination.count;
 
 
   const sqlSelectOnlyCount =` select  to_char(count(*), '9999999')  as total `;

@@ -59,7 +59,7 @@ app.use(async (ctx, next) => {
     ctx.state.token = token;
   }
 
-  if(objPagFilterOrder){
+  if(objPagFilterOrder && objPagFilterOrder != 'undefined'){
     ctx.state.objPagFilterOrder = JSON.parse(objPagFilterOrder);
   }
   
