@@ -28,6 +28,17 @@ model categoriaxproducto {
 }
 
 
+model ejemploDatos {
+  id         Int        @default(autoincrement())
+  dato1     String    @unique 
+  dato2     String    @unique 
+  dato3     String    @unique 
+  dato4     String    @unique 
+
+  
+}
+
+
 
 
 

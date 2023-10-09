@@ -14,11 +14,11 @@ exports.Prisma = Prisma
 
 /**
  * Prisma Client JS version: 4.14.1
- * Query Engine version: 0362da9eebca54d94c8ef5edd3b2e90af99ba452
+ * Query Engine version: d9a4c5988f480fa576d43970d5a23641aa77bc9c
  */
 Prisma.prismaVersion = {
   client: "4.14.1",
-  engine: "0362da9eebca54d94c8ef5edd3b2e90af99ba452"
+  engine: "d9a4c5988f480fa576d43970d5a23641aa77bc9c"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -97,6 +97,14 @@ exports.Prisma.CategoriaxproductoScalarFieldEnum = {
   descripcion: 'descripcion'
 };
 
+exports.Prisma.EjemploDatosScalarFieldEnum = {
+  id: 'id',
+  dato1: 'dato1',
+  dato2: 'dato2',
+  dato3: 'dato3',
+  dato4: 'dato4'
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -117,7 +125,8 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.ModelName = {
   categoria: 'categoria',
-  categoriaxproducto: 'categoriaxproducto'
+  categoriaxproducto: 'categoriaxproducto',
+  ejemploDatos: 'ejemploDatos'
 };
 
 /**

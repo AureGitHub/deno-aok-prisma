@@ -31,6 +31,18 @@ export type categoriaxproducto = {
   descripcion: string
 }
 
+/**
+ * Model ejemploDatos
+ * 
+ */
+export type ejemploDatos = {
+  id: number
+  dato1: string
+  dato2: string
+  dato3: string
+  dato4: string
+}
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -168,6 +180,16 @@ export class PrismaClient<
     * ```
     */
   get categoriaxproducto(): Prisma.categoriaxproductoDelegate<GlobalReject>;
+
+  /**
+   * `prisma.ejemploDatos`: Exposes CRUD operations for the **ejemploDatos** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EjemploDatos
+    * const ejemploDatos = await prisma.ejemploDatos.findMany()
+    * ```
+    */
+  get ejemploDatos(): Prisma.ejemploDatosDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -212,7 +234,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 4.14.1
-   * Query Engine version: 0362da9eebca54d94c8ef5edd3b2e90af99ba452
+   * Query Engine version: d9a4c5988f480fa576d43970d5a23641aa77bc9c
    */
   export type PrismaVersion = {
     client: string
@@ -638,7 +660,8 @@ export namespace Prisma {
 
   export const ModelName: {
     categoria: 'categoria',
-    categoriaxproducto: 'categoriaxproducto'
+    categoriaxproducto: 'categoriaxproducto',
+    ejemploDatos: 'ejemploDatos'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2766,6 +2789,922 @@ export namespace Prisma {
 
 
   /**
+   * Model ejemploDatos
+   */
+
+
+  export type AggregateEjemploDatos = {
+    _count: EjemploDatosCountAggregateOutputType | null
+    _avg: EjemploDatosAvgAggregateOutputType | null
+    _sum: EjemploDatosSumAggregateOutputType | null
+    _min: EjemploDatosMinAggregateOutputType | null
+    _max: EjemploDatosMaxAggregateOutputType | null
+  }
+
+  export type EjemploDatosAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type EjemploDatosSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type EjemploDatosMinAggregateOutputType = {
+    id: number | null
+    dato1: string | null
+    dato2: string | null
+    dato3: string | null
+    dato4: string | null
+  }
+
+  export type EjemploDatosMaxAggregateOutputType = {
+    id: number | null
+    dato1: string | null
+    dato2: string | null
+    dato3: string | null
+    dato4: string | null
+  }
+
+  export type EjemploDatosCountAggregateOutputType = {
+    id: number
+    dato1: number
+    dato2: number
+    dato3: number
+    dato4: number
+    _all: number
+  }
+
+
+  export type EjemploDatosAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type EjemploDatosSumAggregateInputType = {
+    id?: true
+  }
+
+  export type EjemploDatosMinAggregateInputType = {
+    id?: true
+    dato1?: true
+    dato2?: true
+    dato3?: true
+    dato4?: true
+  }
+
+  export type EjemploDatosMaxAggregateInputType = {
+    id?: true
+    dato1?: true
+    dato2?: true
+    dato3?: true
+    dato4?: true
+  }
+
+  export type EjemploDatosCountAggregateInputType = {
+    id?: true
+    dato1?: true
+    dato2?: true
+    dato3?: true
+    dato4?: true
+    _all?: true
+  }
+
+  export type EjemploDatosAggregateArgs = {
+    /**
+     * Filter which ejemploDatos to aggregate.
+     */
+    where?: ejemploDatosWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ejemploDatos to fetch.
+     */
+    orderBy?: Enumerable<ejemploDatosOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ejemploDatosWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ejemploDatos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ejemploDatos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ejemploDatos
+    **/
+    _count?: true | EjemploDatosCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: EjemploDatosAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: EjemploDatosSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EjemploDatosMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EjemploDatosMaxAggregateInputType
+  }
+
+  export type GetEjemploDatosAggregateType<T extends EjemploDatosAggregateArgs> = {
+        [P in keyof T & keyof AggregateEjemploDatos]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEjemploDatos[P]>
+      : GetScalarType<T[P], AggregateEjemploDatos[P]>
+  }
+
+
+
+
+  export type EjemploDatosGroupByArgs = {
+    where?: ejemploDatosWhereInput
+    orderBy?: Enumerable<ejemploDatosOrderByWithAggregationInput>
+    by: EjemploDatosScalarFieldEnum[]
+    having?: ejemploDatosScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EjemploDatosCountAggregateInputType | true
+    _avg?: EjemploDatosAvgAggregateInputType
+    _sum?: EjemploDatosSumAggregateInputType
+    _min?: EjemploDatosMinAggregateInputType
+    _max?: EjemploDatosMaxAggregateInputType
+  }
+
+
+  export type EjemploDatosGroupByOutputType = {
+    id: number
+    dato1: string
+    dato2: string
+    dato3: string
+    dato4: string
+    _count: EjemploDatosCountAggregateOutputType | null
+    _avg: EjemploDatosAvgAggregateOutputType | null
+    _sum: EjemploDatosSumAggregateOutputType | null
+    _min: EjemploDatosMinAggregateOutputType | null
+    _max: EjemploDatosMaxAggregateOutputType | null
+  }
+
+  type GetEjemploDatosGroupByPayload<T extends EjemploDatosGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<EjemploDatosGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EjemploDatosGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EjemploDatosGroupByOutputType[P]>
+            : GetScalarType<T[P], EjemploDatosGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ejemploDatosSelect = {
+    id?: boolean
+    dato1?: boolean
+    dato2?: boolean
+    dato3?: boolean
+    dato4?: boolean
+  }
+
+
+  export type ejemploDatosGetPayload<S extends boolean | null | undefined | ejemploDatosArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ejemploDatos :
+    S extends undefined ? never :
+    S extends { include: any } & (ejemploDatosArgs | ejemploDatosFindManyArgs)
+    ? ejemploDatos 
+    : S extends { select: any } & (ejemploDatosArgs | ejemploDatosFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof ejemploDatos ? ejemploDatos[P] : never
+  } 
+      : ejemploDatos
+
+
+  type ejemploDatosCountArgs = 
+    Omit<ejemploDatosFindManyArgs, 'select' | 'include'> & {
+      select?: EjemploDatosCountAggregateInputType | true
+    }
+
+  export interface ejemploDatosDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one EjemploDatos that matches the filter.
+     * @param {ejemploDatosFindUniqueArgs} args - Arguments to find a EjemploDatos
+     * @example
+     * // Get one EjemploDatos
+     * const ejemploDatos = await prisma.ejemploDatos.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ejemploDatosFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ejemploDatosFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ejemploDatos'> extends True ? Prisma__ejemploDatosClient<ejemploDatosGetPayload<T>> : Prisma__ejemploDatosClient<ejemploDatosGetPayload<T> | null, null>
+
+    /**
+     * Find one EjemploDatos that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ejemploDatosFindUniqueOrThrowArgs} args - Arguments to find a EjemploDatos
+     * @example
+     * // Get one EjemploDatos
+     * const ejemploDatos = await prisma.ejemploDatos.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ejemploDatosFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ejemploDatosFindUniqueOrThrowArgs>
+    ): Prisma__ejemploDatosClient<ejemploDatosGetPayload<T>>
+
+    /**
+     * Find the first EjemploDatos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ejemploDatosFindFirstArgs} args - Arguments to find a EjemploDatos
+     * @example
+     * // Get one EjemploDatos
+     * const ejemploDatos = await prisma.ejemploDatos.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ejemploDatosFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ejemploDatosFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ejemploDatos'> extends True ? Prisma__ejemploDatosClient<ejemploDatosGetPayload<T>> : Prisma__ejemploDatosClient<ejemploDatosGetPayload<T> | null, null>
+
+    /**
+     * Find the first EjemploDatos that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ejemploDatosFindFirstOrThrowArgs} args - Arguments to find a EjemploDatos
+     * @example
+     * // Get one EjemploDatos
+     * const ejemploDatos = await prisma.ejemploDatos.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ejemploDatosFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ejemploDatosFindFirstOrThrowArgs>
+    ): Prisma__ejemploDatosClient<ejemploDatosGetPayload<T>>
+
+    /**
+     * Find zero or more EjemploDatos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ejemploDatosFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EjemploDatos
+     * const ejemploDatos = await prisma.ejemploDatos.findMany()
+     * 
+     * // Get first 10 EjemploDatos
+     * const ejemploDatos = await prisma.ejemploDatos.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ejemploDatosWithIdOnly = await prisma.ejemploDatos.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends ejemploDatosFindManyArgs>(
+      args?: SelectSubset<T, ejemploDatosFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ejemploDatosGetPayload<T>>>
+
+    /**
+     * Create a EjemploDatos.
+     * @param {ejemploDatosCreateArgs} args - Arguments to create a EjemploDatos.
+     * @example
+     * // Create one EjemploDatos
+     * const EjemploDatos = await prisma.ejemploDatos.create({
+     *   data: {
+     *     // ... data to create a EjemploDatos
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ejemploDatosCreateArgs>(
+      args: SelectSubset<T, ejemploDatosCreateArgs>
+    ): Prisma__ejemploDatosClient<ejemploDatosGetPayload<T>>
+
+    /**
+     * Create many EjemploDatos.
+     *     @param {ejemploDatosCreateManyArgs} args - Arguments to create many EjemploDatos.
+     *     @example
+     *     // Create many EjemploDatos
+     *     const ejemploDatos = await prisma.ejemploDatos.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ejemploDatosCreateManyArgs>(
+      args?: SelectSubset<T, ejemploDatosCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a EjemploDatos.
+     * @param {ejemploDatosDeleteArgs} args - Arguments to delete one EjemploDatos.
+     * @example
+     * // Delete one EjemploDatos
+     * const EjemploDatos = await prisma.ejemploDatos.delete({
+     *   where: {
+     *     // ... filter to delete one EjemploDatos
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ejemploDatosDeleteArgs>(
+      args: SelectSubset<T, ejemploDatosDeleteArgs>
+    ): Prisma__ejemploDatosClient<ejemploDatosGetPayload<T>>
+
+    /**
+     * Update one EjemploDatos.
+     * @param {ejemploDatosUpdateArgs} args - Arguments to update one EjemploDatos.
+     * @example
+     * // Update one EjemploDatos
+     * const ejemploDatos = await prisma.ejemploDatos.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ejemploDatosUpdateArgs>(
+      args: SelectSubset<T, ejemploDatosUpdateArgs>
+    ): Prisma__ejemploDatosClient<ejemploDatosGetPayload<T>>
+
+    /**
+     * Delete zero or more EjemploDatos.
+     * @param {ejemploDatosDeleteManyArgs} args - Arguments to filter EjemploDatos to delete.
+     * @example
+     * // Delete a few EjemploDatos
+     * const { count } = await prisma.ejemploDatos.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ejemploDatosDeleteManyArgs>(
+      args?: SelectSubset<T, ejemploDatosDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EjemploDatos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ejemploDatosUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EjemploDatos
+     * const ejemploDatos = await prisma.ejemploDatos.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ejemploDatosUpdateManyArgs>(
+      args: SelectSubset<T, ejemploDatosUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one EjemploDatos.
+     * @param {ejemploDatosUpsertArgs} args - Arguments to update or create a EjemploDatos.
+     * @example
+     * // Update or create a EjemploDatos
+     * const ejemploDatos = await prisma.ejemploDatos.upsert({
+     *   create: {
+     *     // ... data to create a EjemploDatos
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EjemploDatos we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ejemploDatosUpsertArgs>(
+      args: SelectSubset<T, ejemploDatosUpsertArgs>
+    ): Prisma__ejemploDatosClient<ejemploDatosGetPayload<T>>
+
+    /**
+     * Count the number of EjemploDatos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ejemploDatosCountArgs} args - Arguments to filter EjemploDatos to count.
+     * @example
+     * // Count the number of EjemploDatos
+     * const count = await prisma.ejemploDatos.count({
+     *   where: {
+     *     // ... the filter for the EjemploDatos we want to count
+     *   }
+     * })
+    **/
+    count<T extends ejemploDatosCountArgs>(
+      args?: Subset<T, ejemploDatosCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EjemploDatosCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EjemploDatos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EjemploDatosAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EjemploDatosAggregateArgs>(args: Subset<T, EjemploDatosAggregateArgs>): Prisma.PrismaPromise<GetEjemploDatosAggregateType<T>>
+
+    /**
+     * Group by EjemploDatos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EjemploDatosGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EjemploDatosGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EjemploDatosGroupByArgs['orderBy'] }
+        : { orderBy?: EjemploDatosGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EjemploDatosGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEjemploDatosGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ejemploDatos.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ejemploDatosClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ejemploDatos base type for findUnique actions
+   */
+  export type ejemploDatosFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the ejemploDatos
+     */
+    select?: ejemploDatosSelect | null
+    /**
+     * Filter, which ejemploDatos to fetch.
+     */
+    where: ejemploDatosWhereUniqueInput
+  }
+
+  /**
+   * ejemploDatos findUnique
+   */
+  export interface ejemploDatosFindUniqueArgs extends ejemploDatosFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ejemploDatos findUniqueOrThrow
+   */
+  export type ejemploDatosFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ejemploDatos
+     */
+    select?: ejemploDatosSelect | null
+    /**
+     * Filter, which ejemploDatos to fetch.
+     */
+    where: ejemploDatosWhereUniqueInput
+  }
+
+
+  /**
+   * ejemploDatos base type for findFirst actions
+   */
+  export type ejemploDatosFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the ejemploDatos
+     */
+    select?: ejemploDatosSelect | null
+    /**
+     * Filter, which ejemploDatos to fetch.
+     */
+    where?: ejemploDatosWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ejemploDatos to fetch.
+     */
+    orderBy?: Enumerable<ejemploDatosOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ejemploDatos.
+     */
+    cursor?: ejemploDatosWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ejemploDatos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ejemploDatos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ejemploDatos.
+     */
+    distinct?: Enumerable<EjemploDatosScalarFieldEnum>
+  }
+
+  /**
+   * ejemploDatos findFirst
+   */
+  export interface ejemploDatosFindFirstArgs extends ejemploDatosFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ejemploDatos findFirstOrThrow
+   */
+  export type ejemploDatosFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ejemploDatos
+     */
+    select?: ejemploDatosSelect | null
+    /**
+     * Filter, which ejemploDatos to fetch.
+     */
+    where?: ejemploDatosWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ejemploDatos to fetch.
+     */
+    orderBy?: Enumerable<ejemploDatosOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ejemploDatos.
+     */
+    cursor?: ejemploDatosWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ejemploDatos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ejemploDatos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ejemploDatos.
+     */
+    distinct?: Enumerable<EjemploDatosScalarFieldEnum>
+  }
+
+
+  /**
+   * ejemploDatos findMany
+   */
+  export type ejemploDatosFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the ejemploDatos
+     */
+    select?: ejemploDatosSelect | null
+    /**
+     * Filter, which ejemploDatos to fetch.
+     */
+    where?: ejemploDatosWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ejemploDatos to fetch.
+     */
+    orderBy?: Enumerable<ejemploDatosOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ejemploDatos.
+     */
+    cursor?: ejemploDatosWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ejemploDatos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ejemploDatos.
+     */
+    skip?: number
+    distinct?: Enumerable<EjemploDatosScalarFieldEnum>
+  }
+
+
+  /**
+   * ejemploDatos create
+   */
+  export type ejemploDatosCreateArgs = {
+    /**
+     * Select specific fields to fetch from the ejemploDatos
+     */
+    select?: ejemploDatosSelect | null
+    /**
+     * The data needed to create a ejemploDatos.
+     */
+    data: XOR<ejemploDatosCreateInput, ejemploDatosUncheckedCreateInput>
+  }
+
+
+  /**
+   * ejemploDatos createMany
+   */
+  export type ejemploDatosCreateManyArgs = {
+    /**
+     * The data used to create many ejemploDatos.
+     */
+    data: Enumerable<ejemploDatosCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * ejemploDatos update
+   */
+  export type ejemploDatosUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the ejemploDatos
+     */
+    select?: ejemploDatosSelect | null
+    /**
+     * The data needed to update a ejemploDatos.
+     */
+    data: XOR<ejemploDatosUpdateInput, ejemploDatosUncheckedUpdateInput>
+    /**
+     * Choose, which ejemploDatos to update.
+     */
+    where: ejemploDatosWhereUniqueInput
+  }
+
+
+  /**
+   * ejemploDatos updateMany
+   */
+  export type ejemploDatosUpdateManyArgs = {
+    /**
+     * The data used to update ejemploDatos.
+     */
+    data: XOR<ejemploDatosUpdateManyMutationInput, ejemploDatosUncheckedUpdateManyInput>
+    /**
+     * Filter which ejemploDatos to update
+     */
+    where?: ejemploDatosWhereInput
+  }
+
+
+  /**
+   * ejemploDatos upsert
+   */
+  export type ejemploDatosUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the ejemploDatos
+     */
+    select?: ejemploDatosSelect | null
+    /**
+     * The filter to search for the ejemploDatos to update in case it exists.
+     */
+    where: ejemploDatosWhereUniqueInput
+    /**
+     * In case the ejemploDatos found by the `where` argument doesn't exist, create a new ejemploDatos with this data.
+     */
+    create: XOR<ejemploDatosCreateInput, ejemploDatosUncheckedCreateInput>
+    /**
+     * In case the ejemploDatos was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ejemploDatosUpdateInput, ejemploDatosUncheckedUpdateInput>
+  }
+
+
+  /**
+   * ejemploDatos delete
+   */
+  export type ejemploDatosDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the ejemploDatos
+     */
+    select?: ejemploDatosSelect | null
+    /**
+     * Filter which ejemploDatos to delete.
+     */
+    where: ejemploDatosWhereUniqueInput
+  }
+
+
+  /**
+   * ejemploDatos deleteMany
+   */
+  export type ejemploDatosDeleteManyArgs = {
+    /**
+     * Filter which ejemploDatos to delete
+     */
+    where?: ejemploDatosWhereInput
+  }
+
+
+  /**
+   * ejemploDatos without action
+   */
+  export type ejemploDatosArgs = {
+    /**
+     * Select specific fields to fetch from the ejemploDatos
+     */
+    select?: ejemploDatosSelect | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -2787,6 +3726,17 @@ export namespace Prisma {
   };
 
   export type CategoriaxproductoScalarFieldEnum = (typeof CategoriaxproductoScalarFieldEnum)[keyof typeof CategoriaxproductoScalarFieldEnum]
+
+
+  export const EjemploDatosScalarFieldEnum: {
+    id: 'id',
+    dato1: 'dato1',
+    dato2: 'dato2',
+    dato3: 'dato3',
+    dato4: 'dato4'
+  };
+
+  export type EjemploDatosScalarFieldEnum = (typeof EjemploDatosScalarFieldEnum)[keyof typeof EjemploDatosScalarFieldEnum]
 
 
   export const QueryMode: {
@@ -2899,6 +3849,56 @@ export namespace Prisma {
     descripcion?: StringWithAggregatesFilter | string
   }
 
+  export type ejemploDatosWhereInput = {
+    AND?: Enumerable<ejemploDatosWhereInput>
+    OR?: Enumerable<ejemploDatosWhereInput>
+    NOT?: Enumerable<ejemploDatosWhereInput>
+    id?: IntFilter | number
+    dato1?: StringFilter | string
+    dato2?: StringFilter | string
+    dato3?: StringFilter | string
+    dato4?: StringFilter | string
+  }
+
+  export type ejemploDatosOrderByWithRelationInput = {
+    id?: SortOrder
+    dato1?: SortOrder
+    dato2?: SortOrder
+    dato3?: SortOrder
+    dato4?: SortOrder
+  }
+
+  export type ejemploDatosWhereUniqueInput = {
+    dato1?: string
+    dato2?: string
+    dato3?: string
+    dato4?: string
+  }
+
+  export type ejemploDatosOrderByWithAggregationInput = {
+    id?: SortOrder
+    dato1?: SortOrder
+    dato2?: SortOrder
+    dato3?: SortOrder
+    dato4?: SortOrder
+    _count?: ejemploDatosCountOrderByAggregateInput
+    _avg?: ejemploDatosAvgOrderByAggregateInput
+    _max?: ejemploDatosMaxOrderByAggregateInput
+    _min?: ejemploDatosMinOrderByAggregateInput
+    _sum?: ejemploDatosSumOrderByAggregateInput
+  }
+
+  export type ejemploDatosScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ejemploDatosScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ejemploDatosScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ejemploDatosScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    dato1?: StringWithAggregatesFilter | string
+    dato2?: StringWithAggregatesFilter | string
+    dato3?: StringWithAggregatesFilter | string
+    dato4?: StringWithAggregatesFilter | string
+  }
+
   export type categoriaCreateInput = {
     id: number
     descripcion: string
@@ -2977,6 +3977,62 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     categoriaI?: IntFieldUpdateOperationsInput | number
     descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ejemploDatosCreateInput = {
+    id?: number
+    dato1: string
+    dato2: string
+    dato3: string
+    dato4: string
+  }
+
+  export type ejemploDatosUncheckedCreateInput = {
+    id?: number
+    dato1: string
+    dato2: string
+    dato3: string
+    dato4: string
+  }
+
+  export type ejemploDatosUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dato1?: StringFieldUpdateOperationsInput | string
+    dato2?: StringFieldUpdateOperationsInput | string
+    dato3?: StringFieldUpdateOperationsInput | string
+    dato4?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ejemploDatosUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dato1?: StringFieldUpdateOperationsInput | string
+    dato2?: StringFieldUpdateOperationsInput | string
+    dato3?: StringFieldUpdateOperationsInput | string
+    dato4?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ejemploDatosCreateManyInput = {
+    id?: number
+    dato1: string
+    dato2: string
+    dato3: string
+    dato4: string
+  }
+
+  export type ejemploDatosUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dato1?: StringFieldUpdateOperationsInput | string
+    dato2?: StringFieldUpdateOperationsInput | string
+    dato3?: StringFieldUpdateOperationsInput | string
+    dato4?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ejemploDatosUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dato1?: StringFieldUpdateOperationsInput | string
+    dato2?: StringFieldUpdateOperationsInput | string
+    dato3?: StringFieldUpdateOperationsInput | string
+    dato4?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter = {
@@ -3103,6 +4159,38 @@ export namespace Prisma {
   export type categoriaxproductoSumOrderByAggregateInput = {
     id?: SortOrder
     categoriaI?: SortOrder
+  }
+
+  export type ejemploDatosCountOrderByAggregateInput = {
+    id?: SortOrder
+    dato1?: SortOrder
+    dato2?: SortOrder
+    dato3?: SortOrder
+    dato4?: SortOrder
+  }
+
+  export type ejemploDatosAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type ejemploDatosMaxOrderByAggregateInput = {
+    id?: SortOrder
+    dato1?: SortOrder
+    dato2?: SortOrder
+    dato3?: SortOrder
+    dato4?: SortOrder
+  }
+
+  export type ejemploDatosMinOrderByAggregateInput = {
+    id?: SortOrder
+    dato1?: SortOrder
+    dato2?: SortOrder
+    dato3?: SortOrder
+    dato4?: SortOrder
+  }
+
+  export type ejemploDatosSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type categoriaxproductoCreateNestedManyWithoutCategoriaInput = {

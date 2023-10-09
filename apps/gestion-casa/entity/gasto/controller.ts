@@ -79,7 +79,7 @@ const get = async (ctx: any) => {
   const strOrderBy = getOrderBy(columns);
   
 
-  if(mode == 'C'){
+    if(mode == 'C'){
     const countSql =  await prisma.$queryRawUnsafe(sqlSelectOnlyCount + sqlFrom + strPrismaFilter);   
     count = countSql && countSql[0]  ? parseInt(countSql[0].total) : 0;
   }

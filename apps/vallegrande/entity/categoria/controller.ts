@@ -6,7 +6,7 @@ import   prisma  from "../../prisma/db.ts";
 
 const get= async (ctx: any) => {
 
-    const data = await prisma.categoria.findMany();
+    const data = await prisma.ejemploDatos.findMany();
     ctx.response.status = 201;
     ctx.response.body = {
       status: StatusCodes.OK,
@@ -18,7 +18,7 @@ const get= async (ctx: any) => {
 
 const getById= async (ctx: any) => {
     const  id  = Number(ctx?.params?.id);
-    const data = await prisma.categoria.findFirst({where: {id}});
+    const data = await prisma.ejemploDatos.findFirst({where: {id}});
 
     ctx.response.status = 201;
     ctx.response.body = {
@@ -31,20 +31,11 @@ const getById= async (ctx: any) => {
 
 const add = async (ctx: any) => {
     try {
-      const newItem: Prisma.categoriaCreateInput = await ctx.request.body().value;
-      const {descripcion} = newItem;
+      const newItem: Prisma.ejemploDatosCreateInput = await ctx.request.body().value;
   
-     const empleadaExists = await prisma.categoria.findUnique({where: {descripcion}});
-      if (empleadaExists) {
-        ctx.response.status = 409;
-        ctx.response.body = {
-          status: StatusCodes.CONFLICT,
-          message: "item already exists",
-        };
-        return;
-      }
+
   
-      const data = await prisma.categoria.create({
+      const data = await prisma.ejemploDatos.create({
         data: newItem
       });
   
@@ -68,10 +59,10 @@ const add = async (ctx: any) => {
   
   
       const  id  = Number(ctx?.params?.id);
-      const itemUpdateInput: Prisma.categoriaUpdateInput = await ctx.request.body().value;
+      const itemUpdateInput: Prisma.ejemploDatosUpdateInput = await ctx.request.body().value;
       //const {id}  = await request.body().value;
   
-      const data = await prisma.categoria.updateMany({
+      const data = await prisma.ejemploDatos.updateMany({
         where: {id },
         data: itemUpdateInput
       })
@@ -99,7 +90,7 @@ const del = async (ctx: any) =>  {
     try {
   
       const  id  = Number(ctx?.params?.id);
-      const data = await prisma.categoria.deleteMany({where: {id}});
+      const data = await prisma.ejemploDatos.deleteMany({where: {id}});
   
       ctx.response.status = 200;
       ctx.response.body = {
