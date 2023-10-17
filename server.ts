@@ -18,7 +18,9 @@ const router = new Router();
 
 
 app.use(
-  oakCors(),
+  oakCors({
+    origin: false   
+}),
 );
 
 
