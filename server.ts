@@ -18,12 +18,7 @@ const router = new Router();
 
 
 app.use(
-  oakCors({
-   // origin: "http://localhost:4200"
-     // origin: "http://192.168.1.137:8100"
-     origin: "http://192.168.1.133:8100",
-   
-  }),
+  oakCors(),
 );
 
 
