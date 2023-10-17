@@ -17,11 +17,7 @@ const app = new Application();
 const router = new Router();
 
 
-app.use(
-  oakCors({
-    origin: false   
-}),
-);
+app.use(oakCors({ origin: false}));
 
 
 // Middleware Logger
