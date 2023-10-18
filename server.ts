@@ -6,6 +6,7 @@ import appRouter from "./routes/index.ts";
 
 import authController from "./apps/general/entity/auth/controller.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
+import { FlashServer } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 
 
 
@@ -17,13 +18,13 @@ const app = new Application();
 const router = new Router();
 
 
-app.use(function(req, res, next) {
-   res.header("Access-Control-Allow-Origin", "*");
-   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
- });
+// app.use((req, res, next) => {
+//    res.header("Access-Control-Allow-Origin", "*");
+//    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+//  });
 
-//app.use(oakCors({ origin: "*" }));
+app.use(oakCors({ origin: false }));
 
 
 // Middleware Logger
