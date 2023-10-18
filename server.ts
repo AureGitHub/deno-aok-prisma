@@ -24,7 +24,7 @@ const router = new Router();
 //   next();
 //  });
 
-app.use(oakCors({ origin: false }));
+app.use(oakCors());
 
 
 // Middleware Logger
