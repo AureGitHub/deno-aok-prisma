@@ -70,18 +70,27 @@ const giveMeToken = async(user: any) => {
     ["sign", "verify"],
   );
 
-  const expires_in = Deno.env.get('ACCESS_TOKEN_EXPIRES_IN') ;
+  let expires_in = 30;
+
+  if(Deno.env.get('ACCESS_TOKEN_EXPIRES_IN')){
+    expires_in =parseInt(Deno.env.get('ACCESS_TOKEN_EXPIRES_IN')?.toString());
+
+  }
+
 
 
   const accessTokenExpiresIn = Date.now() + expires_in * 60 * 1000;
   const token = await create({ alg: "HS512", typ: "JWT" }, {user,accessTokenExpiresIn} , key );
 
 
+  //Math.floor(((new Date(accessTokenExpiresIn) - new Date().getTime()) / 1000 / 60) % 60); // minutos
+
 
   const dateExpiresIn = new Date(accessTokenExpiresIn);
   const SessionexpiredIn = `${dateExpiresIn.toLocaleDateString()} ${dateExpiresIn.toLocaleTimeString()}`;
   user.SessionexpiredIn = SessionexpiredIn;
-  user.dateExpiresIn = dateExpiresIn;
+  // user.dateExpiresIn = dateExpiresIn;
+  user.expires_in_milisegundos=accessTokenExpiresIn;
   return  {
     user,
     token
