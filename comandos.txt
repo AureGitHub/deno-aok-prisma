@@ -18,4 +18,14 @@ Crear proxy (login with github)
 https://cloud.prisma.io/projects
 
 
+
 version actual deno:  v12.22.12
+
+deno run  --allow-all --allow-env server.ts
+
+  "runtimeExecutable": "C:\\Users\\Aure-remoto\\.deno\\bin\\deno.EXE",
+            "runtimeArgs": [
+                "run",
+                "--inspect-wait",
+                "--allow-all",
+                "--allow-env",

@@ -32,21 +32,26 @@ const get = async (ctx: any) => {
   let offset =0;
   let limit=0;
   let  count=0;
+  let withCache = false;
+  
 
 
   if(!ctx.state.objPagFilterOrder){
 
 
-   ctx.state.objPagFilterOrder.pagination = {};
+
+  ctx.state.objPagFilterOrder.pagination = {};
+  ctx.state.objPagFilterOrder.pagination.withCache = false;
   ctx.state.objPagFilterOrder.pagination.limit = 10;
   ctx.state.objPagFilterOrder.pagination.offset=0;
   ctx.state.objPagFilterOrder.columns = [];
   ctx.state.objPagFilterOrder.mode = 'C';   // 'C' => Consulta    'P'=>Paginación
   offset *= limit;
-  ctx.state.objPagFilterOrder.pagination.count =0;;
+  ctx.state.objPagFilterOrder.pagination.count =0;
 
   }
 
+  withCache=ctx.state.objPagFilterOrder.pagination?.withCache;
   limit = ctx.state.objPagFilterOrder.pagination.limit;
   offset = ctx.state.objPagFilterOrder.pagination.offset;
   const columns = ctx.state.objPagFilterOrder.columns;
@@ -85,7 +90,7 @@ const get = async (ctx: any) => {
   }
 
 
-  const sql_limit = `  offset ${offset} limit ${limit}`;
+  const sql_limit =withCache ? `` : `  offset ${offset} limit ${limit}`;
 
   const  order = strOrderBy ? strOrderBy : orderBydefect;
 
