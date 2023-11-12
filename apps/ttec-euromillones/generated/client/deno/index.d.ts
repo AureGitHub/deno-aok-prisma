@@ -13,23 +13,44 @@ export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
 
 
 /**
- * Model categoria
+ * Model User
  * 
  */
-export type categoria = {
+export type User = {
   id: number
-  descripcion: string
+  name: string
+  email: string
+  password: string
+  estado: Estado
+  role: Role
+  createdAt: Date
+  updatedAt: Date
 }
 
+
 /**
- * Model categoriaxproducto
- * 
+ * Enums
  */
-export type categoriaxproducto = {
-  id: number
-  categoriaI: number
-  descripcion: string
-}
+
+// Based on
+// https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+
+export const Estado: {
+  ACTIVE: 'ACTIVE',
+  BLOCK: 'BLOCK',
+  UNSUBSCRIBED: 'UNSUBSCRIBED'
+};
+
+export type Estado = (typeof Estado)[keyof typeof Estado]
+
+
+export const Role: {
+  NORMAL: 'NORMAL',
+  ADMIN: 'ADMIN',
+  GOD: 'GOD'
+};
+
+export type Role = (typeof Role)[keyof typeof Role]
 
 
 /**
@@ -39,8 +60,8 @@ export type categoriaxproducto = {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Categorias
- * const categorias = await prisma.categoria.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  *
  * 
@@ -60,8 +81,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Categorias
-   * const categorias = await prisma.categoria.findMany()
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
    * ```
    *
    * 
@@ -150,24 +171,14 @@ export class PrismaClient<
   $transaction<R>(fn: (prisma: Omit<this, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use">) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
 
       /**
-   * `prisma.categoria`: Exposes CRUD operations for the **categoria** model.
+   * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Categorias
-    * const categorias = await prisma.categoria.findMany()
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
     * ```
     */
-  get categoria(): Prisma.categoriaDelegate<GlobalReject>;
-
-  /**
-   * `prisma.categoriaxproducto`: Exposes CRUD operations for the **categoriaxproducto** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Categoriaxproductos
-    * const categoriaxproductos = await prisma.categoriaxproducto.findMany()
-    * ```
-    */
-  get categoriaxproducto(): Prisma.categoriaxproductoDelegate<GlobalReject>;
+  get user(): Prisma.UserDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -637,8 +648,7 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    categoria: 'categoria',
-    categoriaxproducto: 'categoriaxproducto'
+    User: 'User'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -799,405 +809,399 @@ export namespace Prisma {
    */
 
 
-  /**
-   * Count Type CategoriaCountOutputType
-   */
-
-
-  export type CategoriaCountOutputType = {
-    categoriaxproducto: number
-  }
-
-  export type CategoriaCountOutputTypeSelect = {
-    categoriaxproducto?: boolean
-  }
-
-  export type CategoriaCountOutputTypeGetPayload<S extends boolean | null | undefined | CategoriaCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? CategoriaCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (CategoriaCountOutputTypeArgs)
-    ? CategoriaCountOutputType 
-    : S extends { select: any } & (CategoriaCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof CategoriaCountOutputType ? CategoriaCountOutputType[P] : never
-  } 
-      : CategoriaCountOutputType
-
-
-
-
-  // Custom InputTypes
-
-  /**
-   * CategoriaCountOutputType without action
-   */
-  export type CategoriaCountOutputTypeArgs = {
-    /**
-     * Select specific fields to fetch from the CategoriaCountOutputType
-     */
-    select?: CategoriaCountOutputTypeSelect | null
-  }
-
-
 
   /**
    * Models
    */
 
   /**
-   * Model categoria
+   * Model User
    */
 
 
-  export type AggregateCategoria = {
-    _count: CategoriaCountAggregateOutputType | null
-    _avg: CategoriaAvgAggregateOutputType | null
-    _sum: CategoriaSumAggregateOutputType | null
-    _min: CategoriaMinAggregateOutputType | null
-    _max: CategoriaMaxAggregateOutputType | null
+  export type AggregateUser = {
+    _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
+    _min: UserMinAggregateOutputType | null
+    _max: UserMaxAggregateOutputType | null
   }
 
-  export type CategoriaAvgAggregateOutputType = {
+  export type UserAvgAggregateOutputType = {
     id: number | null
   }
 
-  export type CategoriaSumAggregateOutputType = {
+  export type UserSumAggregateOutputType = {
     id: number | null
   }
 
-  export type CategoriaMinAggregateOutputType = {
+  export type UserMinAggregateOutputType = {
     id: number | null
-    descripcion: string | null
+    name: string | null
+    email: string | null
+    password: string | null
+    estado: Estado | null
+    role: Role | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
-  export type CategoriaMaxAggregateOutputType = {
+  export type UserMaxAggregateOutputType = {
     id: number | null
-    descripcion: string | null
+    name: string | null
+    email: string | null
+    password: string | null
+    estado: Estado | null
+    role: Role | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
-  export type CategoriaCountAggregateOutputType = {
+  export type UserCountAggregateOutputType = {
     id: number
-    descripcion: number
+    name: number
+    email: number
+    password: number
+    estado: number
+    role: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
-  export type CategoriaAvgAggregateInputType = {
+  export type UserAvgAggregateInputType = {
     id?: true
   }
 
-  export type CategoriaSumAggregateInputType = {
+  export type UserSumAggregateInputType = {
     id?: true
   }
 
-  export type CategoriaMinAggregateInputType = {
+  export type UserMinAggregateInputType = {
     id?: true
-    descripcion?: true
+    name?: true
+    email?: true
+    password?: true
+    estado?: true
+    role?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
-  export type CategoriaMaxAggregateInputType = {
+  export type UserMaxAggregateInputType = {
     id?: true
-    descripcion?: true
+    name?: true
+    email?: true
+    password?: true
+    estado?: true
+    role?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
-  export type CategoriaCountAggregateInputType = {
+  export type UserCountAggregateInputType = {
     id?: true
-    descripcion?: true
+    name?: true
+    email?: true
+    password?: true
+    estado?: true
+    role?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
-  export type CategoriaAggregateArgs = {
+  export type UserAggregateArgs = {
     /**
-     * Filter which categoria to aggregate.
+     * Filter which User to aggregate.
      */
-    where?: categoriaWhereInput
+    where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of categorias to fetch.
+     * Determine the order of Users to fetch.
      */
-    orderBy?: Enumerable<categoriaOrderByWithRelationInput>
+    orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: categoriaWhereUniqueInput
+    cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` categorias from the position of the cursor.
+     * Take `±n` Users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` categorias.
+     * Skip the first `n` Users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned categorias
+     * Count returned Users
     **/
-    _count?: true | CategoriaCountAggregateInputType
+    _count?: true | UserCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: CategoriaAvgAggregateInputType
+    _avg?: UserAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: CategoriaSumAggregateInputType
+    _sum?: UserSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: CategoriaMinAggregateInputType
+    _min?: UserMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: CategoriaMaxAggregateInputType
+    _max?: UserMaxAggregateInputType
   }
 
-  export type GetCategoriaAggregateType<T extends CategoriaAggregateArgs> = {
-        [P in keyof T & keyof AggregateCategoria]: P extends '_count' | 'count'
+  export type GetUserAggregateType<T extends UserAggregateArgs> = {
+        [P in keyof T & keyof AggregateUser]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateCategoria[P]>
-      : GetScalarType<T[P], AggregateCategoria[P]>
+        : GetScalarType<T[P], AggregateUser[P]>
+      : GetScalarType<T[P], AggregateUser[P]>
   }
 
 
 
 
-  export type CategoriaGroupByArgs = {
-    where?: categoriaWhereInput
-    orderBy?: Enumerable<categoriaOrderByWithAggregationInput>
-    by: CategoriaScalarFieldEnum[]
-    having?: categoriaScalarWhereWithAggregatesInput
+  export type UserGroupByArgs = {
+    where?: UserWhereInput
+    orderBy?: Enumerable<UserOrderByWithAggregationInput>
+    by: UserScalarFieldEnum[]
+    having?: UserScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: CategoriaCountAggregateInputType | true
-    _avg?: CategoriaAvgAggregateInputType
-    _sum?: CategoriaSumAggregateInputType
-    _min?: CategoriaMinAggregateInputType
-    _max?: CategoriaMaxAggregateInputType
+    _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
+    _min?: UserMinAggregateInputType
+    _max?: UserMaxAggregateInputType
   }
 
 
-  export type CategoriaGroupByOutputType = {
+  export type UserGroupByOutputType = {
     id: number
-    descripcion: string
-    _count: CategoriaCountAggregateOutputType | null
-    _avg: CategoriaAvgAggregateOutputType | null
-    _sum: CategoriaSumAggregateOutputType | null
-    _min: CategoriaMinAggregateOutputType | null
-    _max: CategoriaMaxAggregateOutputType | null
+    name: string
+    email: string
+    password: string
+    estado: Estado
+    role: Role
+    createdAt: Date
+    updatedAt: Date
+    _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
+    _min: UserMinAggregateOutputType | null
+    _max: UserMaxAggregateOutputType | null
   }
 
-  type GetCategoriaGroupByPayload<T extends CategoriaGroupByArgs> = Prisma.PrismaPromise<
+  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<CategoriaGroupByOutputType, T['by']> &
+      PickArray<UserGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof CategoriaGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof UserGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], CategoriaGroupByOutputType[P]>
-            : GetScalarType<T[P], CategoriaGroupByOutputType[P]>
+              : GetScalarType<T[P], UserGroupByOutputType[P]>
+            : GetScalarType<T[P], UserGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type categoriaSelect = {
+  export type UserSelect = {
     id?: boolean
-    descripcion?: boolean
-    categoriaxproducto?: boolean | categoria$categoriaxproductoArgs
-    _count?: boolean | CategoriaCountOutputTypeArgs
+    name?: boolean
+    email?: boolean
+    password?: boolean
+    estado?: boolean
+    role?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
 
-  export type categoriaInclude = {
-    categoriaxproducto?: boolean | categoria$categoriaxproductoArgs
-    _count?: boolean | CategoriaCountOutputTypeArgs
-  }
-
-  export type categoriaGetPayload<S extends boolean | null | undefined | categoriaArgs> =
+  export type UserGetPayload<S extends boolean | null | undefined | UserArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? categoria :
+    S extends true ? User :
     S extends undefined ? never :
-    S extends { include: any } & (categoriaArgs | categoriaFindManyArgs)
-    ? categoria  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'categoriaxproducto' ? Array < categoriaxproductoGetPayload<S['include'][P]>>  :
-        P extends '_count' ? CategoriaCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (categoriaArgs | categoriaFindManyArgs)
+    S extends { include: any } & (UserArgs | UserFindManyArgs)
+    ? User 
+    : S extends { select: any } & (UserArgs | UserFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'categoriaxproducto' ? Array < categoriaxproductoGetPayload<S['select'][P]>>  :
-        P extends '_count' ? CategoriaCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof categoria ? categoria[P] : never
+    P extends keyof User ? User[P] : never
   } 
-      : categoria
+      : User
 
 
-  type categoriaCountArgs = 
-    Omit<categoriaFindManyArgs, 'select' | 'include'> & {
-      select?: CategoriaCountAggregateInputType | true
+  type UserCountArgs = 
+    Omit<UserFindManyArgs, 'select' | 'include'> & {
+      select?: UserCountAggregateInputType | true
     }
 
-  export interface categoriaDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface UserDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one Categoria that matches the filter.
-     * @param {categoriaFindUniqueArgs} args - Arguments to find a Categoria
+     * Find zero or one User that matches the filter.
+     * @param {UserFindUniqueArgs} args - Arguments to find a User
      * @example
-     * // Get one Categoria
-     * const categoria = await prisma.categoria.findUnique({
+     * // Get one User
+     * const user = await prisma.user.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends categoriaFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, categoriaFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'categoria'> extends True ? Prisma__categoriaClient<categoriaGetPayload<T>> : Prisma__categoriaClient<categoriaGetPayload<T> | null, null>
+    findUnique<T extends UserFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, UserFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'User'> extends True ? Prisma__UserClient<UserGetPayload<T>> : Prisma__UserClient<UserGetPayload<T> | null, null>
 
     /**
-     * Find one Categoria that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one User that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {categoriaFindUniqueOrThrowArgs} args - Arguments to find a Categoria
+     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
      * @example
-     * // Get one Categoria
-     * const categoria = await prisma.categoria.findUniqueOrThrow({
+     * // Get one User
+     * const user = await prisma.user.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends categoriaFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, categoriaFindUniqueOrThrowArgs>
-    ): Prisma__categoriaClient<categoriaGetPayload<T>>
+    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, UserFindUniqueOrThrowArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
 
     /**
-     * Find the first Categoria that matches the filter.
+     * Find the first User that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {categoriaFindFirstArgs} args - Arguments to find a Categoria
+     * @param {UserFindFirstArgs} args - Arguments to find a User
      * @example
-     * // Get one Categoria
-     * const categoria = await prisma.categoria.findFirst({
+     * // Get one User
+     * const user = await prisma.user.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends categoriaFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, categoriaFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'categoria'> extends True ? Prisma__categoriaClient<categoriaGetPayload<T>> : Prisma__categoriaClient<categoriaGetPayload<T> | null, null>
+    findFirst<T extends UserFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, UserFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'User'> extends True ? Prisma__UserClient<UserGetPayload<T>> : Prisma__UserClient<UserGetPayload<T> | null, null>
 
     /**
-     * Find the first Categoria that matches the filter or
+     * Find the first User that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {categoriaFindFirstOrThrowArgs} args - Arguments to find a Categoria
+     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
      * @example
-     * // Get one Categoria
-     * const categoria = await prisma.categoria.findFirstOrThrow({
+     * // Get one User
+     * const user = await prisma.user.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends categoriaFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, categoriaFindFirstOrThrowArgs>
-    ): Prisma__categoriaClient<categoriaGetPayload<T>>
+    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, UserFindFirstOrThrowArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
 
     /**
-     * Find zero or more Categorias that matches the filter.
+     * Find zero or more Users that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {categoriaFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {UserFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Categorias
-     * const categorias = await prisma.categoria.findMany()
+     * // Get all Users
+     * const users = await prisma.user.findMany()
      * 
-     * // Get first 10 Categorias
-     * const categorias = await prisma.categoria.findMany({ take: 10 })
+     * // Get first 10 Users
+     * const users = await prisma.user.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const categoriaWithIdOnly = await prisma.categoria.findMany({ select: { id: true } })
+     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends categoriaFindManyArgs>(
-      args?: SelectSubset<T, categoriaFindManyArgs>
-    ): Prisma.PrismaPromise<Array<categoriaGetPayload<T>>>
+    findMany<T extends UserFindManyArgs>(
+      args?: SelectSubset<T, UserFindManyArgs>
+    ): Prisma.PrismaPromise<Array<UserGetPayload<T>>>
 
     /**
-     * Create a Categoria.
-     * @param {categoriaCreateArgs} args - Arguments to create a Categoria.
+     * Create a User.
+     * @param {UserCreateArgs} args - Arguments to create a User.
      * @example
-     * // Create one Categoria
-     * const Categoria = await prisma.categoria.create({
+     * // Create one User
+     * const User = await prisma.user.create({
      *   data: {
-     *     // ... data to create a Categoria
+     *     // ... data to create a User
      *   }
      * })
      * 
     **/
-    create<T extends categoriaCreateArgs>(
-      args: SelectSubset<T, categoriaCreateArgs>
-    ): Prisma__categoriaClient<categoriaGetPayload<T>>
+    create<T extends UserCreateArgs>(
+      args: SelectSubset<T, UserCreateArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
 
     /**
-     * Create many Categorias.
-     *     @param {categoriaCreateManyArgs} args - Arguments to create many Categorias.
+     * Create many Users.
+     *     @param {UserCreateManyArgs} args - Arguments to create many Users.
      *     @example
-     *     // Create many Categorias
-     *     const categoria = await prisma.categoria.createMany({
+     *     // Create many Users
+     *     const user = await prisma.user.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends categoriaCreateManyArgs>(
-      args?: SelectSubset<T, categoriaCreateManyArgs>
+    createMany<T extends UserCreateManyArgs>(
+      args?: SelectSubset<T, UserCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a Categoria.
-     * @param {categoriaDeleteArgs} args - Arguments to delete one Categoria.
+     * Delete a User.
+     * @param {UserDeleteArgs} args - Arguments to delete one User.
      * @example
-     * // Delete one Categoria
-     * const Categoria = await prisma.categoria.delete({
+     * // Delete one User
+     * const User = await prisma.user.delete({
      *   where: {
-     *     // ... filter to delete one Categoria
+     *     // ... filter to delete one User
      *   }
      * })
      * 
     **/
-    delete<T extends categoriaDeleteArgs>(
-      args: SelectSubset<T, categoriaDeleteArgs>
-    ): Prisma__categoriaClient<categoriaGetPayload<T>>
+    delete<T extends UserDeleteArgs>(
+      args: SelectSubset<T, UserDeleteArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
 
     /**
-     * Update one Categoria.
-     * @param {categoriaUpdateArgs} args - Arguments to update one Categoria.
+     * Update one User.
+     * @param {UserUpdateArgs} args - Arguments to update one User.
      * @example
-     * // Update one Categoria
-     * const categoria = await prisma.categoria.update({
+     * // Update one User
+     * const user = await prisma.user.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1207,34 +1211,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends categoriaUpdateArgs>(
-      args: SelectSubset<T, categoriaUpdateArgs>
-    ): Prisma__categoriaClient<categoriaGetPayload<T>>
+    update<T extends UserUpdateArgs>(
+      args: SelectSubset<T, UserUpdateArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
 
     /**
-     * Delete zero or more Categorias.
-     * @param {categoriaDeleteManyArgs} args - Arguments to filter Categorias to delete.
+     * Delete zero or more Users.
+     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
      * @example
-     * // Delete a few Categorias
-     * const { count } = await prisma.categoria.deleteMany({
+     * // Delete a few Users
+     * const { count } = await prisma.user.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends categoriaDeleteManyArgs>(
-      args?: SelectSubset<T, categoriaDeleteManyArgs>
+    deleteMany<T extends UserDeleteManyArgs>(
+      args?: SelectSubset<T, UserDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Categorias.
+     * Update zero or more Users.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {categoriaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Categorias
-     * const categoria = await prisma.categoria.updateMany({
+     * // Update many Users
+     * const user = await prisma.user.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1244,59 +1248,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends categoriaUpdateManyArgs>(
-      args: SelectSubset<T, categoriaUpdateManyArgs>
+    updateMany<T extends UserUpdateManyArgs>(
+      args: SelectSubset<T, UserUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one Categoria.
-     * @param {categoriaUpsertArgs} args - Arguments to update or create a Categoria.
+     * Create or update one User.
+     * @param {UserUpsertArgs} args - Arguments to update or create a User.
      * @example
-     * // Update or create a Categoria
-     * const categoria = await prisma.categoria.upsert({
+     * // Update or create a User
+     * const user = await prisma.user.upsert({
      *   create: {
-     *     // ... data to create a Categoria
+     *     // ... data to create a User
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Categoria we want to update
+     *     // ... the filter for the User we want to update
      *   }
      * })
     **/
-    upsert<T extends categoriaUpsertArgs>(
-      args: SelectSubset<T, categoriaUpsertArgs>
-    ): Prisma__categoriaClient<categoriaGetPayload<T>>
+    upsert<T extends UserUpsertArgs>(
+      args: SelectSubset<T, UserUpsertArgs>
+    ): Prisma__UserClient<UserGetPayload<T>>
 
     /**
-     * Count the number of Categorias.
+     * Count the number of Users.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {categoriaCountArgs} args - Arguments to filter Categorias to count.
+     * @param {UserCountArgs} args - Arguments to filter Users to count.
      * @example
-     * // Count the number of Categorias
-     * const count = await prisma.categoria.count({
+     * // Count the number of Users
+     * const count = await prisma.user.count({
      *   where: {
-     *     // ... the filter for the Categorias we want to count
+     *     // ... the filter for the Users we want to count
      *   }
      * })
     **/
-    count<T extends categoriaCountArgs>(
-      args?: Subset<T, categoriaCountArgs>,
+    count<T extends UserCountArgs>(
+      args?: Subset<T, UserCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], CategoriaCountAggregateOutputType>
+          : GetScalarType<T['select'], UserCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Categoria.
+     * Allows you to perform aggregations operations on a User.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CategoriaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {UserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -1316,13 +1320,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends CategoriaAggregateArgs>(args: Subset<T, CategoriaAggregateArgs>): Prisma.PrismaPromise<GetCategoriaAggregateType<T>>
+    aggregate<T extends UserAggregateArgs>(args: Subset<T, UserAggregateArgs>): Prisma.PrismaPromise<GetUserAggregateType<T>>
 
     /**
-     * Group by Categoria.
+     * Group by User.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CategoriaGroupByArgs} args - Group by arguments.
+     * @param {UserGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -1337,14 +1341,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends CategoriaGroupByArgs,
+      T extends UserGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CategoriaGroupByArgs['orderBy'] }
-        : { orderBy?: CategoriaGroupByArgs['orderBy'] },
+        ? { orderBy: UserGroupByArgs['orderBy'] }
+        : { orderBy?: UserGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -1393,17 +1397,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, CategoriaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCategoriaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for categoria.
+   * The delegate class that acts as a "Promise-like" for User.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__categoriaClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__UserClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -1418,7 +1422,6 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    categoriaxproducto<T extends categoria$categoriaxproductoArgs= {}>(args?: Subset<T, categoria$categoriaxproductoArgs>): Prisma.PrismaPromise<Array<categoriaxproductoGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -1448,27 +1451,23 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * categoria base type for findUnique actions
+   * User base type for findUnique actions
    */
-  export type categoriaFindUniqueArgsBase = {
+  export type UserFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the categoria
+     * Select specific fields to fetch from the User
      */
-    select?: categoriaSelect | null
+    select?: UserSelect | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Filter, which User to fetch.
      */
-    include?: categoriaInclude | null
-    /**
-     * Filter, which categoria to fetch.
-     */
-    where: categoriaWhereUniqueInput
+    where: UserWhereUniqueInput
   }
 
   /**
-   * categoria findUnique
+   * User findUnique
    */
-  export interface categoriaFindUniqueArgs extends categoriaFindUniqueArgsBase {
+  export interface UserFindUniqueArgs extends UserFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -1478,76 +1477,68 @@ export namespace Prisma {
       
 
   /**
-   * categoria findUniqueOrThrow
+   * User findUniqueOrThrow
    */
-  export type categoriaFindUniqueOrThrowArgs = {
+  export type UserFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the categoria
+     * Select specific fields to fetch from the User
      */
-    select?: categoriaSelect | null
+    select?: UserSelect | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Filter, which User to fetch.
      */
-    include?: categoriaInclude | null
-    /**
-     * Filter, which categoria to fetch.
-     */
-    where: categoriaWhereUniqueInput
+    where: UserWhereUniqueInput
   }
 
 
   /**
-   * categoria base type for findFirst actions
+   * User base type for findFirst actions
    */
-  export type categoriaFindFirstArgsBase = {
+  export type UserFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the categoria
+     * Select specific fields to fetch from the User
      */
-    select?: categoriaSelect | null
+    select?: UserSelect | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Filter, which User to fetch.
      */
-    include?: categoriaInclude | null
-    /**
-     * Filter, which categoria to fetch.
-     */
-    where?: categoriaWhereInput
+    where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of categorias to fetch.
+     * Determine the order of Users to fetch.
      */
-    orderBy?: Enumerable<categoriaOrderByWithRelationInput>
+    orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for categorias.
+     * Sets the position for searching for Users.
      */
-    cursor?: categoriaWhereUniqueInput
+    cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` categorias from the position of the cursor.
+     * Take `±n` Users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` categorias.
+     * Skip the first `n` Users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of categorias.
+     * Filter by unique combinations of Users.
      */
-    distinct?: Enumerable<CategoriaScalarFieldEnum>
+    distinct?: Enumerable<UserScalarFieldEnum>
   }
 
   /**
-   * categoria findFirst
+   * User findFirst
    */
-  export interface categoriaFindFirstArgs extends categoriaFindFirstArgsBase {
+  export interface UserFindFirstArgs extends UserFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -1557,1210 +1548,208 @@ export namespace Prisma {
       
 
   /**
-   * categoria findFirstOrThrow
+   * User findFirstOrThrow
    */
-  export type categoriaFindFirstOrThrowArgs = {
+  export type UserFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the categoria
+     * Select specific fields to fetch from the User
      */
-    select?: categoriaSelect | null
+    select?: UserSelect | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Filter, which User to fetch.
      */
-    include?: categoriaInclude | null
-    /**
-     * Filter, which categoria to fetch.
-     */
-    where?: categoriaWhereInput
+    where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of categorias to fetch.
+     * Determine the order of Users to fetch.
      */
-    orderBy?: Enumerable<categoriaOrderByWithRelationInput>
+    orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for categorias.
+     * Sets the position for searching for Users.
      */
-    cursor?: categoriaWhereUniqueInput
+    cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` categorias from the position of the cursor.
+     * Take `±n` Users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` categorias.
+     * Skip the first `n` Users.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of categorias.
+     * Filter by unique combinations of Users.
      */
-    distinct?: Enumerable<CategoriaScalarFieldEnum>
+    distinct?: Enumerable<UserScalarFieldEnum>
   }
 
 
   /**
-   * categoria findMany
+   * User findMany
    */
-  export type categoriaFindManyArgs = {
+  export type UserFindManyArgs = {
     /**
-     * Select specific fields to fetch from the categoria
+     * Select specific fields to fetch from the User
      */
-    select?: categoriaSelect | null
+    select?: UserSelect | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Filter, which Users to fetch.
      */
-    include?: categoriaInclude | null
-    /**
-     * Filter, which categorias to fetch.
-     */
-    where?: categoriaWhereInput
+    where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of categorias to fetch.
+     * Determine the order of Users to fetch.
      */
-    orderBy?: Enumerable<categoriaOrderByWithRelationInput>
+    orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing categorias.
+     * Sets the position for listing Users.
      */
-    cursor?: categoriaWhereUniqueInput
+    cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` categorias from the position of the cursor.
+     * Take `±n` Users from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` categorias.
+     * Skip the first `n` Users.
      */
     skip?: number
-    distinct?: Enumerable<CategoriaScalarFieldEnum>
+    distinct?: Enumerable<UserScalarFieldEnum>
   }
 
 
   /**
-   * categoria create
+   * User create
    */
-  export type categoriaCreateArgs = {
+  export type UserCreateArgs = {
     /**
-     * Select specific fields to fetch from the categoria
+     * Select specific fields to fetch from the User
      */
-    select?: categoriaSelect | null
+    select?: UserSelect | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * The data needed to create a User.
      */
-    include?: categoriaInclude | null
-    /**
-     * The data needed to create a categoria.
-     */
-    data: XOR<categoriaCreateInput, categoriaUncheckedCreateInput>
+    data: XOR<UserCreateInput, UserUncheckedCreateInput>
   }
 
 
   /**
-   * categoria createMany
+   * User createMany
    */
-  export type categoriaCreateManyArgs = {
+  export type UserCreateManyArgs = {
     /**
-     * The data used to create many categorias.
+     * The data used to create many Users.
      */
-    data: Enumerable<categoriaCreateManyInput>
+    data: Enumerable<UserCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * categoria update
+   * User update
    */
-  export type categoriaUpdateArgs = {
+  export type UserUpdateArgs = {
     /**
-     * Select specific fields to fetch from the categoria
+     * Select specific fields to fetch from the User
      */
-    select?: categoriaSelect | null
+    select?: UserSelect | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * The data needed to update a User.
      */
-    include?: categoriaInclude | null
+    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
     /**
-     * The data needed to update a categoria.
+     * Choose, which User to update.
      */
-    data: XOR<categoriaUpdateInput, categoriaUncheckedUpdateInput>
-    /**
-     * Choose, which categoria to update.
-     */
-    where: categoriaWhereUniqueInput
+    where: UserWhereUniqueInput
   }
 
 
   /**
-   * categoria updateMany
+   * User updateMany
    */
-  export type categoriaUpdateManyArgs = {
+  export type UserUpdateManyArgs = {
     /**
-     * The data used to update categorias.
+     * The data used to update Users.
      */
-    data: XOR<categoriaUpdateManyMutationInput, categoriaUncheckedUpdateManyInput>
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
     /**
-     * Filter which categorias to update
+     * Filter which Users to update
      */
-    where?: categoriaWhereInput
+    where?: UserWhereInput
   }
 
 
   /**
-   * categoria upsert
+   * User upsert
    */
-  export type categoriaUpsertArgs = {
+  export type UserUpsertArgs = {
     /**
-     * Select specific fields to fetch from the categoria
+     * Select specific fields to fetch from the User
      */
-    select?: categoriaSelect | null
+    select?: UserSelect | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * The filter to search for the User to update in case it exists.
      */
-    include?: categoriaInclude | null
+    where: UserWhereUniqueInput
     /**
-     * The filter to search for the categoria to update in case it exists.
+     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
      */
-    where: categoriaWhereUniqueInput
+    create: XOR<UserCreateInput, UserUncheckedCreateInput>
     /**
-     * In case the categoria found by the `where` argument doesn't exist, create a new categoria with this data.
+     * In case the User was found with the provided `where` argument, update it with this data.
      */
-    create: XOR<categoriaCreateInput, categoriaUncheckedCreateInput>
-    /**
-     * In case the categoria was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<categoriaUpdateInput, categoriaUncheckedUpdateInput>
+    update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
   }
 
 
   /**
-   * categoria delete
+   * User delete
    */
-  export type categoriaDeleteArgs = {
+  export type UserDeleteArgs = {
     /**
-     * Select specific fields to fetch from the categoria
+     * Select specific fields to fetch from the User
      */
-    select?: categoriaSelect | null
+    select?: UserSelect | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Filter which User to delete.
      */
-    include?: categoriaInclude | null
-    /**
-     * Filter which categoria to delete.
-     */
-    where: categoriaWhereUniqueInput
+    where: UserWhereUniqueInput
   }
 
 
   /**
-   * categoria deleteMany
+   * User deleteMany
    */
-  export type categoriaDeleteManyArgs = {
+  export type UserDeleteManyArgs = {
     /**
-     * Filter which categorias to delete
+     * Filter which Users to delete
      */
-    where?: categoriaWhereInput
+    where?: UserWhereInput
   }
 
 
   /**
-   * categoria.categoriaxproducto
+   * User without action
    */
-  export type categoria$categoriaxproductoArgs = {
+  export type UserArgs = {
     /**
-     * Select specific fields to fetch from the categoriaxproducto
+     * Select specific fields to fetch from the User
      */
-    select?: categoriaxproductoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: categoriaxproductoInclude | null
-    where?: categoriaxproductoWhereInput
-    orderBy?: Enumerable<categoriaxproductoOrderByWithRelationInput>
-    cursor?: categoriaxproductoWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Enumerable<CategoriaxproductoScalarFieldEnum>
-  }
-
-
-  /**
-   * categoria without action
-   */
-  export type categoriaArgs = {
-    /**
-     * Select specific fields to fetch from the categoria
-     */
-    select?: categoriaSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: categoriaInclude | null
-  }
-
-
-
-  /**
-   * Model categoriaxproducto
-   */
-
-
-  export type AggregateCategoriaxproducto = {
-    _count: CategoriaxproductoCountAggregateOutputType | null
-    _avg: CategoriaxproductoAvgAggregateOutputType | null
-    _sum: CategoriaxproductoSumAggregateOutputType | null
-    _min: CategoriaxproductoMinAggregateOutputType | null
-    _max: CategoriaxproductoMaxAggregateOutputType | null
-  }
-
-  export type CategoriaxproductoAvgAggregateOutputType = {
-    id: number | null
-    categoriaI: number | null
-  }
-
-  export type CategoriaxproductoSumAggregateOutputType = {
-    id: number | null
-    categoriaI: number | null
-  }
-
-  export type CategoriaxproductoMinAggregateOutputType = {
-    id: number | null
-    categoriaI: number | null
-    descripcion: string | null
-  }
-
-  export type CategoriaxproductoMaxAggregateOutputType = {
-    id: number | null
-    categoriaI: number | null
-    descripcion: string | null
-  }
-
-  export type CategoriaxproductoCountAggregateOutputType = {
-    id: number
-    categoriaI: number
-    descripcion: number
-    _all: number
-  }
-
-
-  export type CategoriaxproductoAvgAggregateInputType = {
-    id?: true
-    categoriaI?: true
-  }
-
-  export type CategoriaxproductoSumAggregateInputType = {
-    id?: true
-    categoriaI?: true
-  }
-
-  export type CategoriaxproductoMinAggregateInputType = {
-    id?: true
-    categoriaI?: true
-    descripcion?: true
-  }
-
-  export type CategoriaxproductoMaxAggregateInputType = {
-    id?: true
-    categoriaI?: true
-    descripcion?: true
-  }
-
-  export type CategoriaxproductoCountAggregateInputType = {
-    id?: true
-    categoriaI?: true
-    descripcion?: true
-    _all?: true
-  }
-
-  export type CategoriaxproductoAggregateArgs = {
-    /**
-     * Filter which categoriaxproducto to aggregate.
-     */
-    where?: categoriaxproductoWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of categoriaxproductos to fetch.
-     */
-    orderBy?: Enumerable<categoriaxproductoOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: categoriaxproductoWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` categoriaxproductos from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` categoriaxproductos.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned categoriaxproductos
-    **/
-    _count?: true | CategoriaxproductoCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: CategoriaxproductoAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: CategoriaxproductoSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: CategoriaxproductoMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: CategoriaxproductoMaxAggregateInputType
-  }
-
-  export type GetCategoriaxproductoAggregateType<T extends CategoriaxproductoAggregateArgs> = {
-        [P in keyof T & keyof AggregateCategoriaxproducto]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateCategoriaxproducto[P]>
-      : GetScalarType<T[P], AggregateCategoriaxproducto[P]>
-  }
-
-
-
-
-  export type CategoriaxproductoGroupByArgs = {
-    where?: categoriaxproductoWhereInput
-    orderBy?: Enumerable<categoriaxproductoOrderByWithAggregationInput>
-    by: CategoriaxproductoScalarFieldEnum[]
-    having?: categoriaxproductoScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: CategoriaxproductoCountAggregateInputType | true
-    _avg?: CategoriaxproductoAvgAggregateInputType
-    _sum?: CategoriaxproductoSumAggregateInputType
-    _min?: CategoriaxproductoMinAggregateInputType
-    _max?: CategoriaxproductoMaxAggregateInputType
-  }
-
-
-  export type CategoriaxproductoGroupByOutputType = {
-    id: number
-    categoriaI: number
-    descripcion: string
-    _count: CategoriaxproductoCountAggregateOutputType | null
-    _avg: CategoriaxproductoAvgAggregateOutputType | null
-    _sum: CategoriaxproductoSumAggregateOutputType | null
-    _min: CategoriaxproductoMinAggregateOutputType | null
-    _max: CategoriaxproductoMaxAggregateOutputType | null
-  }
-
-  type GetCategoriaxproductoGroupByPayload<T extends CategoriaxproductoGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickArray<CategoriaxproductoGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof CategoriaxproductoGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], CategoriaxproductoGroupByOutputType[P]>
-            : GetScalarType<T[P], CategoriaxproductoGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type categoriaxproductoSelect = {
-    id?: boolean
-    categoriaI?: boolean
-    descripcion?: boolean
-    categoria?: boolean | categoriaArgs
-  }
-
-
-  export type categoriaxproductoInclude = {
-    categoria?: boolean | categoriaArgs
-  }
-
-  export type categoriaxproductoGetPayload<S extends boolean | null | undefined | categoriaxproductoArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? categoriaxproducto :
-    S extends undefined ? never :
-    S extends { include: any } & (categoriaxproductoArgs | categoriaxproductoFindManyArgs)
-    ? categoriaxproducto  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'categoria' ? categoriaGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (categoriaxproductoArgs | categoriaxproductoFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'categoria' ? categoriaGetPayload<S['select'][P]> :  P extends keyof categoriaxproducto ? categoriaxproducto[P] : never
-  } 
-      : categoriaxproducto
-
-
-  type categoriaxproductoCountArgs = 
-    Omit<categoriaxproductoFindManyArgs, 'select' | 'include'> & {
-      select?: CategoriaxproductoCountAggregateInputType | true
-    }
-
-  export interface categoriaxproductoDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
-    /**
-     * Find zero or one Categoriaxproducto that matches the filter.
-     * @param {categoriaxproductoFindUniqueArgs} args - Arguments to find a Categoriaxproducto
-     * @example
-     * // Get one Categoriaxproducto
-     * const categoriaxproducto = await prisma.categoriaxproducto.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends categoriaxproductoFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, categoriaxproductoFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'categoriaxproducto'> extends True ? Prisma__categoriaxproductoClient<categoriaxproductoGetPayload<T>> : Prisma__categoriaxproductoClient<categoriaxproductoGetPayload<T> | null, null>
-
-    /**
-     * Find one Categoriaxproducto that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {categoriaxproductoFindUniqueOrThrowArgs} args - Arguments to find a Categoriaxproducto
-     * @example
-     * // Get one Categoriaxproducto
-     * const categoriaxproducto = await prisma.categoriaxproducto.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends categoriaxproductoFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, categoriaxproductoFindUniqueOrThrowArgs>
-    ): Prisma__categoriaxproductoClient<categoriaxproductoGetPayload<T>>
-
-    /**
-     * Find the first Categoriaxproducto that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {categoriaxproductoFindFirstArgs} args - Arguments to find a Categoriaxproducto
-     * @example
-     * // Get one Categoriaxproducto
-     * const categoriaxproducto = await prisma.categoriaxproducto.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends categoriaxproductoFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, categoriaxproductoFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'categoriaxproducto'> extends True ? Prisma__categoriaxproductoClient<categoriaxproductoGetPayload<T>> : Prisma__categoriaxproductoClient<categoriaxproductoGetPayload<T> | null, null>
-
-    /**
-     * Find the first Categoriaxproducto that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {categoriaxproductoFindFirstOrThrowArgs} args - Arguments to find a Categoriaxproducto
-     * @example
-     * // Get one Categoriaxproducto
-     * const categoriaxproducto = await prisma.categoriaxproducto.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends categoriaxproductoFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, categoriaxproductoFindFirstOrThrowArgs>
-    ): Prisma__categoriaxproductoClient<categoriaxproductoGetPayload<T>>
-
-    /**
-     * Find zero or more Categoriaxproductos that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {categoriaxproductoFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Categoriaxproductos
-     * const categoriaxproductos = await prisma.categoriaxproducto.findMany()
-     * 
-     * // Get first 10 Categoriaxproductos
-     * const categoriaxproductos = await prisma.categoriaxproducto.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const categoriaxproductoWithIdOnly = await prisma.categoriaxproducto.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends categoriaxproductoFindManyArgs>(
-      args?: SelectSubset<T, categoriaxproductoFindManyArgs>
-    ): Prisma.PrismaPromise<Array<categoriaxproductoGetPayload<T>>>
-
-    /**
-     * Create a Categoriaxproducto.
-     * @param {categoriaxproductoCreateArgs} args - Arguments to create a Categoriaxproducto.
-     * @example
-     * // Create one Categoriaxproducto
-     * const Categoriaxproducto = await prisma.categoriaxproducto.create({
-     *   data: {
-     *     // ... data to create a Categoriaxproducto
-     *   }
-     * })
-     * 
-    **/
-    create<T extends categoriaxproductoCreateArgs>(
-      args: SelectSubset<T, categoriaxproductoCreateArgs>
-    ): Prisma__categoriaxproductoClient<categoriaxproductoGetPayload<T>>
-
-    /**
-     * Create many Categoriaxproductos.
-     *     @param {categoriaxproductoCreateManyArgs} args - Arguments to create many Categoriaxproductos.
-     *     @example
-     *     // Create many Categoriaxproductos
-     *     const categoriaxproducto = await prisma.categoriaxproducto.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends categoriaxproductoCreateManyArgs>(
-      args?: SelectSubset<T, categoriaxproductoCreateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Categoriaxproducto.
-     * @param {categoriaxproductoDeleteArgs} args - Arguments to delete one Categoriaxproducto.
-     * @example
-     * // Delete one Categoriaxproducto
-     * const Categoriaxproducto = await prisma.categoriaxproducto.delete({
-     *   where: {
-     *     // ... filter to delete one Categoriaxproducto
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends categoriaxproductoDeleteArgs>(
-      args: SelectSubset<T, categoriaxproductoDeleteArgs>
-    ): Prisma__categoriaxproductoClient<categoriaxproductoGetPayload<T>>
-
-    /**
-     * Update one Categoriaxproducto.
-     * @param {categoriaxproductoUpdateArgs} args - Arguments to update one Categoriaxproducto.
-     * @example
-     * // Update one Categoriaxproducto
-     * const categoriaxproducto = await prisma.categoriaxproducto.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends categoriaxproductoUpdateArgs>(
-      args: SelectSubset<T, categoriaxproductoUpdateArgs>
-    ): Prisma__categoriaxproductoClient<categoriaxproductoGetPayload<T>>
-
-    /**
-     * Delete zero or more Categoriaxproductos.
-     * @param {categoriaxproductoDeleteManyArgs} args - Arguments to filter Categoriaxproductos to delete.
-     * @example
-     * // Delete a few Categoriaxproductos
-     * const { count } = await prisma.categoriaxproducto.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends categoriaxproductoDeleteManyArgs>(
-      args?: SelectSubset<T, categoriaxproductoDeleteManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Categoriaxproductos.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {categoriaxproductoUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Categoriaxproductos
-     * const categoriaxproducto = await prisma.categoriaxproducto.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends categoriaxproductoUpdateManyArgs>(
-      args: SelectSubset<T, categoriaxproductoUpdateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Categoriaxproducto.
-     * @param {categoriaxproductoUpsertArgs} args - Arguments to update or create a Categoriaxproducto.
-     * @example
-     * // Update or create a Categoriaxproducto
-     * const categoriaxproducto = await prisma.categoriaxproducto.upsert({
-     *   create: {
-     *     // ... data to create a Categoriaxproducto
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Categoriaxproducto we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends categoriaxproductoUpsertArgs>(
-      args: SelectSubset<T, categoriaxproductoUpsertArgs>
-    ): Prisma__categoriaxproductoClient<categoriaxproductoGetPayload<T>>
-
-    /**
-     * Count the number of Categoriaxproductos.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {categoriaxproductoCountArgs} args - Arguments to filter Categoriaxproductos to count.
-     * @example
-     * // Count the number of Categoriaxproductos
-     * const count = await prisma.categoriaxproducto.count({
-     *   where: {
-     *     // ... the filter for the Categoriaxproductos we want to count
-     *   }
-     * })
-    **/
-    count<T extends categoriaxproductoCountArgs>(
-      args?: Subset<T, categoriaxproductoCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], CategoriaxproductoCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Categoriaxproducto.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CategoriaxproductoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends CategoriaxproductoAggregateArgs>(args: Subset<T, CategoriaxproductoAggregateArgs>): Prisma.PrismaPromise<GetCategoriaxproductoAggregateType<T>>
-
-    /**
-     * Group by Categoriaxproducto.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CategoriaxproductoGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends CategoriaxproductoGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CategoriaxproductoGroupByArgs['orderBy'] }
-        : { orderBy?: CategoriaxproductoGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends TupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, CategoriaxproductoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCategoriaxproductoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for categoriaxproducto.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__categoriaxproductoClient<T, Null = never> implements Prisma.PrismaPromise<T> {
-    private readonly _dmmf;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-
-    categoria<T extends categoriaArgs= {}>(args?: Subset<T, categoriaArgs>): Prisma__categoriaClient<categoriaGetPayload<T> | Null>;
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
-
-
-
-  // Custom InputTypes
-
-  /**
-   * categoriaxproducto base type for findUnique actions
-   */
-  export type categoriaxproductoFindUniqueArgsBase = {
-    /**
-     * Select specific fields to fetch from the categoriaxproducto
-     */
-    select?: categoriaxproductoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: categoriaxproductoInclude | null
-    /**
-     * Filter, which categoriaxproducto to fetch.
-     */
-    where: categoriaxproductoWhereUniqueInput
-  }
-
-  /**
-   * categoriaxproducto findUnique
-   */
-  export interface categoriaxproductoFindUniqueArgs extends categoriaxproductoFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * categoriaxproducto findUniqueOrThrow
-   */
-  export type categoriaxproductoFindUniqueOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the categoriaxproducto
-     */
-    select?: categoriaxproductoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: categoriaxproductoInclude | null
-    /**
-     * Filter, which categoriaxproducto to fetch.
-     */
-    where: categoriaxproductoWhereUniqueInput
-  }
-
-
-  /**
-   * categoriaxproducto base type for findFirst actions
-   */
-  export type categoriaxproductoFindFirstArgsBase = {
-    /**
-     * Select specific fields to fetch from the categoriaxproducto
-     */
-    select?: categoriaxproductoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: categoriaxproductoInclude | null
-    /**
-     * Filter, which categoriaxproducto to fetch.
-     */
-    where?: categoriaxproductoWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of categoriaxproductos to fetch.
-     */
-    orderBy?: Enumerable<categoriaxproductoOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for categoriaxproductos.
-     */
-    cursor?: categoriaxproductoWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` categoriaxproductos from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` categoriaxproductos.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of categoriaxproductos.
-     */
-    distinct?: Enumerable<CategoriaxproductoScalarFieldEnum>
-  }
-
-  /**
-   * categoriaxproducto findFirst
-   */
-  export interface categoriaxproductoFindFirstArgs extends categoriaxproductoFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * categoriaxproducto findFirstOrThrow
-   */
-  export type categoriaxproductoFindFirstOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the categoriaxproducto
-     */
-    select?: categoriaxproductoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: categoriaxproductoInclude | null
-    /**
-     * Filter, which categoriaxproducto to fetch.
-     */
-    where?: categoriaxproductoWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of categoriaxproductos to fetch.
-     */
-    orderBy?: Enumerable<categoriaxproductoOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for categoriaxproductos.
-     */
-    cursor?: categoriaxproductoWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` categoriaxproductos from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` categoriaxproductos.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of categoriaxproductos.
-     */
-    distinct?: Enumerable<CategoriaxproductoScalarFieldEnum>
-  }
-
-
-  /**
-   * categoriaxproducto findMany
-   */
-  export type categoriaxproductoFindManyArgs = {
-    /**
-     * Select specific fields to fetch from the categoriaxproducto
-     */
-    select?: categoriaxproductoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: categoriaxproductoInclude | null
-    /**
-     * Filter, which categoriaxproductos to fetch.
-     */
-    where?: categoriaxproductoWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of categoriaxproductos to fetch.
-     */
-    orderBy?: Enumerable<categoriaxproductoOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing categoriaxproductos.
-     */
-    cursor?: categoriaxproductoWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` categoriaxproductos from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` categoriaxproductos.
-     */
-    skip?: number
-    distinct?: Enumerable<CategoriaxproductoScalarFieldEnum>
-  }
-
-
-  /**
-   * categoriaxproducto create
-   */
-  export type categoriaxproductoCreateArgs = {
-    /**
-     * Select specific fields to fetch from the categoriaxproducto
-     */
-    select?: categoriaxproductoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: categoriaxproductoInclude | null
-    /**
-     * The data needed to create a categoriaxproducto.
-     */
-    data: XOR<categoriaxproductoCreateInput, categoriaxproductoUncheckedCreateInput>
-  }
-
-
-  /**
-   * categoriaxproducto createMany
-   */
-  export type categoriaxproductoCreateManyArgs = {
-    /**
-     * The data used to create many categoriaxproductos.
-     */
-    data: Enumerable<categoriaxproductoCreateManyInput>
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * categoriaxproducto update
-   */
-  export type categoriaxproductoUpdateArgs = {
-    /**
-     * Select specific fields to fetch from the categoriaxproducto
-     */
-    select?: categoriaxproductoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: categoriaxproductoInclude | null
-    /**
-     * The data needed to update a categoriaxproducto.
-     */
-    data: XOR<categoriaxproductoUpdateInput, categoriaxproductoUncheckedUpdateInput>
-    /**
-     * Choose, which categoriaxproducto to update.
-     */
-    where: categoriaxproductoWhereUniqueInput
-  }
-
-
-  /**
-   * categoriaxproducto updateMany
-   */
-  export type categoriaxproductoUpdateManyArgs = {
-    /**
-     * The data used to update categoriaxproductos.
-     */
-    data: XOR<categoriaxproductoUpdateManyMutationInput, categoriaxproductoUncheckedUpdateManyInput>
-    /**
-     * Filter which categoriaxproductos to update
-     */
-    where?: categoriaxproductoWhereInput
-  }
-
-
-  /**
-   * categoriaxproducto upsert
-   */
-  export type categoriaxproductoUpsertArgs = {
-    /**
-     * Select specific fields to fetch from the categoriaxproducto
-     */
-    select?: categoriaxproductoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: categoriaxproductoInclude | null
-    /**
-     * The filter to search for the categoriaxproducto to update in case it exists.
-     */
-    where: categoriaxproductoWhereUniqueInput
-    /**
-     * In case the categoriaxproducto found by the `where` argument doesn't exist, create a new categoriaxproducto with this data.
-     */
-    create: XOR<categoriaxproductoCreateInput, categoriaxproductoUncheckedCreateInput>
-    /**
-     * In case the categoriaxproducto was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<categoriaxproductoUpdateInput, categoriaxproductoUncheckedUpdateInput>
-  }
-
-
-  /**
-   * categoriaxproducto delete
-   */
-  export type categoriaxproductoDeleteArgs = {
-    /**
-     * Select specific fields to fetch from the categoriaxproducto
-     */
-    select?: categoriaxproductoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: categoriaxproductoInclude | null
-    /**
-     * Filter which categoriaxproducto to delete.
-     */
-    where: categoriaxproductoWhereUniqueInput
-  }
-
-
-  /**
-   * categoriaxproducto deleteMany
-   */
-  export type categoriaxproductoDeleteManyArgs = {
-    /**
-     * Filter which categoriaxproductos to delete
-     */
-    where?: categoriaxproductoWhereInput
-  }
-
-
-  /**
-   * categoriaxproducto without action
-   */
-  export type categoriaxproductoArgs = {
-    /**
-     * Select specific fields to fetch from the categoriaxproducto
-     */
-    select?: categoriaxproductoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: categoriaxproductoInclude | null
+    select?: UserSelect | null
   }
 
 
@@ -2771,23 +1760,6 @@ export namespace Prisma {
 
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
-
-  export const CategoriaScalarFieldEnum: {
-    id: 'id',
-    descripcion: 'descripcion'
-  };
-
-  export type CategoriaScalarFieldEnum = (typeof CategoriaScalarFieldEnum)[keyof typeof CategoriaScalarFieldEnum]
-
-
-  export const CategoriaxproductoScalarFieldEnum: {
-    id: 'id',
-    categoriaI: 'categoriaI',
-    descripcion: 'descripcion'
-  };
-
-  export type CategoriaxproductoScalarFieldEnum = (typeof CategoriaxproductoScalarFieldEnum)[keyof typeof CategoriaxproductoScalarFieldEnum]
-
 
   export const QueryMode: {
     default: 'default',
@@ -2815,168 +1787,160 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const UserScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    email: 'email',
+    password: 'password',
+    estado: 'estado',
+    role: 'role',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
   /**
    * Deep Input Types
    */
 
 
-  export type categoriaWhereInput = {
-    AND?: Enumerable<categoriaWhereInput>
-    OR?: Enumerable<categoriaWhereInput>
-    NOT?: Enumerable<categoriaWhereInput>
+  export type UserWhereInput = {
+    AND?: Enumerable<UserWhereInput>
+    OR?: Enumerable<UserWhereInput>
+    NOT?: Enumerable<UserWhereInput>
     id?: IntFilter | number
-    descripcion?: StringFilter | string
-    categoriaxproducto?: CategoriaxproductoListRelationFilter
+    name?: StringFilter | string
+    email?: StringFilter | string
+    password?: StringFilter | string
+    estado?: EnumEstadoFilter | Estado
+    role?: EnumRoleFilter | Role
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
   }
 
-  export type categoriaOrderByWithRelationInput = {
+  export type UserOrderByWithRelationInput = {
     id?: SortOrder
-    descripcion?: SortOrder
-    categoriaxproducto?: categoriaxproductoOrderByRelationAggregateInput
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    estado?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type categoriaWhereUniqueInput = {
+  export type UserWhereUniqueInput = {
     id?: number
-    descripcion?: string
+    email?: string
   }
 
-  export type categoriaOrderByWithAggregationInput = {
+  export type UserOrderByWithAggregationInput = {
     id?: SortOrder
-    descripcion?: SortOrder
-    _count?: categoriaCountOrderByAggregateInput
-    _avg?: categoriaAvgOrderByAggregateInput
-    _max?: categoriaMaxOrderByAggregateInput
-    _min?: categoriaMinOrderByAggregateInput
-    _sum?: categoriaSumOrderByAggregateInput
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    estado?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
+    _max?: UserMaxOrderByAggregateInput
+    _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
-  export type categoriaScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<categoriaScalarWhereWithAggregatesInput>
-    OR?: Enumerable<categoriaScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<categoriaScalarWhereWithAggregatesInput>
+  export type UserScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<UserScalarWhereWithAggregatesInput>
+    OR?: Enumerable<UserScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<UserScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
-    descripcion?: StringWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
+    email?: StringWithAggregatesFilter | string
+    password?: StringWithAggregatesFilter | string
+    estado?: EnumEstadoWithAggregatesFilter | Estado
+    role?: EnumRoleWithAggregatesFilter | Role
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
-  export type categoriaxproductoWhereInput = {
-    AND?: Enumerable<categoriaxproductoWhereInput>
-    OR?: Enumerable<categoriaxproductoWhereInput>
-    NOT?: Enumerable<categoriaxproductoWhereInput>
-    id?: IntFilter | number
-    categoriaI?: IntFilter | number
-    descripcion?: StringFilter | string
-    categoria?: XOR<CategoriaRelationFilter, categoriaWhereInput>
-  }
-
-  export type categoriaxproductoOrderByWithRelationInput = {
-    id?: SortOrder
-    categoriaI?: SortOrder
-    descripcion?: SortOrder
-    categoria?: categoriaOrderByWithRelationInput
-  }
-
-  export type categoriaxproductoWhereUniqueInput = {
-    id?: number
-  }
-
-  export type categoriaxproductoOrderByWithAggregationInput = {
-    id?: SortOrder
-    categoriaI?: SortOrder
-    descripcion?: SortOrder
-    _count?: categoriaxproductoCountOrderByAggregateInput
-    _avg?: categoriaxproductoAvgOrderByAggregateInput
-    _max?: categoriaxproductoMaxOrderByAggregateInput
-    _min?: categoriaxproductoMinOrderByAggregateInput
-    _sum?: categoriaxproductoSumOrderByAggregateInput
-  }
-
-  export type categoriaxproductoScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<categoriaxproductoScalarWhereWithAggregatesInput>
-    OR?: Enumerable<categoriaxproductoScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<categoriaxproductoScalarWhereWithAggregatesInput>
-    id?: IntWithAggregatesFilter | number
-    categoriaI?: IntWithAggregatesFilter | number
-    descripcion?: StringWithAggregatesFilter | string
-  }
-
-  export type categoriaCreateInput = {
+  export type UserCreateInput = {
     id: number
-    descripcion: string
-    categoriaxproducto?: categoriaxproductoCreateNestedManyWithoutCategoriaInput
+    name: string
+    email: string
+    password: string
+    estado?: Estado
+    role?: Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type categoriaUncheckedCreateInput = {
+  export type UserUncheckedCreateInput = {
     id: number
-    descripcion: string
-    categoriaxproducto?: categoriaxproductoUncheckedCreateNestedManyWithoutCategoriaInput
+    name: string
+    email: string
+    password: string
+    estado?: Estado
+    role?: Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type categoriaUpdateInput = {
+  export type UserUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-    categoriaxproducto?: categoriaxproductoUpdateManyWithoutCategoriaNestedInput
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type categoriaUncheckedUpdateInput = {
+  export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-    categoriaxproducto?: categoriaxproductoUncheckedUpdateManyWithoutCategoriaNestedInput
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type categoriaCreateManyInput = {
+  export type UserCreateManyInput = {
     id: number
-    descripcion: string
+    name: string
+    email: string
+    password: string
+    estado?: Estado
+    role?: Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type categoriaUpdateManyMutationInput = {
+  export type UserUpdateManyMutationInput = {
     id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type categoriaUncheckedUpdateManyInput = {
+  export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type categoriaxproductoCreateInput = {
-    id: number
-    descripcion: string
-    categoria: categoriaCreateNestedOneWithoutCategoriaxproductoInput
-  }
-
-  export type categoriaxproductoUncheckedCreateInput = {
-    id: number
-    categoriaI: number
-    descripcion: string
-  }
-
-  export type categoriaxproductoUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-    categoria?: categoriaUpdateOneRequiredWithoutCategoriaxproductoNestedInput
-  }
-
-  export type categoriaxproductoUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    categoriaI?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type categoriaxproductoCreateManyInput = {
-    id: number
-    categoriaI: number
-    descripcion: string
-  }
-
-  export type categoriaxproductoUpdateManyMutationInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type categoriaxproductoUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    categoriaI?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoFieldUpdateOperationsInput | Estado
+    role?: EnumRoleFieldUpdateOperationsInput | Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter = {
@@ -3005,36 +1969,69 @@ export namespace Prisma {
     not?: NestedStringFilter | string
   }
 
-  export type CategoriaxproductoListRelationFilter = {
-    every?: categoriaxproductoWhereInput
-    some?: categoriaxproductoWhereInput
-    none?: categoriaxproductoWhereInput
+  export type EnumEstadoFilter = {
+    equals?: Estado
+    in?: Enumerable<Estado>
+    notIn?: Enumerable<Estado>
+    not?: NestedEnumEstadoFilter | Estado
   }
 
-  export type categoriaxproductoOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type EnumRoleFilter = {
+    equals?: Role
+    in?: Enumerable<Role>
+    notIn?: Enumerable<Role>
+    not?: NestedEnumRoleFilter | Role
   }
 
-  export type categoriaCountOrderByAggregateInput = {
+  export type DateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string> | Date | string
+    notIn?: Enumerable<Date> | Enumerable<string> | Date | string
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type UserCountOrderByAggregateInput = {
     id?: SortOrder
-    descripcion?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    estado?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type categoriaAvgOrderByAggregateInput = {
+  export type UserAvgOrderByAggregateInput = {
     id?: SortOrder
   }
 
-  export type categoriaMaxOrderByAggregateInput = {
+  export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
-    descripcion?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    estado?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type categoriaMinOrderByAggregateInput = {
+  export type UserMinOrderByAggregateInput = {
     id?: SortOrder
-    descripcion?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    password?: SortOrder
+    estado?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type categoriaSumOrderByAggregateInput = {
+  export type UserSumOrderByAggregateInput = {
     id?: SortOrder
   }
 
@@ -3072,51 +2069,38 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
-  export type CategoriaRelationFilter = {
-    is?: categoriaWhereInput
-    isNot?: categoriaWhereInput
+  export type EnumEstadoWithAggregatesFilter = {
+    equals?: Estado
+    in?: Enumerable<Estado>
+    notIn?: Enumerable<Estado>
+    not?: NestedEnumEstadoWithAggregatesFilter | Estado
+    _count?: NestedIntFilter
+    _min?: NestedEnumEstadoFilter
+    _max?: NestedEnumEstadoFilter
   }
 
-  export type categoriaxproductoCountOrderByAggregateInput = {
-    id?: SortOrder
-    categoriaI?: SortOrder
-    descripcion?: SortOrder
+  export type EnumRoleWithAggregatesFilter = {
+    equals?: Role
+    in?: Enumerable<Role>
+    notIn?: Enumerable<Role>
+    not?: NestedEnumRoleWithAggregatesFilter | Role
+    _count?: NestedIntFilter
+    _min?: NestedEnumRoleFilter
+    _max?: NestedEnumRoleFilter
   }
 
-  export type categoriaxproductoAvgOrderByAggregateInput = {
-    id?: SortOrder
-    categoriaI?: SortOrder
-  }
-
-  export type categoriaxproductoMaxOrderByAggregateInput = {
-    id?: SortOrder
-    categoriaI?: SortOrder
-    descripcion?: SortOrder
-  }
-
-  export type categoriaxproductoMinOrderByAggregateInput = {
-    id?: SortOrder
-    categoriaI?: SortOrder
-    descripcion?: SortOrder
-  }
-
-  export type categoriaxproductoSumOrderByAggregateInput = {
-    id?: SortOrder
-    categoriaI?: SortOrder
-  }
-
-  export type categoriaxproductoCreateNestedManyWithoutCategoriaInput = {
-    create?: XOR<Enumerable<categoriaxproductoCreateWithoutCategoriaInput>, Enumerable<categoriaxproductoUncheckedCreateWithoutCategoriaInput>>
-    connectOrCreate?: Enumerable<categoriaxproductoCreateOrConnectWithoutCategoriaInput>
-    createMany?: categoriaxproductoCreateManyCategoriaInputEnvelope
-    connect?: Enumerable<categoriaxproductoWhereUniqueInput>
-  }
-
-  export type categoriaxproductoUncheckedCreateNestedManyWithoutCategoriaInput = {
-    create?: XOR<Enumerable<categoriaxproductoCreateWithoutCategoriaInput>, Enumerable<categoriaxproductoUncheckedCreateWithoutCategoriaInput>>
-    connectOrCreate?: Enumerable<categoriaxproductoCreateOrConnectWithoutCategoriaInput>
-    createMany?: categoriaxproductoCreateManyCategoriaInputEnvelope
-    connect?: Enumerable<categoriaxproductoWhereUniqueInput>
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string> | Date | string
+    notIn?: Enumerable<Date> | Enumerable<string> | Date | string
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -3131,46 +2115,16 @@ export namespace Prisma {
     set?: string
   }
 
-  export type categoriaxproductoUpdateManyWithoutCategoriaNestedInput = {
-    create?: XOR<Enumerable<categoriaxproductoCreateWithoutCategoriaInput>, Enumerable<categoriaxproductoUncheckedCreateWithoutCategoriaInput>>
-    connectOrCreate?: Enumerable<categoriaxproductoCreateOrConnectWithoutCategoriaInput>
-    upsert?: Enumerable<categoriaxproductoUpsertWithWhereUniqueWithoutCategoriaInput>
-    createMany?: categoriaxproductoCreateManyCategoriaInputEnvelope
-    set?: Enumerable<categoriaxproductoWhereUniqueInput>
-    disconnect?: Enumerable<categoriaxproductoWhereUniqueInput>
-    delete?: Enumerable<categoriaxproductoWhereUniqueInput>
-    connect?: Enumerable<categoriaxproductoWhereUniqueInput>
-    update?: Enumerable<categoriaxproductoUpdateWithWhereUniqueWithoutCategoriaInput>
-    updateMany?: Enumerable<categoriaxproductoUpdateManyWithWhereWithoutCategoriaInput>
-    deleteMany?: Enumerable<categoriaxproductoScalarWhereInput>
+  export type EnumEstadoFieldUpdateOperationsInput = {
+    set?: Estado
   }
 
-  export type categoriaxproductoUncheckedUpdateManyWithoutCategoriaNestedInput = {
-    create?: XOR<Enumerable<categoriaxproductoCreateWithoutCategoriaInput>, Enumerable<categoriaxproductoUncheckedCreateWithoutCategoriaInput>>
-    connectOrCreate?: Enumerable<categoriaxproductoCreateOrConnectWithoutCategoriaInput>
-    upsert?: Enumerable<categoriaxproductoUpsertWithWhereUniqueWithoutCategoriaInput>
-    createMany?: categoriaxproductoCreateManyCategoriaInputEnvelope
-    set?: Enumerable<categoriaxproductoWhereUniqueInput>
-    disconnect?: Enumerable<categoriaxproductoWhereUniqueInput>
-    delete?: Enumerable<categoriaxproductoWhereUniqueInput>
-    connect?: Enumerable<categoriaxproductoWhereUniqueInput>
-    update?: Enumerable<categoriaxproductoUpdateWithWhereUniqueWithoutCategoriaInput>
-    updateMany?: Enumerable<categoriaxproductoUpdateManyWithWhereWithoutCategoriaInput>
-    deleteMany?: Enumerable<categoriaxproductoScalarWhereInput>
+  export type EnumRoleFieldUpdateOperationsInput = {
+    set?: Role
   }
 
-  export type categoriaCreateNestedOneWithoutCategoriaxproductoInput = {
-    create?: XOR<categoriaCreateWithoutCategoriaxproductoInput, categoriaUncheckedCreateWithoutCategoriaxproductoInput>
-    connectOrCreate?: categoriaCreateOrConnectWithoutCategoriaxproductoInput
-    connect?: categoriaWhereUniqueInput
-  }
-
-  export type categoriaUpdateOneRequiredWithoutCategoriaxproductoNestedInput = {
-    create?: XOR<categoriaCreateWithoutCategoriaxproductoInput, categoriaUncheckedCreateWithoutCategoriaxproductoInput>
-    connectOrCreate?: categoriaCreateOrConnectWithoutCategoriaxproductoInput
-    upsert?: categoriaUpsertWithoutCategoriaxproductoInput
-    connect?: categoriaWhereUniqueInput
-    update?: XOR<categoriaUpdateWithoutCategoriaxproductoInput, categoriaUncheckedUpdateWithoutCategoriaxproductoInput>
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type NestedIntFilter = {
@@ -3196,6 +2150,31 @@ export namespace Prisma {
     startsWith?: string
     endsWith?: string
     not?: NestedStringFilter | string
+  }
+
+  export type NestedEnumEstadoFilter = {
+    equals?: Estado
+    in?: Enumerable<Estado>
+    notIn?: Enumerable<Estado>
+    not?: NestedEnumEstadoFilter | Estado
+  }
+
+  export type NestedEnumRoleFilter = {
+    equals?: Role
+    in?: Enumerable<Role>
+    notIn?: Enumerable<Role>
+    not?: NestedEnumRoleFilter | Role
+  }
+
+  export type NestedDateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string> | Date | string
+    notIn?: Enumerable<Date> | Enumerable<string> | Date | string
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
   }
 
   export type NestedIntWithAggregatesFilter = {
@@ -3242,99 +2221,38 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
-  export type categoriaxproductoCreateWithoutCategoriaInput = {
-    id: number
-    descripcion: string
+  export type NestedEnumEstadoWithAggregatesFilter = {
+    equals?: Estado
+    in?: Enumerable<Estado>
+    notIn?: Enumerable<Estado>
+    not?: NestedEnumEstadoWithAggregatesFilter | Estado
+    _count?: NestedIntFilter
+    _min?: NestedEnumEstadoFilter
+    _max?: NestedEnumEstadoFilter
   }
 
-  export type categoriaxproductoUncheckedCreateWithoutCategoriaInput = {
-    id: number
-    descripcion: string
+  export type NestedEnumRoleWithAggregatesFilter = {
+    equals?: Role
+    in?: Enumerable<Role>
+    notIn?: Enumerable<Role>
+    not?: NestedEnumRoleWithAggregatesFilter | Role
+    _count?: NestedIntFilter
+    _min?: NestedEnumRoleFilter
+    _max?: NestedEnumRoleFilter
   }
 
-  export type categoriaxproductoCreateOrConnectWithoutCategoriaInput = {
-    where: categoriaxproductoWhereUniqueInput
-    create: XOR<categoriaxproductoCreateWithoutCategoriaInput, categoriaxproductoUncheckedCreateWithoutCategoriaInput>
-  }
-
-  export type categoriaxproductoCreateManyCategoriaInputEnvelope = {
-    data: Enumerable<categoriaxproductoCreateManyCategoriaInput>
-    skipDuplicates?: boolean
-  }
-
-  export type categoriaxproductoUpsertWithWhereUniqueWithoutCategoriaInput = {
-    where: categoriaxproductoWhereUniqueInput
-    update: XOR<categoriaxproductoUpdateWithoutCategoriaInput, categoriaxproductoUncheckedUpdateWithoutCategoriaInput>
-    create: XOR<categoriaxproductoCreateWithoutCategoriaInput, categoriaxproductoUncheckedCreateWithoutCategoriaInput>
-  }
-
-  export type categoriaxproductoUpdateWithWhereUniqueWithoutCategoriaInput = {
-    where: categoriaxproductoWhereUniqueInput
-    data: XOR<categoriaxproductoUpdateWithoutCategoriaInput, categoriaxproductoUncheckedUpdateWithoutCategoriaInput>
-  }
-
-  export type categoriaxproductoUpdateManyWithWhereWithoutCategoriaInput = {
-    where: categoriaxproductoScalarWhereInput
-    data: XOR<categoriaxproductoUpdateManyMutationInput, categoriaxproductoUncheckedUpdateManyWithoutCategoriaxproductoInput>
-  }
-
-  export type categoriaxproductoScalarWhereInput = {
-    AND?: Enumerable<categoriaxproductoScalarWhereInput>
-    OR?: Enumerable<categoriaxproductoScalarWhereInput>
-    NOT?: Enumerable<categoriaxproductoScalarWhereInput>
-    id?: IntFilter | number
-    categoriaI?: IntFilter | number
-    descripcion?: StringFilter | string
-  }
-
-  export type categoriaCreateWithoutCategoriaxproductoInput = {
-    id: number
-    descripcion: string
-  }
-
-  export type categoriaUncheckedCreateWithoutCategoriaxproductoInput = {
-    id: number
-    descripcion: string
-  }
-
-  export type categoriaCreateOrConnectWithoutCategoriaxproductoInput = {
-    where: categoriaWhereUniqueInput
-    create: XOR<categoriaCreateWithoutCategoriaxproductoInput, categoriaUncheckedCreateWithoutCategoriaxproductoInput>
-  }
-
-  export type categoriaUpsertWithoutCategoriaxproductoInput = {
-    update: XOR<categoriaUpdateWithoutCategoriaxproductoInput, categoriaUncheckedUpdateWithoutCategoriaxproductoInput>
-    create: XOR<categoriaCreateWithoutCategoriaxproductoInput, categoriaUncheckedCreateWithoutCategoriaxproductoInput>
-  }
-
-  export type categoriaUpdateWithoutCategoriaxproductoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type categoriaUncheckedUpdateWithoutCategoriaxproductoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type categoriaxproductoCreateManyCategoriaInput = {
-    id: number
-    descripcion: string
-  }
-
-  export type categoriaxproductoUpdateWithoutCategoriaInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type categoriaxproductoUncheckedUpdateWithoutCategoriaInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type categoriaxproductoUncheckedUpdateManyWithoutCategoriaxproductoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descripcion?: StringFieldUpdateOperationsInput | string
+  export type NestedDateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string> | Date | string
+    notIn?: Enumerable<Date> | Enumerable<string> | Date | string
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
   }
 
 

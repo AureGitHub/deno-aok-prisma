@@ -86,17 +86,6 @@ Prisma.NullTypes = {
  * Enums
  */
 
-exports.Prisma.CategoriaScalarFieldEnum = {
-  id: 'id',
-  descripcion: 'descripcion'
-};
-
-exports.Prisma.CategoriaxproductoScalarFieldEnum = {
-  id: 'id',
-  categoriaI: 'categoriaI',
-  descripcion: 'descripcion'
-};
-
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -114,10 +103,30 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  password: 'password',
+  estado: 'estado',
+  role: 'role',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+exports.Estado = {
+  ACTIVE: 'ACTIVE',
+  BLOCK: 'BLOCK',
+  UNSUBSCRIBED: 'UNSUBSCRIBED'
+};
+
+exports.Role = {
+  NORMAL: 'NORMAL',
+  ADMIN: 'ADMIN',
+  GOD: 'GOD'
+};
 
 exports.Prisma.ModelName = {
-  categoria: 'categoria',
-  categoriaxproducto: 'categoriaxproducto'
+  User: 'User'
 };
 
 /**

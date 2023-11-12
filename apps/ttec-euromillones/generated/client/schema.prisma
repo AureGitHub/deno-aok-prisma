@@ -10,32 +10,38 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL_POST_VALLEGRANDE")
+  url      = env("DATABASE_URL_POST_TTEC_EUROMILLONES")
+}
+
+model User {
+  id         Int       @id   
+  name       String 
+  email      String    @unique
+  password   String  
+  estado     Estado    @default(BLOCK)
+  role       Role      @default(NORMAL)
+  // userxRole  UserxRole[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 
-model categoria {
-  id         Int       @id
-  descripcion     String    @unique  
-  categoriaxproducto  categoriaxproducto[]
+// model UserxRole {
+//   id         Int @id @default(autoincrement())
+//   userId     Int 
+//   user User  @relation(fields: [userId], references: [id])
+//   role       Role  @default(NORMAL)
+  
+// }
+
+
+enum Role {  
+  NORMAL
+  ADMIN
+  GOD
 }
-
-model categoriaxproducto {
-  id         Int       @id
-  categoriaI  Int
-  categoria       categoria   @relation(fields: [categoriaI], references: [id])
-  descripcion     String
+enum Estado {  
+  ACTIVE
+  BLOCK
+  UNSUBSCRIBED 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

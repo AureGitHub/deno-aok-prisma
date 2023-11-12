@@ -1,5 +1,5 @@
 import { Router } from "../../dep/deps.ts";
-import categoriaRouter from "./entity/categoria/router.ts";
+import userRouter from "./entity/user/router.ts";
 
 
 const router = new Router({
@@ -10,7 +10,7 @@ const router = new Router({
 //   (Context,next)=> {requireApp(Context,next,'gestion-casa'), casaRouter.routes()}
 //   );
 
-router.use(categoriaRouter.routes());  
+router.use(userRouter.routes());  
 
 export default router;
 
