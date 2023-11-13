@@ -63,7 +63,7 @@ const get= async (ctx: any) => {
     ctx.response.status = 201;
     ctx.response.body = {
       status: StatusCodes.OK,
-      data,
+      data : {data, count : data.length },
     };
 
 };
