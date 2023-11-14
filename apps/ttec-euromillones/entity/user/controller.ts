@@ -7,6 +7,9 @@ import authController  from "../../../general/entity/auth/controller.ts"
 
 import {Estado} from "../../../../utils/enums.ts"
 
+import { SmtpClient } from "https://deno.land/x/smtp/mod.ts";
+
+
 
 
 const login = async ({
@@ -116,6 +119,27 @@ const getCodeResetPass= async ({
 
 
     // una vez generado, se envia correo a usuario
+
+    const client = new SmtpClient();
+
+    
+
+
+    await client.connectTLS({
+      hostname: "smtp.gmail.com",
+      port: 465,
+      username: "aure.euromillones@gmail.com",
+      password: "jas11jas11",
+    });
+    
+    await client.send({
+      from: "aure.euromillones@gmail.com", // Your Email address
+      to: "aure.desande@gmail.com", // Email address of the destination
+      subject: "Mail Title",
+      content: "Mail Content，maybe HTML",
+    });
+    
+    await client.close();
 
 
     response.status = 200;
