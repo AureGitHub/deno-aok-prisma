@@ -5,8 +5,7 @@ import   prisma  from "../../prisma/db.ts";
 
 import authController  from "../../../general/entity/auth/controller.ts"
 
-
-
+import {Estado} from "../../../../utils/enums.ts"
 
 
 
@@ -28,10 +27,31 @@ const login = async ({
       response.status = 200;
       response.body = {
         status:StatusCodes.CONFLICT,
-        message: "Invalid email or password",
+        message: "Usuario o password incorrecta!!",
       };
       return;
     }
+
+
+    if (user && (user.estadoId == Estado.baja || user.estadoId == Estado.bloqueado) ) {
+      response.status = 200;
+      response.body = {
+        status:StatusCodes.CONFLICT,
+        message: "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador",
+      };
+      return;
+    }
+
+
+    if (user && user.estadoId == Estado.cambiar_pass) {
+      response.status = 200;
+      response.body = {
+        status:StatusCodes.CONFLICT,
+        message: "Password bloqueda. Debe cambiar su password",
+      };
+      return;
+    }
+
 
 
     let userRet = new userClass(user);

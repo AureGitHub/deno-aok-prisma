@@ -14,15 +14,30 @@ datasource db {
 }
 
 model User {
-  id         Int       @id   
-  name       String 
-  email      String    @unique
-  password   String  
-  estado     Estado    @default(BLOCK)
-  role       Role      @default(NORMAL)
-  // userxRole  UserxRole[]
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id           Int           @id   
+  name         String 
+  email        String        @unique
+  password     String  
+  roleId       Int          
+  UserXRole    UserXRole     @relation(fields: [roleId], references: [id])
+  estadoId     Int         
+  UserXEstado  UserXEstado @relation(fields: [estadoId], references: [id])
+  saldo        Decimal @db.Decimal(9,2)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model UserXRole {    
+    id           Int       @id  
+    descripcion  String    @unique
+    user User[]
+    
+}
+
+model UserXEstado {
+    id           Int       @id  
+    descripcion  String    @unique    
+    user User[]
 }
 
 
@@ -35,13 +50,13 @@ model User {
 // }
 
 
-enum Role {  
-  NORMAL
-  ADMIN
-  GOD
-}
-enum Estado {  
-  ACTIVE
-  BLOCK
-  UNSUBSCRIBED 
-}
+// enum Role {  
+//   NORMAL
+//   ADMIN
+//   GOD
+// }
+// enum Estado {  
+//   ACTIVE
+//   BLOCK
+//   UNSUBSCRIBED 
+// }

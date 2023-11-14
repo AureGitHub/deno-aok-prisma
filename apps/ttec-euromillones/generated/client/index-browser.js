@@ -108,25 +108,28 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   password: 'password',
-  estado: 'estado',
-  role: 'role',
+  roleId: 'roleId',
+  estadoId: 'estadoId',
+  saldo: 'saldo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
-exports.Estado = {
-  ACTIVE: 'ACTIVE',
-  BLOCK: 'BLOCK',
-  UNSUBSCRIBED: 'UNSUBSCRIBED'
+
+exports.Prisma.UserXEstadoScalarFieldEnum = {
+  id: 'id',
+  descripcion: 'descripcion'
 };
 
-exports.Role = {
-  NORMAL: 'NORMAL',
-  ADMIN: 'ADMIN',
-  GOD: 'GOD'
+exports.Prisma.UserXRoleScalarFieldEnum = {
+  id: 'id',
+  descripcion: 'descripcion'
 };
+
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  UserXRole: 'UserXRole',
+  UserXEstado: 'UserXEstado'
 };
 
 /**
