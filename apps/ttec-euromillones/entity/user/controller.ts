@@ -77,6 +77,60 @@ const login = async ({
 
 
 
+const getCodeResetPass= async ({
+  request,
+  response,
+}: RouterContext<string>) => {
+  try {
+    const { email }: { email: string; } =
+      await request.body().value;
+
+      const user = await prisma.user.findFirst(
+        {where: {email }
+      });
+
+
+
+    if (!user) {
+      response.status = 200;
+      response.body = {
+        status:StatusCodes.CONFLICT,
+        message: "correo no válido!!",
+      };
+      return;
+    }
+
+
+    if (user && (user.estadoId == Estado.baja || user.estadoId == Estado.bloqueado) ) {
+      response.status = 200;
+      response.body = {
+        status:StatusCodes.CONFLICT,
+        message: "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador",
+      };
+      return;
+    }
+
+
+    // generar un uuid y guardarlo en una tabla... codigosOperaciones   (tipo 1 => condigo para reset correo)
+    // userId, codigo, fecha caducidad?
+
+
+    // una vez generado, se envia correo a usuario
+
+
+    response.status = 200;
+    response.body = { 
+      status:StatusCodes.OK,
+      data: {code : true} };
+  } catch (error) {
+    response.status = 500;
+    response.body = {  status:StatusCodes.INTERNAL_SERVER_ERROR, message: error.message };
+    return;
+  }
+};
+
+
+
 const get= async (ctx: any) => {
 
     const data = await prisma.user.findMany();
@@ -200,10 +254,12 @@ const del = async (ctx: any) =>  {
 
 
 export default { 
-    login,
-    get,
-    getById,
-    add, 
-    update, 
-    del
+  
+  getCodeResetPass,
+  login,    
+  get,
+  getById,
+  add, 
+  update, 
+  del
 };

@@ -16,6 +16,9 @@ router
 // .put("/:id", requireUser,  controller.update)
 // .delete("/:id", requireUser,  controller.del)
 
+
+
+.post("/getCodeResetPass", controller.getCodeResetPass)
 .post("/login", controller.login)
 .get("/", controller.get)
 .get("/:id",  controller.getById)
