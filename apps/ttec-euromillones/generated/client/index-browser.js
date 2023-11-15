@@ -86,6 +86,13 @@ Prisma.NullTypes = {
  * Enums
  */
 
+exports.Prisma.CodeSecureScalarFieldEnum = {
+  code: 'code',
+  type: 'type',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -129,7 +136,8 @@ exports.Prisma.UserXRoleScalarFieldEnum = {
 exports.Prisma.ModelName = {
   User: 'User',
   UserXRole: 'UserXRole',
-  UserXEstado: 'UserXEstado'
+  UserXEstado: 'UserXEstado',
+  CodeSecure: 'CodeSecure'
 };
 
 /**

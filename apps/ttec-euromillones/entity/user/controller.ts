@@ -6,11 +6,7 @@ import   prisma  from "../../prisma/db.ts";
 import authController  from "../../../general/entity/auth/controller.ts"
 
 import {Estado} from "../../../../utils/enums.ts"
-
-import { SmtpClient } from "https://deno.land/x/smtp/mod.ts";
-
-
-
+import { sendEmail } from "../../../../utils/sendEmail.ts";
 
 const login = async ({
   request,
@@ -79,6 +75,67 @@ const login = async ({
 };
 
 
+const reserPassByCode =  async ({
+  request,
+  response,
+}: RouterContext<string>) => {
+  try {
+    const { code, password }: { code: string; password: string;} =
+      await request.body().value;
+
+      const codeSecure = await prisma.codeSecure.findFirst(
+        {where: {code }
+      });
+
+
+    if (!codeSecure) {
+      response.status = 200;
+      response.body = {
+        status:StatusCodes.CONFLICT,
+        message: "código no válido!!",
+      };
+      return;
+    }
+
+    const user =  await prisma.user.findFirst(
+      {where: {id : codeSecure.userId }
+    });
+
+    if (user && (user.estadoId == Estado.baja || user.estadoId == Estado.bloqueado) ) {
+      response.status = 200;
+      response.body = {
+        status:StatusCodes.CONFLICT,
+        message: "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador",
+      };
+      return;
+    }
+
+
+    await prisma.user.updateMany({
+      where: {id: user?.id },
+      data: {
+        password,
+        estadoId : Estado.activo
+      }
+    })
+
+
+    //habría que hacer como el login....
+    //o en el client me voy a la página de login (casi mejor esto..)
+
+
+    response.status = 200;
+    response.body = { 
+      status:StatusCodes.OK,
+      data: {code : true} };
+  } catch (error) {
+    response.status = 500;
+    response.body = {  status:StatusCodes.INTERNAL_SERVER_ERROR, message: error.message };
+    return;
+  }
+};
+
+
 
 const getCodeResetPass= async ({
   request,
@@ -116,30 +173,29 @@ const getCodeResetPass= async ({
 
     // generar un uuid y guardarlo en una tabla... codigosOperaciones   (tipo 1 => condigo para reset correo)
     // userId, codigo, fecha caducidad?
-
-
     // una vez generado, se envia correo a usuario
 
-    const client = new SmtpClient();
 
-    
+const myUUID = crypto.randomUUID();
 
+  await prisma.codeSecure.create({
+    data : {
+      code : myUUID,
+      type : 1,
+      userId : user.id
+    }
+  })
 
-    await client.connectTLS({
-      hostname: "smtp.gmail.com",
-      port: 465,
-      username: "aure.euromillones@gmail.com",
-      password: "jas11jas11",
-    });
-    
-    await client.send({
-      from: "aure.euromillones@gmail.com", // Your Email address
-      to: "aure.desande@gmail.com", // Email address of the destination
-      subject: "Mail Title",
-      content: "Mail Content，maybe HTML",
-    });
-    
-    await client.close();
+  const subject ="TTEC-euromillones. Su codigo para resetear la password";
+
+  const bodyHtml =  `
+    <div>Su codigo para resetear la password</div>
+    <div>
+    <span style='font-size: 15px'>${myUUID}</span>
+    </div>
+    `;
+
+  await sendEmail(['aure.desande@gmail.com','jdesande@tragsa.es'],subject,bodyHtml);
 
 
     response.status = 200;
@@ -278,7 +334,7 @@ const del = async (ctx: any) =>  {
 
 
 export default { 
-  
+  reserPassByCode,
   getCodeResetPass,
   login,    
   get,

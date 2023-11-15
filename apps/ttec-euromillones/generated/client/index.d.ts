@@ -46,6 +46,17 @@ export type UserXEstado = {
   descripcion: string
 }
 
+/**
+ * Model CodeSecure
+ * 
+ */
+export type CodeSecure = {
+  code: string
+  type: number
+  userId: number
+  createdAt: Date
+}
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -193,6 +204,16 @@ export class PrismaClient<
     * ```
     */
   get userXEstado(): Prisma.UserXEstadoDelegate<GlobalReject>;
+
+  /**
+   * `prisma.codeSecure`: Exposes CRUD operations for the **CodeSecure** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CodeSecures
+    * const codeSecures = await prisma.codeSecure.findMany()
+    * ```
+    */
+  get codeSecure(): Prisma.CodeSecureDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -664,7 +685,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     UserXRole: 'UserXRole',
-    UserXEstado: 'UserXEstado'
+    UserXEstado: 'UserXEstado',
+    CodeSecure: 'CodeSecure'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -823,6 +845,49 @@ export namespace Prisma {
   /**
    * Count Types
    */
+
+
+  /**
+   * Count Type UserCountOutputType
+   */
+
+
+  export type UserCountOutputType = {
+    CodeSecure: number
+  }
+
+  export type UserCountOutputTypeSelect = {
+    CodeSecure?: boolean
+  }
+
+  export type UserCountOutputTypeGetPayload<S extends boolean | null | undefined | UserCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UserCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (UserCountOutputTypeArgs)
+    ? UserCountOutputType 
+    : S extends { select: any } & (UserCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof UserCountOutputType ? UserCountOutputType[P] : never
+  } 
+      : UserCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect | null
+  }
+
 
 
   /**
@@ -1161,12 +1226,16 @@ export namespace Prisma {
     updatedAt?: boolean
     UserXRole?: boolean | UserXRoleArgs
     UserXEstado?: boolean | UserXEstadoArgs
+    CodeSecure?: boolean | User$CodeSecureArgs
+    _count?: boolean | UserCountOutputTypeArgs
   }
 
 
   export type UserInclude = {
     UserXRole?: boolean | UserXRoleArgs
     UserXEstado?: boolean | UserXEstadoArgs
+    CodeSecure?: boolean | User$CodeSecureArgs
+    _count?: boolean | UserCountOutputTypeArgs
   }
 
   export type UserGetPayload<S extends boolean | null | undefined | UserArgs> =
@@ -1177,13 +1246,17 @@ export namespace Prisma {
     ? User  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'UserXRole' ? UserXRoleGetPayload<S['include'][P]> :
-        P extends 'UserXEstado' ? UserXEstadoGetPayload<S['include'][P]> :  never
+        P extends 'UserXEstado' ? UserXEstadoGetPayload<S['include'][P]> :
+        P extends 'CodeSecure' ? Array < CodeSecureGetPayload<S['include'][P]>>  :
+        P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (UserArgs | UserFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'UserXRole' ? UserXRoleGetPayload<S['select'][P]> :
-        P extends 'UserXEstado' ? UserXEstadoGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
+        P extends 'UserXEstado' ? UserXEstadoGetPayload<S['select'][P]> :
+        P extends 'CodeSecure' ? Array < CodeSecureGetPayload<S['select'][P]>>  :
+        P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
   } 
       : User
 
@@ -1559,6 +1632,8 @@ export namespace Prisma {
 
     UserXEstado<T extends UserXEstadoArgs= {}>(args?: Subset<T, UserXEstadoArgs>): Prisma__UserXEstadoClient<UserXEstadoGetPayload<T> | Null>;
 
+    CodeSecure<T extends User$CodeSecureArgs= {}>(args?: Subset<T, User$CodeSecureArgs>): Prisma.PrismaPromise<Array<CodeSecureGetPayload<T>>| Null>;
+
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1911,6 +1986,27 @@ export namespace Prisma {
      * Filter which Users to delete
      */
     where?: UserWhereInput
+  }
+
+
+  /**
+   * User.CodeSecure
+   */
+  export type User$CodeSecureArgs = {
+    /**
+     * Select specific fields to fetch from the CodeSecure
+     */
+    select?: CodeSecureSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CodeSecureInclude | null
+    where?: CodeSecureWhereInput
+    orderBy?: Enumerable<CodeSecureOrderByWithRelationInput>
+    cursor?: CodeSecureWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<CodeSecureScalarFieldEnum>
   }
 
 
@@ -3863,11 +3959,982 @@ export namespace Prisma {
 
 
   /**
+   * Model CodeSecure
+   */
+
+
+  export type AggregateCodeSecure = {
+    _count: CodeSecureCountAggregateOutputType | null
+    _avg: CodeSecureAvgAggregateOutputType | null
+    _sum: CodeSecureSumAggregateOutputType | null
+    _min: CodeSecureMinAggregateOutputType | null
+    _max: CodeSecureMaxAggregateOutputType | null
+  }
+
+  export type CodeSecureAvgAggregateOutputType = {
+    type: number | null
+    userId: number | null
+  }
+
+  export type CodeSecureSumAggregateOutputType = {
+    type: number | null
+    userId: number | null
+  }
+
+  export type CodeSecureMinAggregateOutputType = {
+    code: string | null
+    type: number | null
+    userId: number | null
+    createdAt: Date | null
+  }
+
+  export type CodeSecureMaxAggregateOutputType = {
+    code: string | null
+    type: number | null
+    userId: number | null
+    createdAt: Date | null
+  }
+
+  export type CodeSecureCountAggregateOutputType = {
+    code: number
+    type: number
+    userId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CodeSecureAvgAggregateInputType = {
+    type?: true
+    userId?: true
+  }
+
+  export type CodeSecureSumAggregateInputType = {
+    type?: true
+    userId?: true
+  }
+
+  export type CodeSecureMinAggregateInputType = {
+    code?: true
+    type?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type CodeSecureMaxAggregateInputType = {
+    code?: true
+    type?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type CodeSecureCountAggregateInputType = {
+    code?: true
+    type?: true
+    userId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CodeSecureAggregateArgs = {
+    /**
+     * Filter which CodeSecure to aggregate.
+     */
+    where?: CodeSecureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CodeSecures to fetch.
+     */
+    orderBy?: Enumerable<CodeSecureOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CodeSecureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CodeSecures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CodeSecures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CodeSecures
+    **/
+    _count?: true | CodeSecureCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CodeSecureAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CodeSecureSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CodeSecureMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CodeSecureMaxAggregateInputType
+  }
+
+  export type GetCodeSecureAggregateType<T extends CodeSecureAggregateArgs> = {
+        [P in keyof T & keyof AggregateCodeSecure]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCodeSecure[P]>
+      : GetScalarType<T[P], AggregateCodeSecure[P]>
+  }
+
+
+
+
+  export type CodeSecureGroupByArgs = {
+    where?: CodeSecureWhereInput
+    orderBy?: Enumerable<CodeSecureOrderByWithAggregationInput>
+    by: CodeSecureScalarFieldEnum[]
+    having?: CodeSecureScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CodeSecureCountAggregateInputType | true
+    _avg?: CodeSecureAvgAggregateInputType
+    _sum?: CodeSecureSumAggregateInputType
+    _min?: CodeSecureMinAggregateInputType
+    _max?: CodeSecureMaxAggregateInputType
+  }
+
+
+  export type CodeSecureGroupByOutputType = {
+    code: string
+    type: number
+    userId: number
+    createdAt: Date
+    _count: CodeSecureCountAggregateOutputType | null
+    _avg: CodeSecureAvgAggregateOutputType | null
+    _sum: CodeSecureSumAggregateOutputType | null
+    _min: CodeSecureMinAggregateOutputType | null
+    _max: CodeSecureMaxAggregateOutputType | null
+  }
+
+  type GetCodeSecureGroupByPayload<T extends CodeSecureGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<CodeSecureGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CodeSecureGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CodeSecureGroupByOutputType[P]>
+            : GetScalarType<T[P], CodeSecureGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CodeSecureSelect = {
+    code?: boolean
+    type?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    User?: boolean | UserArgs
+  }
+
+
+  export type CodeSecureInclude = {
+    User?: boolean | UserArgs
+  }
+
+  export type CodeSecureGetPayload<S extends boolean | null | undefined | CodeSecureArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? CodeSecure :
+    S extends undefined ? never :
+    S extends { include: any } & (CodeSecureArgs | CodeSecureFindManyArgs)
+    ? CodeSecure  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'User' ? UserGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (CodeSecureArgs | CodeSecureFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'User' ? UserGetPayload<S['select'][P]> :  P extends keyof CodeSecure ? CodeSecure[P] : never
+  } 
+      : CodeSecure
+
+
+  type CodeSecureCountArgs = 
+    Omit<CodeSecureFindManyArgs, 'select' | 'include'> & {
+      select?: CodeSecureCountAggregateInputType | true
+    }
+
+  export interface CodeSecureDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one CodeSecure that matches the filter.
+     * @param {CodeSecureFindUniqueArgs} args - Arguments to find a CodeSecure
+     * @example
+     * // Get one CodeSecure
+     * const codeSecure = await prisma.codeSecure.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends CodeSecureFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, CodeSecureFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CodeSecure'> extends True ? Prisma__CodeSecureClient<CodeSecureGetPayload<T>> : Prisma__CodeSecureClient<CodeSecureGetPayload<T> | null, null>
+
+    /**
+     * Find one CodeSecure that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {CodeSecureFindUniqueOrThrowArgs} args - Arguments to find a CodeSecure
+     * @example
+     * // Get one CodeSecure
+     * const codeSecure = await prisma.codeSecure.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends CodeSecureFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, CodeSecureFindUniqueOrThrowArgs>
+    ): Prisma__CodeSecureClient<CodeSecureGetPayload<T>>
+
+    /**
+     * Find the first CodeSecure that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSecureFindFirstArgs} args - Arguments to find a CodeSecure
+     * @example
+     * // Get one CodeSecure
+     * const codeSecure = await prisma.codeSecure.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends CodeSecureFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, CodeSecureFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CodeSecure'> extends True ? Prisma__CodeSecureClient<CodeSecureGetPayload<T>> : Prisma__CodeSecureClient<CodeSecureGetPayload<T> | null, null>
+
+    /**
+     * Find the first CodeSecure that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSecureFindFirstOrThrowArgs} args - Arguments to find a CodeSecure
+     * @example
+     * // Get one CodeSecure
+     * const codeSecure = await prisma.codeSecure.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends CodeSecureFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, CodeSecureFindFirstOrThrowArgs>
+    ): Prisma__CodeSecureClient<CodeSecureGetPayload<T>>
+
+    /**
+     * Find zero or more CodeSecures that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSecureFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CodeSecures
+     * const codeSecures = await prisma.codeSecure.findMany()
+     * 
+     * // Get first 10 CodeSecures
+     * const codeSecures = await prisma.codeSecure.findMany({ take: 10 })
+     * 
+     * // Only select the `code`
+     * const codeSecureWithCodeOnly = await prisma.codeSecure.findMany({ select: { code: true } })
+     * 
+    **/
+    findMany<T extends CodeSecureFindManyArgs>(
+      args?: SelectSubset<T, CodeSecureFindManyArgs>
+    ): Prisma.PrismaPromise<Array<CodeSecureGetPayload<T>>>
+
+    /**
+     * Create a CodeSecure.
+     * @param {CodeSecureCreateArgs} args - Arguments to create a CodeSecure.
+     * @example
+     * // Create one CodeSecure
+     * const CodeSecure = await prisma.codeSecure.create({
+     *   data: {
+     *     // ... data to create a CodeSecure
+     *   }
+     * })
+     * 
+    **/
+    create<T extends CodeSecureCreateArgs>(
+      args: SelectSubset<T, CodeSecureCreateArgs>
+    ): Prisma__CodeSecureClient<CodeSecureGetPayload<T>>
+
+    /**
+     * Create many CodeSecures.
+     *     @param {CodeSecureCreateManyArgs} args - Arguments to create many CodeSecures.
+     *     @example
+     *     // Create many CodeSecures
+     *     const codeSecure = await prisma.codeSecure.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends CodeSecureCreateManyArgs>(
+      args?: SelectSubset<T, CodeSecureCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a CodeSecure.
+     * @param {CodeSecureDeleteArgs} args - Arguments to delete one CodeSecure.
+     * @example
+     * // Delete one CodeSecure
+     * const CodeSecure = await prisma.codeSecure.delete({
+     *   where: {
+     *     // ... filter to delete one CodeSecure
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends CodeSecureDeleteArgs>(
+      args: SelectSubset<T, CodeSecureDeleteArgs>
+    ): Prisma__CodeSecureClient<CodeSecureGetPayload<T>>
+
+    /**
+     * Update one CodeSecure.
+     * @param {CodeSecureUpdateArgs} args - Arguments to update one CodeSecure.
+     * @example
+     * // Update one CodeSecure
+     * const codeSecure = await prisma.codeSecure.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends CodeSecureUpdateArgs>(
+      args: SelectSubset<T, CodeSecureUpdateArgs>
+    ): Prisma__CodeSecureClient<CodeSecureGetPayload<T>>
+
+    /**
+     * Delete zero or more CodeSecures.
+     * @param {CodeSecureDeleteManyArgs} args - Arguments to filter CodeSecures to delete.
+     * @example
+     * // Delete a few CodeSecures
+     * const { count } = await prisma.codeSecure.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends CodeSecureDeleteManyArgs>(
+      args?: SelectSubset<T, CodeSecureDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CodeSecures.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSecureUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CodeSecures
+     * const codeSecure = await prisma.codeSecure.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends CodeSecureUpdateManyArgs>(
+      args: SelectSubset<T, CodeSecureUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CodeSecure.
+     * @param {CodeSecureUpsertArgs} args - Arguments to update or create a CodeSecure.
+     * @example
+     * // Update or create a CodeSecure
+     * const codeSecure = await prisma.codeSecure.upsert({
+     *   create: {
+     *     // ... data to create a CodeSecure
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CodeSecure we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends CodeSecureUpsertArgs>(
+      args: SelectSubset<T, CodeSecureUpsertArgs>
+    ): Prisma__CodeSecureClient<CodeSecureGetPayload<T>>
+
+    /**
+     * Count the number of CodeSecures.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSecureCountArgs} args - Arguments to filter CodeSecures to count.
+     * @example
+     * // Count the number of CodeSecures
+     * const count = await prisma.codeSecure.count({
+     *   where: {
+     *     // ... the filter for the CodeSecures we want to count
+     *   }
+     * })
+    **/
+    count<T extends CodeSecureCountArgs>(
+      args?: Subset<T, CodeSecureCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CodeSecureCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CodeSecure.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSecureAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CodeSecureAggregateArgs>(args: Subset<T, CodeSecureAggregateArgs>): Prisma.PrismaPromise<GetCodeSecureAggregateType<T>>
+
+    /**
+     * Group by CodeSecure.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CodeSecureGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CodeSecureGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CodeSecureGroupByArgs['orderBy'] }
+        : { orderBy?: CodeSecureGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CodeSecureGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCodeSecureGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CodeSecure.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__CodeSecureClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    User<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * CodeSecure base type for findUnique actions
+   */
+  export type CodeSecureFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the CodeSecure
+     */
+    select?: CodeSecureSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CodeSecureInclude | null
+    /**
+     * Filter, which CodeSecure to fetch.
+     */
+    where: CodeSecureWhereUniqueInput
+  }
+
+  /**
+   * CodeSecure findUnique
+   */
+  export interface CodeSecureFindUniqueArgs extends CodeSecureFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * CodeSecure findUniqueOrThrow
+   */
+  export type CodeSecureFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the CodeSecure
+     */
+    select?: CodeSecureSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CodeSecureInclude | null
+    /**
+     * Filter, which CodeSecure to fetch.
+     */
+    where: CodeSecureWhereUniqueInput
+  }
+
+
+  /**
+   * CodeSecure base type for findFirst actions
+   */
+  export type CodeSecureFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the CodeSecure
+     */
+    select?: CodeSecureSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CodeSecureInclude | null
+    /**
+     * Filter, which CodeSecure to fetch.
+     */
+    where?: CodeSecureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CodeSecures to fetch.
+     */
+    orderBy?: Enumerable<CodeSecureOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CodeSecures.
+     */
+    cursor?: CodeSecureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CodeSecures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CodeSecures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CodeSecures.
+     */
+    distinct?: Enumerable<CodeSecureScalarFieldEnum>
+  }
+
+  /**
+   * CodeSecure findFirst
+   */
+  export interface CodeSecureFindFirstArgs extends CodeSecureFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * CodeSecure findFirstOrThrow
+   */
+  export type CodeSecureFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the CodeSecure
+     */
+    select?: CodeSecureSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CodeSecureInclude | null
+    /**
+     * Filter, which CodeSecure to fetch.
+     */
+    where?: CodeSecureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CodeSecures to fetch.
+     */
+    orderBy?: Enumerable<CodeSecureOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CodeSecures.
+     */
+    cursor?: CodeSecureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CodeSecures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CodeSecures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CodeSecures.
+     */
+    distinct?: Enumerable<CodeSecureScalarFieldEnum>
+  }
+
+
+  /**
+   * CodeSecure findMany
+   */
+  export type CodeSecureFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the CodeSecure
+     */
+    select?: CodeSecureSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CodeSecureInclude | null
+    /**
+     * Filter, which CodeSecures to fetch.
+     */
+    where?: CodeSecureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CodeSecures to fetch.
+     */
+    orderBy?: Enumerable<CodeSecureOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CodeSecures.
+     */
+    cursor?: CodeSecureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CodeSecures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CodeSecures.
+     */
+    skip?: number
+    distinct?: Enumerable<CodeSecureScalarFieldEnum>
+  }
+
+
+  /**
+   * CodeSecure create
+   */
+  export type CodeSecureCreateArgs = {
+    /**
+     * Select specific fields to fetch from the CodeSecure
+     */
+    select?: CodeSecureSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CodeSecureInclude | null
+    /**
+     * The data needed to create a CodeSecure.
+     */
+    data: XOR<CodeSecureCreateInput, CodeSecureUncheckedCreateInput>
+  }
+
+
+  /**
+   * CodeSecure createMany
+   */
+  export type CodeSecureCreateManyArgs = {
+    /**
+     * The data used to create many CodeSecures.
+     */
+    data: Enumerable<CodeSecureCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * CodeSecure update
+   */
+  export type CodeSecureUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the CodeSecure
+     */
+    select?: CodeSecureSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CodeSecureInclude | null
+    /**
+     * The data needed to update a CodeSecure.
+     */
+    data: XOR<CodeSecureUpdateInput, CodeSecureUncheckedUpdateInput>
+    /**
+     * Choose, which CodeSecure to update.
+     */
+    where: CodeSecureWhereUniqueInput
+  }
+
+
+  /**
+   * CodeSecure updateMany
+   */
+  export type CodeSecureUpdateManyArgs = {
+    /**
+     * The data used to update CodeSecures.
+     */
+    data: XOR<CodeSecureUpdateManyMutationInput, CodeSecureUncheckedUpdateManyInput>
+    /**
+     * Filter which CodeSecures to update
+     */
+    where?: CodeSecureWhereInput
+  }
+
+
+  /**
+   * CodeSecure upsert
+   */
+  export type CodeSecureUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the CodeSecure
+     */
+    select?: CodeSecureSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CodeSecureInclude | null
+    /**
+     * The filter to search for the CodeSecure to update in case it exists.
+     */
+    where: CodeSecureWhereUniqueInput
+    /**
+     * In case the CodeSecure found by the `where` argument doesn't exist, create a new CodeSecure with this data.
+     */
+    create: XOR<CodeSecureCreateInput, CodeSecureUncheckedCreateInput>
+    /**
+     * In case the CodeSecure was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CodeSecureUpdateInput, CodeSecureUncheckedUpdateInput>
+  }
+
+
+  /**
+   * CodeSecure delete
+   */
+  export type CodeSecureDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the CodeSecure
+     */
+    select?: CodeSecureSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CodeSecureInclude | null
+    /**
+     * Filter which CodeSecure to delete.
+     */
+    where: CodeSecureWhereUniqueInput
+  }
+
+
+  /**
+   * CodeSecure deleteMany
+   */
+  export type CodeSecureDeleteManyArgs = {
+    /**
+     * Filter which CodeSecures to delete
+     */
+    where?: CodeSecureWhereInput
+  }
+
+
+  /**
+   * CodeSecure without action
+   */
+  export type CodeSecureArgs = {
+    /**
+     * Select specific fields to fetch from the CodeSecure
+     */
+    select?: CodeSecureSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CodeSecureInclude | null
+  }
+
+
+
+  /**
    * Enums
    */
 
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+
+  export const CodeSecureScalarFieldEnum: {
+    code: 'code',
+    type: 'type',
+    userId: 'userId',
+    createdAt: 'createdAt'
+  };
+
+  export type CodeSecureScalarFieldEnum = (typeof CodeSecureScalarFieldEnum)[keyof typeof CodeSecureScalarFieldEnum]
+
 
   export const QueryMode: {
     default: 'default',
@@ -3946,6 +5013,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
     UserXRole?: XOR<UserXRoleRelationFilter, UserXRoleWhereInput>
     UserXEstado?: XOR<UserXEstadoRelationFilter, UserXEstadoWhereInput>
+    CodeSecure?: CodeSecureListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -3960,6 +5028,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     UserXRole?: UserXRoleOrderByWithRelationInput
     UserXEstado?: UserXEstadoOrderByWithRelationInput
+    CodeSecure?: CodeSecureOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = {
@@ -4075,6 +5144,51 @@ export namespace Prisma {
     descripcion?: StringWithAggregatesFilter | string
   }
 
+  export type CodeSecureWhereInput = {
+    AND?: Enumerable<CodeSecureWhereInput>
+    OR?: Enumerable<CodeSecureWhereInput>
+    NOT?: Enumerable<CodeSecureWhereInput>
+    code?: UuidFilter | string
+    type?: IntFilter | number
+    userId?: IntFilter | number
+    createdAt?: DateTimeFilter | Date | string
+    User?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type CodeSecureOrderByWithRelationInput = {
+    code?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    User?: UserOrderByWithRelationInput
+  }
+
+  export type CodeSecureWhereUniqueInput = {
+    code?: string
+  }
+
+  export type CodeSecureOrderByWithAggregationInput = {
+    code?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    _count?: CodeSecureCountOrderByAggregateInput
+    _avg?: CodeSecureAvgOrderByAggregateInput
+    _max?: CodeSecureMaxOrderByAggregateInput
+    _min?: CodeSecureMinOrderByAggregateInput
+    _sum?: CodeSecureSumOrderByAggregateInput
+  }
+
+  export type CodeSecureScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<CodeSecureScalarWhereWithAggregatesInput>
+    OR?: Enumerable<CodeSecureScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<CodeSecureScalarWhereWithAggregatesInput>
+    code?: UuidWithAggregatesFilter | string
+    type?: IntWithAggregatesFilter | number
+    userId?: IntWithAggregatesFilter | number
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
   export type UserCreateInput = {
     id: number
     name: string
@@ -4085,6 +5199,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     UserXRole: UserXRoleCreateNestedOneWithoutUserInput
     UserXEstado: UserXEstadoCreateNestedOneWithoutUserInput
+    CodeSecure?: CodeSecureCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -4097,6 +5212,7 @@ export namespace Prisma {
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    CodeSecure?: CodeSecureUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -4109,6 +5225,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     UserXRole?: UserXRoleUpdateOneRequiredWithoutUserNestedInput
     UserXEstado?: UserXEstadoUpdateOneRequiredWithoutUserNestedInput
+    CodeSecure?: CodeSecureUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -4121,6 +5238,7 @@ export namespace Prisma {
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    CodeSecure?: CodeSecureUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -4235,6 +5353,54 @@ export namespace Prisma {
     descripcion?: StringFieldUpdateOperationsInput | string
   }
 
+  export type CodeSecureCreateInput = {
+    code: string
+    type: number
+    createdAt?: Date | string
+    User: UserCreateNestedOneWithoutCodeSecureInput
+  }
+
+  export type CodeSecureUncheckedCreateInput = {
+    code: string
+    type: number
+    userId: number
+    createdAt?: Date | string
+  }
+
+  export type CodeSecureUpdateInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    type?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    User?: UserUpdateOneRequiredWithoutCodeSecureNestedInput
+  }
+
+  export type CodeSecureUncheckedUpdateInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    type?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CodeSecureCreateManyInput = {
+    code: string
+    type: number
+    userId: number
+    createdAt?: Date | string
+  }
+
+  export type CodeSecureUpdateManyMutationInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    type?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CodeSecureUncheckedUpdateManyInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    type?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter = {
     equals?: number
     in?: Enumerable<number> | number
@@ -4291,6 +5457,16 @@ export namespace Prisma {
   export type UserXEstadoRelationFilter = {
     is?: UserXEstadoWhereInput
     isNot?: UserXEstadoWhereInput
+  }
+
+  export type CodeSecureListRelationFilter = {
+    every?: CodeSecureWhereInput
+    some?: CodeSecureWhereInput
+    none?: CodeSecureWhereInput
+  }
+
+  export type CodeSecureOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -4463,6 +5639,69 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type UuidFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    mode?: QueryMode
+    not?: NestedUuidFilter | string
+  }
+
+  export type UserRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type CodeSecureCountOrderByAggregateInput = {
+    code?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CodeSecureAvgOrderByAggregateInput = {
+    type?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type CodeSecureMaxOrderByAggregateInput = {
+    code?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CodeSecureMinOrderByAggregateInput = {
+    code?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CodeSecureSumOrderByAggregateInput = {
+    type?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UuidWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    mode?: QueryMode
+    not?: NestedUuidWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
+  }
+
   export type UserXRoleCreateNestedOneWithoutUserInput = {
     create?: XOR<UserXRoleCreateWithoutUserInput, UserXRoleUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserXRoleCreateOrConnectWithoutUserInput
@@ -4473,6 +5712,20 @@ export namespace Prisma {
     create?: XOR<UserXEstadoCreateWithoutUserInput, UserXEstadoUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserXEstadoCreateOrConnectWithoutUserInput
     connect?: UserXEstadoWhereUniqueInput
+  }
+
+  export type CodeSecureCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CodeSecureCreateWithoutUserInput>, Enumerable<CodeSecureUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CodeSecureCreateOrConnectWithoutUserInput>
+    createMany?: CodeSecureCreateManyUserInputEnvelope
+    connect?: Enumerable<CodeSecureWhereUniqueInput>
+  }
+
+  export type CodeSecureUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CodeSecureCreateWithoutUserInput>, Enumerable<CodeSecureUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CodeSecureCreateOrConnectWithoutUserInput>
+    createMany?: CodeSecureCreateManyUserInputEnvelope
+    connect?: Enumerable<CodeSecureWhereUniqueInput>
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -4513,6 +5766,34 @@ export namespace Prisma {
     upsert?: UserXEstadoUpsertWithoutUserInput
     connect?: UserXEstadoWhereUniqueInput
     update?: XOR<UserXEstadoUpdateWithoutUserInput, UserXEstadoUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CodeSecureUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CodeSecureCreateWithoutUserInput>, Enumerable<CodeSecureUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CodeSecureCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CodeSecureUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: CodeSecureCreateManyUserInputEnvelope
+    set?: Enumerable<CodeSecureWhereUniqueInput>
+    disconnect?: Enumerable<CodeSecureWhereUniqueInput>
+    delete?: Enumerable<CodeSecureWhereUniqueInput>
+    connect?: Enumerable<CodeSecureWhereUniqueInput>
+    update?: Enumerable<CodeSecureUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CodeSecureUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CodeSecureScalarWhereInput>
+  }
+
+  export type CodeSecureUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CodeSecureCreateWithoutUserInput>, Enumerable<CodeSecureUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CodeSecureCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CodeSecureUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: CodeSecureCreateManyUserInputEnvelope
+    set?: Enumerable<CodeSecureWhereUniqueInput>
+    disconnect?: Enumerable<CodeSecureWhereUniqueInput>
+    delete?: Enumerable<CodeSecureWhereUniqueInput>
+    connect?: Enumerable<CodeSecureWhereUniqueInput>
+    update?: Enumerable<CodeSecureUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CodeSecureUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CodeSecureScalarWhereInput>
   }
 
   export type UserCreateNestedManyWithoutUserXRoleInput = {
@@ -4597,6 +5878,20 @@ export namespace Prisma {
     update?: Enumerable<UserUpdateWithWhereUniqueWithoutUserXEstadoInput>
     updateMany?: Enumerable<UserUpdateManyWithWhereWithoutUserXEstadoInput>
     deleteMany?: Enumerable<UserScalarWhereInput>
+  }
+
+  export type UserCreateNestedOneWithoutCodeSecureInput = {
+    create?: XOR<UserCreateWithoutCodeSecureInput, UserUncheckedCreateWithoutCodeSecureInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCodeSecureInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutCodeSecureNestedInput = {
+    create?: XOR<UserCreateWithoutCodeSecureInput, UserUncheckedCreateWithoutCodeSecureInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCodeSecureInput
+    upsert?: UserUpsertWithoutCodeSecureInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutCodeSecureInput, UserUncheckedUpdateWithoutCodeSecureInput>
   }
 
   export type NestedIntFilter = {
@@ -4720,6 +6015,31 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter
   }
 
+  export type NestedUuidFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    not?: NestedUuidFilter | string
+  }
+
+  export type NestedUuidWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    not?: NestedUuidWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
+  }
+
   export type UserXRoleCreateWithoutUserInput = {
     id: number
     descripcion: string
@@ -4748,6 +6068,28 @@ export namespace Prisma {
   export type UserXEstadoCreateOrConnectWithoutUserInput = {
     where: UserXEstadoWhereUniqueInput
     create: XOR<UserXEstadoCreateWithoutUserInput, UserXEstadoUncheckedCreateWithoutUserInput>
+  }
+
+  export type CodeSecureCreateWithoutUserInput = {
+    code: string
+    type: number
+    createdAt?: Date | string
+  }
+
+  export type CodeSecureUncheckedCreateWithoutUserInput = {
+    code: string
+    type: number
+    createdAt?: Date | string
+  }
+
+  export type CodeSecureCreateOrConnectWithoutUserInput = {
+    where: CodeSecureWhereUniqueInput
+    create: XOR<CodeSecureCreateWithoutUserInput, CodeSecureUncheckedCreateWithoutUserInput>
+  }
+
+  export type CodeSecureCreateManyUserInputEnvelope = {
+    data: Enumerable<CodeSecureCreateManyUserInput>
+    skipDuplicates?: boolean
   }
 
   export type UserXRoleUpsertWithoutUserInput = {
@@ -4780,6 +6122,32 @@ export namespace Prisma {
     descripcion?: StringFieldUpdateOperationsInput | string
   }
 
+  export type CodeSecureUpsertWithWhereUniqueWithoutUserInput = {
+    where: CodeSecureWhereUniqueInput
+    update: XOR<CodeSecureUpdateWithoutUserInput, CodeSecureUncheckedUpdateWithoutUserInput>
+    create: XOR<CodeSecureCreateWithoutUserInput, CodeSecureUncheckedCreateWithoutUserInput>
+  }
+
+  export type CodeSecureUpdateWithWhereUniqueWithoutUserInput = {
+    where: CodeSecureWhereUniqueInput
+    data: XOR<CodeSecureUpdateWithoutUserInput, CodeSecureUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CodeSecureUpdateManyWithWhereWithoutUserInput = {
+    where: CodeSecureScalarWhereInput
+    data: XOR<CodeSecureUpdateManyMutationInput, CodeSecureUncheckedUpdateManyWithoutCodeSecureInput>
+  }
+
+  export type CodeSecureScalarWhereInput = {
+    AND?: Enumerable<CodeSecureScalarWhereInput>
+    OR?: Enumerable<CodeSecureScalarWhereInput>
+    NOT?: Enumerable<CodeSecureScalarWhereInput>
+    code?: UuidFilter | string
+    type?: IntFilter | number
+    userId?: IntFilter | number
+    createdAt?: DateTimeFilter | Date | string
+  }
+
   export type UserCreateWithoutUserXRoleInput = {
     id: number
     name: string
@@ -4789,6 +6157,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     UserXEstado: UserXEstadoCreateNestedOneWithoutUserInput
+    CodeSecure?: CodeSecureCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserXRoleInput = {
@@ -4800,6 +6169,7 @@ export namespace Prisma {
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    CodeSecure?: CodeSecureUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserXRoleInput = {
@@ -4852,6 +6222,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     UserXRole: UserXRoleCreateNestedOneWithoutUserInput
+    CodeSecure?: CodeSecureCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserXEstadoInput = {
@@ -4863,6 +6234,7 @@ export namespace Prisma {
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    CodeSecure?: CodeSecureUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserXEstadoInput = {
@@ -4891,6 +6263,88 @@ export namespace Prisma {
     data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type UserCreateWithoutCodeSecureInput = {
+    id: number
+    name: string
+    email: string
+    password: string
+    saldo: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    UserXRole: UserXRoleCreateNestedOneWithoutUserInput
+    UserXEstado: UserXEstadoCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCodeSecureInput = {
+    id: number
+    name: string
+    email: string
+    password: string
+    roleId: number
+    estadoId: number
+    saldo: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserCreateOrConnectWithoutCodeSecureInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCodeSecureInput, UserUncheckedCreateWithoutCodeSecureInput>
+  }
+
+  export type UserUpsertWithoutCodeSecureInput = {
+    update: XOR<UserUpdateWithoutCodeSecureInput, UserUncheckedUpdateWithoutCodeSecureInput>
+    create: XOR<UserCreateWithoutCodeSecureInput, UserUncheckedCreateWithoutCodeSecureInput>
+  }
+
+  export type UserUpdateWithoutCodeSecureInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    UserXRole?: UserXRoleUpdateOneRequiredWithoutUserNestedInput
+    UserXEstado?: UserXEstadoUpdateOneRequiredWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCodeSecureInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    roleId?: IntFieldUpdateOperationsInput | number
+    estadoId?: IntFieldUpdateOperationsInput | number
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CodeSecureCreateManyUserInput = {
+    code: string
+    type: number
+    createdAt?: Date | string
+  }
+
+  export type CodeSecureUpdateWithoutUserInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    type?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CodeSecureUncheckedUpdateWithoutUserInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    type?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CodeSecureUncheckedUpdateManyWithoutCodeSecureInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    type?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateManyUserXRoleInput = {
     id: number
     name: string
@@ -4911,6 +6365,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     UserXEstado?: UserXEstadoUpdateOneRequiredWithoutUserNestedInput
+    CodeSecure?: CodeSecureUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserXRoleInput = {
@@ -4922,6 +6377,7 @@ export namespace Prisma {
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    CodeSecure?: CodeSecureUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutUserInput = {
@@ -4955,6 +6411,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     UserXRole?: UserXRoleUpdateOneRequiredWithoutUserNestedInput
+    CodeSecure?: CodeSecureUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserXEstadoInput = {
@@ -4966,6 +6423,7 @@ export namespace Prisma {
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    CodeSecure?: CodeSecureUncheckedUpdateManyWithoutUserNestedInput
   }
 
 

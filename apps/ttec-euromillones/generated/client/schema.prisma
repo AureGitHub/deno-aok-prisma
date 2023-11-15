@@ -23,6 +23,7 @@ model User {
   estadoId     Int         
   UserXEstado  UserXEstado @relation(fields: [estadoId], references: [id])
   saldo        Decimal @db.Decimal(9,2)
+  CodeSecure   CodeSecure[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 }
@@ -39,6 +40,17 @@ model UserXEstado {
     descripcion  String    @unique    
     user User[]
 }
+
+model CodeSecure{
+  
+  code         String     @id  @db.Uuid 
+  type         Int      // 1 Code for reset email
+  userId       Int
+  User         User        @relation(fields: [userId], references: [id])
+  createdAt    DateTime    @default(now())
+}
+
+
 
 
 // model UserxRole {
