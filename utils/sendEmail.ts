@@ -32,7 +32,7 @@ export const sendEmail = async (lstDestinatarios: string[], subject : string, bo
         html: bodyHtml,
       });
       
-      await client.close();
+      await client.close(); 
 
 }
 
