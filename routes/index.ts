@@ -10,10 +10,10 @@ import ttecEuromillonesRouter from "../apps/ttec-euromillones/router.js"
 
 
 function init(app: Application) {
-  app.use(generalRouter.routes());  
-  app.use(gestionCasaRouter.routes());
+  // app.use(generalRouter.routes());  
+  // app.use(gestionCasaRouter.routes());
 
-  app.use(vallegrandeRouter.routes());
+  // app.use(vallegrandeRouter.routes());
   app.use(ttecEuromillonesRouter.routes());
 
   // app.use(vallegrandeRouter.routes());
