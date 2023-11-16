@@ -195,7 +195,14 @@ const myUUID = crypto.randomUUID();
     </div>
     `;
 
-  await sendEmail(['aure.desande@gmail.com','jdesande@tragsa.es'],subject,bodyHtml);
+    try{
+      await sendEmail(['aure.desande@gmail.com','jdesande@tragsa.es'],subject,bodyHtml);
+    }
+    catch(error){
+      response.status = 500;
+      response.body = {  status:StatusCodes.INTERNAL_SERVER_ERROR, message: 'enviando email => ' + error.message };
+    }
+  
 
 
     response.status = 200;
