@@ -200,6 +200,7 @@ const myUUID = crypto.randomUUID();
     }
     catch(error){
       response.status = 500;
+      console.log(error);
       response.body = {  status:StatusCodes.INTERNAL_SERVER_ERROR, message: 'enviando email => ' + error.message };
       return;
     }
