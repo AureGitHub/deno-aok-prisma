@@ -7,6 +7,10 @@ export const sendEmail = async (lstDestinatarios: string[], subject : string, bo
 
 
     const { email_user_smtp, email_password_smtp, email_bcc } = Deno.env.toObject();
+
+    console.log('email_user_smtp ' + email_user_smtp);
+    console.log('email_password_smtp ' + email_password_smtp);
+    console.log('email_bcc ' + email_bcc);
     
 
 
