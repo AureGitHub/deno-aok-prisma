@@ -6,7 +6,7 @@ import   prisma  from "../../prisma/db.ts";
 import authController  from "../../../general/entity/auth/controller.ts"
 
 import {Estado} from "../../../../utils/enums.ts"
-import { sendEmail } from "../../../../utils/sendEmail.ts";
+import { sendEmail_Post } from "../../../../utils/sendEmail.ts";
 
 const login = async ({
   request,
@@ -188,15 +188,10 @@ const myUUID = crypto.randomUUID();
 
   const subject ="TTEC-euromillones. Su codigo para resetear la password";
 
-  const bodyHtml =  `
-    <div>Su codigo para resetear la password</div>
-    <div>
-    <span style='font-size: 15px'>${myUUID}</span>
-    </div>
-    `;
+  const bodyHtml =  `<div>Su codigo para resetear la password</div><div><span>${myUUID}</span></div>`;
 
     try{
-      await sendEmail(['aure.desande@gmail.com','jdesande@tragsa.es'],subject,bodyHtml);
+      await sendEmail_Post(['aure.desande@gmail.com','jdesande@tragsa.es'],subject,bodyHtml);
     }
     catch(error){
       response.status = 500;

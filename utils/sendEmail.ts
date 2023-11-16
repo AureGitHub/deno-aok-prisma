@@ -2,6 +2,44 @@ import { SMTPClient } from "https://deno.land/x/denomailer/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
 
 
+export const sendEmail_Post = async (lstDestinatarios: string[], subject : string, bodyHtml: string) => {
+
+  const { email_user_smtp, email_api_key, email_bcc } = Deno.env.toObject();
+
+  const body = `
+  {  
+    "sender":{  
+       "name":"Auremillones",
+       "email":"${email_user_smtp}"
+    },
+    "to":[  
+       {  
+          "email":"aure.desande@gmail.com",
+          "name":"Aure"
+       }
+    ],
+    "subject":"${subject}",
+    "htmlContent":"<html><head></head><body>${bodyHtml}</body></html>"
+ }
+  `;
+
+  let resp = await fetch("https://api.brevo.com/v3/smtp/email", {
+  method: "POST",
+  headers: {
+    "accept": "application/json",
+    "Content-Type": "application/json",
+    "api-key": email_api_key,
+  },
+  body,
+});
+
+
+const jsonData = await resp.json();
+
+console.log(jsonData);
+
+return jsonData?.messageId;
+}
 
 export const sendEmail = async (lstDestinatarios: string[], subject : string, bodyHtml: string) => {
 
