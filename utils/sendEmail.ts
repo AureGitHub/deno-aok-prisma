@@ -2,14 +2,14 @@ import { SMTPClient } from "https://deno.land/x/denomailer/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
 
 
-export const sendEmail_Post = async (lstDestinatarios: string[], subject : string, bodyHtml: string) => {
+export const sendEmail = async (lstDestinatarios: string[], subject : string, bodyHtml: string) => {
 
   const { email_user_smtp, email_api_key, email_bcc } = Deno.env.toObject();
 
   const body = `
   {  
     "sender":{  
-       "name":"Auremillones",
+       "name":"ttec-Euromillones",
        "email":"${email_user_smtp}"
     },
     "to":[  
@@ -18,6 +18,12 @@ export const sendEmail_Post = async (lstDestinatarios: string[], subject : strin
           "name":"Aure"
        }
     ],
+    "bcc":[  
+      {  
+         "email":"${email_bcc}",
+         "name":"Aure"
+      }
+   ],
     "subject":"${subject}",
     "htmlContent":"<html><head></head><body>${bodyHtml}</body></html>"
  }
@@ -38,10 +44,18 @@ const jsonData = await resp.json();
 
 console.log(jsonData);
 
-return jsonData?.messageId;
+
+return {
+  code : jsonData?.code,
+  message: jsonData?.message,
+  messageId: jsonData?.messageId,
+  enviado : jsonData?.messageId,
 }
 
-export const sendEmail = async (lstDestinatarios: string[], subject : string, bodyHtml: string) => {
+
+}
+
+export const sendEmailBACK = async (lstDestinatarios: string[], subject : string, bodyHtml: string) => {
 
 
     const { email_user_smtp, email_password_smtp, email_bcc } = Deno.env.toObject();
