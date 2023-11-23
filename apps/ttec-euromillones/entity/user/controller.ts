@@ -5,7 +5,7 @@ import   prisma  from "../../prisma/db.ts";
 
 import authController  from "../../../general/entity/auth/controller.ts"
 
-import {Estado} from "../../../../utils/enums.ts"
+import {Estado, UserXMovimientoXTipo} from "../../../../utils/enums.ts"
 import { sendEmail } from "../../../../utils/sendEmail.ts";
 import { getFilter, getOrderBy } from "../../../../utils/query.ts";
 
@@ -277,7 +277,7 @@ const del = async (ctx: any) =>  {
     response,
   }: RouterContext<string>) => {
     try {      
-      const { id, ingreso, bizum } = await request.body().value;
+      const { id, importe, bizum } = await request.body().value;
   
       const user = await prisma.user.findFirst(
         {where: {id }
@@ -297,15 +297,42 @@ const del = async (ctx: any) =>  {
       
       let saldo = user ? user.saldo.toNumber() : 0;
 
-      saldo+=ingreso;
+      saldo+=importe;
 
-  
-      await prisma.user.updateMany({
+      const userId =user ? user.id : 0;
+
+      const updateUser = prisma.user.updateMany({
         where: {id: user?.id },
         data: {
           saldo
         }
-      })
+      });
+
+
+      const createMovimiento = prisma.userXMovimiento.create({
+        data : {
+          tipoId : UserXMovimientoXTipo.ingreso,
+          importe,
+          userId
+        }
+      }
+
+      );
+
+      const createBizum = prisma.userXBizum.create({
+        data : {
+          importe,
+          userId,
+          movimientoId : (await createMovimiento).id
+        }
+      }
+
+      );
+
+      await prisma.$transaction([updateUser,createBizum]);
+
+  
+      
   
   
       //Añadir a movimientos user

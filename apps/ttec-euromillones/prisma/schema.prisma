@@ -2,11 +2,10 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["deno"]
-  output = "../generated/client"
+  output          = "../generated/client"
 }
-
 
 datasource db {
   provider = "postgresql"
@@ -14,53 +13,78 @@ datasource db {
 }
 
 model User {
-  id           Int           @id   
-  name         String 
-  email        String        @unique
-  password     String  
-  roleId       Int          
-  UserXRole    UserXRole     @relation(fields: [roleId], references: [id])
-  estadoId     Int         
-  UserXEstado  UserXEstado @relation(fields: [estadoId], references: [id])
-  saldo        Decimal @db.Decimal(9,2)
-  CodeSecure   CodeSecure[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id              Int               @id
+  name            String
+  email           String            @unique
+  password        String
+  roleId          Int
+  UserXRole       UserXRole         @relation(fields: [roleId], references: [id])
+  estadoId        Int
+  UserXEstado     UserXEstado       @relation(fields: [estadoId], references: [id])
+  saldo           Decimal           @db.Decimal(9, 2)
+  CodeSecure      CodeSecure[]
+  UserXBizum      UserXBizum[]
+  UserXMovimiento UserXMovimiento[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model UserXRole {    
-    id           Int       @id  
-    descripcion  String    @unique
-    user User[]
-    
+model UserXBizum {
+  id              Int             @id @default(autoincrement())
+  importe         Decimal         @db.Decimal(9, 2)
+  userId          Int
+  User            User            @relation(fields: [userId], references: [id])
+  movimientoId    Int
+  UserXMovimiento UserXMovimiento @relation(fields: [movimientoId], references: [id])
+  pendiente       Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+}
+
+model UserXMovimiento {
+  id                   Int                  @id @default(autoincrement())
+  importe              Decimal              @db.Decimal(9, 2)
+  userId               Int
+  User                 User                 @relation(fields: [userId], references: [id])
+  tipoId               Int
+  UserXMovimientoXTipo UserXMovimientoXTipo @relation(fields: [tipoId], references: [id])
+  UserXBizum           UserXBizum[]
+  createdAt            DateTime             @default(now())
+}
+
+model UserXMovimientoXTipo {
+  id              Int               @id
+  descripcion     String            @unique
+  UserXMovimiento UserXMovimiento[]
+}
+
+model UserXRole {
+  id          Int    @id
+  descripcion String @unique
+  user        User[]
 }
 
 model UserXEstado {
-    id           Int       @id  
-    descripcion  String    @unique    
-    user User[]
+  id          Int    @id
+  descripcion String @unique
+  user        User[]
 }
 
-model CodeSecure{
-  
-  code         String     @id  @db.Uuid 
-  type         Int      // 1 Code for reset email
-  userId       Int
-  User         User        @relation(fields: [userId], references: [id])
-  createdAt    DateTime    @default(now())
+model CodeSecure {
+  code      String   @id @db.Uuid
+  type      Int // 1 Code for reset email
+  userId    Int
+  User      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
-
-
-
 
 // model UserxRole {
 //   id         Int @id @default(autoincrement())
 //   userId     Int 
 //   user User  @relation(fields: [userId], references: [id])
 //   role       Role  @default(NORMAL)
-  
-// }
 
+// }
 
 // enum Role {  
 //   NORMAL

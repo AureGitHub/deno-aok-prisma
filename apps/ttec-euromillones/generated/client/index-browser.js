@@ -122,7 +122,29 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.UserXBizumScalarFieldEnum = {
+  id: 'id',
+  importe: 'importe',
+  userId: 'userId',
+  movimientoId: 'movimientoId',
+  pendiente: 'pendiente',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.UserXEstadoScalarFieldEnum = {
+  id: 'id',
+  descripcion: 'descripcion'
+};
+
+exports.Prisma.UserXMovimientoScalarFieldEnum = {
+  id: 'id',
+  importe: 'importe',
+  userId: 'userId',
+  tipoId: 'tipoId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserXMovimientoXTipoScalarFieldEnum = {
   id: 'id',
   descripcion: 'descripcion'
 };
@@ -135,6 +157,9 @@ exports.Prisma.UserXRoleScalarFieldEnum = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  UserXBizum: 'UserXBizum',
+  UserXMovimiento: 'UserXMovimiento',
+  UserXMovimientoXTipo: 'UserXMovimientoXTipo',
   UserXRole: 'UserXRole',
   UserXEstado: 'UserXEstado',
   CodeSecure: 'CodeSecure'

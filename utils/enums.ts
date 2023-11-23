@@ -12,3 +12,9 @@ export enum Role {
     admin = 2,
     normal = 3
 }
+
+export enum UserXMovimientoXTipo {  
+    reintegro = 1,  // pago apuesta
+    ingreso = 2,    // aumento de saldo
+    ganado = 3      // repato premio
+}

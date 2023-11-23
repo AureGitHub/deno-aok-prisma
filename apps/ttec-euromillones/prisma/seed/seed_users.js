@@ -1,5 +1,5 @@
-import prisma from "../db.ts"
-import {Estado, Role} from "../../../../utils/enums.ts"
+import prisma from "../db_seed.ts"
+import {Estado, Role, UserXMovimientoXTipo} from "../../../../utils/enums.ts"
 
 
 
@@ -145,12 +145,20 @@ const ususFromAcces = [
 ];
 
 
+await prisma.userXBizum.deleteMany();
+
+await prisma.userXMovimiento.deleteMany();
+
+
+
 await prisma.user.deleteMany();
 
 
 await prisma.userXRole.deleteMany();
 
 await prisma.userXEstado.deleteMany();
+
+await prisma.UserXMovimientoXTipo.deleteMany();
 
 
 await prisma.userXRole.createMany({  data: [
@@ -165,6 +173,13 @@ await prisma.userXEstado.createMany({  data: [
   {id : Estado.baja, descripcion : Estado[Estado.baja]},
   {id : Estado.bloqueado, descripcion : Estado[Estado.bloqueado]},
   {id : Estado.cambiar_pass, descripcion : Estado[Estado.cambiar_pass]}
+]});
+
+
+await prisma.UserXMovimientoXTipo.createMany({  data: [
+  {id : UserXMovimientoXTipo.reintegro, descripcion : UserXMovimientoXTipo[UserXMovimientoXTipo.reintegro]},
+  {id : UserXMovimientoXTipo.ganado, descripcion : UserXMovimientoXTipo[UserXMovimientoXTipo.ganado]},
+  {id : UserXMovimientoXTipo.ingreso, descripcion : UserXMovimientoXTipo[UserXMovimientoXTipo.ingreso]},
 ]});
 
 
