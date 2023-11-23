@@ -18,6 +18,7 @@ router
 
 
 
+.post("/addSaldo", controller.addSaldo)
 .post("/reserPassByCode", controller.reserPassByCode)
 .post("/getCodeResetPass", controller.getCodeResetPass)
 .post("/login", controller.login)
