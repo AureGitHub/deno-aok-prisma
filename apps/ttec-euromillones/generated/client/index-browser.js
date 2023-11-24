@@ -86,6 +86,20 @@ Prisma.NullTypes = {
  * Enums
  */
 
+exports.Prisma.ApuestaScalarFieldEnum = {
+  id: 'id',
+  fecha: 'fecha',
+  apostado: 'apostado',
+  ganado: 'ganado',
+  estadoId: 'estadoId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ApuestaXEstadoScalarFieldEnum = {
+  id: 'id',
+  descripcion: 'descripcion'
+};
+
 exports.Prisma.CodeSecureScalarFieldEnum = {
   code: 'code',
   type: 'type',
@@ -162,7 +176,9 @@ exports.Prisma.ModelName = {
   UserXMovimientoXTipo: 'UserXMovimientoXTipo',
   UserXRole: 'UserXRole',
   UserXEstado: 'UserXEstado',
-  CodeSecure: 'CodeSecure'
+  CodeSecure: 'CodeSecure',
+  Apuesta: 'Apuesta',
+  ApuestaXEstado: 'ApuestaXEstado'
 };
 
 /**

@@ -15,6 +15,12 @@ const get = async (ctx: any) => {
       data = await prisma.userXRole.findMany();
       break;
 
+      case 'ApuestaXEstado':
+      data = await prisma.apuestaXEstado.findMany();
+      break;
+
+      
+
   }
 
   ctx.response.status = 201;

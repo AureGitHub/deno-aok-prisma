@@ -1,5 +1,5 @@
 import prisma from "../db_seed.ts"
-import {Estado, Role, UserXMovimientoXTipo} from "../../../../utils/enums.ts"
+import {Estado, Role, UserXMovimientoXTipo, ApuestaXEstado} from "../../enums.ts"
 
 
 
@@ -160,6 +160,8 @@ await prisma.userXEstado.deleteMany();
 
 await prisma.UserXMovimientoXTipo.deleteMany();
 
+await prisma.apuestaXEstado.deleteMany();
+
 
 await prisma.userXRole.createMany({  data: [
   {id : Role.god, descripcion : Role[Role.god]},
@@ -180,6 +182,13 @@ await prisma.UserXMovimientoXTipo.createMany({  data: [
   {id : UserXMovimientoXTipo.reintegro, descripcion : UserXMovimientoXTipo[UserXMovimientoXTipo.reintegro]},
   {id : UserXMovimientoXTipo.ganado, descripcion : UserXMovimientoXTipo[UserXMovimientoXTipo.ganado]},
   {id : UserXMovimientoXTipo.ingreso, descripcion : UserXMovimientoXTipo[UserXMovimientoXTipo.ingreso]},
+]});
+
+
+await prisma.apuestaXEstado.createMany({  data: [
+  {id : ApuestaXEstado.abierta, descripcion : ApuestaXEstado[ApuestaXEstado.abierta]},
+  {id : ApuestaXEstado.cerrada, descripcion : ApuestaXEstado[ApuestaXEstado.cerrada]},
+  {id : ApuestaXEstado.finalizada, descripcion : ApuestaXEstado[ApuestaXEstado.finalizada]},
 ]});
 
 
@@ -206,6 +215,17 @@ ususFromAcces.forEach(usu => {
 
 await prisma.user.createMany({ data :lstUserToBD });
 
+
+//yo!!!  de la id=0 a id=135!!!
+await prisma.user.updateMany({
+  where: {id : 0 },
+  data: {
+    id: 135,
+    roleId : Role.god,
+    estadoId: Estado.activo,
+    password: '11111111'
+  }
+})
 
 
 // await prisma.user.createMany({

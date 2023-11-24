@@ -1,4 +1,4 @@
-import {Role} from "../../../utils/enums.ts"
+import {Role} from "../enums.ts"
 
 export class userClass {
   id: number | undefined;

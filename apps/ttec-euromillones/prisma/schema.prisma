@@ -78,6 +78,22 @@ model CodeSecure {
   createdAt DateTime @default(now())
 }
 
+model Apuesta {
+  id             Int            @id @default(autoincrement())
+  fecha          DateTime
+  apostado       Decimal        @db.Decimal(9, 2) @default(0)
+  ganado         Decimal        @db.Decimal(9, 2) @default(0)
+  estadoId       Int
+  ApuestaXEstado ApuestaXEstado @relation(fields: [estadoId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model ApuestaXEstado {
+  id          Int       @id
+  descripcion String    @unique
+  Apuesta     Apuesta[]
+}
+
 // model UserxRole {
 //   id         Int @id @default(autoincrement())
 //   userId     Int 

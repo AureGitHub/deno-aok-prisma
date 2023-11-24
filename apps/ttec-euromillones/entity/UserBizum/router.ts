@@ -17,6 +17,7 @@ router
 .get("/", controller.get)
 .get("/:id",  controller.getById)
 .post("/",  controller.add)
+.put("/updatependientesAll",   controller.updatependientesAll)
 .put("/:id",   controller.update)
 .delete("/:id",   controller.del)
 

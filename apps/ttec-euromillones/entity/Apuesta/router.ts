@@ -4,15 +4,10 @@ import requireUser from "../../../../middleware/requireUser.ts";
 import requireGod from "../../../../middleware/requireGod.ts";
 
 const router = new Router({
-    prefix: "/categoria",
+    prefix: "/apuesta",
   });
 
 router
-// .get("/", requireUser, controller.get)
-// .get("/:id", requireUser, controller.getById)
-// .post("/", requireUser, controller.add)
-// .put("/:id", requireUser,  controller.update)
-// .delete("/:id", requireUser,  controller.del)
 
 .get("/", controller.get)
 .get("/:id",  controller.getById)

@@ -91,6 +91,28 @@ export type CodeSecure = {
   createdAt: Date
 }
 
+/**
+ * Model Apuesta
+ * 
+ */
+export type Apuesta = {
+  id: number
+  fecha: Date
+  apostado: Prisma.Decimal
+  ganado: Prisma.Decimal
+  estadoId: number
+  createdAt: Date
+}
+
+/**
+ * Model ApuestaXEstado
+ * 
+ */
+export type ApuestaXEstado = {
+  id: number
+  descripcion: string
+}
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -278,6 +300,26 @@ export class PrismaClient<
     * ```
     */
   get codeSecure(): Prisma.CodeSecureDelegate<GlobalReject>;
+
+  /**
+   * `prisma.apuesta`: Exposes CRUD operations for the **Apuesta** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Apuestas
+    * const apuestas = await prisma.apuesta.findMany()
+    * ```
+    */
+  get apuesta(): Prisma.ApuestaDelegate<GlobalReject>;
+
+  /**
+   * `prisma.apuestaXEstado`: Exposes CRUD operations for the **ApuestaXEstado** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ApuestaXEstados
+    * const apuestaXEstados = await prisma.apuestaXEstado.findMany()
+    * ```
+    */
+  get apuestaXEstado(): Prisma.ApuestaXEstadoDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -753,7 +795,9 @@ export namespace Prisma {
     UserXMovimientoXTipo: 'UserXMovimientoXTipo',
     UserXRole: 'UserXRole',
     UserXEstado: 'UserXEstado',
-    CodeSecure: 'CodeSecure'
+    CodeSecure: 'CodeSecure',
+    Apuesta: 'Apuesta',
+    ApuestaXEstado: 'ApuestaXEstado'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1129,6 +1173,49 @@ export namespace Prisma {
      * Select specific fields to fetch from the UserXEstadoCountOutputType
      */
     select?: UserXEstadoCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type ApuestaXEstadoCountOutputType
+   */
+
+
+  export type ApuestaXEstadoCountOutputType = {
+    Apuesta: number
+  }
+
+  export type ApuestaXEstadoCountOutputTypeSelect = {
+    Apuesta?: boolean
+  }
+
+  export type ApuestaXEstadoCountOutputTypeGetPayload<S extends boolean | null | undefined | ApuestaXEstadoCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ApuestaXEstadoCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (ApuestaXEstadoCountOutputTypeArgs)
+    ? ApuestaXEstadoCountOutputType 
+    : S extends { select: any } & (ApuestaXEstadoCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof ApuestaXEstadoCountOutputType ? ApuestaXEstadoCountOutputType[P] : never
+  } 
+      : ApuestaXEstadoCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ApuestaXEstadoCountOutputType without action
+   */
+  export type ApuestaXEstadoCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the ApuestaXEstadoCountOutputType
+     */
+    select?: ApuestaXEstadoCountOutputTypeSelect | null
   }
 
 
@@ -8102,11 +8189,1982 @@ export namespace Prisma {
 
 
   /**
+   * Model Apuesta
+   */
+
+
+  export type AggregateApuesta = {
+    _count: ApuestaCountAggregateOutputType | null
+    _avg: ApuestaAvgAggregateOutputType | null
+    _sum: ApuestaSumAggregateOutputType | null
+    _min: ApuestaMinAggregateOutputType | null
+    _max: ApuestaMaxAggregateOutputType | null
+  }
+
+  export type ApuestaAvgAggregateOutputType = {
+    id: number | null
+    apostado: Decimal | null
+    ganado: Decimal | null
+    estadoId: number | null
+  }
+
+  export type ApuestaSumAggregateOutputType = {
+    id: number | null
+    apostado: Decimal | null
+    ganado: Decimal | null
+    estadoId: number | null
+  }
+
+  export type ApuestaMinAggregateOutputType = {
+    id: number | null
+    fecha: Date | null
+    apostado: Decimal | null
+    ganado: Decimal | null
+    estadoId: number | null
+    createdAt: Date | null
+  }
+
+  export type ApuestaMaxAggregateOutputType = {
+    id: number | null
+    fecha: Date | null
+    apostado: Decimal | null
+    ganado: Decimal | null
+    estadoId: number | null
+    createdAt: Date | null
+  }
+
+  export type ApuestaCountAggregateOutputType = {
+    id: number
+    fecha: number
+    apostado: number
+    ganado: number
+    estadoId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ApuestaAvgAggregateInputType = {
+    id?: true
+    apostado?: true
+    ganado?: true
+    estadoId?: true
+  }
+
+  export type ApuestaSumAggregateInputType = {
+    id?: true
+    apostado?: true
+    ganado?: true
+    estadoId?: true
+  }
+
+  export type ApuestaMinAggregateInputType = {
+    id?: true
+    fecha?: true
+    apostado?: true
+    ganado?: true
+    estadoId?: true
+    createdAt?: true
+  }
+
+  export type ApuestaMaxAggregateInputType = {
+    id?: true
+    fecha?: true
+    apostado?: true
+    ganado?: true
+    estadoId?: true
+    createdAt?: true
+  }
+
+  export type ApuestaCountAggregateInputType = {
+    id?: true
+    fecha?: true
+    apostado?: true
+    ganado?: true
+    estadoId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ApuestaAggregateArgs = {
+    /**
+     * Filter which Apuesta to aggregate.
+     */
+    where?: ApuestaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Apuestas to fetch.
+     */
+    orderBy?: Enumerable<ApuestaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ApuestaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Apuestas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Apuestas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Apuestas
+    **/
+    _count?: true | ApuestaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ApuestaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ApuestaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ApuestaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ApuestaMaxAggregateInputType
+  }
+
+  export type GetApuestaAggregateType<T extends ApuestaAggregateArgs> = {
+        [P in keyof T & keyof AggregateApuesta]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateApuesta[P]>
+      : GetScalarType<T[P], AggregateApuesta[P]>
+  }
+
+
+
+
+  export type ApuestaGroupByArgs = {
+    where?: ApuestaWhereInput
+    orderBy?: Enumerable<ApuestaOrderByWithAggregationInput>
+    by: ApuestaScalarFieldEnum[]
+    having?: ApuestaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ApuestaCountAggregateInputType | true
+    _avg?: ApuestaAvgAggregateInputType
+    _sum?: ApuestaSumAggregateInputType
+    _min?: ApuestaMinAggregateInputType
+    _max?: ApuestaMaxAggregateInputType
+  }
+
+
+  export type ApuestaGroupByOutputType = {
+    id: number
+    fecha: Date
+    apostado: Decimal
+    ganado: Decimal
+    estadoId: number
+    createdAt: Date
+    _count: ApuestaCountAggregateOutputType | null
+    _avg: ApuestaAvgAggregateOutputType | null
+    _sum: ApuestaSumAggregateOutputType | null
+    _min: ApuestaMinAggregateOutputType | null
+    _max: ApuestaMaxAggregateOutputType | null
+  }
+
+  type GetApuestaGroupByPayload<T extends ApuestaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<ApuestaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ApuestaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ApuestaGroupByOutputType[P]>
+            : GetScalarType<T[P], ApuestaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ApuestaSelect = {
+    id?: boolean
+    fecha?: boolean
+    apostado?: boolean
+    ganado?: boolean
+    estadoId?: boolean
+    createdAt?: boolean
+    ApuestaXEstado?: boolean | ApuestaXEstadoArgs
+  }
+
+
+  export type ApuestaInclude = {
+    ApuestaXEstado?: boolean | ApuestaXEstadoArgs
+  }
+
+  export type ApuestaGetPayload<S extends boolean | null | undefined | ApuestaArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Apuesta :
+    S extends undefined ? never :
+    S extends { include: any } & (ApuestaArgs | ApuestaFindManyArgs)
+    ? Apuesta  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'ApuestaXEstado' ? ApuestaXEstadoGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (ApuestaArgs | ApuestaFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'ApuestaXEstado' ? ApuestaXEstadoGetPayload<S['select'][P]> :  P extends keyof Apuesta ? Apuesta[P] : never
+  } 
+      : Apuesta
+
+
+  type ApuestaCountArgs = 
+    Omit<ApuestaFindManyArgs, 'select' | 'include'> & {
+      select?: ApuestaCountAggregateInputType | true
+    }
+
+  export interface ApuestaDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Apuesta that matches the filter.
+     * @param {ApuestaFindUniqueArgs} args - Arguments to find a Apuesta
+     * @example
+     * // Get one Apuesta
+     * const apuesta = await prisma.apuesta.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ApuestaFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ApuestaFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Apuesta'> extends True ? Prisma__ApuestaClient<ApuestaGetPayload<T>> : Prisma__ApuestaClient<ApuestaGetPayload<T> | null, null>
+
+    /**
+     * Find one Apuesta that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ApuestaFindUniqueOrThrowArgs} args - Arguments to find a Apuesta
+     * @example
+     * // Get one Apuesta
+     * const apuesta = await prisma.apuesta.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ApuestaFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ApuestaFindUniqueOrThrowArgs>
+    ): Prisma__ApuestaClient<ApuestaGetPayload<T>>
+
+    /**
+     * Find the first Apuesta that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaFindFirstArgs} args - Arguments to find a Apuesta
+     * @example
+     * // Get one Apuesta
+     * const apuesta = await prisma.apuesta.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ApuestaFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ApuestaFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Apuesta'> extends True ? Prisma__ApuestaClient<ApuestaGetPayload<T>> : Prisma__ApuestaClient<ApuestaGetPayload<T> | null, null>
+
+    /**
+     * Find the first Apuesta that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaFindFirstOrThrowArgs} args - Arguments to find a Apuesta
+     * @example
+     * // Get one Apuesta
+     * const apuesta = await prisma.apuesta.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ApuestaFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ApuestaFindFirstOrThrowArgs>
+    ): Prisma__ApuestaClient<ApuestaGetPayload<T>>
+
+    /**
+     * Find zero or more Apuestas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Apuestas
+     * const apuestas = await prisma.apuesta.findMany()
+     * 
+     * // Get first 10 Apuestas
+     * const apuestas = await prisma.apuesta.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const apuestaWithIdOnly = await prisma.apuesta.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends ApuestaFindManyArgs>(
+      args?: SelectSubset<T, ApuestaFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ApuestaGetPayload<T>>>
+
+    /**
+     * Create a Apuesta.
+     * @param {ApuestaCreateArgs} args - Arguments to create a Apuesta.
+     * @example
+     * // Create one Apuesta
+     * const Apuesta = await prisma.apuesta.create({
+     *   data: {
+     *     // ... data to create a Apuesta
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ApuestaCreateArgs>(
+      args: SelectSubset<T, ApuestaCreateArgs>
+    ): Prisma__ApuestaClient<ApuestaGetPayload<T>>
+
+    /**
+     * Create many Apuestas.
+     *     @param {ApuestaCreateManyArgs} args - Arguments to create many Apuestas.
+     *     @example
+     *     // Create many Apuestas
+     *     const apuesta = await prisma.apuesta.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ApuestaCreateManyArgs>(
+      args?: SelectSubset<T, ApuestaCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Apuesta.
+     * @param {ApuestaDeleteArgs} args - Arguments to delete one Apuesta.
+     * @example
+     * // Delete one Apuesta
+     * const Apuesta = await prisma.apuesta.delete({
+     *   where: {
+     *     // ... filter to delete one Apuesta
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ApuestaDeleteArgs>(
+      args: SelectSubset<T, ApuestaDeleteArgs>
+    ): Prisma__ApuestaClient<ApuestaGetPayload<T>>
+
+    /**
+     * Update one Apuesta.
+     * @param {ApuestaUpdateArgs} args - Arguments to update one Apuesta.
+     * @example
+     * // Update one Apuesta
+     * const apuesta = await prisma.apuesta.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ApuestaUpdateArgs>(
+      args: SelectSubset<T, ApuestaUpdateArgs>
+    ): Prisma__ApuestaClient<ApuestaGetPayload<T>>
+
+    /**
+     * Delete zero or more Apuestas.
+     * @param {ApuestaDeleteManyArgs} args - Arguments to filter Apuestas to delete.
+     * @example
+     * // Delete a few Apuestas
+     * const { count } = await prisma.apuesta.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ApuestaDeleteManyArgs>(
+      args?: SelectSubset<T, ApuestaDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Apuestas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Apuestas
+     * const apuesta = await prisma.apuesta.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ApuestaUpdateManyArgs>(
+      args: SelectSubset<T, ApuestaUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Apuesta.
+     * @param {ApuestaUpsertArgs} args - Arguments to update or create a Apuesta.
+     * @example
+     * // Update or create a Apuesta
+     * const apuesta = await prisma.apuesta.upsert({
+     *   create: {
+     *     // ... data to create a Apuesta
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Apuesta we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ApuestaUpsertArgs>(
+      args: SelectSubset<T, ApuestaUpsertArgs>
+    ): Prisma__ApuestaClient<ApuestaGetPayload<T>>
+
+    /**
+     * Count the number of Apuestas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaCountArgs} args - Arguments to filter Apuestas to count.
+     * @example
+     * // Count the number of Apuestas
+     * const count = await prisma.apuesta.count({
+     *   where: {
+     *     // ... the filter for the Apuestas we want to count
+     *   }
+     * })
+    **/
+    count<T extends ApuestaCountArgs>(
+      args?: Subset<T, ApuestaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ApuestaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Apuesta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ApuestaAggregateArgs>(args: Subset<T, ApuestaAggregateArgs>): Prisma.PrismaPromise<GetApuestaAggregateType<T>>
+
+    /**
+     * Group by Apuesta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ApuestaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ApuestaGroupByArgs['orderBy'] }
+        : { orderBy?: ApuestaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ApuestaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetApuestaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Apuesta.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ApuestaClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    ApuestaXEstado<T extends ApuestaXEstadoArgs= {}>(args?: Subset<T, ApuestaXEstadoArgs>): Prisma__ApuestaXEstadoClient<ApuestaXEstadoGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Apuesta base type for findUnique actions
+   */
+  export type ApuestaFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Apuesta
+     */
+    select?: ApuestaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaInclude | null
+    /**
+     * Filter, which Apuesta to fetch.
+     */
+    where: ApuestaWhereUniqueInput
+  }
+
+  /**
+   * Apuesta findUnique
+   */
+  export interface ApuestaFindUniqueArgs extends ApuestaFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Apuesta findUniqueOrThrow
+   */
+  export type ApuestaFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Apuesta
+     */
+    select?: ApuestaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaInclude | null
+    /**
+     * Filter, which Apuesta to fetch.
+     */
+    where: ApuestaWhereUniqueInput
+  }
+
+
+  /**
+   * Apuesta base type for findFirst actions
+   */
+  export type ApuestaFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Apuesta
+     */
+    select?: ApuestaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaInclude | null
+    /**
+     * Filter, which Apuesta to fetch.
+     */
+    where?: ApuestaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Apuestas to fetch.
+     */
+    orderBy?: Enumerable<ApuestaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Apuestas.
+     */
+    cursor?: ApuestaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Apuestas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Apuestas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Apuestas.
+     */
+    distinct?: Enumerable<ApuestaScalarFieldEnum>
+  }
+
+  /**
+   * Apuesta findFirst
+   */
+  export interface ApuestaFindFirstArgs extends ApuestaFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Apuesta findFirstOrThrow
+   */
+  export type ApuestaFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Apuesta
+     */
+    select?: ApuestaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaInclude | null
+    /**
+     * Filter, which Apuesta to fetch.
+     */
+    where?: ApuestaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Apuestas to fetch.
+     */
+    orderBy?: Enumerable<ApuestaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Apuestas.
+     */
+    cursor?: ApuestaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Apuestas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Apuestas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Apuestas.
+     */
+    distinct?: Enumerable<ApuestaScalarFieldEnum>
+  }
+
+
+  /**
+   * Apuesta findMany
+   */
+  export type ApuestaFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Apuesta
+     */
+    select?: ApuestaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaInclude | null
+    /**
+     * Filter, which Apuestas to fetch.
+     */
+    where?: ApuestaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Apuestas to fetch.
+     */
+    orderBy?: Enumerable<ApuestaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Apuestas.
+     */
+    cursor?: ApuestaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Apuestas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Apuestas.
+     */
+    skip?: number
+    distinct?: Enumerable<ApuestaScalarFieldEnum>
+  }
+
+
+  /**
+   * Apuesta create
+   */
+  export type ApuestaCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Apuesta
+     */
+    select?: ApuestaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaInclude | null
+    /**
+     * The data needed to create a Apuesta.
+     */
+    data: XOR<ApuestaCreateInput, ApuestaUncheckedCreateInput>
+  }
+
+
+  /**
+   * Apuesta createMany
+   */
+  export type ApuestaCreateManyArgs = {
+    /**
+     * The data used to create many Apuestas.
+     */
+    data: Enumerable<ApuestaCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Apuesta update
+   */
+  export type ApuestaUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Apuesta
+     */
+    select?: ApuestaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaInclude | null
+    /**
+     * The data needed to update a Apuesta.
+     */
+    data: XOR<ApuestaUpdateInput, ApuestaUncheckedUpdateInput>
+    /**
+     * Choose, which Apuesta to update.
+     */
+    where: ApuestaWhereUniqueInput
+  }
+
+
+  /**
+   * Apuesta updateMany
+   */
+  export type ApuestaUpdateManyArgs = {
+    /**
+     * The data used to update Apuestas.
+     */
+    data: XOR<ApuestaUpdateManyMutationInput, ApuestaUncheckedUpdateManyInput>
+    /**
+     * Filter which Apuestas to update
+     */
+    where?: ApuestaWhereInput
+  }
+
+
+  /**
+   * Apuesta upsert
+   */
+  export type ApuestaUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Apuesta
+     */
+    select?: ApuestaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaInclude | null
+    /**
+     * The filter to search for the Apuesta to update in case it exists.
+     */
+    where: ApuestaWhereUniqueInput
+    /**
+     * In case the Apuesta found by the `where` argument doesn't exist, create a new Apuesta with this data.
+     */
+    create: XOR<ApuestaCreateInput, ApuestaUncheckedCreateInput>
+    /**
+     * In case the Apuesta was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ApuestaUpdateInput, ApuestaUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Apuesta delete
+   */
+  export type ApuestaDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Apuesta
+     */
+    select?: ApuestaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaInclude | null
+    /**
+     * Filter which Apuesta to delete.
+     */
+    where: ApuestaWhereUniqueInput
+  }
+
+
+  /**
+   * Apuesta deleteMany
+   */
+  export type ApuestaDeleteManyArgs = {
+    /**
+     * Filter which Apuestas to delete
+     */
+    where?: ApuestaWhereInput
+  }
+
+
+  /**
+   * Apuesta without action
+   */
+  export type ApuestaArgs = {
+    /**
+     * Select specific fields to fetch from the Apuesta
+     */
+    select?: ApuestaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaInclude | null
+  }
+
+
+
+  /**
+   * Model ApuestaXEstado
+   */
+
+
+  export type AggregateApuestaXEstado = {
+    _count: ApuestaXEstadoCountAggregateOutputType | null
+    _avg: ApuestaXEstadoAvgAggregateOutputType | null
+    _sum: ApuestaXEstadoSumAggregateOutputType | null
+    _min: ApuestaXEstadoMinAggregateOutputType | null
+    _max: ApuestaXEstadoMaxAggregateOutputType | null
+  }
+
+  export type ApuestaXEstadoAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ApuestaXEstadoSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ApuestaXEstadoMinAggregateOutputType = {
+    id: number | null
+    descripcion: string | null
+  }
+
+  export type ApuestaXEstadoMaxAggregateOutputType = {
+    id: number | null
+    descripcion: string | null
+  }
+
+  export type ApuestaXEstadoCountAggregateOutputType = {
+    id: number
+    descripcion: number
+    _all: number
+  }
+
+
+  export type ApuestaXEstadoAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type ApuestaXEstadoSumAggregateInputType = {
+    id?: true
+  }
+
+  export type ApuestaXEstadoMinAggregateInputType = {
+    id?: true
+    descripcion?: true
+  }
+
+  export type ApuestaXEstadoMaxAggregateInputType = {
+    id?: true
+    descripcion?: true
+  }
+
+  export type ApuestaXEstadoCountAggregateInputType = {
+    id?: true
+    descripcion?: true
+    _all?: true
+  }
+
+  export type ApuestaXEstadoAggregateArgs = {
+    /**
+     * Filter which ApuestaXEstado to aggregate.
+     */
+    where?: ApuestaXEstadoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApuestaXEstados to fetch.
+     */
+    orderBy?: Enumerable<ApuestaXEstadoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ApuestaXEstadoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApuestaXEstados from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApuestaXEstados.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ApuestaXEstados
+    **/
+    _count?: true | ApuestaXEstadoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ApuestaXEstadoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ApuestaXEstadoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ApuestaXEstadoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ApuestaXEstadoMaxAggregateInputType
+  }
+
+  export type GetApuestaXEstadoAggregateType<T extends ApuestaXEstadoAggregateArgs> = {
+        [P in keyof T & keyof AggregateApuestaXEstado]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateApuestaXEstado[P]>
+      : GetScalarType<T[P], AggregateApuestaXEstado[P]>
+  }
+
+
+
+
+  export type ApuestaXEstadoGroupByArgs = {
+    where?: ApuestaXEstadoWhereInput
+    orderBy?: Enumerable<ApuestaXEstadoOrderByWithAggregationInput>
+    by: ApuestaXEstadoScalarFieldEnum[]
+    having?: ApuestaXEstadoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ApuestaXEstadoCountAggregateInputType | true
+    _avg?: ApuestaXEstadoAvgAggregateInputType
+    _sum?: ApuestaXEstadoSumAggregateInputType
+    _min?: ApuestaXEstadoMinAggregateInputType
+    _max?: ApuestaXEstadoMaxAggregateInputType
+  }
+
+
+  export type ApuestaXEstadoGroupByOutputType = {
+    id: number
+    descripcion: string
+    _count: ApuestaXEstadoCountAggregateOutputType | null
+    _avg: ApuestaXEstadoAvgAggregateOutputType | null
+    _sum: ApuestaXEstadoSumAggregateOutputType | null
+    _min: ApuestaXEstadoMinAggregateOutputType | null
+    _max: ApuestaXEstadoMaxAggregateOutputType | null
+  }
+
+  type GetApuestaXEstadoGroupByPayload<T extends ApuestaXEstadoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<ApuestaXEstadoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ApuestaXEstadoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ApuestaXEstadoGroupByOutputType[P]>
+            : GetScalarType<T[P], ApuestaXEstadoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ApuestaXEstadoSelect = {
+    id?: boolean
+    descripcion?: boolean
+    Apuesta?: boolean | ApuestaXEstado$ApuestaArgs
+    _count?: boolean | ApuestaXEstadoCountOutputTypeArgs
+  }
+
+
+  export type ApuestaXEstadoInclude = {
+    Apuesta?: boolean | ApuestaXEstado$ApuestaArgs
+    _count?: boolean | ApuestaXEstadoCountOutputTypeArgs
+  }
+
+  export type ApuestaXEstadoGetPayload<S extends boolean | null | undefined | ApuestaXEstadoArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ApuestaXEstado :
+    S extends undefined ? never :
+    S extends { include: any } & (ApuestaXEstadoArgs | ApuestaXEstadoFindManyArgs)
+    ? ApuestaXEstado  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'Apuesta' ? Array < ApuestaGetPayload<S['include'][P]>>  :
+        P extends '_count' ? ApuestaXEstadoCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (ApuestaXEstadoArgs | ApuestaXEstadoFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'Apuesta' ? Array < ApuestaGetPayload<S['select'][P]>>  :
+        P extends '_count' ? ApuestaXEstadoCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ApuestaXEstado ? ApuestaXEstado[P] : never
+  } 
+      : ApuestaXEstado
+
+
+  type ApuestaXEstadoCountArgs = 
+    Omit<ApuestaXEstadoFindManyArgs, 'select' | 'include'> & {
+      select?: ApuestaXEstadoCountAggregateInputType | true
+    }
+
+  export interface ApuestaXEstadoDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one ApuestaXEstado that matches the filter.
+     * @param {ApuestaXEstadoFindUniqueArgs} args - Arguments to find a ApuestaXEstado
+     * @example
+     * // Get one ApuestaXEstado
+     * const apuestaXEstado = await prisma.apuestaXEstado.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ApuestaXEstadoFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ApuestaXEstadoFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ApuestaXEstado'> extends True ? Prisma__ApuestaXEstadoClient<ApuestaXEstadoGetPayload<T>> : Prisma__ApuestaXEstadoClient<ApuestaXEstadoGetPayload<T> | null, null>
+
+    /**
+     * Find one ApuestaXEstado that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ApuestaXEstadoFindUniqueOrThrowArgs} args - Arguments to find a ApuestaXEstado
+     * @example
+     * // Get one ApuestaXEstado
+     * const apuestaXEstado = await prisma.apuestaXEstado.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ApuestaXEstadoFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ApuestaXEstadoFindUniqueOrThrowArgs>
+    ): Prisma__ApuestaXEstadoClient<ApuestaXEstadoGetPayload<T>>
+
+    /**
+     * Find the first ApuestaXEstado that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaXEstadoFindFirstArgs} args - Arguments to find a ApuestaXEstado
+     * @example
+     * // Get one ApuestaXEstado
+     * const apuestaXEstado = await prisma.apuestaXEstado.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ApuestaXEstadoFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ApuestaXEstadoFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ApuestaXEstado'> extends True ? Prisma__ApuestaXEstadoClient<ApuestaXEstadoGetPayload<T>> : Prisma__ApuestaXEstadoClient<ApuestaXEstadoGetPayload<T> | null, null>
+
+    /**
+     * Find the first ApuestaXEstado that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaXEstadoFindFirstOrThrowArgs} args - Arguments to find a ApuestaXEstado
+     * @example
+     * // Get one ApuestaXEstado
+     * const apuestaXEstado = await prisma.apuestaXEstado.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ApuestaXEstadoFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ApuestaXEstadoFindFirstOrThrowArgs>
+    ): Prisma__ApuestaXEstadoClient<ApuestaXEstadoGetPayload<T>>
+
+    /**
+     * Find zero or more ApuestaXEstados that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaXEstadoFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ApuestaXEstados
+     * const apuestaXEstados = await prisma.apuestaXEstado.findMany()
+     * 
+     * // Get first 10 ApuestaXEstados
+     * const apuestaXEstados = await prisma.apuestaXEstado.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const apuestaXEstadoWithIdOnly = await prisma.apuestaXEstado.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends ApuestaXEstadoFindManyArgs>(
+      args?: SelectSubset<T, ApuestaXEstadoFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ApuestaXEstadoGetPayload<T>>>
+
+    /**
+     * Create a ApuestaXEstado.
+     * @param {ApuestaXEstadoCreateArgs} args - Arguments to create a ApuestaXEstado.
+     * @example
+     * // Create one ApuestaXEstado
+     * const ApuestaXEstado = await prisma.apuestaXEstado.create({
+     *   data: {
+     *     // ... data to create a ApuestaXEstado
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ApuestaXEstadoCreateArgs>(
+      args: SelectSubset<T, ApuestaXEstadoCreateArgs>
+    ): Prisma__ApuestaXEstadoClient<ApuestaXEstadoGetPayload<T>>
+
+    /**
+     * Create many ApuestaXEstados.
+     *     @param {ApuestaXEstadoCreateManyArgs} args - Arguments to create many ApuestaXEstados.
+     *     @example
+     *     // Create many ApuestaXEstados
+     *     const apuestaXEstado = await prisma.apuestaXEstado.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ApuestaXEstadoCreateManyArgs>(
+      args?: SelectSubset<T, ApuestaXEstadoCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ApuestaXEstado.
+     * @param {ApuestaXEstadoDeleteArgs} args - Arguments to delete one ApuestaXEstado.
+     * @example
+     * // Delete one ApuestaXEstado
+     * const ApuestaXEstado = await prisma.apuestaXEstado.delete({
+     *   where: {
+     *     // ... filter to delete one ApuestaXEstado
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ApuestaXEstadoDeleteArgs>(
+      args: SelectSubset<T, ApuestaXEstadoDeleteArgs>
+    ): Prisma__ApuestaXEstadoClient<ApuestaXEstadoGetPayload<T>>
+
+    /**
+     * Update one ApuestaXEstado.
+     * @param {ApuestaXEstadoUpdateArgs} args - Arguments to update one ApuestaXEstado.
+     * @example
+     * // Update one ApuestaXEstado
+     * const apuestaXEstado = await prisma.apuestaXEstado.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ApuestaXEstadoUpdateArgs>(
+      args: SelectSubset<T, ApuestaXEstadoUpdateArgs>
+    ): Prisma__ApuestaXEstadoClient<ApuestaXEstadoGetPayload<T>>
+
+    /**
+     * Delete zero or more ApuestaXEstados.
+     * @param {ApuestaXEstadoDeleteManyArgs} args - Arguments to filter ApuestaXEstados to delete.
+     * @example
+     * // Delete a few ApuestaXEstados
+     * const { count } = await prisma.apuestaXEstado.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ApuestaXEstadoDeleteManyArgs>(
+      args?: SelectSubset<T, ApuestaXEstadoDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApuestaXEstados.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaXEstadoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ApuestaXEstados
+     * const apuestaXEstado = await prisma.apuestaXEstado.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ApuestaXEstadoUpdateManyArgs>(
+      args: SelectSubset<T, ApuestaXEstadoUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ApuestaXEstado.
+     * @param {ApuestaXEstadoUpsertArgs} args - Arguments to update or create a ApuestaXEstado.
+     * @example
+     * // Update or create a ApuestaXEstado
+     * const apuestaXEstado = await prisma.apuestaXEstado.upsert({
+     *   create: {
+     *     // ... data to create a ApuestaXEstado
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ApuestaXEstado we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ApuestaXEstadoUpsertArgs>(
+      args: SelectSubset<T, ApuestaXEstadoUpsertArgs>
+    ): Prisma__ApuestaXEstadoClient<ApuestaXEstadoGetPayload<T>>
+
+    /**
+     * Count the number of ApuestaXEstados.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaXEstadoCountArgs} args - Arguments to filter ApuestaXEstados to count.
+     * @example
+     * // Count the number of ApuestaXEstados
+     * const count = await prisma.apuestaXEstado.count({
+     *   where: {
+     *     // ... the filter for the ApuestaXEstados we want to count
+     *   }
+     * })
+    **/
+    count<T extends ApuestaXEstadoCountArgs>(
+      args?: Subset<T, ApuestaXEstadoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ApuestaXEstadoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ApuestaXEstado.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaXEstadoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ApuestaXEstadoAggregateArgs>(args: Subset<T, ApuestaXEstadoAggregateArgs>): Prisma.PrismaPromise<GetApuestaXEstadoAggregateType<T>>
+
+    /**
+     * Group by ApuestaXEstado.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApuestaXEstadoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ApuestaXEstadoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ApuestaXEstadoGroupByArgs['orderBy'] }
+        : { orderBy?: ApuestaXEstadoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ApuestaXEstadoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetApuestaXEstadoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ApuestaXEstado.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ApuestaXEstadoClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    Apuesta<T extends ApuestaXEstado$ApuestaArgs= {}>(args?: Subset<T, ApuestaXEstado$ApuestaArgs>): Prisma.PrismaPromise<Array<ApuestaGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ApuestaXEstado base type for findUnique actions
+   */
+  export type ApuestaXEstadoFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the ApuestaXEstado
+     */
+    select?: ApuestaXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaXEstadoInclude | null
+    /**
+     * Filter, which ApuestaXEstado to fetch.
+     */
+    where: ApuestaXEstadoWhereUniqueInput
+  }
+
+  /**
+   * ApuestaXEstado findUnique
+   */
+  export interface ApuestaXEstadoFindUniqueArgs extends ApuestaXEstadoFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ApuestaXEstado findUniqueOrThrow
+   */
+  export type ApuestaXEstadoFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ApuestaXEstado
+     */
+    select?: ApuestaXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaXEstadoInclude | null
+    /**
+     * Filter, which ApuestaXEstado to fetch.
+     */
+    where: ApuestaXEstadoWhereUniqueInput
+  }
+
+
+  /**
+   * ApuestaXEstado base type for findFirst actions
+   */
+  export type ApuestaXEstadoFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the ApuestaXEstado
+     */
+    select?: ApuestaXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaXEstadoInclude | null
+    /**
+     * Filter, which ApuestaXEstado to fetch.
+     */
+    where?: ApuestaXEstadoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApuestaXEstados to fetch.
+     */
+    orderBy?: Enumerable<ApuestaXEstadoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApuestaXEstados.
+     */
+    cursor?: ApuestaXEstadoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApuestaXEstados from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApuestaXEstados.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApuestaXEstados.
+     */
+    distinct?: Enumerable<ApuestaXEstadoScalarFieldEnum>
+  }
+
+  /**
+   * ApuestaXEstado findFirst
+   */
+  export interface ApuestaXEstadoFindFirstArgs extends ApuestaXEstadoFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ApuestaXEstado findFirstOrThrow
+   */
+  export type ApuestaXEstadoFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ApuestaXEstado
+     */
+    select?: ApuestaXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaXEstadoInclude | null
+    /**
+     * Filter, which ApuestaXEstado to fetch.
+     */
+    where?: ApuestaXEstadoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApuestaXEstados to fetch.
+     */
+    orderBy?: Enumerable<ApuestaXEstadoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApuestaXEstados.
+     */
+    cursor?: ApuestaXEstadoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApuestaXEstados from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApuestaXEstados.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApuestaXEstados.
+     */
+    distinct?: Enumerable<ApuestaXEstadoScalarFieldEnum>
+  }
+
+
+  /**
+   * ApuestaXEstado findMany
+   */
+  export type ApuestaXEstadoFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the ApuestaXEstado
+     */
+    select?: ApuestaXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaXEstadoInclude | null
+    /**
+     * Filter, which ApuestaXEstados to fetch.
+     */
+    where?: ApuestaXEstadoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApuestaXEstados to fetch.
+     */
+    orderBy?: Enumerable<ApuestaXEstadoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ApuestaXEstados.
+     */
+    cursor?: ApuestaXEstadoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApuestaXEstados from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApuestaXEstados.
+     */
+    skip?: number
+    distinct?: Enumerable<ApuestaXEstadoScalarFieldEnum>
+  }
+
+
+  /**
+   * ApuestaXEstado create
+   */
+  export type ApuestaXEstadoCreateArgs = {
+    /**
+     * Select specific fields to fetch from the ApuestaXEstado
+     */
+    select?: ApuestaXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaXEstadoInclude | null
+    /**
+     * The data needed to create a ApuestaXEstado.
+     */
+    data: XOR<ApuestaXEstadoCreateInput, ApuestaXEstadoUncheckedCreateInput>
+  }
+
+
+  /**
+   * ApuestaXEstado createMany
+   */
+  export type ApuestaXEstadoCreateManyArgs = {
+    /**
+     * The data used to create many ApuestaXEstados.
+     */
+    data: Enumerable<ApuestaXEstadoCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * ApuestaXEstado update
+   */
+  export type ApuestaXEstadoUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the ApuestaXEstado
+     */
+    select?: ApuestaXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaXEstadoInclude | null
+    /**
+     * The data needed to update a ApuestaXEstado.
+     */
+    data: XOR<ApuestaXEstadoUpdateInput, ApuestaXEstadoUncheckedUpdateInput>
+    /**
+     * Choose, which ApuestaXEstado to update.
+     */
+    where: ApuestaXEstadoWhereUniqueInput
+  }
+
+
+  /**
+   * ApuestaXEstado updateMany
+   */
+  export type ApuestaXEstadoUpdateManyArgs = {
+    /**
+     * The data used to update ApuestaXEstados.
+     */
+    data: XOR<ApuestaXEstadoUpdateManyMutationInput, ApuestaXEstadoUncheckedUpdateManyInput>
+    /**
+     * Filter which ApuestaXEstados to update
+     */
+    where?: ApuestaXEstadoWhereInput
+  }
+
+
+  /**
+   * ApuestaXEstado upsert
+   */
+  export type ApuestaXEstadoUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the ApuestaXEstado
+     */
+    select?: ApuestaXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaXEstadoInclude | null
+    /**
+     * The filter to search for the ApuestaXEstado to update in case it exists.
+     */
+    where: ApuestaXEstadoWhereUniqueInput
+    /**
+     * In case the ApuestaXEstado found by the `where` argument doesn't exist, create a new ApuestaXEstado with this data.
+     */
+    create: XOR<ApuestaXEstadoCreateInput, ApuestaXEstadoUncheckedCreateInput>
+    /**
+     * In case the ApuestaXEstado was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ApuestaXEstadoUpdateInput, ApuestaXEstadoUncheckedUpdateInput>
+  }
+
+
+  /**
+   * ApuestaXEstado delete
+   */
+  export type ApuestaXEstadoDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the ApuestaXEstado
+     */
+    select?: ApuestaXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaXEstadoInclude | null
+    /**
+     * Filter which ApuestaXEstado to delete.
+     */
+    where: ApuestaXEstadoWhereUniqueInput
+  }
+
+
+  /**
+   * ApuestaXEstado deleteMany
+   */
+  export type ApuestaXEstadoDeleteManyArgs = {
+    /**
+     * Filter which ApuestaXEstados to delete
+     */
+    where?: ApuestaXEstadoWhereInput
+  }
+
+
+  /**
+   * ApuestaXEstado.Apuesta
+   */
+  export type ApuestaXEstado$ApuestaArgs = {
+    /**
+     * Select specific fields to fetch from the Apuesta
+     */
+    select?: ApuestaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaInclude | null
+    where?: ApuestaWhereInput
+    orderBy?: Enumerable<ApuestaOrderByWithRelationInput>
+    cursor?: ApuestaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ApuestaScalarFieldEnum>
+  }
+
+
+  /**
+   * ApuestaXEstado without action
+   */
+  export type ApuestaXEstadoArgs = {
+    /**
+     * Select specific fields to fetch from the ApuestaXEstado
+     */
+    select?: ApuestaXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApuestaXEstadoInclude | null
+  }
+
+
+
+  /**
    * Enums
    */
 
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+
+  export const ApuestaScalarFieldEnum: {
+    id: 'id',
+    fecha: 'fecha',
+    apostado: 'apostado',
+    ganado: 'ganado',
+    estadoId: 'estadoId',
+    createdAt: 'createdAt'
+  };
+
+  export type ApuestaScalarFieldEnum = (typeof ApuestaScalarFieldEnum)[keyof typeof ApuestaScalarFieldEnum]
+
+
+  export const ApuestaXEstadoScalarFieldEnum: {
+    id: 'id',
+    descripcion: 'descripcion'
+  };
+
+  export type ApuestaXEstadoScalarFieldEnum = (typeof ApuestaXEstadoScalarFieldEnum)[keyof typeof ApuestaXEstadoScalarFieldEnum]
+
 
   export const CodeSecureScalarFieldEnum: {
     code: 'code',
@@ -8552,6 +10610,97 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
+  export type ApuestaWhereInput = {
+    AND?: Enumerable<ApuestaWhereInput>
+    OR?: Enumerable<ApuestaWhereInput>
+    NOT?: Enumerable<ApuestaWhereInput>
+    id?: IntFilter | number
+    fecha?: DateTimeFilter | Date | string
+    apostado?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    ganado?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    estadoId?: IntFilter | number
+    createdAt?: DateTimeFilter | Date | string
+    ApuestaXEstado?: XOR<ApuestaXEstadoRelationFilter, ApuestaXEstadoWhereInput>
+  }
+
+  export type ApuestaOrderByWithRelationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    apostado?: SortOrder
+    ganado?: SortOrder
+    estadoId?: SortOrder
+    createdAt?: SortOrder
+    ApuestaXEstado?: ApuestaXEstadoOrderByWithRelationInput
+  }
+
+  export type ApuestaWhereUniqueInput = {
+    id?: number
+  }
+
+  export type ApuestaOrderByWithAggregationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    apostado?: SortOrder
+    ganado?: SortOrder
+    estadoId?: SortOrder
+    createdAt?: SortOrder
+    _count?: ApuestaCountOrderByAggregateInput
+    _avg?: ApuestaAvgOrderByAggregateInput
+    _max?: ApuestaMaxOrderByAggregateInput
+    _min?: ApuestaMinOrderByAggregateInput
+    _sum?: ApuestaSumOrderByAggregateInput
+  }
+
+  export type ApuestaScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ApuestaScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ApuestaScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ApuestaScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    fecha?: DateTimeWithAggregatesFilter | Date | string
+    apostado?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    ganado?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    estadoId?: IntWithAggregatesFilter | number
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type ApuestaXEstadoWhereInput = {
+    AND?: Enumerable<ApuestaXEstadoWhereInput>
+    OR?: Enumerable<ApuestaXEstadoWhereInput>
+    NOT?: Enumerable<ApuestaXEstadoWhereInput>
+    id?: IntFilter | number
+    descripcion?: StringFilter | string
+    Apuesta?: ApuestaListRelationFilter
+  }
+
+  export type ApuestaXEstadoOrderByWithRelationInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    Apuesta?: ApuestaOrderByRelationAggregateInput
+  }
+
+  export type ApuestaXEstadoWhereUniqueInput = {
+    id?: number
+    descripcion?: string
+  }
+
+  export type ApuestaXEstadoOrderByWithAggregationInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    _count?: ApuestaXEstadoCountOrderByAggregateInput
+    _avg?: ApuestaXEstadoAvgOrderByAggregateInput
+    _max?: ApuestaXEstadoMaxOrderByAggregateInput
+    _min?: ApuestaXEstadoMinOrderByAggregateInput
+    _sum?: ApuestaXEstadoSumOrderByAggregateInput
+  }
+
+  export type ApuestaXEstadoScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ApuestaXEstadoScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ApuestaXEstadoScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ApuestaXEstadoScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    descripcion?: StringWithAggregatesFilter | string
+  }
+
   export type UserCreateInput = {
     id: number
     name: string
@@ -8922,6 +11071,104 @@ export namespace Prisma {
     type?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApuestaCreateInput = {
+    fecha: Date | string
+    apostado?: Decimal | DecimalJsLike | number | string
+    ganado?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    ApuestaXEstado: ApuestaXEstadoCreateNestedOneWithoutApuestaInput
+  }
+
+  export type ApuestaUncheckedCreateInput = {
+    id?: number
+    fecha: Date | string
+    apostado?: Decimal | DecimalJsLike | number | string
+    ganado?: Decimal | DecimalJsLike | number | string
+    estadoId: number
+    createdAt?: Date | string
+  }
+
+  export type ApuestaUpdateInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    apostado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ganado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ApuestaXEstado?: ApuestaXEstadoUpdateOneRequiredWithoutApuestaNestedInput
+  }
+
+  export type ApuestaUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    apostado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ganado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estadoId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApuestaCreateManyInput = {
+    id?: number
+    fecha: Date | string
+    apostado?: Decimal | DecimalJsLike | number | string
+    ganado?: Decimal | DecimalJsLike | number | string
+    estadoId: number
+    createdAt?: Date | string
+  }
+
+  export type ApuestaUpdateManyMutationInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    apostado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ganado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApuestaUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    apostado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ganado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estadoId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApuestaXEstadoCreateInput = {
+    id: number
+    descripcion: string
+    Apuesta?: ApuestaCreateNestedManyWithoutApuestaXEstadoInput
+  }
+
+  export type ApuestaXEstadoUncheckedCreateInput = {
+    id: number
+    descripcion: string
+    Apuesta?: ApuestaUncheckedCreateNestedManyWithoutApuestaXEstadoInput
+  }
+
+  export type ApuestaXEstadoUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    Apuesta?: ApuestaUpdateManyWithoutApuestaXEstadoNestedInput
+  }
+
+  export type ApuestaXEstadoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    Apuesta?: ApuestaUncheckedUpdateManyWithoutApuestaXEstadoNestedInput
+  }
+
+  export type ApuestaXEstadoCreateManyInput = {
+    id: number
+    descripcion: string
+  }
+
+  export type ApuestaXEstadoUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ApuestaXEstadoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter = {
@@ -9370,6 +11617,85 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
+  export type ApuestaXEstadoRelationFilter = {
+    is?: ApuestaXEstadoWhereInput
+    isNot?: ApuestaXEstadoWhereInput
+  }
+
+  export type ApuestaCountOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    apostado?: SortOrder
+    ganado?: SortOrder
+    estadoId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ApuestaAvgOrderByAggregateInput = {
+    id?: SortOrder
+    apostado?: SortOrder
+    ganado?: SortOrder
+    estadoId?: SortOrder
+  }
+
+  export type ApuestaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    apostado?: SortOrder
+    ganado?: SortOrder
+    estadoId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ApuestaMinOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    apostado?: SortOrder
+    ganado?: SortOrder
+    estadoId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ApuestaSumOrderByAggregateInput = {
+    id?: SortOrder
+    apostado?: SortOrder
+    ganado?: SortOrder
+    estadoId?: SortOrder
+  }
+
+  export type ApuestaListRelationFilter = {
+    every?: ApuestaWhereInput
+    some?: ApuestaWhereInput
+    none?: ApuestaWhereInput
+  }
+
+  export type ApuestaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ApuestaXEstadoCountOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type ApuestaXEstadoAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type ApuestaXEstadoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type ApuestaXEstadoMinOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type ApuestaXEstadoSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type UserXRoleCreateNestedOneWithoutUserInput = {
     create?: XOR<UserXRoleCreateWithoutUserInput, UserXRoleUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserXRoleCreateOrConnectWithoutUserInput
@@ -9788,6 +12114,62 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutCodeSecureInput
     connect?: UserWhereUniqueInput
     update?: XOR<UserUpdateWithoutCodeSecureInput, UserUncheckedUpdateWithoutCodeSecureInput>
+  }
+
+  export type ApuestaXEstadoCreateNestedOneWithoutApuestaInput = {
+    create?: XOR<ApuestaXEstadoCreateWithoutApuestaInput, ApuestaXEstadoUncheckedCreateWithoutApuestaInput>
+    connectOrCreate?: ApuestaXEstadoCreateOrConnectWithoutApuestaInput
+    connect?: ApuestaXEstadoWhereUniqueInput
+  }
+
+  export type ApuestaXEstadoUpdateOneRequiredWithoutApuestaNestedInput = {
+    create?: XOR<ApuestaXEstadoCreateWithoutApuestaInput, ApuestaXEstadoUncheckedCreateWithoutApuestaInput>
+    connectOrCreate?: ApuestaXEstadoCreateOrConnectWithoutApuestaInput
+    upsert?: ApuestaXEstadoUpsertWithoutApuestaInput
+    connect?: ApuestaXEstadoWhereUniqueInput
+    update?: XOR<ApuestaXEstadoUpdateWithoutApuestaInput, ApuestaXEstadoUncheckedUpdateWithoutApuestaInput>
+  }
+
+  export type ApuestaCreateNestedManyWithoutApuestaXEstadoInput = {
+    create?: XOR<Enumerable<ApuestaCreateWithoutApuestaXEstadoInput>, Enumerable<ApuestaUncheckedCreateWithoutApuestaXEstadoInput>>
+    connectOrCreate?: Enumerable<ApuestaCreateOrConnectWithoutApuestaXEstadoInput>
+    createMany?: ApuestaCreateManyApuestaXEstadoInputEnvelope
+    connect?: Enumerable<ApuestaWhereUniqueInput>
+  }
+
+  export type ApuestaUncheckedCreateNestedManyWithoutApuestaXEstadoInput = {
+    create?: XOR<Enumerable<ApuestaCreateWithoutApuestaXEstadoInput>, Enumerable<ApuestaUncheckedCreateWithoutApuestaXEstadoInput>>
+    connectOrCreate?: Enumerable<ApuestaCreateOrConnectWithoutApuestaXEstadoInput>
+    createMany?: ApuestaCreateManyApuestaXEstadoInputEnvelope
+    connect?: Enumerable<ApuestaWhereUniqueInput>
+  }
+
+  export type ApuestaUpdateManyWithoutApuestaXEstadoNestedInput = {
+    create?: XOR<Enumerable<ApuestaCreateWithoutApuestaXEstadoInput>, Enumerable<ApuestaUncheckedCreateWithoutApuestaXEstadoInput>>
+    connectOrCreate?: Enumerable<ApuestaCreateOrConnectWithoutApuestaXEstadoInput>
+    upsert?: Enumerable<ApuestaUpsertWithWhereUniqueWithoutApuestaXEstadoInput>
+    createMany?: ApuestaCreateManyApuestaXEstadoInputEnvelope
+    set?: Enumerable<ApuestaWhereUniqueInput>
+    disconnect?: Enumerable<ApuestaWhereUniqueInput>
+    delete?: Enumerable<ApuestaWhereUniqueInput>
+    connect?: Enumerable<ApuestaWhereUniqueInput>
+    update?: Enumerable<ApuestaUpdateWithWhereUniqueWithoutApuestaXEstadoInput>
+    updateMany?: Enumerable<ApuestaUpdateManyWithWhereWithoutApuestaXEstadoInput>
+    deleteMany?: Enumerable<ApuestaScalarWhereInput>
+  }
+
+  export type ApuestaUncheckedUpdateManyWithoutApuestaXEstadoNestedInput = {
+    create?: XOR<Enumerable<ApuestaCreateWithoutApuestaXEstadoInput>, Enumerable<ApuestaUncheckedCreateWithoutApuestaXEstadoInput>>
+    connectOrCreate?: Enumerable<ApuestaCreateOrConnectWithoutApuestaXEstadoInput>
+    upsert?: Enumerable<ApuestaUpsertWithWhereUniqueWithoutApuestaXEstadoInput>
+    createMany?: ApuestaCreateManyApuestaXEstadoInputEnvelope
+    set?: Enumerable<ApuestaWhereUniqueInput>
+    disconnect?: Enumerable<ApuestaWhereUniqueInput>
+    delete?: Enumerable<ApuestaWhereUniqueInput>
+    connect?: Enumerable<ApuestaWhereUniqueInput>
+    update?: Enumerable<ApuestaUpdateWithWhereUniqueWithoutApuestaXEstadoInput>
+    updateMany?: Enumerable<ApuestaUpdateManyWithWhereWithoutApuestaXEstadoInput>
+    deleteMany?: Enumerable<ApuestaScalarWhereInput>
   }
 
   export type NestedIntFilter = {
@@ -10635,6 +13017,89 @@ export namespace Prisma {
     UserXMovimiento?: UserXMovimientoUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type ApuestaXEstadoCreateWithoutApuestaInput = {
+    id: number
+    descripcion: string
+  }
+
+  export type ApuestaXEstadoUncheckedCreateWithoutApuestaInput = {
+    id: number
+    descripcion: string
+  }
+
+  export type ApuestaXEstadoCreateOrConnectWithoutApuestaInput = {
+    where: ApuestaXEstadoWhereUniqueInput
+    create: XOR<ApuestaXEstadoCreateWithoutApuestaInput, ApuestaXEstadoUncheckedCreateWithoutApuestaInput>
+  }
+
+  export type ApuestaXEstadoUpsertWithoutApuestaInput = {
+    update: XOR<ApuestaXEstadoUpdateWithoutApuestaInput, ApuestaXEstadoUncheckedUpdateWithoutApuestaInput>
+    create: XOR<ApuestaXEstadoCreateWithoutApuestaInput, ApuestaXEstadoUncheckedCreateWithoutApuestaInput>
+  }
+
+  export type ApuestaXEstadoUpdateWithoutApuestaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ApuestaXEstadoUncheckedUpdateWithoutApuestaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ApuestaCreateWithoutApuestaXEstadoInput = {
+    fecha: Date | string
+    apostado?: Decimal | DecimalJsLike | number | string
+    ganado?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type ApuestaUncheckedCreateWithoutApuestaXEstadoInput = {
+    id?: number
+    fecha: Date | string
+    apostado?: Decimal | DecimalJsLike | number | string
+    ganado?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type ApuestaCreateOrConnectWithoutApuestaXEstadoInput = {
+    where: ApuestaWhereUniqueInput
+    create: XOR<ApuestaCreateWithoutApuestaXEstadoInput, ApuestaUncheckedCreateWithoutApuestaXEstadoInput>
+  }
+
+  export type ApuestaCreateManyApuestaXEstadoInputEnvelope = {
+    data: Enumerable<ApuestaCreateManyApuestaXEstadoInput>
+    skipDuplicates?: boolean
+  }
+
+  export type ApuestaUpsertWithWhereUniqueWithoutApuestaXEstadoInput = {
+    where: ApuestaWhereUniqueInput
+    update: XOR<ApuestaUpdateWithoutApuestaXEstadoInput, ApuestaUncheckedUpdateWithoutApuestaXEstadoInput>
+    create: XOR<ApuestaCreateWithoutApuestaXEstadoInput, ApuestaUncheckedCreateWithoutApuestaXEstadoInput>
+  }
+
+  export type ApuestaUpdateWithWhereUniqueWithoutApuestaXEstadoInput = {
+    where: ApuestaWhereUniqueInput
+    data: XOR<ApuestaUpdateWithoutApuestaXEstadoInput, ApuestaUncheckedUpdateWithoutApuestaXEstadoInput>
+  }
+
+  export type ApuestaUpdateManyWithWhereWithoutApuestaXEstadoInput = {
+    where: ApuestaScalarWhereInput
+    data: XOR<ApuestaUpdateManyMutationInput, ApuestaUncheckedUpdateManyWithoutApuestaInput>
+  }
+
+  export type ApuestaScalarWhereInput = {
+    AND?: Enumerable<ApuestaScalarWhereInput>
+    OR?: Enumerable<ApuestaScalarWhereInput>
+    NOT?: Enumerable<ApuestaScalarWhereInput>
+    id?: IntFilter | number
+    fecha?: DateTimeFilter | Date | string
+    apostado?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    ganado?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    estadoId?: IntFilter | number
+    createdAt?: DateTimeFilter | Date | string
+  }
+
   export type CodeSecureCreateManyUserInput = {
     code: string
     type: number
@@ -10851,6 +13316,37 @@ export namespace Prisma {
     CodeSecure?: CodeSecureUncheckedUpdateManyWithoutUserNestedInput
     UserXBizum?: UserXBizumUncheckedUpdateManyWithoutUserNestedInput
     UserXMovimiento?: UserXMovimientoUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ApuestaCreateManyApuestaXEstadoInput = {
+    id?: number
+    fecha: Date | string
+    apostado?: Decimal | DecimalJsLike | number | string
+    ganado?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type ApuestaUpdateWithoutApuestaXEstadoInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    apostado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ganado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApuestaUncheckedUpdateWithoutApuestaXEstadoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    apostado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ganado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApuestaUncheckedUpdateManyWithoutApuestaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    apostado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ganado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

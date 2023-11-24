@@ -18,3 +18,10 @@ export enum UserXMovimientoXTipo {
     ingreso = 2,    // aumento de saldo
     ganado = 3      // repato premio
 }
+
+
+export enum ApuestaXEstado {  
+    abierta = 1,  
+    cerrada = 2,    
+    finalizada = 3      
+}
