@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { RouterContext, StatusCodes } from "../../../../dep/deps.ts";
 import  { Prisma } from "../../generated/client/deno/edge.ts";
 import { userClass } from "../../models/user.model.ts";
@@ -63,7 +64,7 @@ const get= async (ctx: any) => {
 
     if(mode == 'C'){
     const countSql =  await prisma.$queryRawUnsafe(sqlSelectOnlyCount + sqlFrom + strPrismaFilter);   
-    count = countSql && countSql[0]  ? parseInt(countSql[0].total) : 0;
+    count = countSql &&   countSql[0]  ? parseInt(countSql[0].total) : 0;
   }
 
 
@@ -122,13 +123,13 @@ const add = async (ctx: any) => {
       }
   
 
-      let dataMAx = await prisma.user.aggregate({        
+      const dataMAx = await prisma.user.aggregate({        
           _max: {
              id: true
                }
       });
 
-      // newItem.id = data;
+      newItem['id'] = dataMAx._max.id + 1;  //mejor usar una secuencia  AUREMEJORAS
 
       const data = await prisma.user.create({
         data: newItem
@@ -319,17 +320,26 @@ const del = async (ctx: any) =>  {
 
       );
 
-      const createBizum = prisma.userXBizum.create({
-        data : {
-          importe,
-          userId,
-          movimientoId : (await createMovimiento).id
+      if(bizum){
+
+        const createBizum = prisma.userXBizum.create({
+          data : {
+            importe,
+            userId,
+            movimientoId : (await createMovimiento).id  //esto hace que cree el movimiento
+          }
         }
+  
+        );
+  
+        await prisma.$transaction([updateUser,createBizum]);
+
+      }
+      else{
+        await prisma.$transaction([updateUser,createMovimiento]);
       }
 
-      );
-
-      await prisma.$transaction([updateUser,createBizum]);
+      
 
   
       
