@@ -1,3 +1,5 @@
+import { StatusCodes } from "../dep/deps.ts";
+
 export const getFilter = (colums : any[]) =>{
     let cadena =  `WHERE 1=1 `;
     colums.forEach(col => {
@@ -79,7 +81,10 @@ export const getFilter = (colums : any[]) =>{
 
   
    const data = await prisma.$queryRawUnsafe( sqlSelect + sqlFrom + strPrismaFilter + order + sql_limit );
-
-   return {data, count};
+   ctx.response.status = 201;
+   ctx.response.body = {
+     status: StatusCodes.OK,
+     data: { data, count },
+   };
 
   }

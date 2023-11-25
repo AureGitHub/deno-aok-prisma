@@ -1,33 +1,29 @@
 import { StatusCodes } from "../../../../dep/deps.ts";
+import { statusOK } from "../../../../utils/status.ts";
 import prisma from "../../prisma/db.ts";
 
 
+// deno-lint-ignore no-explicit-any
 const get = async (ctx: any) => {
 
   const cual = ctx?.params?.cual;
-  let data: any;
+  let result: any;
   switch (cual) {
     case 'UserXEstado':
-      data = await prisma['userXEstado']['findMany']();
+      result = await prisma['userXEstado']['findMany']();
       break;
 
     case 'UserXRole':
-      data = await prisma.userXRole.findMany();
+      result = await prisma.userXRole.findMany();
       break;
 
       case 'ApuestaXEstado':
-      data = await prisma.apuestaXEstado.findMany();
+        result = await prisma.apuestaXEstado.findMany();
       break;
 
-      
-
   }
-
-  ctx.response.status = 201;
-  ctx.response.body = {
-    status: StatusCodes.OK,
-    data: { data, count: data.length },
-  };
+  const data = { result, count: result.length };
+  statusOK(ctx,data);   
 
 };
 
