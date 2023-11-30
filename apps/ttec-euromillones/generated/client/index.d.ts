@@ -36,8 +36,7 @@ export type UserXBizum = {
   id: number
   importe: Prisma.Decimal
   userId: number
-  movimientoId: number
-  pendiente: boolean
+  estadoId: number
   createdAt: Date
 }
 
@@ -50,6 +49,28 @@ export type UserXMovimiento = {
   importe: Prisma.Decimal
   userId: number
   tipoId: number
+  createdAt: Date
+}
+
+/**
+ * Model BizumXMovimiento
+ * 
+ */
+export type BizumXMovimiento = {
+  id: number
+  bizumId: number
+  movimientoId: number
+}
+
+/**
+ * Model UserXSaldoXTmp
+ * 
+ */
+export type UserXSaldoXTmp = {
+  id: number
+  saldo: Prisma.Decimal
+  userId: number
+  movimientoId: number
   createdAt: Date
 }
 
@@ -109,6 +130,15 @@ export type Apuesta = {
  * 
  */
 export type ApuestaXEstado = {
+  id: number
+  descripcion: string
+}
+
+/**
+ * Model UserXBizumXEstado
+ * 
+ */
+export type UserXBizumXEstado = {
   id: number
   descripcion: string
 }
@@ -262,6 +292,26 @@ export class PrismaClient<
   get userXMovimiento(): Prisma.UserXMovimientoDelegate<GlobalReject>;
 
   /**
+   * `prisma.bizumXMovimiento`: Exposes CRUD operations for the **BizumXMovimiento** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BizumXMovimientos
+    * const bizumXMovimientos = await prisma.bizumXMovimiento.findMany()
+    * ```
+    */
+  get bizumXMovimiento(): Prisma.BizumXMovimientoDelegate<GlobalReject>;
+
+  /**
+   * `prisma.userXSaldoXTmp`: Exposes CRUD operations for the **UserXSaldoXTmp** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserXSaldoXTmps
+    * const userXSaldoXTmps = await prisma.userXSaldoXTmp.findMany()
+    * ```
+    */
+  get userXSaldoXTmp(): Prisma.UserXSaldoXTmpDelegate<GlobalReject>;
+
+  /**
    * `prisma.userXMovimientoXTipo`: Exposes CRUD operations for the **UserXMovimientoXTipo** model.
     * Example usage:
     * ```ts
@@ -320,6 +370,16 @@ export class PrismaClient<
     * ```
     */
   get apuestaXEstado(): Prisma.ApuestaXEstadoDelegate<GlobalReject>;
+
+  /**
+   * `prisma.userXBizumXEstado`: Exposes CRUD operations for the **UserXBizumXEstado** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserXBizumXEstados
+    * const userXBizumXEstados = await prisma.userXBizumXEstado.findMany()
+    * ```
+    */
+  get userXBizumXEstado(): Prisma.UserXBizumXEstadoDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -792,12 +852,15 @@ export namespace Prisma {
     User: 'User',
     UserXBizum: 'UserXBizum',
     UserXMovimiento: 'UserXMovimiento',
+    BizumXMovimiento: 'BizumXMovimiento',
+    UserXSaldoXTmp: 'UserXSaldoXTmp',
     UserXMovimientoXTipo: 'UserXMovimientoXTipo',
     UserXRole: 'UserXRole',
     UserXEstado: 'UserXEstado',
     CodeSecure: 'CodeSecure',
     Apuesta: 'Apuesta',
-    ApuestaXEstado: 'ApuestaXEstado'
+    ApuestaXEstado: 'ApuestaXEstado',
+    UserXBizumXEstado: 'UserXBizumXEstado'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -967,12 +1030,14 @@ export namespace Prisma {
     CodeSecure: number
     UserXBizum: number
     UserXMovimiento: number
+    UserXSaldoXTmp: number
   }
 
   export type UserCountOutputTypeSelect = {
     CodeSecure?: boolean
     UserXBizum?: boolean
     UserXMovimiento?: boolean
+    UserXSaldoXTmp?: boolean
   }
 
   export type UserCountOutputTypeGetPayload<S extends boolean | null | undefined | UserCountOutputTypeArgs> =
@@ -1006,16 +1071,61 @@ export namespace Prisma {
 
 
   /**
+   * Count Type UserXBizumCountOutputType
+   */
+
+
+  export type UserXBizumCountOutputType = {
+    BizumXMovimiento: number
+  }
+
+  export type UserXBizumCountOutputTypeSelect = {
+    BizumXMovimiento?: boolean
+  }
+
+  export type UserXBizumCountOutputTypeGetPayload<S extends boolean | null | undefined | UserXBizumCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UserXBizumCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (UserXBizumCountOutputTypeArgs)
+    ? UserXBizumCountOutputType 
+    : S extends { select: any } & (UserXBizumCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof UserXBizumCountOutputType ? UserXBizumCountOutputType[P] : never
+  } 
+      : UserXBizumCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UserXBizumCountOutputType without action
+   */
+  export type UserXBizumCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the UserXBizumCountOutputType
+     */
+    select?: UserXBizumCountOutputTypeSelect | null
+  }
+
+
+
+  /**
    * Count Type UserXMovimientoCountOutputType
    */
 
 
   export type UserXMovimientoCountOutputType = {
-    UserXBizum: number
+    UserXSaldoXTmp: number
+    BizumXMovimiento: number
   }
 
   export type UserXMovimientoCountOutputTypeSelect = {
-    UserXBizum?: boolean
+    UserXSaldoXTmp?: boolean
+    BizumXMovimiento?: boolean
   }
 
   export type UserXMovimientoCountOutputTypeGetPayload<S extends boolean | null | undefined | UserXMovimientoCountOutputTypeArgs> =
@@ -1216,6 +1326,49 @@ export namespace Prisma {
      * Select specific fields to fetch from the ApuestaXEstadoCountOutputType
      */
     select?: ApuestaXEstadoCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type UserXBizumXEstadoCountOutputType
+   */
+
+
+  export type UserXBizumXEstadoCountOutputType = {
+    UserXBizum: number
+  }
+
+  export type UserXBizumXEstadoCountOutputTypeSelect = {
+    UserXBizum?: boolean
+  }
+
+  export type UserXBizumXEstadoCountOutputTypeGetPayload<S extends boolean | null | undefined | UserXBizumXEstadoCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UserXBizumXEstadoCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (UserXBizumXEstadoCountOutputTypeArgs)
+    ? UserXBizumXEstadoCountOutputType 
+    : S extends { select: any } & (UserXBizumXEstadoCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof UserXBizumXEstadoCountOutputType ? UserXBizumXEstadoCountOutputType[P] : never
+  } 
+      : UserXBizumXEstadoCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UserXBizumXEstadoCountOutputType without action
+   */
+  export type UserXBizumXEstadoCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the UserXBizumXEstadoCountOutputType
+     */
+    select?: UserXBizumXEstadoCountOutputTypeSelect | null
   }
 
 
@@ -1473,6 +1626,7 @@ export namespace Prisma {
     CodeSecure?: boolean | User$CodeSecureArgs
     UserXBizum?: boolean | User$UserXBizumArgs
     UserXMovimiento?: boolean | User$UserXMovimientoArgs
+    UserXSaldoXTmp?: boolean | User$UserXSaldoXTmpArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
@@ -1483,6 +1637,7 @@ export namespace Prisma {
     CodeSecure?: boolean | User$CodeSecureArgs
     UserXBizum?: boolean | User$UserXBizumArgs
     UserXMovimiento?: boolean | User$UserXMovimientoArgs
+    UserXSaldoXTmp?: boolean | User$UserXSaldoXTmpArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
@@ -1498,6 +1653,7 @@ export namespace Prisma {
         P extends 'CodeSecure' ? Array < CodeSecureGetPayload<S['include'][P]>>  :
         P extends 'UserXBizum' ? Array < UserXBizumGetPayload<S['include'][P]>>  :
         P extends 'UserXMovimiento' ? Array < UserXMovimientoGetPayload<S['include'][P]>>  :
+        P extends 'UserXSaldoXTmp' ? Array < UserXSaldoXTmpGetPayload<S['include'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (UserArgs | UserFindManyArgs)
@@ -1508,6 +1664,7 @@ export namespace Prisma {
         P extends 'CodeSecure' ? Array < CodeSecureGetPayload<S['select'][P]>>  :
         P extends 'UserXBizum' ? Array < UserXBizumGetPayload<S['select'][P]>>  :
         P extends 'UserXMovimiento' ? Array < UserXMovimientoGetPayload<S['select'][P]>>  :
+        P extends 'UserXSaldoXTmp' ? Array < UserXSaldoXTmpGetPayload<S['select'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
   } 
       : User
@@ -1889,6 +2046,8 @@ export namespace Prisma {
     UserXBizum<T extends User$UserXBizumArgs= {}>(args?: Subset<T, User$UserXBizumArgs>): Prisma.PrismaPromise<Array<UserXBizumGetPayload<T>>| Null>;
 
     UserXMovimiento<T extends User$UserXMovimientoArgs= {}>(args?: Subset<T, User$UserXMovimientoArgs>): Prisma.PrismaPromise<Array<UserXMovimientoGetPayload<T>>| Null>;
+
+    UserXSaldoXTmp<T extends User$UserXSaldoXTmpArgs= {}>(args?: Subset<T, User$UserXSaldoXTmpArgs>): Prisma.PrismaPromise<Array<UserXSaldoXTmpGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -2309,6 +2468,27 @@ export namespace Prisma {
 
 
   /**
+   * User.UserXSaldoXTmp
+   */
+  export type User$UserXSaldoXTmpArgs = {
+    /**
+     * Select specific fields to fetch from the UserXSaldoXTmp
+     */
+    select?: UserXSaldoXTmpSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXSaldoXTmpInclude | null
+    where?: UserXSaldoXTmpWhereInput
+    orderBy?: Enumerable<UserXSaldoXTmpOrderByWithRelationInput>
+    cursor?: UserXSaldoXTmpWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<UserXSaldoXTmpScalarFieldEnum>
+  }
+
+
+  /**
    * User without action
    */
   export type UserArgs = {
@@ -2341,22 +2521,21 @@ export namespace Prisma {
     id: number | null
     importe: Decimal | null
     userId: number | null
-    movimientoId: number | null
+    estadoId: number | null
   }
 
   export type UserXBizumSumAggregateOutputType = {
     id: number | null
     importe: Decimal | null
     userId: number | null
-    movimientoId: number | null
+    estadoId: number | null
   }
 
   export type UserXBizumMinAggregateOutputType = {
     id: number | null
     importe: Decimal | null
     userId: number | null
-    movimientoId: number | null
-    pendiente: boolean | null
+    estadoId: number | null
     createdAt: Date | null
   }
 
@@ -2364,8 +2543,7 @@ export namespace Prisma {
     id: number | null
     importe: Decimal | null
     userId: number | null
-    movimientoId: number | null
-    pendiente: boolean | null
+    estadoId: number | null
     createdAt: Date | null
   }
 
@@ -2373,8 +2551,7 @@ export namespace Prisma {
     id: number
     importe: number
     userId: number
-    movimientoId: number
-    pendiente: number
+    estadoId: number
     createdAt: number
     _all: number
   }
@@ -2384,22 +2561,21 @@ export namespace Prisma {
     id?: true
     importe?: true
     userId?: true
-    movimientoId?: true
+    estadoId?: true
   }
 
   export type UserXBizumSumAggregateInputType = {
     id?: true
     importe?: true
     userId?: true
-    movimientoId?: true
+    estadoId?: true
   }
 
   export type UserXBizumMinAggregateInputType = {
     id?: true
     importe?: true
     userId?: true
-    movimientoId?: true
-    pendiente?: true
+    estadoId?: true
     createdAt?: true
   }
 
@@ -2407,8 +2583,7 @@ export namespace Prisma {
     id?: true
     importe?: true
     userId?: true
-    movimientoId?: true
-    pendiente?: true
+    estadoId?: true
     createdAt?: true
   }
 
@@ -2416,8 +2591,7 @@ export namespace Prisma {
     id?: true
     importe?: true
     userId?: true
-    movimientoId?: true
-    pendiente?: true
+    estadoId?: true
     createdAt?: true
     _all?: true
   }
@@ -2513,8 +2687,7 @@ export namespace Prisma {
     id: number
     importe: Decimal
     userId: number
-    movimientoId: number
-    pendiente: boolean
+    estadoId: number
     createdAt: Date
     _count: UserXBizumCountAggregateOutputType | null
     _avg: UserXBizumAvgAggregateOutputType | null
@@ -2541,17 +2714,20 @@ export namespace Prisma {
     id?: boolean
     importe?: boolean
     userId?: boolean
-    movimientoId?: boolean
-    pendiente?: boolean
+    estadoId?: boolean
     createdAt?: boolean
     User?: boolean | UserArgs
-    UserXMovimiento?: boolean | UserXMovimientoArgs
+    UserXBizumXEstado?: boolean | UserXBizumXEstadoArgs
+    BizumXMovimiento?: boolean | UserXBizum$BizumXMovimientoArgs
+    _count?: boolean | UserXBizumCountOutputTypeArgs
   }
 
 
   export type UserXBizumInclude = {
     User?: boolean | UserArgs
-    UserXMovimiento?: boolean | UserXMovimientoArgs
+    UserXBizumXEstado?: boolean | UserXBizumXEstadoArgs
+    BizumXMovimiento?: boolean | UserXBizum$BizumXMovimientoArgs
+    _count?: boolean | UserXBizumCountOutputTypeArgs
   }
 
   export type UserXBizumGetPayload<S extends boolean | null | undefined | UserXBizumArgs> =
@@ -2562,13 +2738,17 @@ export namespace Prisma {
     ? UserXBizum  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'User' ? UserGetPayload<S['include'][P]> :
-        P extends 'UserXMovimiento' ? UserXMovimientoGetPayload<S['include'][P]> :  never
+        P extends 'UserXBizumXEstado' ? UserXBizumXEstadoGetPayload<S['include'][P]> :
+        P extends 'BizumXMovimiento' ? Array < BizumXMovimientoGetPayload<S['include'][P]>>  :
+        P extends '_count' ? UserXBizumCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (UserXBizumArgs | UserXBizumFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'User' ? UserGetPayload<S['select'][P]> :
-        P extends 'UserXMovimiento' ? UserXMovimientoGetPayload<S['select'][P]> :  P extends keyof UserXBizum ? UserXBizum[P] : never
+        P extends 'UserXBizumXEstado' ? UserXBizumXEstadoGetPayload<S['select'][P]> :
+        P extends 'BizumXMovimiento' ? Array < BizumXMovimientoGetPayload<S['select'][P]>>  :
+        P extends '_count' ? UserXBizumCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof UserXBizum ? UserXBizum[P] : never
   } 
       : UserXBizum
 
@@ -2942,7 +3122,9 @@ export namespace Prisma {
 
     User<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
 
-    UserXMovimiento<T extends UserXMovimientoArgs= {}>(args?: Subset<T, UserXMovimientoArgs>): Prisma__UserXMovimientoClient<UserXMovimientoGetPayload<T> | Null>;
+    UserXBizumXEstado<T extends UserXBizumXEstadoArgs= {}>(args?: Subset<T, UserXBizumXEstadoArgs>): Prisma__UserXBizumXEstadoClient<UserXBizumXEstadoGetPayload<T> | Null>;
+
+    BizumXMovimiento<T extends UserXBizum$BizumXMovimientoArgs= {}>(args?: Subset<T, UserXBizum$BizumXMovimientoArgs>): Prisma.PrismaPromise<Array<BizumXMovimientoGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -3300,6 +3482,27 @@ export namespace Prisma {
 
 
   /**
+   * UserXBizum.BizumXMovimiento
+   */
+  export type UserXBizum$BizumXMovimientoArgs = {
+    /**
+     * Select specific fields to fetch from the BizumXMovimiento
+     */
+    select?: BizumXMovimientoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BizumXMovimientoInclude | null
+    where?: BizumXMovimientoWhereInput
+    orderBy?: Enumerable<BizumXMovimientoOrderByWithRelationInput>
+    cursor?: BizumXMovimientoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<BizumXMovimientoScalarFieldEnum>
+  }
+
+
+  /**
    * UserXBizum without action
    */
   export type UserXBizumArgs = {
@@ -3529,7 +3732,8 @@ export namespace Prisma {
     createdAt?: boolean
     User?: boolean | UserArgs
     UserXMovimientoXTipo?: boolean | UserXMovimientoXTipoArgs
-    UserXBizum?: boolean | UserXMovimiento$UserXBizumArgs
+    UserXSaldoXTmp?: boolean | UserXMovimiento$UserXSaldoXTmpArgs
+    BizumXMovimiento?: boolean | UserXMovimiento$BizumXMovimientoArgs
     _count?: boolean | UserXMovimientoCountOutputTypeArgs
   }
 
@@ -3537,7 +3741,8 @@ export namespace Prisma {
   export type UserXMovimientoInclude = {
     User?: boolean | UserArgs
     UserXMovimientoXTipo?: boolean | UserXMovimientoXTipoArgs
-    UserXBizum?: boolean | UserXMovimiento$UserXBizumArgs
+    UserXSaldoXTmp?: boolean | UserXMovimiento$UserXSaldoXTmpArgs
+    BizumXMovimiento?: boolean | UserXMovimiento$BizumXMovimientoArgs
     _count?: boolean | UserXMovimientoCountOutputTypeArgs
   }
 
@@ -3550,7 +3755,8 @@ export namespace Prisma {
     [P in TruthyKeys<S['include']>]:
         P extends 'User' ? UserGetPayload<S['include'][P]> :
         P extends 'UserXMovimientoXTipo' ? UserXMovimientoXTipoGetPayload<S['include'][P]> :
-        P extends 'UserXBizum' ? Array < UserXBizumGetPayload<S['include'][P]>>  :
+        P extends 'UserXSaldoXTmp' ? Array < UserXSaldoXTmpGetPayload<S['include'][P]>>  :
+        P extends 'BizumXMovimiento' ? Array < BizumXMovimientoGetPayload<S['include'][P]>>  :
         P extends '_count' ? UserXMovimientoCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (UserXMovimientoArgs | UserXMovimientoFindManyArgs)
@@ -3558,7 +3764,8 @@ export namespace Prisma {
     [P in TruthyKeys<S['select']>]:
         P extends 'User' ? UserGetPayload<S['select'][P]> :
         P extends 'UserXMovimientoXTipo' ? UserXMovimientoXTipoGetPayload<S['select'][P]> :
-        P extends 'UserXBizum' ? Array < UserXBizumGetPayload<S['select'][P]>>  :
+        P extends 'UserXSaldoXTmp' ? Array < UserXSaldoXTmpGetPayload<S['select'][P]>>  :
+        P extends 'BizumXMovimiento' ? Array < BizumXMovimientoGetPayload<S['select'][P]>>  :
         P extends '_count' ? UserXMovimientoCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof UserXMovimiento ? UserXMovimiento[P] : never
   } 
       : UserXMovimiento
@@ -3935,7 +4142,9 @@ export namespace Prisma {
 
     UserXMovimientoXTipo<T extends UserXMovimientoXTipoArgs= {}>(args?: Subset<T, UserXMovimientoXTipoArgs>): Prisma__UserXMovimientoXTipoClient<UserXMovimientoXTipoGetPayload<T> | Null>;
 
-    UserXBizum<T extends UserXMovimiento$UserXBizumArgs= {}>(args?: Subset<T, UserXMovimiento$UserXBizumArgs>): Prisma.PrismaPromise<Array<UserXBizumGetPayload<T>>| Null>;
+    UserXSaldoXTmp<T extends UserXMovimiento$UserXSaldoXTmpArgs= {}>(args?: Subset<T, UserXMovimiento$UserXSaldoXTmpArgs>): Prisma.PrismaPromise<Array<UserXSaldoXTmpGetPayload<T>>| Null>;
+
+    BizumXMovimiento<T extends UserXMovimiento$BizumXMovimientoArgs= {}>(args?: Subset<T, UserXMovimiento$BizumXMovimientoArgs>): Prisma.PrismaPromise<Array<BizumXMovimientoGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -4293,23 +4502,44 @@ export namespace Prisma {
 
 
   /**
-   * UserXMovimiento.UserXBizum
+   * UserXMovimiento.UserXSaldoXTmp
    */
-  export type UserXMovimiento$UserXBizumArgs = {
+  export type UserXMovimiento$UserXSaldoXTmpArgs = {
     /**
-     * Select specific fields to fetch from the UserXBizum
+     * Select specific fields to fetch from the UserXSaldoXTmp
      */
-    select?: UserXBizumSelect | null
+    select?: UserXSaldoXTmpSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserXBizumInclude | null
-    where?: UserXBizumWhereInput
-    orderBy?: Enumerable<UserXBizumOrderByWithRelationInput>
-    cursor?: UserXBizumWhereUniqueInput
+    include?: UserXSaldoXTmpInclude | null
+    where?: UserXSaldoXTmpWhereInput
+    orderBy?: Enumerable<UserXSaldoXTmpOrderByWithRelationInput>
+    cursor?: UserXSaldoXTmpWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<UserXBizumScalarFieldEnum>
+    distinct?: Enumerable<UserXSaldoXTmpScalarFieldEnum>
+  }
+
+
+  /**
+   * UserXMovimiento.BizumXMovimiento
+   */
+  export type UserXMovimiento$BizumXMovimientoArgs = {
+    /**
+     * Select specific fields to fetch from the BizumXMovimiento
+     */
+    select?: BizumXMovimientoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BizumXMovimientoInclude | null
+    where?: BizumXMovimientoWhereInput
+    orderBy?: Enumerable<BizumXMovimientoOrderByWithRelationInput>
+    cursor?: BizumXMovimientoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<BizumXMovimientoScalarFieldEnum>
   }
 
 
@@ -4325,6 +4555,1952 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: UserXMovimientoInclude | null
+  }
+
+
+
+  /**
+   * Model BizumXMovimiento
+   */
+
+
+  export type AggregateBizumXMovimiento = {
+    _count: BizumXMovimientoCountAggregateOutputType | null
+    _avg: BizumXMovimientoAvgAggregateOutputType | null
+    _sum: BizumXMovimientoSumAggregateOutputType | null
+    _min: BizumXMovimientoMinAggregateOutputType | null
+    _max: BizumXMovimientoMaxAggregateOutputType | null
+  }
+
+  export type BizumXMovimientoAvgAggregateOutputType = {
+    id: number | null
+    bizumId: number | null
+    movimientoId: number | null
+  }
+
+  export type BizumXMovimientoSumAggregateOutputType = {
+    id: number | null
+    bizumId: number | null
+    movimientoId: number | null
+  }
+
+  export type BizumXMovimientoMinAggregateOutputType = {
+    id: number | null
+    bizumId: number | null
+    movimientoId: number | null
+  }
+
+  export type BizumXMovimientoMaxAggregateOutputType = {
+    id: number | null
+    bizumId: number | null
+    movimientoId: number | null
+  }
+
+  export type BizumXMovimientoCountAggregateOutputType = {
+    id: number
+    bizumId: number
+    movimientoId: number
+    _all: number
+  }
+
+
+  export type BizumXMovimientoAvgAggregateInputType = {
+    id?: true
+    bizumId?: true
+    movimientoId?: true
+  }
+
+  export type BizumXMovimientoSumAggregateInputType = {
+    id?: true
+    bizumId?: true
+    movimientoId?: true
+  }
+
+  export type BizumXMovimientoMinAggregateInputType = {
+    id?: true
+    bizumId?: true
+    movimientoId?: true
+  }
+
+  export type BizumXMovimientoMaxAggregateInputType = {
+    id?: true
+    bizumId?: true
+    movimientoId?: true
+  }
+
+  export type BizumXMovimientoCountAggregateInputType = {
+    id?: true
+    bizumId?: true
+    movimientoId?: true
+    _all?: true
+  }
+
+  export type BizumXMovimientoAggregateArgs = {
+    /**
+     * Filter which BizumXMovimiento to aggregate.
+     */
+    where?: BizumXMovimientoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BizumXMovimientos to fetch.
+     */
+    orderBy?: Enumerable<BizumXMovimientoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BizumXMovimientoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BizumXMovimientos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BizumXMovimientos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BizumXMovimientos
+    **/
+    _count?: true | BizumXMovimientoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BizumXMovimientoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BizumXMovimientoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BizumXMovimientoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BizumXMovimientoMaxAggregateInputType
+  }
+
+  export type GetBizumXMovimientoAggregateType<T extends BizumXMovimientoAggregateArgs> = {
+        [P in keyof T & keyof AggregateBizumXMovimiento]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBizumXMovimiento[P]>
+      : GetScalarType<T[P], AggregateBizumXMovimiento[P]>
+  }
+
+
+
+
+  export type BizumXMovimientoGroupByArgs = {
+    where?: BizumXMovimientoWhereInput
+    orderBy?: Enumerable<BizumXMovimientoOrderByWithAggregationInput>
+    by: BizumXMovimientoScalarFieldEnum[]
+    having?: BizumXMovimientoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BizumXMovimientoCountAggregateInputType | true
+    _avg?: BizumXMovimientoAvgAggregateInputType
+    _sum?: BizumXMovimientoSumAggregateInputType
+    _min?: BizumXMovimientoMinAggregateInputType
+    _max?: BizumXMovimientoMaxAggregateInputType
+  }
+
+
+  export type BizumXMovimientoGroupByOutputType = {
+    id: number
+    bizumId: number
+    movimientoId: number
+    _count: BizumXMovimientoCountAggregateOutputType | null
+    _avg: BizumXMovimientoAvgAggregateOutputType | null
+    _sum: BizumXMovimientoSumAggregateOutputType | null
+    _min: BizumXMovimientoMinAggregateOutputType | null
+    _max: BizumXMovimientoMaxAggregateOutputType | null
+  }
+
+  type GetBizumXMovimientoGroupByPayload<T extends BizumXMovimientoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<BizumXMovimientoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BizumXMovimientoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BizumXMovimientoGroupByOutputType[P]>
+            : GetScalarType<T[P], BizumXMovimientoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BizumXMovimientoSelect = {
+    id?: boolean
+    bizumId?: boolean
+    movimientoId?: boolean
+    UserXBizum?: boolean | UserXBizumArgs
+    UserXMovimiento?: boolean | UserXMovimientoArgs
+  }
+
+
+  export type BizumXMovimientoInclude = {
+    UserXBizum?: boolean | UserXBizumArgs
+    UserXMovimiento?: boolean | UserXMovimientoArgs
+  }
+
+  export type BizumXMovimientoGetPayload<S extends boolean | null | undefined | BizumXMovimientoArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? BizumXMovimiento :
+    S extends undefined ? never :
+    S extends { include: any } & (BizumXMovimientoArgs | BizumXMovimientoFindManyArgs)
+    ? BizumXMovimiento  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'UserXBizum' ? UserXBizumGetPayload<S['include'][P]> :
+        P extends 'UserXMovimiento' ? UserXMovimientoGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (BizumXMovimientoArgs | BizumXMovimientoFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'UserXBizum' ? UserXBizumGetPayload<S['select'][P]> :
+        P extends 'UserXMovimiento' ? UserXMovimientoGetPayload<S['select'][P]> :  P extends keyof BizumXMovimiento ? BizumXMovimiento[P] : never
+  } 
+      : BizumXMovimiento
+
+
+  type BizumXMovimientoCountArgs = 
+    Omit<BizumXMovimientoFindManyArgs, 'select' | 'include'> & {
+      select?: BizumXMovimientoCountAggregateInputType | true
+    }
+
+  export interface BizumXMovimientoDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one BizumXMovimiento that matches the filter.
+     * @param {BizumXMovimientoFindUniqueArgs} args - Arguments to find a BizumXMovimiento
+     * @example
+     * // Get one BizumXMovimiento
+     * const bizumXMovimiento = await prisma.bizumXMovimiento.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends BizumXMovimientoFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, BizumXMovimientoFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BizumXMovimiento'> extends True ? Prisma__BizumXMovimientoClient<BizumXMovimientoGetPayload<T>> : Prisma__BizumXMovimientoClient<BizumXMovimientoGetPayload<T> | null, null>
+
+    /**
+     * Find one BizumXMovimiento that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {BizumXMovimientoFindUniqueOrThrowArgs} args - Arguments to find a BizumXMovimiento
+     * @example
+     * // Get one BizumXMovimiento
+     * const bizumXMovimiento = await prisma.bizumXMovimiento.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends BizumXMovimientoFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, BizumXMovimientoFindUniqueOrThrowArgs>
+    ): Prisma__BizumXMovimientoClient<BizumXMovimientoGetPayload<T>>
+
+    /**
+     * Find the first BizumXMovimiento that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BizumXMovimientoFindFirstArgs} args - Arguments to find a BizumXMovimiento
+     * @example
+     * // Get one BizumXMovimiento
+     * const bizumXMovimiento = await prisma.bizumXMovimiento.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends BizumXMovimientoFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, BizumXMovimientoFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BizumXMovimiento'> extends True ? Prisma__BizumXMovimientoClient<BizumXMovimientoGetPayload<T>> : Prisma__BizumXMovimientoClient<BizumXMovimientoGetPayload<T> | null, null>
+
+    /**
+     * Find the first BizumXMovimiento that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BizumXMovimientoFindFirstOrThrowArgs} args - Arguments to find a BizumXMovimiento
+     * @example
+     * // Get one BizumXMovimiento
+     * const bizumXMovimiento = await prisma.bizumXMovimiento.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends BizumXMovimientoFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, BizumXMovimientoFindFirstOrThrowArgs>
+    ): Prisma__BizumXMovimientoClient<BizumXMovimientoGetPayload<T>>
+
+    /**
+     * Find zero or more BizumXMovimientos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BizumXMovimientoFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BizumXMovimientos
+     * const bizumXMovimientos = await prisma.bizumXMovimiento.findMany()
+     * 
+     * // Get first 10 BizumXMovimientos
+     * const bizumXMovimientos = await prisma.bizumXMovimiento.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bizumXMovimientoWithIdOnly = await prisma.bizumXMovimiento.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends BizumXMovimientoFindManyArgs>(
+      args?: SelectSubset<T, BizumXMovimientoFindManyArgs>
+    ): Prisma.PrismaPromise<Array<BizumXMovimientoGetPayload<T>>>
+
+    /**
+     * Create a BizumXMovimiento.
+     * @param {BizumXMovimientoCreateArgs} args - Arguments to create a BizumXMovimiento.
+     * @example
+     * // Create one BizumXMovimiento
+     * const BizumXMovimiento = await prisma.bizumXMovimiento.create({
+     *   data: {
+     *     // ... data to create a BizumXMovimiento
+     *   }
+     * })
+     * 
+    **/
+    create<T extends BizumXMovimientoCreateArgs>(
+      args: SelectSubset<T, BizumXMovimientoCreateArgs>
+    ): Prisma__BizumXMovimientoClient<BizumXMovimientoGetPayload<T>>
+
+    /**
+     * Create many BizumXMovimientos.
+     *     @param {BizumXMovimientoCreateManyArgs} args - Arguments to create many BizumXMovimientos.
+     *     @example
+     *     // Create many BizumXMovimientos
+     *     const bizumXMovimiento = await prisma.bizumXMovimiento.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends BizumXMovimientoCreateManyArgs>(
+      args?: SelectSubset<T, BizumXMovimientoCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a BizumXMovimiento.
+     * @param {BizumXMovimientoDeleteArgs} args - Arguments to delete one BizumXMovimiento.
+     * @example
+     * // Delete one BizumXMovimiento
+     * const BizumXMovimiento = await prisma.bizumXMovimiento.delete({
+     *   where: {
+     *     // ... filter to delete one BizumXMovimiento
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends BizumXMovimientoDeleteArgs>(
+      args: SelectSubset<T, BizumXMovimientoDeleteArgs>
+    ): Prisma__BizumXMovimientoClient<BizumXMovimientoGetPayload<T>>
+
+    /**
+     * Update one BizumXMovimiento.
+     * @param {BizumXMovimientoUpdateArgs} args - Arguments to update one BizumXMovimiento.
+     * @example
+     * // Update one BizumXMovimiento
+     * const bizumXMovimiento = await prisma.bizumXMovimiento.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends BizumXMovimientoUpdateArgs>(
+      args: SelectSubset<T, BizumXMovimientoUpdateArgs>
+    ): Prisma__BizumXMovimientoClient<BizumXMovimientoGetPayload<T>>
+
+    /**
+     * Delete zero or more BizumXMovimientos.
+     * @param {BizumXMovimientoDeleteManyArgs} args - Arguments to filter BizumXMovimientos to delete.
+     * @example
+     * // Delete a few BizumXMovimientos
+     * const { count } = await prisma.bizumXMovimiento.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends BizumXMovimientoDeleteManyArgs>(
+      args?: SelectSubset<T, BizumXMovimientoDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BizumXMovimientos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BizumXMovimientoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BizumXMovimientos
+     * const bizumXMovimiento = await prisma.bizumXMovimiento.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends BizumXMovimientoUpdateManyArgs>(
+      args: SelectSubset<T, BizumXMovimientoUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BizumXMovimiento.
+     * @param {BizumXMovimientoUpsertArgs} args - Arguments to update or create a BizumXMovimiento.
+     * @example
+     * // Update or create a BizumXMovimiento
+     * const bizumXMovimiento = await prisma.bizumXMovimiento.upsert({
+     *   create: {
+     *     // ... data to create a BizumXMovimiento
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BizumXMovimiento we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends BizumXMovimientoUpsertArgs>(
+      args: SelectSubset<T, BizumXMovimientoUpsertArgs>
+    ): Prisma__BizumXMovimientoClient<BizumXMovimientoGetPayload<T>>
+
+    /**
+     * Count the number of BizumXMovimientos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BizumXMovimientoCountArgs} args - Arguments to filter BizumXMovimientos to count.
+     * @example
+     * // Count the number of BizumXMovimientos
+     * const count = await prisma.bizumXMovimiento.count({
+     *   where: {
+     *     // ... the filter for the BizumXMovimientos we want to count
+     *   }
+     * })
+    **/
+    count<T extends BizumXMovimientoCountArgs>(
+      args?: Subset<T, BizumXMovimientoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BizumXMovimientoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BizumXMovimiento.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BizumXMovimientoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BizumXMovimientoAggregateArgs>(args: Subset<T, BizumXMovimientoAggregateArgs>): Prisma.PrismaPromise<GetBizumXMovimientoAggregateType<T>>
+
+    /**
+     * Group by BizumXMovimiento.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BizumXMovimientoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BizumXMovimientoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BizumXMovimientoGroupByArgs['orderBy'] }
+        : { orderBy?: BizumXMovimientoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BizumXMovimientoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBizumXMovimientoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BizumXMovimiento.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__BizumXMovimientoClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    UserXBizum<T extends UserXBizumArgs= {}>(args?: Subset<T, UserXBizumArgs>): Prisma__UserXBizumClient<UserXBizumGetPayload<T> | Null>;
+
+    UserXMovimiento<T extends UserXMovimientoArgs= {}>(args?: Subset<T, UserXMovimientoArgs>): Prisma__UserXMovimientoClient<UserXMovimientoGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * BizumXMovimiento base type for findUnique actions
+   */
+  export type BizumXMovimientoFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the BizumXMovimiento
+     */
+    select?: BizumXMovimientoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BizumXMovimientoInclude | null
+    /**
+     * Filter, which BizumXMovimiento to fetch.
+     */
+    where: BizumXMovimientoWhereUniqueInput
+  }
+
+  /**
+   * BizumXMovimiento findUnique
+   */
+  export interface BizumXMovimientoFindUniqueArgs extends BizumXMovimientoFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * BizumXMovimiento findUniqueOrThrow
+   */
+  export type BizumXMovimientoFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the BizumXMovimiento
+     */
+    select?: BizumXMovimientoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BizumXMovimientoInclude | null
+    /**
+     * Filter, which BizumXMovimiento to fetch.
+     */
+    where: BizumXMovimientoWhereUniqueInput
+  }
+
+
+  /**
+   * BizumXMovimiento base type for findFirst actions
+   */
+  export type BizumXMovimientoFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the BizumXMovimiento
+     */
+    select?: BizumXMovimientoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BizumXMovimientoInclude | null
+    /**
+     * Filter, which BizumXMovimiento to fetch.
+     */
+    where?: BizumXMovimientoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BizumXMovimientos to fetch.
+     */
+    orderBy?: Enumerable<BizumXMovimientoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BizumXMovimientos.
+     */
+    cursor?: BizumXMovimientoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BizumXMovimientos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BizumXMovimientos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BizumXMovimientos.
+     */
+    distinct?: Enumerable<BizumXMovimientoScalarFieldEnum>
+  }
+
+  /**
+   * BizumXMovimiento findFirst
+   */
+  export interface BizumXMovimientoFindFirstArgs extends BizumXMovimientoFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * BizumXMovimiento findFirstOrThrow
+   */
+  export type BizumXMovimientoFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the BizumXMovimiento
+     */
+    select?: BizumXMovimientoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BizumXMovimientoInclude | null
+    /**
+     * Filter, which BizumXMovimiento to fetch.
+     */
+    where?: BizumXMovimientoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BizumXMovimientos to fetch.
+     */
+    orderBy?: Enumerable<BizumXMovimientoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BizumXMovimientos.
+     */
+    cursor?: BizumXMovimientoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BizumXMovimientos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BizumXMovimientos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BizumXMovimientos.
+     */
+    distinct?: Enumerable<BizumXMovimientoScalarFieldEnum>
+  }
+
+
+  /**
+   * BizumXMovimiento findMany
+   */
+  export type BizumXMovimientoFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the BizumXMovimiento
+     */
+    select?: BizumXMovimientoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BizumXMovimientoInclude | null
+    /**
+     * Filter, which BizumXMovimientos to fetch.
+     */
+    where?: BizumXMovimientoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BizumXMovimientos to fetch.
+     */
+    orderBy?: Enumerable<BizumXMovimientoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BizumXMovimientos.
+     */
+    cursor?: BizumXMovimientoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BizumXMovimientos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BizumXMovimientos.
+     */
+    skip?: number
+    distinct?: Enumerable<BizumXMovimientoScalarFieldEnum>
+  }
+
+
+  /**
+   * BizumXMovimiento create
+   */
+  export type BizumXMovimientoCreateArgs = {
+    /**
+     * Select specific fields to fetch from the BizumXMovimiento
+     */
+    select?: BizumXMovimientoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BizumXMovimientoInclude | null
+    /**
+     * The data needed to create a BizumXMovimiento.
+     */
+    data: XOR<BizumXMovimientoCreateInput, BizumXMovimientoUncheckedCreateInput>
+  }
+
+
+  /**
+   * BizumXMovimiento createMany
+   */
+  export type BizumXMovimientoCreateManyArgs = {
+    /**
+     * The data used to create many BizumXMovimientos.
+     */
+    data: Enumerable<BizumXMovimientoCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * BizumXMovimiento update
+   */
+  export type BizumXMovimientoUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the BizumXMovimiento
+     */
+    select?: BizumXMovimientoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BizumXMovimientoInclude | null
+    /**
+     * The data needed to update a BizumXMovimiento.
+     */
+    data: XOR<BizumXMovimientoUpdateInput, BizumXMovimientoUncheckedUpdateInput>
+    /**
+     * Choose, which BizumXMovimiento to update.
+     */
+    where: BizumXMovimientoWhereUniqueInput
+  }
+
+
+  /**
+   * BizumXMovimiento updateMany
+   */
+  export type BizumXMovimientoUpdateManyArgs = {
+    /**
+     * The data used to update BizumXMovimientos.
+     */
+    data: XOR<BizumXMovimientoUpdateManyMutationInput, BizumXMovimientoUncheckedUpdateManyInput>
+    /**
+     * Filter which BizumXMovimientos to update
+     */
+    where?: BizumXMovimientoWhereInput
+  }
+
+
+  /**
+   * BizumXMovimiento upsert
+   */
+  export type BizumXMovimientoUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the BizumXMovimiento
+     */
+    select?: BizumXMovimientoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BizumXMovimientoInclude | null
+    /**
+     * The filter to search for the BizumXMovimiento to update in case it exists.
+     */
+    where: BizumXMovimientoWhereUniqueInput
+    /**
+     * In case the BizumXMovimiento found by the `where` argument doesn't exist, create a new BizumXMovimiento with this data.
+     */
+    create: XOR<BizumXMovimientoCreateInput, BizumXMovimientoUncheckedCreateInput>
+    /**
+     * In case the BizumXMovimiento was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BizumXMovimientoUpdateInput, BizumXMovimientoUncheckedUpdateInput>
+  }
+
+
+  /**
+   * BizumXMovimiento delete
+   */
+  export type BizumXMovimientoDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the BizumXMovimiento
+     */
+    select?: BizumXMovimientoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BizumXMovimientoInclude | null
+    /**
+     * Filter which BizumXMovimiento to delete.
+     */
+    where: BizumXMovimientoWhereUniqueInput
+  }
+
+
+  /**
+   * BizumXMovimiento deleteMany
+   */
+  export type BizumXMovimientoDeleteManyArgs = {
+    /**
+     * Filter which BizumXMovimientos to delete
+     */
+    where?: BizumXMovimientoWhereInput
+  }
+
+
+  /**
+   * BizumXMovimiento without action
+   */
+  export type BizumXMovimientoArgs = {
+    /**
+     * Select specific fields to fetch from the BizumXMovimiento
+     */
+    select?: BizumXMovimientoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BizumXMovimientoInclude | null
+  }
+
+
+
+  /**
+   * Model UserXSaldoXTmp
+   */
+
+
+  export type AggregateUserXSaldoXTmp = {
+    _count: UserXSaldoXTmpCountAggregateOutputType | null
+    _avg: UserXSaldoXTmpAvgAggregateOutputType | null
+    _sum: UserXSaldoXTmpSumAggregateOutputType | null
+    _min: UserXSaldoXTmpMinAggregateOutputType | null
+    _max: UserXSaldoXTmpMaxAggregateOutputType | null
+  }
+
+  export type UserXSaldoXTmpAvgAggregateOutputType = {
+    id: number | null
+    saldo: Decimal | null
+    userId: number | null
+    movimientoId: number | null
+  }
+
+  export type UserXSaldoXTmpSumAggregateOutputType = {
+    id: number | null
+    saldo: Decimal | null
+    userId: number | null
+    movimientoId: number | null
+  }
+
+  export type UserXSaldoXTmpMinAggregateOutputType = {
+    id: number | null
+    saldo: Decimal | null
+    userId: number | null
+    movimientoId: number | null
+    createdAt: Date | null
+  }
+
+  export type UserXSaldoXTmpMaxAggregateOutputType = {
+    id: number | null
+    saldo: Decimal | null
+    userId: number | null
+    movimientoId: number | null
+    createdAt: Date | null
+  }
+
+  export type UserXSaldoXTmpCountAggregateOutputType = {
+    id: number
+    saldo: number
+    userId: number
+    movimientoId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type UserXSaldoXTmpAvgAggregateInputType = {
+    id?: true
+    saldo?: true
+    userId?: true
+    movimientoId?: true
+  }
+
+  export type UserXSaldoXTmpSumAggregateInputType = {
+    id?: true
+    saldo?: true
+    userId?: true
+    movimientoId?: true
+  }
+
+  export type UserXSaldoXTmpMinAggregateInputType = {
+    id?: true
+    saldo?: true
+    userId?: true
+    movimientoId?: true
+    createdAt?: true
+  }
+
+  export type UserXSaldoXTmpMaxAggregateInputType = {
+    id?: true
+    saldo?: true
+    userId?: true
+    movimientoId?: true
+    createdAt?: true
+  }
+
+  export type UserXSaldoXTmpCountAggregateInputType = {
+    id?: true
+    saldo?: true
+    userId?: true
+    movimientoId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type UserXSaldoXTmpAggregateArgs = {
+    /**
+     * Filter which UserXSaldoXTmp to aggregate.
+     */
+    where?: UserXSaldoXTmpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserXSaldoXTmps to fetch.
+     */
+    orderBy?: Enumerable<UserXSaldoXTmpOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserXSaldoXTmpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserXSaldoXTmps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserXSaldoXTmps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserXSaldoXTmps
+    **/
+    _count?: true | UserXSaldoXTmpCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserXSaldoXTmpAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserXSaldoXTmpSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserXSaldoXTmpMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserXSaldoXTmpMaxAggregateInputType
+  }
+
+  export type GetUserXSaldoXTmpAggregateType<T extends UserXSaldoXTmpAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserXSaldoXTmp]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserXSaldoXTmp[P]>
+      : GetScalarType<T[P], AggregateUserXSaldoXTmp[P]>
+  }
+
+
+
+
+  export type UserXSaldoXTmpGroupByArgs = {
+    where?: UserXSaldoXTmpWhereInput
+    orderBy?: Enumerable<UserXSaldoXTmpOrderByWithAggregationInput>
+    by: UserXSaldoXTmpScalarFieldEnum[]
+    having?: UserXSaldoXTmpScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserXSaldoXTmpCountAggregateInputType | true
+    _avg?: UserXSaldoXTmpAvgAggregateInputType
+    _sum?: UserXSaldoXTmpSumAggregateInputType
+    _min?: UserXSaldoXTmpMinAggregateInputType
+    _max?: UserXSaldoXTmpMaxAggregateInputType
+  }
+
+
+  export type UserXSaldoXTmpGroupByOutputType = {
+    id: number
+    saldo: Decimal
+    userId: number
+    movimientoId: number
+    createdAt: Date
+    _count: UserXSaldoXTmpCountAggregateOutputType | null
+    _avg: UserXSaldoXTmpAvgAggregateOutputType | null
+    _sum: UserXSaldoXTmpSumAggregateOutputType | null
+    _min: UserXSaldoXTmpMinAggregateOutputType | null
+    _max: UserXSaldoXTmpMaxAggregateOutputType | null
+  }
+
+  type GetUserXSaldoXTmpGroupByPayload<T extends UserXSaldoXTmpGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<UserXSaldoXTmpGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserXSaldoXTmpGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserXSaldoXTmpGroupByOutputType[P]>
+            : GetScalarType<T[P], UserXSaldoXTmpGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserXSaldoXTmpSelect = {
+    id?: boolean
+    saldo?: boolean
+    userId?: boolean
+    movimientoId?: boolean
+    createdAt?: boolean
+    User?: boolean | UserArgs
+    UserXMovimiento?: boolean | UserXMovimientoArgs
+  }
+
+
+  export type UserXSaldoXTmpInclude = {
+    User?: boolean | UserArgs
+    UserXMovimiento?: boolean | UserXMovimientoArgs
+  }
+
+  export type UserXSaldoXTmpGetPayload<S extends boolean | null | undefined | UserXSaldoXTmpArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UserXSaldoXTmp :
+    S extends undefined ? never :
+    S extends { include: any } & (UserXSaldoXTmpArgs | UserXSaldoXTmpFindManyArgs)
+    ? UserXSaldoXTmp  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'User' ? UserGetPayload<S['include'][P]> :
+        P extends 'UserXMovimiento' ? UserXMovimientoGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (UserXSaldoXTmpArgs | UserXSaldoXTmpFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'User' ? UserGetPayload<S['select'][P]> :
+        P extends 'UserXMovimiento' ? UserXMovimientoGetPayload<S['select'][P]> :  P extends keyof UserXSaldoXTmp ? UserXSaldoXTmp[P] : never
+  } 
+      : UserXSaldoXTmp
+
+
+  type UserXSaldoXTmpCountArgs = 
+    Omit<UserXSaldoXTmpFindManyArgs, 'select' | 'include'> & {
+      select?: UserXSaldoXTmpCountAggregateInputType | true
+    }
+
+  export interface UserXSaldoXTmpDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one UserXSaldoXTmp that matches the filter.
+     * @param {UserXSaldoXTmpFindUniqueArgs} args - Arguments to find a UserXSaldoXTmp
+     * @example
+     * // Get one UserXSaldoXTmp
+     * const userXSaldoXTmp = await prisma.userXSaldoXTmp.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends UserXSaldoXTmpFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, UserXSaldoXTmpFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'UserXSaldoXTmp'> extends True ? Prisma__UserXSaldoXTmpClient<UserXSaldoXTmpGetPayload<T>> : Prisma__UserXSaldoXTmpClient<UserXSaldoXTmpGetPayload<T> | null, null>
+
+    /**
+     * Find one UserXSaldoXTmp that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {UserXSaldoXTmpFindUniqueOrThrowArgs} args - Arguments to find a UserXSaldoXTmp
+     * @example
+     * // Get one UserXSaldoXTmp
+     * const userXSaldoXTmp = await prisma.userXSaldoXTmp.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends UserXSaldoXTmpFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, UserXSaldoXTmpFindUniqueOrThrowArgs>
+    ): Prisma__UserXSaldoXTmpClient<UserXSaldoXTmpGetPayload<T>>
+
+    /**
+     * Find the first UserXSaldoXTmp that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXSaldoXTmpFindFirstArgs} args - Arguments to find a UserXSaldoXTmp
+     * @example
+     * // Get one UserXSaldoXTmp
+     * const userXSaldoXTmp = await prisma.userXSaldoXTmp.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends UserXSaldoXTmpFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, UserXSaldoXTmpFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'UserXSaldoXTmp'> extends True ? Prisma__UserXSaldoXTmpClient<UserXSaldoXTmpGetPayload<T>> : Prisma__UserXSaldoXTmpClient<UserXSaldoXTmpGetPayload<T> | null, null>
+
+    /**
+     * Find the first UserXSaldoXTmp that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXSaldoXTmpFindFirstOrThrowArgs} args - Arguments to find a UserXSaldoXTmp
+     * @example
+     * // Get one UserXSaldoXTmp
+     * const userXSaldoXTmp = await prisma.userXSaldoXTmp.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends UserXSaldoXTmpFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, UserXSaldoXTmpFindFirstOrThrowArgs>
+    ): Prisma__UserXSaldoXTmpClient<UserXSaldoXTmpGetPayload<T>>
+
+    /**
+     * Find zero or more UserXSaldoXTmps that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXSaldoXTmpFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserXSaldoXTmps
+     * const userXSaldoXTmps = await prisma.userXSaldoXTmp.findMany()
+     * 
+     * // Get first 10 UserXSaldoXTmps
+     * const userXSaldoXTmps = await prisma.userXSaldoXTmp.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userXSaldoXTmpWithIdOnly = await prisma.userXSaldoXTmp.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends UserXSaldoXTmpFindManyArgs>(
+      args?: SelectSubset<T, UserXSaldoXTmpFindManyArgs>
+    ): Prisma.PrismaPromise<Array<UserXSaldoXTmpGetPayload<T>>>
+
+    /**
+     * Create a UserXSaldoXTmp.
+     * @param {UserXSaldoXTmpCreateArgs} args - Arguments to create a UserXSaldoXTmp.
+     * @example
+     * // Create one UserXSaldoXTmp
+     * const UserXSaldoXTmp = await prisma.userXSaldoXTmp.create({
+     *   data: {
+     *     // ... data to create a UserXSaldoXTmp
+     *   }
+     * })
+     * 
+    **/
+    create<T extends UserXSaldoXTmpCreateArgs>(
+      args: SelectSubset<T, UserXSaldoXTmpCreateArgs>
+    ): Prisma__UserXSaldoXTmpClient<UserXSaldoXTmpGetPayload<T>>
+
+    /**
+     * Create many UserXSaldoXTmps.
+     *     @param {UserXSaldoXTmpCreateManyArgs} args - Arguments to create many UserXSaldoXTmps.
+     *     @example
+     *     // Create many UserXSaldoXTmps
+     *     const userXSaldoXTmp = await prisma.userXSaldoXTmp.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends UserXSaldoXTmpCreateManyArgs>(
+      args?: SelectSubset<T, UserXSaldoXTmpCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a UserXSaldoXTmp.
+     * @param {UserXSaldoXTmpDeleteArgs} args - Arguments to delete one UserXSaldoXTmp.
+     * @example
+     * // Delete one UserXSaldoXTmp
+     * const UserXSaldoXTmp = await prisma.userXSaldoXTmp.delete({
+     *   where: {
+     *     // ... filter to delete one UserXSaldoXTmp
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends UserXSaldoXTmpDeleteArgs>(
+      args: SelectSubset<T, UserXSaldoXTmpDeleteArgs>
+    ): Prisma__UserXSaldoXTmpClient<UserXSaldoXTmpGetPayload<T>>
+
+    /**
+     * Update one UserXSaldoXTmp.
+     * @param {UserXSaldoXTmpUpdateArgs} args - Arguments to update one UserXSaldoXTmp.
+     * @example
+     * // Update one UserXSaldoXTmp
+     * const userXSaldoXTmp = await prisma.userXSaldoXTmp.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends UserXSaldoXTmpUpdateArgs>(
+      args: SelectSubset<T, UserXSaldoXTmpUpdateArgs>
+    ): Prisma__UserXSaldoXTmpClient<UserXSaldoXTmpGetPayload<T>>
+
+    /**
+     * Delete zero or more UserXSaldoXTmps.
+     * @param {UserXSaldoXTmpDeleteManyArgs} args - Arguments to filter UserXSaldoXTmps to delete.
+     * @example
+     * // Delete a few UserXSaldoXTmps
+     * const { count } = await prisma.userXSaldoXTmp.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends UserXSaldoXTmpDeleteManyArgs>(
+      args?: SelectSubset<T, UserXSaldoXTmpDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserXSaldoXTmps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXSaldoXTmpUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserXSaldoXTmps
+     * const userXSaldoXTmp = await prisma.userXSaldoXTmp.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends UserXSaldoXTmpUpdateManyArgs>(
+      args: SelectSubset<T, UserXSaldoXTmpUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserXSaldoXTmp.
+     * @param {UserXSaldoXTmpUpsertArgs} args - Arguments to update or create a UserXSaldoXTmp.
+     * @example
+     * // Update or create a UserXSaldoXTmp
+     * const userXSaldoXTmp = await prisma.userXSaldoXTmp.upsert({
+     *   create: {
+     *     // ... data to create a UserXSaldoXTmp
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserXSaldoXTmp we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends UserXSaldoXTmpUpsertArgs>(
+      args: SelectSubset<T, UserXSaldoXTmpUpsertArgs>
+    ): Prisma__UserXSaldoXTmpClient<UserXSaldoXTmpGetPayload<T>>
+
+    /**
+     * Count the number of UserXSaldoXTmps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXSaldoXTmpCountArgs} args - Arguments to filter UserXSaldoXTmps to count.
+     * @example
+     * // Count the number of UserXSaldoXTmps
+     * const count = await prisma.userXSaldoXTmp.count({
+     *   where: {
+     *     // ... the filter for the UserXSaldoXTmps we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserXSaldoXTmpCountArgs>(
+      args?: Subset<T, UserXSaldoXTmpCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserXSaldoXTmpCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserXSaldoXTmp.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXSaldoXTmpAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserXSaldoXTmpAggregateArgs>(args: Subset<T, UserXSaldoXTmpAggregateArgs>): Prisma.PrismaPromise<GetUserXSaldoXTmpAggregateType<T>>
+
+    /**
+     * Group by UserXSaldoXTmp.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXSaldoXTmpGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserXSaldoXTmpGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserXSaldoXTmpGroupByArgs['orderBy'] }
+        : { orderBy?: UserXSaldoXTmpGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserXSaldoXTmpGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserXSaldoXTmpGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserXSaldoXTmp.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__UserXSaldoXTmpClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    User<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    UserXMovimiento<T extends UserXMovimientoArgs= {}>(args?: Subset<T, UserXMovimientoArgs>): Prisma__UserXMovimientoClient<UserXMovimientoGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UserXSaldoXTmp base type for findUnique actions
+   */
+  export type UserXSaldoXTmpFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the UserXSaldoXTmp
+     */
+    select?: UserXSaldoXTmpSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXSaldoXTmpInclude | null
+    /**
+     * Filter, which UserXSaldoXTmp to fetch.
+     */
+    where: UserXSaldoXTmpWhereUniqueInput
+  }
+
+  /**
+   * UserXSaldoXTmp findUnique
+   */
+  export interface UserXSaldoXTmpFindUniqueArgs extends UserXSaldoXTmpFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * UserXSaldoXTmp findUniqueOrThrow
+   */
+  export type UserXSaldoXTmpFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the UserXSaldoXTmp
+     */
+    select?: UserXSaldoXTmpSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXSaldoXTmpInclude | null
+    /**
+     * Filter, which UserXSaldoXTmp to fetch.
+     */
+    where: UserXSaldoXTmpWhereUniqueInput
+  }
+
+
+  /**
+   * UserXSaldoXTmp base type for findFirst actions
+   */
+  export type UserXSaldoXTmpFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the UserXSaldoXTmp
+     */
+    select?: UserXSaldoXTmpSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXSaldoXTmpInclude | null
+    /**
+     * Filter, which UserXSaldoXTmp to fetch.
+     */
+    where?: UserXSaldoXTmpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserXSaldoXTmps to fetch.
+     */
+    orderBy?: Enumerable<UserXSaldoXTmpOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserXSaldoXTmps.
+     */
+    cursor?: UserXSaldoXTmpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserXSaldoXTmps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserXSaldoXTmps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserXSaldoXTmps.
+     */
+    distinct?: Enumerable<UserXSaldoXTmpScalarFieldEnum>
+  }
+
+  /**
+   * UserXSaldoXTmp findFirst
+   */
+  export interface UserXSaldoXTmpFindFirstArgs extends UserXSaldoXTmpFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * UserXSaldoXTmp findFirstOrThrow
+   */
+  export type UserXSaldoXTmpFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the UserXSaldoXTmp
+     */
+    select?: UserXSaldoXTmpSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXSaldoXTmpInclude | null
+    /**
+     * Filter, which UserXSaldoXTmp to fetch.
+     */
+    where?: UserXSaldoXTmpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserXSaldoXTmps to fetch.
+     */
+    orderBy?: Enumerable<UserXSaldoXTmpOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserXSaldoXTmps.
+     */
+    cursor?: UserXSaldoXTmpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserXSaldoXTmps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserXSaldoXTmps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserXSaldoXTmps.
+     */
+    distinct?: Enumerable<UserXSaldoXTmpScalarFieldEnum>
+  }
+
+
+  /**
+   * UserXSaldoXTmp findMany
+   */
+  export type UserXSaldoXTmpFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the UserXSaldoXTmp
+     */
+    select?: UserXSaldoXTmpSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXSaldoXTmpInclude | null
+    /**
+     * Filter, which UserXSaldoXTmps to fetch.
+     */
+    where?: UserXSaldoXTmpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserXSaldoXTmps to fetch.
+     */
+    orderBy?: Enumerable<UserXSaldoXTmpOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserXSaldoXTmps.
+     */
+    cursor?: UserXSaldoXTmpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserXSaldoXTmps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserXSaldoXTmps.
+     */
+    skip?: number
+    distinct?: Enumerable<UserXSaldoXTmpScalarFieldEnum>
+  }
+
+
+  /**
+   * UserXSaldoXTmp create
+   */
+  export type UserXSaldoXTmpCreateArgs = {
+    /**
+     * Select specific fields to fetch from the UserXSaldoXTmp
+     */
+    select?: UserXSaldoXTmpSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXSaldoXTmpInclude | null
+    /**
+     * The data needed to create a UserXSaldoXTmp.
+     */
+    data: XOR<UserXSaldoXTmpCreateInput, UserXSaldoXTmpUncheckedCreateInput>
+  }
+
+
+  /**
+   * UserXSaldoXTmp createMany
+   */
+  export type UserXSaldoXTmpCreateManyArgs = {
+    /**
+     * The data used to create many UserXSaldoXTmps.
+     */
+    data: Enumerable<UserXSaldoXTmpCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * UserXSaldoXTmp update
+   */
+  export type UserXSaldoXTmpUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the UserXSaldoXTmp
+     */
+    select?: UserXSaldoXTmpSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXSaldoXTmpInclude | null
+    /**
+     * The data needed to update a UserXSaldoXTmp.
+     */
+    data: XOR<UserXSaldoXTmpUpdateInput, UserXSaldoXTmpUncheckedUpdateInput>
+    /**
+     * Choose, which UserXSaldoXTmp to update.
+     */
+    where: UserXSaldoXTmpWhereUniqueInput
+  }
+
+
+  /**
+   * UserXSaldoXTmp updateMany
+   */
+  export type UserXSaldoXTmpUpdateManyArgs = {
+    /**
+     * The data used to update UserXSaldoXTmps.
+     */
+    data: XOR<UserXSaldoXTmpUpdateManyMutationInput, UserXSaldoXTmpUncheckedUpdateManyInput>
+    /**
+     * Filter which UserXSaldoXTmps to update
+     */
+    where?: UserXSaldoXTmpWhereInput
+  }
+
+
+  /**
+   * UserXSaldoXTmp upsert
+   */
+  export type UserXSaldoXTmpUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the UserXSaldoXTmp
+     */
+    select?: UserXSaldoXTmpSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXSaldoXTmpInclude | null
+    /**
+     * The filter to search for the UserXSaldoXTmp to update in case it exists.
+     */
+    where: UserXSaldoXTmpWhereUniqueInput
+    /**
+     * In case the UserXSaldoXTmp found by the `where` argument doesn't exist, create a new UserXSaldoXTmp with this data.
+     */
+    create: XOR<UserXSaldoXTmpCreateInput, UserXSaldoXTmpUncheckedCreateInput>
+    /**
+     * In case the UserXSaldoXTmp was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserXSaldoXTmpUpdateInput, UserXSaldoXTmpUncheckedUpdateInput>
+  }
+
+
+  /**
+   * UserXSaldoXTmp delete
+   */
+  export type UserXSaldoXTmpDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the UserXSaldoXTmp
+     */
+    select?: UserXSaldoXTmpSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXSaldoXTmpInclude | null
+    /**
+     * Filter which UserXSaldoXTmp to delete.
+     */
+    where: UserXSaldoXTmpWhereUniqueInput
+  }
+
+
+  /**
+   * UserXSaldoXTmp deleteMany
+   */
+  export type UserXSaldoXTmpDeleteManyArgs = {
+    /**
+     * Filter which UserXSaldoXTmps to delete
+     */
+    where?: UserXSaldoXTmpWhereInput
+  }
+
+
+  /**
+   * UserXSaldoXTmp without action
+   */
+  export type UserXSaldoXTmpArgs = {
+    /**
+     * Select specific fields to fetch from the UserXSaldoXTmp
+     */
+    select?: UserXSaldoXTmpSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXSaldoXTmpInclude | null
   }
 
 
@@ -10140,6 +12316,972 @@ export namespace Prisma {
 
 
   /**
+   * Model UserXBizumXEstado
+   */
+
+
+  export type AggregateUserXBizumXEstado = {
+    _count: UserXBizumXEstadoCountAggregateOutputType | null
+    _avg: UserXBizumXEstadoAvgAggregateOutputType | null
+    _sum: UserXBizumXEstadoSumAggregateOutputType | null
+    _min: UserXBizumXEstadoMinAggregateOutputType | null
+    _max: UserXBizumXEstadoMaxAggregateOutputType | null
+  }
+
+  export type UserXBizumXEstadoAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type UserXBizumXEstadoSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type UserXBizumXEstadoMinAggregateOutputType = {
+    id: number | null
+    descripcion: string | null
+  }
+
+  export type UserXBizumXEstadoMaxAggregateOutputType = {
+    id: number | null
+    descripcion: string | null
+  }
+
+  export type UserXBizumXEstadoCountAggregateOutputType = {
+    id: number
+    descripcion: number
+    _all: number
+  }
+
+
+  export type UserXBizumXEstadoAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type UserXBizumXEstadoSumAggregateInputType = {
+    id?: true
+  }
+
+  export type UserXBizumXEstadoMinAggregateInputType = {
+    id?: true
+    descripcion?: true
+  }
+
+  export type UserXBizumXEstadoMaxAggregateInputType = {
+    id?: true
+    descripcion?: true
+  }
+
+  export type UserXBizumXEstadoCountAggregateInputType = {
+    id?: true
+    descripcion?: true
+    _all?: true
+  }
+
+  export type UserXBizumXEstadoAggregateArgs = {
+    /**
+     * Filter which UserXBizumXEstado to aggregate.
+     */
+    where?: UserXBizumXEstadoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserXBizumXEstados to fetch.
+     */
+    orderBy?: Enumerable<UserXBizumXEstadoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserXBizumXEstadoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserXBizumXEstados from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserXBizumXEstados.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserXBizumXEstados
+    **/
+    _count?: true | UserXBizumXEstadoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserXBizumXEstadoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserXBizumXEstadoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserXBizumXEstadoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserXBizumXEstadoMaxAggregateInputType
+  }
+
+  export type GetUserXBizumXEstadoAggregateType<T extends UserXBizumXEstadoAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserXBizumXEstado]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserXBizumXEstado[P]>
+      : GetScalarType<T[P], AggregateUserXBizumXEstado[P]>
+  }
+
+
+
+
+  export type UserXBizumXEstadoGroupByArgs = {
+    where?: UserXBizumXEstadoWhereInput
+    orderBy?: Enumerable<UserXBizumXEstadoOrderByWithAggregationInput>
+    by: UserXBizumXEstadoScalarFieldEnum[]
+    having?: UserXBizumXEstadoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserXBizumXEstadoCountAggregateInputType | true
+    _avg?: UserXBizumXEstadoAvgAggregateInputType
+    _sum?: UserXBizumXEstadoSumAggregateInputType
+    _min?: UserXBizumXEstadoMinAggregateInputType
+    _max?: UserXBizumXEstadoMaxAggregateInputType
+  }
+
+
+  export type UserXBizumXEstadoGroupByOutputType = {
+    id: number
+    descripcion: string
+    _count: UserXBizumXEstadoCountAggregateOutputType | null
+    _avg: UserXBizumXEstadoAvgAggregateOutputType | null
+    _sum: UserXBizumXEstadoSumAggregateOutputType | null
+    _min: UserXBizumXEstadoMinAggregateOutputType | null
+    _max: UserXBizumXEstadoMaxAggregateOutputType | null
+  }
+
+  type GetUserXBizumXEstadoGroupByPayload<T extends UserXBizumXEstadoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<UserXBizumXEstadoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserXBizumXEstadoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserXBizumXEstadoGroupByOutputType[P]>
+            : GetScalarType<T[P], UserXBizumXEstadoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserXBizumXEstadoSelect = {
+    id?: boolean
+    descripcion?: boolean
+    UserXBizum?: boolean | UserXBizumXEstado$UserXBizumArgs
+    _count?: boolean | UserXBizumXEstadoCountOutputTypeArgs
+  }
+
+
+  export type UserXBizumXEstadoInclude = {
+    UserXBizum?: boolean | UserXBizumXEstado$UserXBizumArgs
+    _count?: boolean | UserXBizumXEstadoCountOutputTypeArgs
+  }
+
+  export type UserXBizumXEstadoGetPayload<S extends boolean | null | undefined | UserXBizumXEstadoArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UserXBizumXEstado :
+    S extends undefined ? never :
+    S extends { include: any } & (UserXBizumXEstadoArgs | UserXBizumXEstadoFindManyArgs)
+    ? UserXBizumXEstado  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'UserXBizum' ? Array < UserXBizumGetPayload<S['include'][P]>>  :
+        P extends '_count' ? UserXBizumXEstadoCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (UserXBizumXEstadoArgs | UserXBizumXEstadoFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'UserXBizum' ? Array < UserXBizumGetPayload<S['select'][P]>>  :
+        P extends '_count' ? UserXBizumXEstadoCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof UserXBizumXEstado ? UserXBizumXEstado[P] : never
+  } 
+      : UserXBizumXEstado
+
+
+  type UserXBizumXEstadoCountArgs = 
+    Omit<UserXBizumXEstadoFindManyArgs, 'select' | 'include'> & {
+      select?: UserXBizumXEstadoCountAggregateInputType | true
+    }
+
+  export interface UserXBizumXEstadoDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one UserXBizumXEstado that matches the filter.
+     * @param {UserXBizumXEstadoFindUniqueArgs} args - Arguments to find a UserXBizumXEstado
+     * @example
+     * // Get one UserXBizumXEstado
+     * const userXBizumXEstado = await prisma.userXBizumXEstado.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends UserXBizumXEstadoFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, UserXBizumXEstadoFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'UserXBizumXEstado'> extends True ? Prisma__UserXBizumXEstadoClient<UserXBizumXEstadoGetPayload<T>> : Prisma__UserXBizumXEstadoClient<UserXBizumXEstadoGetPayload<T> | null, null>
+
+    /**
+     * Find one UserXBizumXEstado that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {UserXBizumXEstadoFindUniqueOrThrowArgs} args - Arguments to find a UserXBizumXEstado
+     * @example
+     * // Get one UserXBizumXEstado
+     * const userXBizumXEstado = await prisma.userXBizumXEstado.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends UserXBizumXEstadoFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, UserXBizumXEstadoFindUniqueOrThrowArgs>
+    ): Prisma__UserXBizumXEstadoClient<UserXBizumXEstadoGetPayload<T>>
+
+    /**
+     * Find the first UserXBizumXEstado that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXBizumXEstadoFindFirstArgs} args - Arguments to find a UserXBizumXEstado
+     * @example
+     * // Get one UserXBizumXEstado
+     * const userXBizumXEstado = await prisma.userXBizumXEstado.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends UserXBizumXEstadoFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, UserXBizumXEstadoFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'UserXBizumXEstado'> extends True ? Prisma__UserXBizumXEstadoClient<UserXBizumXEstadoGetPayload<T>> : Prisma__UserXBizumXEstadoClient<UserXBizumXEstadoGetPayload<T> | null, null>
+
+    /**
+     * Find the first UserXBizumXEstado that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXBizumXEstadoFindFirstOrThrowArgs} args - Arguments to find a UserXBizumXEstado
+     * @example
+     * // Get one UserXBizumXEstado
+     * const userXBizumXEstado = await prisma.userXBizumXEstado.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends UserXBizumXEstadoFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, UserXBizumXEstadoFindFirstOrThrowArgs>
+    ): Prisma__UserXBizumXEstadoClient<UserXBizumXEstadoGetPayload<T>>
+
+    /**
+     * Find zero or more UserXBizumXEstados that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXBizumXEstadoFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserXBizumXEstados
+     * const userXBizumXEstados = await prisma.userXBizumXEstado.findMany()
+     * 
+     * // Get first 10 UserXBizumXEstados
+     * const userXBizumXEstados = await prisma.userXBizumXEstado.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userXBizumXEstadoWithIdOnly = await prisma.userXBizumXEstado.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends UserXBizumXEstadoFindManyArgs>(
+      args?: SelectSubset<T, UserXBizumXEstadoFindManyArgs>
+    ): Prisma.PrismaPromise<Array<UserXBizumXEstadoGetPayload<T>>>
+
+    /**
+     * Create a UserXBizumXEstado.
+     * @param {UserXBizumXEstadoCreateArgs} args - Arguments to create a UserXBizumXEstado.
+     * @example
+     * // Create one UserXBizumXEstado
+     * const UserXBizumXEstado = await prisma.userXBizumXEstado.create({
+     *   data: {
+     *     // ... data to create a UserXBizumXEstado
+     *   }
+     * })
+     * 
+    **/
+    create<T extends UserXBizumXEstadoCreateArgs>(
+      args: SelectSubset<T, UserXBizumXEstadoCreateArgs>
+    ): Prisma__UserXBizumXEstadoClient<UserXBizumXEstadoGetPayload<T>>
+
+    /**
+     * Create many UserXBizumXEstados.
+     *     @param {UserXBizumXEstadoCreateManyArgs} args - Arguments to create many UserXBizumXEstados.
+     *     @example
+     *     // Create many UserXBizumXEstados
+     *     const userXBizumXEstado = await prisma.userXBizumXEstado.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends UserXBizumXEstadoCreateManyArgs>(
+      args?: SelectSubset<T, UserXBizumXEstadoCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a UserXBizumXEstado.
+     * @param {UserXBizumXEstadoDeleteArgs} args - Arguments to delete one UserXBizumXEstado.
+     * @example
+     * // Delete one UserXBizumXEstado
+     * const UserXBizumXEstado = await prisma.userXBizumXEstado.delete({
+     *   where: {
+     *     // ... filter to delete one UserXBizumXEstado
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends UserXBizumXEstadoDeleteArgs>(
+      args: SelectSubset<T, UserXBizumXEstadoDeleteArgs>
+    ): Prisma__UserXBizumXEstadoClient<UserXBizumXEstadoGetPayload<T>>
+
+    /**
+     * Update one UserXBizumXEstado.
+     * @param {UserXBizumXEstadoUpdateArgs} args - Arguments to update one UserXBizumXEstado.
+     * @example
+     * // Update one UserXBizumXEstado
+     * const userXBizumXEstado = await prisma.userXBizumXEstado.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends UserXBizumXEstadoUpdateArgs>(
+      args: SelectSubset<T, UserXBizumXEstadoUpdateArgs>
+    ): Prisma__UserXBizumXEstadoClient<UserXBizumXEstadoGetPayload<T>>
+
+    /**
+     * Delete zero or more UserXBizumXEstados.
+     * @param {UserXBizumXEstadoDeleteManyArgs} args - Arguments to filter UserXBizumXEstados to delete.
+     * @example
+     * // Delete a few UserXBizumXEstados
+     * const { count } = await prisma.userXBizumXEstado.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends UserXBizumXEstadoDeleteManyArgs>(
+      args?: SelectSubset<T, UserXBizumXEstadoDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserXBizumXEstados.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXBizumXEstadoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserXBizumXEstados
+     * const userXBizumXEstado = await prisma.userXBizumXEstado.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends UserXBizumXEstadoUpdateManyArgs>(
+      args: SelectSubset<T, UserXBizumXEstadoUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserXBizumXEstado.
+     * @param {UserXBizumXEstadoUpsertArgs} args - Arguments to update or create a UserXBizumXEstado.
+     * @example
+     * // Update or create a UserXBizumXEstado
+     * const userXBizumXEstado = await prisma.userXBizumXEstado.upsert({
+     *   create: {
+     *     // ... data to create a UserXBizumXEstado
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserXBizumXEstado we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends UserXBizumXEstadoUpsertArgs>(
+      args: SelectSubset<T, UserXBizumXEstadoUpsertArgs>
+    ): Prisma__UserXBizumXEstadoClient<UserXBizumXEstadoGetPayload<T>>
+
+    /**
+     * Count the number of UserXBizumXEstados.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXBizumXEstadoCountArgs} args - Arguments to filter UserXBizumXEstados to count.
+     * @example
+     * // Count the number of UserXBizumXEstados
+     * const count = await prisma.userXBizumXEstado.count({
+     *   where: {
+     *     // ... the filter for the UserXBizumXEstados we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserXBizumXEstadoCountArgs>(
+      args?: Subset<T, UserXBizumXEstadoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserXBizumXEstadoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserXBizumXEstado.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXBizumXEstadoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserXBizumXEstadoAggregateArgs>(args: Subset<T, UserXBizumXEstadoAggregateArgs>): Prisma.PrismaPromise<GetUserXBizumXEstadoAggregateType<T>>
+
+    /**
+     * Group by UserXBizumXEstado.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserXBizumXEstadoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserXBizumXEstadoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserXBizumXEstadoGroupByArgs['orderBy'] }
+        : { orderBy?: UserXBizumXEstadoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserXBizumXEstadoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserXBizumXEstadoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserXBizumXEstado.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__UserXBizumXEstadoClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    UserXBizum<T extends UserXBizumXEstado$UserXBizumArgs= {}>(args?: Subset<T, UserXBizumXEstado$UserXBizumArgs>): Prisma.PrismaPromise<Array<UserXBizumGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UserXBizumXEstado base type for findUnique actions
+   */
+  export type UserXBizumXEstadoFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the UserXBizumXEstado
+     */
+    select?: UserXBizumXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXBizumXEstadoInclude | null
+    /**
+     * Filter, which UserXBizumXEstado to fetch.
+     */
+    where: UserXBizumXEstadoWhereUniqueInput
+  }
+
+  /**
+   * UserXBizumXEstado findUnique
+   */
+  export interface UserXBizumXEstadoFindUniqueArgs extends UserXBizumXEstadoFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * UserXBizumXEstado findUniqueOrThrow
+   */
+  export type UserXBizumXEstadoFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the UserXBizumXEstado
+     */
+    select?: UserXBizumXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXBizumXEstadoInclude | null
+    /**
+     * Filter, which UserXBizumXEstado to fetch.
+     */
+    where: UserXBizumXEstadoWhereUniqueInput
+  }
+
+
+  /**
+   * UserXBizumXEstado base type for findFirst actions
+   */
+  export type UserXBizumXEstadoFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the UserXBizumXEstado
+     */
+    select?: UserXBizumXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXBizumXEstadoInclude | null
+    /**
+     * Filter, which UserXBizumXEstado to fetch.
+     */
+    where?: UserXBizumXEstadoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserXBizumXEstados to fetch.
+     */
+    orderBy?: Enumerable<UserXBizumXEstadoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserXBizumXEstados.
+     */
+    cursor?: UserXBizumXEstadoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserXBizumXEstados from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserXBizumXEstados.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserXBizumXEstados.
+     */
+    distinct?: Enumerable<UserXBizumXEstadoScalarFieldEnum>
+  }
+
+  /**
+   * UserXBizumXEstado findFirst
+   */
+  export interface UserXBizumXEstadoFindFirstArgs extends UserXBizumXEstadoFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * UserXBizumXEstado findFirstOrThrow
+   */
+  export type UserXBizumXEstadoFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the UserXBizumXEstado
+     */
+    select?: UserXBizumXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXBizumXEstadoInclude | null
+    /**
+     * Filter, which UserXBizumXEstado to fetch.
+     */
+    where?: UserXBizumXEstadoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserXBizumXEstados to fetch.
+     */
+    orderBy?: Enumerable<UserXBizumXEstadoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserXBizumXEstados.
+     */
+    cursor?: UserXBizumXEstadoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserXBizumXEstados from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserXBizumXEstados.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserXBizumXEstados.
+     */
+    distinct?: Enumerable<UserXBizumXEstadoScalarFieldEnum>
+  }
+
+
+  /**
+   * UserXBizumXEstado findMany
+   */
+  export type UserXBizumXEstadoFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the UserXBizumXEstado
+     */
+    select?: UserXBizumXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXBizumXEstadoInclude | null
+    /**
+     * Filter, which UserXBizumXEstados to fetch.
+     */
+    where?: UserXBizumXEstadoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserXBizumXEstados to fetch.
+     */
+    orderBy?: Enumerable<UserXBizumXEstadoOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserXBizumXEstados.
+     */
+    cursor?: UserXBizumXEstadoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserXBizumXEstados from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserXBizumXEstados.
+     */
+    skip?: number
+    distinct?: Enumerable<UserXBizumXEstadoScalarFieldEnum>
+  }
+
+
+  /**
+   * UserXBizumXEstado create
+   */
+  export type UserXBizumXEstadoCreateArgs = {
+    /**
+     * Select specific fields to fetch from the UserXBizumXEstado
+     */
+    select?: UserXBizumXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXBizumXEstadoInclude | null
+    /**
+     * The data needed to create a UserXBizumXEstado.
+     */
+    data: XOR<UserXBizumXEstadoCreateInput, UserXBizumXEstadoUncheckedCreateInput>
+  }
+
+
+  /**
+   * UserXBizumXEstado createMany
+   */
+  export type UserXBizumXEstadoCreateManyArgs = {
+    /**
+     * The data used to create many UserXBizumXEstados.
+     */
+    data: Enumerable<UserXBizumXEstadoCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * UserXBizumXEstado update
+   */
+  export type UserXBizumXEstadoUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the UserXBizumXEstado
+     */
+    select?: UserXBizumXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXBizumXEstadoInclude | null
+    /**
+     * The data needed to update a UserXBizumXEstado.
+     */
+    data: XOR<UserXBizumXEstadoUpdateInput, UserXBizumXEstadoUncheckedUpdateInput>
+    /**
+     * Choose, which UserXBizumXEstado to update.
+     */
+    where: UserXBizumXEstadoWhereUniqueInput
+  }
+
+
+  /**
+   * UserXBizumXEstado updateMany
+   */
+  export type UserXBizumXEstadoUpdateManyArgs = {
+    /**
+     * The data used to update UserXBizumXEstados.
+     */
+    data: XOR<UserXBizumXEstadoUpdateManyMutationInput, UserXBizumXEstadoUncheckedUpdateManyInput>
+    /**
+     * Filter which UserXBizumXEstados to update
+     */
+    where?: UserXBizumXEstadoWhereInput
+  }
+
+
+  /**
+   * UserXBizumXEstado upsert
+   */
+  export type UserXBizumXEstadoUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the UserXBizumXEstado
+     */
+    select?: UserXBizumXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXBizumXEstadoInclude | null
+    /**
+     * The filter to search for the UserXBizumXEstado to update in case it exists.
+     */
+    where: UserXBizumXEstadoWhereUniqueInput
+    /**
+     * In case the UserXBizumXEstado found by the `where` argument doesn't exist, create a new UserXBizumXEstado with this data.
+     */
+    create: XOR<UserXBizumXEstadoCreateInput, UserXBizumXEstadoUncheckedCreateInput>
+    /**
+     * In case the UserXBizumXEstado was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserXBizumXEstadoUpdateInput, UserXBizumXEstadoUncheckedUpdateInput>
+  }
+
+
+  /**
+   * UserXBizumXEstado delete
+   */
+  export type UserXBizumXEstadoDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the UserXBizumXEstado
+     */
+    select?: UserXBizumXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXBizumXEstadoInclude | null
+    /**
+     * Filter which UserXBizumXEstado to delete.
+     */
+    where: UserXBizumXEstadoWhereUniqueInput
+  }
+
+
+  /**
+   * UserXBizumXEstado deleteMany
+   */
+  export type UserXBizumXEstadoDeleteManyArgs = {
+    /**
+     * Filter which UserXBizumXEstados to delete
+     */
+    where?: UserXBizumXEstadoWhereInput
+  }
+
+
+  /**
+   * UserXBizumXEstado.UserXBizum
+   */
+  export type UserXBizumXEstado$UserXBizumArgs = {
+    /**
+     * Select specific fields to fetch from the UserXBizum
+     */
+    select?: UserXBizumSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXBizumInclude | null
+    where?: UserXBizumWhereInput
+    orderBy?: Enumerable<UserXBizumOrderByWithRelationInput>
+    cursor?: UserXBizumWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<UserXBizumScalarFieldEnum>
+  }
+
+
+  /**
+   * UserXBizumXEstado without action
+   */
+  export type UserXBizumXEstadoArgs = {
+    /**
+     * Select specific fields to fetch from the UserXBizumXEstado
+     */
+    select?: UserXBizumXEstadoSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserXBizumXEstadoInclude | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -10164,6 +13306,15 @@ export namespace Prisma {
   };
 
   export type ApuestaXEstadoScalarFieldEnum = (typeof ApuestaXEstadoScalarFieldEnum)[keyof typeof ApuestaXEstadoScalarFieldEnum]
+
+
+  export const BizumXMovimientoScalarFieldEnum: {
+    id: 'id',
+    bizumId: 'bizumId',
+    movimientoId: 'movimientoId'
+  };
+
+  export type BizumXMovimientoScalarFieldEnum = (typeof BizumXMovimientoScalarFieldEnum)[keyof typeof BizumXMovimientoScalarFieldEnum]
 
 
   export const CodeSecureScalarFieldEnum: {
@@ -10221,12 +13372,19 @@ export namespace Prisma {
     id: 'id',
     importe: 'importe',
     userId: 'userId',
-    movimientoId: 'movimientoId',
-    pendiente: 'pendiente',
+    estadoId: 'estadoId',
     createdAt: 'createdAt'
   };
 
   export type UserXBizumScalarFieldEnum = (typeof UserXBizumScalarFieldEnum)[keyof typeof UserXBizumScalarFieldEnum]
+
+
+  export const UserXBizumXEstadoScalarFieldEnum: {
+    id: 'id',
+    descripcion: 'descripcion'
+  };
+
+  export type UserXBizumXEstadoScalarFieldEnum = (typeof UserXBizumXEstadoScalarFieldEnum)[keyof typeof UserXBizumXEstadoScalarFieldEnum]
 
 
   export const UserXEstadoScalarFieldEnum: {
@@ -10264,6 +13422,17 @@ export namespace Prisma {
   export type UserXRoleScalarFieldEnum = (typeof UserXRoleScalarFieldEnum)[keyof typeof UserXRoleScalarFieldEnum]
 
 
+  export const UserXSaldoXTmpScalarFieldEnum: {
+    id: 'id',
+    saldo: 'saldo',
+    userId: 'userId',
+    movimientoId: 'movimientoId',
+    createdAt: 'createdAt'
+  };
+
+  export type UserXSaldoXTmpScalarFieldEnum = (typeof UserXSaldoXTmpScalarFieldEnum)[keyof typeof UserXSaldoXTmpScalarFieldEnum]
+
+
   /**
    * Deep Input Types
    */
@@ -10287,6 +13456,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureListRelationFilter
     UserXBizum?: UserXBizumListRelationFilter
     UserXMovimiento?: UserXMovimientoListRelationFilter
+    UserXSaldoXTmp?: UserXSaldoXTmpListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -10304,6 +13474,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureOrderByRelationAggregateInput
     UserXBizum?: UserXBizumOrderByRelationAggregateInput
     UserXMovimiento?: UserXMovimientoOrderByRelationAggregateInput
+    UserXSaldoXTmp?: UserXSaldoXTmpOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = {
@@ -10350,22 +13521,22 @@ export namespace Prisma {
     id?: IntFilter | number
     importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
     userId?: IntFilter | number
-    movimientoId?: IntFilter | number
-    pendiente?: BoolFilter | boolean
+    estadoId?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     User?: XOR<UserRelationFilter, UserWhereInput>
-    UserXMovimiento?: XOR<UserXMovimientoRelationFilter, UserXMovimientoWhereInput>
+    UserXBizumXEstado?: XOR<UserXBizumXEstadoRelationFilter, UserXBizumXEstadoWhereInput>
+    BizumXMovimiento?: BizumXMovimientoListRelationFilter
   }
 
   export type UserXBizumOrderByWithRelationInput = {
     id?: SortOrder
     importe?: SortOrder
     userId?: SortOrder
-    movimientoId?: SortOrder
-    pendiente?: SortOrder
+    estadoId?: SortOrder
     createdAt?: SortOrder
     User?: UserOrderByWithRelationInput
-    UserXMovimiento?: UserXMovimientoOrderByWithRelationInput
+    UserXBizumXEstado?: UserXBizumXEstadoOrderByWithRelationInput
+    BizumXMovimiento?: BizumXMovimientoOrderByRelationAggregateInput
   }
 
   export type UserXBizumWhereUniqueInput = {
@@ -10376,8 +13547,7 @@ export namespace Prisma {
     id?: SortOrder
     importe?: SortOrder
     userId?: SortOrder
-    movimientoId?: SortOrder
-    pendiente?: SortOrder
+    estadoId?: SortOrder
     createdAt?: SortOrder
     _count?: UserXBizumCountOrderByAggregateInput
     _avg?: UserXBizumAvgOrderByAggregateInput
@@ -10393,8 +13563,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter | number
     importe?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     userId?: IntWithAggregatesFilter | number
-    movimientoId?: IntWithAggregatesFilter | number
-    pendiente?: BoolWithAggregatesFilter | boolean
+    estadoId?: IntWithAggregatesFilter | number
     createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
@@ -10409,7 +13578,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter | Date | string
     User?: XOR<UserRelationFilter, UserWhereInput>
     UserXMovimientoXTipo?: XOR<UserXMovimientoXTipoRelationFilter, UserXMovimientoXTipoWhereInput>
-    UserXBizum?: UserXBizumListRelationFilter
+    UserXSaldoXTmp?: UserXSaldoXTmpListRelationFilter
+    BizumXMovimiento?: BizumXMovimientoListRelationFilter
   }
 
   export type UserXMovimientoOrderByWithRelationInput = {
@@ -10420,7 +13590,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     User?: UserOrderByWithRelationInput
     UserXMovimientoXTipo?: UserXMovimientoXTipoOrderByWithRelationInput
-    UserXBizum?: UserXBizumOrderByRelationAggregateInput
+    UserXSaldoXTmp?: UserXSaldoXTmpOrderByRelationAggregateInput
+    BizumXMovimiento?: BizumXMovimientoOrderByRelationAggregateInput
   }
 
   export type UserXMovimientoWhereUniqueInput = {
@@ -10448,6 +13619,100 @@ export namespace Prisma {
     importe?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     userId?: IntWithAggregatesFilter | number
     tipoId?: IntWithAggregatesFilter | number
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type BizumXMovimientoWhereInput = {
+    AND?: Enumerable<BizumXMovimientoWhereInput>
+    OR?: Enumerable<BizumXMovimientoWhereInput>
+    NOT?: Enumerable<BizumXMovimientoWhereInput>
+    id?: IntFilter | number
+    bizumId?: IntFilter | number
+    movimientoId?: IntFilter | number
+    UserXBizum?: XOR<UserXBizumRelationFilter, UserXBizumWhereInput>
+    UserXMovimiento?: XOR<UserXMovimientoRelationFilter, UserXMovimientoWhereInput>
+  }
+
+  export type BizumXMovimientoOrderByWithRelationInput = {
+    id?: SortOrder
+    bizumId?: SortOrder
+    movimientoId?: SortOrder
+    UserXBizum?: UserXBizumOrderByWithRelationInput
+    UserXMovimiento?: UserXMovimientoOrderByWithRelationInput
+  }
+
+  export type BizumXMovimientoWhereUniqueInput = {
+    id?: number
+  }
+
+  export type BizumXMovimientoOrderByWithAggregationInput = {
+    id?: SortOrder
+    bizumId?: SortOrder
+    movimientoId?: SortOrder
+    _count?: BizumXMovimientoCountOrderByAggregateInput
+    _avg?: BizumXMovimientoAvgOrderByAggregateInput
+    _max?: BizumXMovimientoMaxOrderByAggregateInput
+    _min?: BizumXMovimientoMinOrderByAggregateInput
+    _sum?: BizumXMovimientoSumOrderByAggregateInput
+  }
+
+  export type BizumXMovimientoScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<BizumXMovimientoScalarWhereWithAggregatesInput>
+    OR?: Enumerable<BizumXMovimientoScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<BizumXMovimientoScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    bizumId?: IntWithAggregatesFilter | number
+    movimientoId?: IntWithAggregatesFilter | number
+  }
+
+  export type UserXSaldoXTmpWhereInput = {
+    AND?: Enumerable<UserXSaldoXTmpWhereInput>
+    OR?: Enumerable<UserXSaldoXTmpWhereInput>
+    NOT?: Enumerable<UserXSaldoXTmpWhereInput>
+    id?: IntFilter | number
+    saldo?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    userId?: IntFilter | number
+    movimientoId?: IntFilter | number
+    createdAt?: DateTimeFilter | Date | string
+    User?: XOR<UserRelationFilter, UserWhereInput>
+    UserXMovimiento?: XOR<UserXMovimientoRelationFilter, UserXMovimientoWhereInput>
+  }
+
+  export type UserXSaldoXTmpOrderByWithRelationInput = {
+    id?: SortOrder
+    saldo?: SortOrder
+    userId?: SortOrder
+    movimientoId?: SortOrder
+    createdAt?: SortOrder
+    User?: UserOrderByWithRelationInput
+    UserXMovimiento?: UserXMovimientoOrderByWithRelationInput
+  }
+
+  export type UserXSaldoXTmpWhereUniqueInput = {
+    id?: number
+  }
+
+  export type UserXSaldoXTmpOrderByWithAggregationInput = {
+    id?: SortOrder
+    saldo?: SortOrder
+    userId?: SortOrder
+    movimientoId?: SortOrder
+    createdAt?: SortOrder
+    _count?: UserXSaldoXTmpCountOrderByAggregateInput
+    _avg?: UserXSaldoXTmpAvgOrderByAggregateInput
+    _max?: UserXSaldoXTmpMaxOrderByAggregateInput
+    _min?: UserXSaldoXTmpMinOrderByAggregateInput
+    _sum?: UserXSaldoXTmpSumOrderByAggregateInput
+  }
+
+  export type UserXSaldoXTmpScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<UserXSaldoXTmpScalarWhereWithAggregatesInput>
+    OR?: Enumerable<UserXSaldoXTmpScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<UserXSaldoXTmpScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    saldo?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    userId?: IntWithAggregatesFilter | number
+    movimientoId?: IntWithAggregatesFilter | number
     createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
@@ -10701,6 +13966,44 @@ export namespace Prisma {
     descripcion?: StringWithAggregatesFilter | string
   }
 
+  export type UserXBizumXEstadoWhereInput = {
+    AND?: Enumerable<UserXBizumXEstadoWhereInput>
+    OR?: Enumerable<UserXBizumXEstadoWhereInput>
+    NOT?: Enumerable<UserXBizumXEstadoWhereInput>
+    id?: IntFilter | number
+    descripcion?: StringFilter | string
+    UserXBizum?: UserXBizumListRelationFilter
+  }
+
+  export type UserXBizumXEstadoOrderByWithRelationInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    UserXBizum?: UserXBizumOrderByRelationAggregateInput
+  }
+
+  export type UserXBizumXEstadoWhereUniqueInput = {
+    id?: number
+    descripcion?: string
+  }
+
+  export type UserXBizumXEstadoOrderByWithAggregationInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+    _count?: UserXBizumXEstadoCountOrderByAggregateInput
+    _avg?: UserXBizumXEstadoAvgOrderByAggregateInput
+    _max?: UserXBizumXEstadoMaxOrderByAggregateInput
+    _min?: UserXBizumXEstadoMinOrderByAggregateInput
+    _sum?: UserXBizumXEstadoSumOrderByAggregateInput
+  }
+
+  export type UserXBizumXEstadoScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<UserXBizumXEstadoScalarWhereWithAggregatesInput>
+    OR?: Enumerable<UserXBizumXEstadoScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<UserXBizumXEstadoScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    descripcion?: StringWithAggregatesFilter | string
+  }
+
   export type UserCreateInput = {
     id: number
     name: string
@@ -10714,6 +14017,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureCreateNestedManyWithoutUserInput
     UserXBizum?: UserXBizumCreateNestedManyWithoutUserInput
     UserXMovimiento?: UserXMovimientoCreateNestedManyWithoutUserInput
+    UserXSaldoXTmp?: UserXSaldoXTmpCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -10729,6 +14033,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureUncheckedCreateNestedManyWithoutUserInput
     UserXBizum?: UserXBizumUncheckedCreateNestedManyWithoutUserInput
     UserXMovimiento?: UserXMovimientoUncheckedCreateNestedManyWithoutUserInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -10744,6 +14049,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureUpdateManyWithoutUserNestedInput
     UserXBizum?: UserXBizumUpdateManyWithoutUserNestedInput
     UserXMovimiento?: UserXMovimientoUpdateManyWithoutUserNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -10759,6 +14065,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureUncheckedUpdateManyWithoutUserNestedInput
     UserXBizum?: UserXBizumUncheckedUpdateManyWithoutUserNestedInput
     UserXMovimiento?: UserXMovimientoUncheckedUpdateManyWithoutUserNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10797,50 +14104,48 @@ export namespace Prisma {
 
   export type UserXBizumCreateInput = {
     importe: Decimal | DecimalJsLike | number | string
-    pendiente?: boolean
     createdAt?: Date | string
     User: UserCreateNestedOneWithoutUserXBizumInput
-    UserXMovimiento: UserXMovimientoCreateNestedOneWithoutUserXBizumInput
+    UserXBizumXEstado: UserXBizumXEstadoCreateNestedOneWithoutUserXBizumInput
+    BizumXMovimiento?: BizumXMovimientoCreateNestedManyWithoutUserXBizumInput
   }
 
   export type UserXBizumUncheckedCreateInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
     userId: number
-    movimientoId: number
-    pendiente?: boolean
+    estadoId: number
     createdAt?: Date | string
+    BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXBizumInput
   }
 
   export type UserXBizumUpdateInput = {
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    pendiente?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     User?: UserUpdateOneRequiredWithoutUserXBizumNestedInput
-    UserXMovimiento?: UserXMovimientoUpdateOneRequiredWithoutUserXBizumNestedInput
+    UserXBizumXEstado?: UserXBizumXEstadoUpdateOneRequiredWithoutUserXBizumNestedInput
+    BizumXMovimiento?: BizumXMovimientoUpdateManyWithoutUserXBizumNestedInput
   }
 
   export type UserXBizumUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     userId?: IntFieldUpdateOperationsInput | number
-    movimientoId?: IntFieldUpdateOperationsInput | number
-    pendiente?: BoolFieldUpdateOperationsInput | boolean
+    estadoId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXBizumNestedInput
   }
 
   export type UserXBizumCreateManyInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
     userId: number
-    movimientoId: number
-    pendiente?: boolean
+    estadoId: number
     createdAt?: Date | string
   }
 
   export type UserXBizumUpdateManyMutationInput = {
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    pendiente?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -10848,8 +14153,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     userId?: IntFieldUpdateOperationsInput | number
-    movimientoId?: IntFieldUpdateOperationsInput | number
-    pendiente?: BoolFieldUpdateOperationsInput | boolean
+    estadoId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -10858,7 +14162,8 @@ export namespace Prisma {
     createdAt?: Date | string
     User: UserCreateNestedOneWithoutUserXMovimientoInput
     UserXMovimientoXTipo: UserXMovimientoXTipoCreateNestedOneWithoutUserXMovimientoInput
-    UserXBizum?: UserXBizumCreateNestedManyWithoutUserXMovimientoInput
+    UserXSaldoXTmp?: UserXSaldoXTmpCreateNestedManyWithoutUserXMovimientoInput
+    BizumXMovimiento?: BizumXMovimientoCreateNestedManyWithoutUserXMovimientoInput
   }
 
   export type UserXMovimientoUncheckedCreateInput = {
@@ -10867,7 +14172,8 @@ export namespace Prisma {
     userId: number
     tipoId: number
     createdAt?: Date | string
-    UserXBizum?: UserXBizumUncheckedCreateNestedManyWithoutUserXMovimientoInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserXMovimientoInput
+    BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXMovimientoInput
   }
 
   export type UserXMovimientoUpdateInput = {
@@ -10875,7 +14181,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     User?: UserUpdateOneRequiredWithoutUserXMovimientoNestedInput
     UserXMovimientoXTipo?: UserXMovimientoXTipoUpdateOneRequiredWithoutUserXMovimientoNestedInput
-    UserXBizum?: UserXBizumUpdateManyWithoutUserXMovimientoNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUpdateManyWithoutUserXMovimientoNestedInput
+    BizumXMovimiento?: BizumXMovimientoUpdateManyWithoutUserXMovimientoNestedInput
   }
 
   export type UserXMovimientoUncheckedUpdateInput = {
@@ -10884,7 +14191,8 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     tipoId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    UserXBizum?: UserXBizumUncheckedUpdateManyWithoutUserXMovimientoNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserXMovimientoNestedInput
+    BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXMovimientoNestedInput
   }
 
   export type UserXMovimientoCreateManyInput = {
@@ -10905,6 +14213,95 @@ export namespace Prisma {
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     userId?: IntFieldUpdateOperationsInput | number
     tipoId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BizumXMovimientoCreateInput = {
+    UserXBizum: UserXBizumCreateNestedOneWithoutBizumXMovimientoInput
+    UserXMovimiento: UserXMovimientoCreateNestedOneWithoutBizumXMovimientoInput
+  }
+
+  export type BizumXMovimientoUncheckedCreateInput = {
+    id?: number
+    bizumId: number
+    movimientoId: number
+  }
+
+  export type BizumXMovimientoUpdateInput = {
+    UserXBizum?: UserXBizumUpdateOneRequiredWithoutBizumXMovimientoNestedInput
+    UserXMovimiento?: UserXMovimientoUpdateOneRequiredWithoutBizumXMovimientoNestedInput
+  }
+
+  export type BizumXMovimientoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    bizumId?: IntFieldUpdateOperationsInput | number
+    movimientoId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BizumXMovimientoCreateManyInput = {
+    id?: number
+    bizumId: number
+    movimientoId: number
+  }
+
+  export type BizumXMovimientoUpdateManyMutationInput = {
+
+  }
+
+  export type BizumXMovimientoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    bizumId?: IntFieldUpdateOperationsInput | number
+    movimientoId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserXSaldoXTmpCreateInput = {
+    saldo: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    User: UserCreateNestedOneWithoutUserXSaldoXTmpInput
+    UserXMovimiento: UserXMovimientoCreateNestedOneWithoutUserXSaldoXTmpInput
+  }
+
+  export type UserXSaldoXTmpUncheckedCreateInput = {
+    id?: number
+    saldo: Decimal | DecimalJsLike | number | string
+    userId: number
+    movimientoId: number
+    createdAt?: Date | string
+  }
+
+  export type UserXSaldoXTmpUpdateInput = {
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    User?: UserUpdateOneRequiredWithoutUserXSaldoXTmpNestedInput
+    UserXMovimiento?: UserXMovimientoUpdateOneRequiredWithoutUserXSaldoXTmpNestedInput
+  }
+
+  export type UserXSaldoXTmpUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: IntFieldUpdateOperationsInput | number
+    movimientoId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserXSaldoXTmpCreateManyInput = {
+    id?: number
+    saldo: Decimal | DecimalJsLike | number | string
+    userId: number
+    movimientoId: number
+    createdAt?: Date | string
+  }
+
+  export type UserXSaldoXTmpUpdateManyMutationInput = {
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserXSaldoXTmpUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: IntFieldUpdateOperationsInput | number
+    movimientoId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -11171,6 +14568,45 @@ export namespace Prisma {
     descripcion?: StringFieldUpdateOperationsInput | string
   }
 
+  export type UserXBizumXEstadoCreateInput = {
+    id: number
+    descripcion: string
+    UserXBizum?: UserXBizumCreateNestedManyWithoutUserXBizumXEstadoInput
+  }
+
+  export type UserXBizumXEstadoUncheckedCreateInput = {
+    id: number
+    descripcion: string
+    UserXBizum?: UserXBizumUncheckedCreateNestedManyWithoutUserXBizumXEstadoInput
+  }
+
+  export type UserXBizumXEstadoUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    UserXBizum?: UserXBizumUpdateManyWithoutUserXBizumXEstadoNestedInput
+  }
+
+  export type UserXBizumXEstadoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+    UserXBizum?: UserXBizumUncheckedUpdateManyWithoutUserXBizumXEstadoNestedInput
+  }
+
+  export type UserXBizumXEstadoCreateManyInput = {
+    id: number
+    descripcion: string
+  }
+
+  export type UserXBizumXEstadoUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserXBizumXEstadoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
   export type IntFilter = {
     equals?: number
     in?: Enumerable<number> | number
@@ -11247,6 +14683,12 @@ export namespace Prisma {
     none?: UserXMovimientoWhereInput
   }
 
+  export type UserXSaldoXTmpListRelationFilter = {
+    every?: UserXSaldoXTmpWhereInput
+    some?: UserXSaldoXTmpWhereInput
+    none?: UserXSaldoXTmpWhereInput
+  }
+
   export type CodeSecureOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -11256,6 +14698,10 @@ export namespace Prisma {
   }
 
   export type UserXMovimientoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserXSaldoXTmpOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11373,27 +14819,31 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter
   }
 
-  export type BoolFilter = {
-    equals?: boolean
-    not?: NestedBoolFilter | boolean
-  }
-
   export type UserRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
   }
 
-  export type UserXMovimientoRelationFilter = {
-    is?: UserXMovimientoWhereInput
-    isNot?: UserXMovimientoWhereInput
+  export type UserXBizumXEstadoRelationFilter = {
+    is?: UserXBizumXEstadoWhereInput
+    isNot?: UserXBizumXEstadoWhereInput
+  }
+
+  export type BizumXMovimientoListRelationFilter = {
+    every?: BizumXMovimientoWhereInput
+    some?: BizumXMovimientoWhereInput
+    none?: BizumXMovimientoWhereInput
+  }
+
+  export type BizumXMovimientoOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserXBizumCountOrderByAggregateInput = {
     id?: SortOrder
     importe?: SortOrder
     userId?: SortOrder
-    movimientoId?: SortOrder
-    pendiente?: SortOrder
+    estadoId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -11401,15 +14851,14 @@ export namespace Prisma {
     id?: SortOrder
     importe?: SortOrder
     userId?: SortOrder
-    movimientoId?: SortOrder
+    estadoId?: SortOrder
   }
 
   export type UserXBizumMaxOrderByAggregateInput = {
     id?: SortOrder
     importe?: SortOrder
     userId?: SortOrder
-    movimientoId?: SortOrder
-    pendiente?: SortOrder
+    estadoId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -11417,8 +14866,7 @@ export namespace Prisma {
     id?: SortOrder
     importe?: SortOrder
     userId?: SortOrder
-    movimientoId?: SortOrder
-    pendiente?: SortOrder
+    estadoId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -11426,15 +14874,7 @@ export namespace Prisma {
     id?: SortOrder
     importe?: SortOrder
     userId?: SortOrder
-    movimientoId?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    _count?: NestedIntFilter
-    _min?: NestedBoolFilter
-    _max?: NestedBoolFilter
+    estadoId?: SortOrder
   }
 
   export type UserXMovimientoXTipoRelationFilter = {
@@ -11478,6 +14918,84 @@ export namespace Prisma {
     importe?: SortOrder
     userId?: SortOrder
     tipoId?: SortOrder
+  }
+
+  export type UserXBizumRelationFilter = {
+    is?: UserXBizumWhereInput
+    isNot?: UserXBizumWhereInput
+  }
+
+  export type UserXMovimientoRelationFilter = {
+    is?: UserXMovimientoWhereInput
+    isNot?: UserXMovimientoWhereInput
+  }
+
+  export type BizumXMovimientoCountOrderByAggregateInput = {
+    id?: SortOrder
+    bizumId?: SortOrder
+    movimientoId?: SortOrder
+  }
+
+  export type BizumXMovimientoAvgOrderByAggregateInput = {
+    id?: SortOrder
+    bizumId?: SortOrder
+    movimientoId?: SortOrder
+  }
+
+  export type BizumXMovimientoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    bizumId?: SortOrder
+    movimientoId?: SortOrder
+  }
+
+  export type BizumXMovimientoMinOrderByAggregateInput = {
+    id?: SortOrder
+    bizumId?: SortOrder
+    movimientoId?: SortOrder
+  }
+
+  export type BizumXMovimientoSumOrderByAggregateInput = {
+    id?: SortOrder
+    bizumId?: SortOrder
+    movimientoId?: SortOrder
+  }
+
+  export type UserXSaldoXTmpCountOrderByAggregateInput = {
+    id?: SortOrder
+    saldo?: SortOrder
+    userId?: SortOrder
+    movimientoId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserXSaldoXTmpAvgOrderByAggregateInput = {
+    id?: SortOrder
+    saldo?: SortOrder
+    userId?: SortOrder
+    movimientoId?: SortOrder
+  }
+
+  export type UserXSaldoXTmpMaxOrderByAggregateInput = {
+    id?: SortOrder
+    saldo?: SortOrder
+    userId?: SortOrder
+    movimientoId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserXSaldoXTmpMinOrderByAggregateInput = {
+    id?: SortOrder
+    saldo?: SortOrder
+    userId?: SortOrder
+    movimientoId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserXSaldoXTmpSumOrderByAggregateInput = {
+    id?: SortOrder
+    saldo?: SortOrder
+    userId?: SortOrder
+    movimientoId?: SortOrder
   }
 
   export type UserXMovimientoXTipoCountOrderByAggregateInput = {
@@ -11696,6 +15214,29 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type UserXBizumXEstadoCountOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type UserXBizumXEstadoAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type UserXBizumXEstadoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type UserXBizumXEstadoMinOrderByAggregateInput = {
+    id?: SortOrder
+    descripcion?: SortOrder
+  }
+
+  export type UserXBizumXEstadoSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type UserXRoleCreateNestedOneWithoutUserInput = {
     create?: XOR<UserXRoleCreateWithoutUserInput, UserXRoleUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserXRoleCreateOrConnectWithoutUserInput
@@ -11729,6 +15270,13 @@ export namespace Prisma {
     connect?: Enumerable<UserXMovimientoWhereUniqueInput>
   }
 
+  export type UserXSaldoXTmpCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<UserXSaldoXTmpCreateWithoutUserInput>, Enumerable<UserXSaldoXTmpUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<UserXSaldoXTmpCreateOrConnectWithoutUserInput>
+    createMany?: UserXSaldoXTmpCreateManyUserInputEnvelope
+    connect?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+  }
+
   export type CodeSecureUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<Enumerable<CodeSecureCreateWithoutUserInput>, Enumerable<CodeSecureUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<CodeSecureCreateOrConnectWithoutUserInput>
@@ -11748,6 +15296,13 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<UserXMovimientoCreateOrConnectWithoutUserInput>
     createMany?: UserXMovimientoCreateManyUserInputEnvelope
     connect?: Enumerable<UserXMovimientoWhereUniqueInput>
+  }
+
+  export type UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<UserXSaldoXTmpCreateWithoutUserInput>, Enumerable<UserXSaldoXTmpUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<UserXSaldoXTmpCreateOrConnectWithoutUserInput>
+    createMany?: UserXSaldoXTmpCreateManyUserInputEnvelope
+    connect?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -11832,6 +15387,20 @@ export namespace Prisma {
     deleteMany?: Enumerable<UserXMovimientoScalarWhereInput>
   }
 
+  export type UserXSaldoXTmpUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<UserXSaldoXTmpCreateWithoutUserInput>, Enumerable<UserXSaldoXTmpUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<UserXSaldoXTmpCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<UserXSaldoXTmpUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: UserXSaldoXTmpCreateManyUserInputEnvelope
+    set?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    disconnect?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    delete?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    connect?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    update?: Enumerable<UserXSaldoXTmpUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<UserXSaldoXTmpUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<UserXSaldoXTmpScalarWhereInput>
+  }
+
   export type CodeSecureUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<Enumerable<CodeSecureCreateWithoutUserInput>, Enumerable<CodeSecureUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<CodeSecureCreateOrConnectWithoutUserInput>
@@ -11874,20 +15443,44 @@ export namespace Prisma {
     deleteMany?: Enumerable<UserXMovimientoScalarWhereInput>
   }
 
+  export type UserXSaldoXTmpUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<UserXSaldoXTmpCreateWithoutUserInput>, Enumerable<UserXSaldoXTmpUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<UserXSaldoXTmpCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<UserXSaldoXTmpUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: UserXSaldoXTmpCreateManyUserInputEnvelope
+    set?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    disconnect?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    delete?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    connect?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    update?: Enumerable<UserXSaldoXTmpUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<UserXSaldoXTmpUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<UserXSaldoXTmpScalarWhereInput>
+  }
+
   export type UserCreateNestedOneWithoutUserXBizumInput = {
     create?: XOR<UserCreateWithoutUserXBizumInput, UserUncheckedCreateWithoutUserXBizumInput>
     connectOrCreate?: UserCreateOrConnectWithoutUserXBizumInput
     connect?: UserWhereUniqueInput
   }
 
-  export type UserXMovimientoCreateNestedOneWithoutUserXBizumInput = {
-    create?: XOR<UserXMovimientoCreateWithoutUserXBizumInput, UserXMovimientoUncheckedCreateWithoutUserXBizumInput>
-    connectOrCreate?: UserXMovimientoCreateOrConnectWithoutUserXBizumInput
-    connect?: UserXMovimientoWhereUniqueInput
+  export type UserXBizumXEstadoCreateNestedOneWithoutUserXBizumInput = {
+    create?: XOR<UserXBizumXEstadoCreateWithoutUserXBizumInput, UserXBizumXEstadoUncheckedCreateWithoutUserXBizumInput>
+    connectOrCreate?: UserXBizumXEstadoCreateOrConnectWithoutUserXBizumInput
+    connect?: UserXBizumXEstadoWhereUniqueInput
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
+  export type BizumXMovimientoCreateNestedManyWithoutUserXBizumInput = {
+    create?: XOR<Enumerable<BizumXMovimientoCreateWithoutUserXBizumInput>, Enumerable<BizumXMovimientoUncheckedCreateWithoutUserXBizumInput>>
+    connectOrCreate?: Enumerable<BizumXMovimientoCreateOrConnectWithoutUserXBizumInput>
+    createMany?: BizumXMovimientoCreateManyUserXBizumInputEnvelope
+    connect?: Enumerable<BizumXMovimientoWhereUniqueInput>
+  }
+
+  export type BizumXMovimientoUncheckedCreateNestedManyWithoutUserXBizumInput = {
+    create?: XOR<Enumerable<BizumXMovimientoCreateWithoutUserXBizumInput>, Enumerable<BizumXMovimientoUncheckedCreateWithoutUserXBizumInput>>
+    connectOrCreate?: Enumerable<BizumXMovimientoCreateOrConnectWithoutUserXBizumInput>
+    createMany?: BizumXMovimientoCreateManyUserXBizumInputEnvelope
+    connect?: Enumerable<BizumXMovimientoWhereUniqueInput>
   }
 
   export type UserUpdateOneRequiredWithoutUserXBizumNestedInput = {
@@ -11898,12 +15491,40 @@ export namespace Prisma {
     update?: XOR<UserUpdateWithoutUserXBizumInput, UserUncheckedUpdateWithoutUserXBizumInput>
   }
 
-  export type UserXMovimientoUpdateOneRequiredWithoutUserXBizumNestedInput = {
-    create?: XOR<UserXMovimientoCreateWithoutUserXBizumInput, UserXMovimientoUncheckedCreateWithoutUserXBizumInput>
-    connectOrCreate?: UserXMovimientoCreateOrConnectWithoutUserXBizumInput
-    upsert?: UserXMovimientoUpsertWithoutUserXBizumInput
-    connect?: UserXMovimientoWhereUniqueInput
-    update?: XOR<UserXMovimientoUpdateWithoutUserXBizumInput, UserXMovimientoUncheckedUpdateWithoutUserXBizumInput>
+  export type UserXBizumXEstadoUpdateOneRequiredWithoutUserXBizumNestedInput = {
+    create?: XOR<UserXBizumXEstadoCreateWithoutUserXBizumInput, UserXBizumXEstadoUncheckedCreateWithoutUserXBizumInput>
+    connectOrCreate?: UserXBizumXEstadoCreateOrConnectWithoutUserXBizumInput
+    upsert?: UserXBizumXEstadoUpsertWithoutUserXBizumInput
+    connect?: UserXBizumXEstadoWhereUniqueInput
+    update?: XOR<UserXBizumXEstadoUpdateWithoutUserXBizumInput, UserXBizumXEstadoUncheckedUpdateWithoutUserXBizumInput>
+  }
+
+  export type BizumXMovimientoUpdateManyWithoutUserXBizumNestedInput = {
+    create?: XOR<Enumerable<BizumXMovimientoCreateWithoutUserXBizumInput>, Enumerable<BizumXMovimientoUncheckedCreateWithoutUserXBizumInput>>
+    connectOrCreate?: Enumerable<BizumXMovimientoCreateOrConnectWithoutUserXBizumInput>
+    upsert?: Enumerable<BizumXMovimientoUpsertWithWhereUniqueWithoutUserXBizumInput>
+    createMany?: BizumXMovimientoCreateManyUserXBizumInputEnvelope
+    set?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    disconnect?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    delete?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    connect?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    update?: Enumerable<BizumXMovimientoUpdateWithWhereUniqueWithoutUserXBizumInput>
+    updateMany?: Enumerable<BizumXMovimientoUpdateManyWithWhereWithoutUserXBizumInput>
+    deleteMany?: Enumerable<BizumXMovimientoScalarWhereInput>
+  }
+
+  export type BizumXMovimientoUncheckedUpdateManyWithoutUserXBizumNestedInput = {
+    create?: XOR<Enumerable<BizumXMovimientoCreateWithoutUserXBizumInput>, Enumerable<BizumXMovimientoUncheckedCreateWithoutUserXBizumInput>>
+    connectOrCreate?: Enumerable<BizumXMovimientoCreateOrConnectWithoutUserXBizumInput>
+    upsert?: Enumerable<BizumXMovimientoUpsertWithWhereUniqueWithoutUserXBizumInput>
+    createMany?: BizumXMovimientoCreateManyUserXBizumInputEnvelope
+    set?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    disconnect?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    delete?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    connect?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    update?: Enumerable<BizumXMovimientoUpdateWithWhereUniqueWithoutUserXBizumInput>
+    updateMany?: Enumerable<BizumXMovimientoUpdateManyWithWhereWithoutUserXBizumInput>
+    deleteMany?: Enumerable<BizumXMovimientoScalarWhereInput>
   }
 
   export type UserCreateNestedOneWithoutUserXMovimientoInput = {
@@ -11918,18 +15539,32 @@ export namespace Prisma {
     connect?: UserXMovimientoXTipoWhereUniqueInput
   }
 
-  export type UserXBizumCreateNestedManyWithoutUserXMovimientoInput = {
-    create?: XOR<Enumerable<UserXBizumCreateWithoutUserXMovimientoInput>, Enumerable<UserXBizumUncheckedCreateWithoutUserXMovimientoInput>>
-    connectOrCreate?: Enumerable<UserXBizumCreateOrConnectWithoutUserXMovimientoInput>
-    createMany?: UserXBizumCreateManyUserXMovimientoInputEnvelope
-    connect?: Enumerable<UserXBizumWhereUniqueInput>
+  export type UserXSaldoXTmpCreateNestedManyWithoutUserXMovimientoInput = {
+    create?: XOR<Enumerable<UserXSaldoXTmpCreateWithoutUserXMovimientoInput>, Enumerable<UserXSaldoXTmpUncheckedCreateWithoutUserXMovimientoInput>>
+    connectOrCreate?: Enumerable<UserXSaldoXTmpCreateOrConnectWithoutUserXMovimientoInput>
+    createMany?: UserXSaldoXTmpCreateManyUserXMovimientoInputEnvelope
+    connect?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
   }
 
-  export type UserXBizumUncheckedCreateNestedManyWithoutUserXMovimientoInput = {
-    create?: XOR<Enumerable<UserXBizumCreateWithoutUserXMovimientoInput>, Enumerable<UserXBizumUncheckedCreateWithoutUserXMovimientoInput>>
-    connectOrCreate?: Enumerable<UserXBizumCreateOrConnectWithoutUserXMovimientoInput>
-    createMany?: UserXBizumCreateManyUserXMovimientoInputEnvelope
-    connect?: Enumerable<UserXBizumWhereUniqueInput>
+  export type BizumXMovimientoCreateNestedManyWithoutUserXMovimientoInput = {
+    create?: XOR<Enumerable<BizumXMovimientoCreateWithoutUserXMovimientoInput>, Enumerable<BizumXMovimientoUncheckedCreateWithoutUserXMovimientoInput>>
+    connectOrCreate?: Enumerable<BizumXMovimientoCreateOrConnectWithoutUserXMovimientoInput>
+    createMany?: BizumXMovimientoCreateManyUserXMovimientoInputEnvelope
+    connect?: Enumerable<BizumXMovimientoWhereUniqueInput>
+  }
+
+  export type UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserXMovimientoInput = {
+    create?: XOR<Enumerable<UserXSaldoXTmpCreateWithoutUserXMovimientoInput>, Enumerable<UserXSaldoXTmpUncheckedCreateWithoutUserXMovimientoInput>>
+    connectOrCreate?: Enumerable<UserXSaldoXTmpCreateOrConnectWithoutUserXMovimientoInput>
+    createMany?: UserXSaldoXTmpCreateManyUserXMovimientoInputEnvelope
+    connect?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+  }
+
+  export type BizumXMovimientoUncheckedCreateNestedManyWithoutUserXMovimientoInput = {
+    create?: XOR<Enumerable<BizumXMovimientoCreateWithoutUserXMovimientoInput>, Enumerable<BizumXMovimientoUncheckedCreateWithoutUserXMovimientoInput>>
+    connectOrCreate?: Enumerable<BizumXMovimientoCreateOrConnectWithoutUserXMovimientoInput>
+    createMany?: BizumXMovimientoCreateManyUserXMovimientoInputEnvelope
+    connect?: Enumerable<BizumXMovimientoWhereUniqueInput>
   }
 
   export type UserUpdateOneRequiredWithoutUserXMovimientoNestedInput = {
@@ -11948,32 +15583,116 @@ export namespace Prisma {
     update?: XOR<UserXMovimientoXTipoUpdateWithoutUserXMovimientoInput, UserXMovimientoXTipoUncheckedUpdateWithoutUserXMovimientoInput>
   }
 
-  export type UserXBizumUpdateManyWithoutUserXMovimientoNestedInput = {
-    create?: XOR<Enumerable<UserXBizumCreateWithoutUserXMovimientoInput>, Enumerable<UserXBizumUncheckedCreateWithoutUserXMovimientoInput>>
-    connectOrCreate?: Enumerable<UserXBizumCreateOrConnectWithoutUserXMovimientoInput>
-    upsert?: Enumerable<UserXBizumUpsertWithWhereUniqueWithoutUserXMovimientoInput>
-    createMany?: UserXBizumCreateManyUserXMovimientoInputEnvelope
-    set?: Enumerable<UserXBizumWhereUniqueInput>
-    disconnect?: Enumerable<UserXBizumWhereUniqueInput>
-    delete?: Enumerable<UserXBizumWhereUniqueInput>
-    connect?: Enumerable<UserXBizumWhereUniqueInput>
-    update?: Enumerable<UserXBizumUpdateWithWhereUniqueWithoutUserXMovimientoInput>
-    updateMany?: Enumerable<UserXBizumUpdateManyWithWhereWithoutUserXMovimientoInput>
-    deleteMany?: Enumerable<UserXBizumScalarWhereInput>
+  export type UserXSaldoXTmpUpdateManyWithoutUserXMovimientoNestedInput = {
+    create?: XOR<Enumerable<UserXSaldoXTmpCreateWithoutUserXMovimientoInput>, Enumerable<UserXSaldoXTmpUncheckedCreateWithoutUserXMovimientoInput>>
+    connectOrCreate?: Enumerable<UserXSaldoXTmpCreateOrConnectWithoutUserXMovimientoInput>
+    upsert?: Enumerable<UserXSaldoXTmpUpsertWithWhereUniqueWithoutUserXMovimientoInput>
+    createMany?: UserXSaldoXTmpCreateManyUserXMovimientoInputEnvelope
+    set?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    disconnect?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    delete?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    connect?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    update?: Enumerable<UserXSaldoXTmpUpdateWithWhereUniqueWithoutUserXMovimientoInput>
+    updateMany?: Enumerable<UserXSaldoXTmpUpdateManyWithWhereWithoutUserXMovimientoInput>
+    deleteMany?: Enumerable<UserXSaldoXTmpScalarWhereInput>
   }
 
-  export type UserXBizumUncheckedUpdateManyWithoutUserXMovimientoNestedInput = {
-    create?: XOR<Enumerable<UserXBizumCreateWithoutUserXMovimientoInput>, Enumerable<UserXBizumUncheckedCreateWithoutUserXMovimientoInput>>
-    connectOrCreate?: Enumerable<UserXBizumCreateOrConnectWithoutUserXMovimientoInput>
-    upsert?: Enumerable<UserXBizumUpsertWithWhereUniqueWithoutUserXMovimientoInput>
-    createMany?: UserXBizumCreateManyUserXMovimientoInputEnvelope
-    set?: Enumerable<UserXBizumWhereUniqueInput>
-    disconnect?: Enumerable<UserXBizumWhereUniqueInput>
-    delete?: Enumerable<UserXBizumWhereUniqueInput>
-    connect?: Enumerable<UserXBizumWhereUniqueInput>
-    update?: Enumerable<UserXBizumUpdateWithWhereUniqueWithoutUserXMovimientoInput>
-    updateMany?: Enumerable<UserXBizumUpdateManyWithWhereWithoutUserXMovimientoInput>
-    deleteMany?: Enumerable<UserXBizumScalarWhereInput>
+  export type BizumXMovimientoUpdateManyWithoutUserXMovimientoNestedInput = {
+    create?: XOR<Enumerable<BizumXMovimientoCreateWithoutUserXMovimientoInput>, Enumerable<BizumXMovimientoUncheckedCreateWithoutUserXMovimientoInput>>
+    connectOrCreate?: Enumerable<BizumXMovimientoCreateOrConnectWithoutUserXMovimientoInput>
+    upsert?: Enumerable<BizumXMovimientoUpsertWithWhereUniqueWithoutUserXMovimientoInput>
+    createMany?: BizumXMovimientoCreateManyUserXMovimientoInputEnvelope
+    set?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    disconnect?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    delete?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    connect?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    update?: Enumerable<BizumXMovimientoUpdateWithWhereUniqueWithoutUserXMovimientoInput>
+    updateMany?: Enumerable<BizumXMovimientoUpdateManyWithWhereWithoutUserXMovimientoInput>
+    deleteMany?: Enumerable<BizumXMovimientoScalarWhereInput>
+  }
+
+  export type UserXSaldoXTmpUncheckedUpdateManyWithoutUserXMovimientoNestedInput = {
+    create?: XOR<Enumerable<UserXSaldoXTmpCreateWithoutUserXMovimientoInput>, Enumerable<UserXSaldoXTmpUncheckedCreateWithoutUserXMovimientoInput>>
+    connectOrCreate?: Enumerable<UserXSaldoXTmpCreateOrConnectWithoutUserXMovimientoInput>
+    upsert?: Enumerable<UserXSaldoXTmpUpsertWithWhereUniqueWithoutUserXMovimientoInput>
+    createMany?: UserXSaldoXTmpCreateManyUserXMovimientoInputEnvelope
+    set?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    disconnect?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    delete?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    connect?: Enumerable<UserXSaldoXTmpWhereUniqueInput>
+    update?: Enumerable<UserXSaldoXTmpUpdateWithWhereUniqueWithoutUserXMovimientoInput>
+    updateMany?: Enumerable<UserXSaldoXTmpUpdateManyWithWhereWithoutUserXMovimientoInput>
+    deleteMany?: Enumerable<UserXSaldoXTmpScalarWhereInput>
+  }
+
+  export type BizumXMovimientoUncheckedUpdateManyWithoutUserXMovimientoNestedInput = {
+    create?: XOR<Enumerable<BizumXMovimientoCreateWithoutUserXMovimientoInput>, Enumerable<BizumXMovimientoUncheckedCreateWithoutUserXMovimientoInput>>
+    connectOrCreate?: Enumerable<BizumXMovimientoCreateOrConnectWithoutUserXMovimientoInput>
+    upsert?: Enumerable<BizumXMovimientoUpsertWithWhereUniqueWithoutUserXMovimientoInput>
+    createMany?: BizumXMovimientoCreateManyUserXMovimientoInputEnvelope
+    set?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    disconnect?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    delete?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    connect?: Enumerable<BizumXMovimientoWhereUniqueInput>
+    update?: Enumerable<BizumXMovimientoUpdateWithWhereUniqueWithoutUserXMovimientoInput>
+    updateMany?: Enumerable<BizumXMovimientoUpdateManyWithWhereWithoutUserXMovimientoInput>
+    deleteMany?: Enumerable<BizumXMovimientoScalarWhereInput>
+  }
+
+  export type UserXBizumCreateNestedOneWithoutBizumXMovimientoInput = {
+    create?: XOR<UserXBizumCreateWithoutBizumXMovimientoInput, UserXBizumUncheckedCreateWithoutBizumXMovimientoInput>
+    connectOrCreate?: UserXBizumCreateOrConnectWithoutBizumXMovimientoInput
+    connect?: UserXBizumWhereUniqueInput
+  }
+
+  export type UserXMovimientoCreateNestedOneWithoutBizumXMovimientoInput = {
+    create?: XOR<UserXMovimientoCreateWithoutBizumXMovimientoInput, UserXMovimientoUncheckedCreateWithoutBizumXMovimientoInput>
+    connectOrCreate?: UserXMovimientoCreateOrConnectWithoutBizumXMovimientoInput
+    connect?: UserXMovimientoWhereUniqueInput
+  }
+
+  export type UserXBizumUpdateOneRequiredWithoutBizumXMovimientoNestedInput = {
+    create?: XOR<UserXBizumCreateWithoutBizumXMovimientoInput, UserXBizumUncheckedCreateWithoutBizumXMovimientoInput>
+    connectOrCreate?: UserXBizumCreateOrConnectWithoutBizumXMovimientoInput
+    upsert?: UserXBizumUpsertWithoutBizumXMovimientoInput
+    connect?: UserXBizumWhereUniqueInput
+    update?: XOR<UserXBizumUpdateWithoutBizumXMovimientoInput, UserXBizumUncheckedUpdateWithoutBizumXMovimientoInput>
+  }
+
+  export type UserXMovimientoUpdateOneRequiredWithoutBizumXMovimientoNestedInput = {
+    create?: XOR<UserXMovimientoCreateWithoutBizumXMovimientoInput, UserXMovimientoUncheckedCreateWithoutBizumXMovimientoInput>
+    connectOrCreate?: UserXMovimientoCreateOrConnectWithoutBizumXMovimientoInput
+    upsert?: UserXMovimientoUpsertWithoutBizumXMovimientoInput
+    connect?: UserXMovimientoWhereUniqueInput
+    update?: XOR<UserXMovimientoUpdateWithoutBizumXMovimientoInput, UserXMovimientoUncheckedUpdateWithoutBizumXMovimientoInput>
+  }
+
+  export type UserCreateNestedOneWithoutUserXSaldoXTmpInput = {
+    create?: XOR<UserCreateWithoutUserXSaldoXTmpInput, UserUncheckedCreateWithoutUserXSaldoXTmpInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserXSaldoXTmpInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserXMovimientoCreateNestedOneWithoutUserXSaldoXTmpInput = {
+    create?: XOR<UserXMovimientoCreateWithoutUserXSaldoXTmpInput, UserXMovimientoUncheckedCreateWithoutUserXSaldoXTmpInput>
+    connectOrCreate?: UserXMovimientoCreateOrConnectWithoutUserXSaldoXTmpInput
+    connect?: UserXMovimientoWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutUserXSaldoXTmpNestedInput = {
+    create?: XOR<UserCreateWithoutUserXSaldoXTmpInput, UserUncheckedCreateWithoutUserXSaldoXTmpInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserXSaldoXTmpInput
+    upsert?: UserUpsertWithoutUserXSaldoXTmpInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutUserXSaldoXTmpInput, UserUncheckedUpdateWithoutUserXSaldoXTmpInput>
+  }
+
+  export type UserXMovimientoUpdateOneRequiredWithoutUserXSaldoXTmpNestedInput = {
+    create?: XOR<UserXMovimientoCreateWithoutUserXSaldoXTmpInput, UserXMovimientoUncheckedCreateWithoutUserXSaldoXTmpInput>
+    connectOrCreate?: UserXMovimientoCreateOrConnectWithoutUserXSaldoXTmpInput
+    upsert?: UserXMovimientoUpsertWithoutUserXSaldoXTmpInput
+    connect?: UserXMovimientoWhereUniqueInput
+    update?: XOR<UserXMovimientoUpdateWithoutUserXSaldoXTmpInput, UserXMovimientoUncheckedUpdateWithoutUserXSaldoXTmpInput>
   }
 
   export type UserXMovimientoCreateNestedManyWithoutUserXMovimientoXTipoInput = {
@@ -12172,6 +15891,48 @@ export namespace Prisma {
     deleteMany?: Enumerable<ApuestaScalarWhereInput>
   }
 
+  export type UserXBizumCreateNestedManyWithoutUserXBizumXEstadoInput = {
+    create?: XOR<Enumerable<UserXBizumCreateWithoutUserXBizumXEstadoInput>, Enumerable<UserXBizumUncheckedCreateWithoutUserXBizumXEstadoInput>>
+    connectOrCreate?: Enumerable<UserXBizumCreateOrConnectWithoutUserXBizumXEstadoInput>
+    createMany?: UserXBizumCreateManyUserXBizumXEstadoInputEnvelope
+    connect?: Enumerable<UserXBizumWhereUniqueInput>
+  }
+
+  export type UserXBizumUncheckedCreateNestedManyWithoutUserXBizumXEstadoInput = {
+    create?: XOR<Enumerable<UserXBizumCreateWithoutUserXBizumXEstadoInput>, Enumerable<UserXBizumUncheckedCreateWithoutUserXBizumXEstadoInput>>
+    connectOrCreate?: Enumerable<UserXBizumCreateOrConnectWithoutUserXBizumXEstadoInput>
+    createMany?: UserXBizumCreateManyUserXBizumXEstadoInputEnvelope
+    connect?: Enumerable<UserXBizumWhereUniqueInput>
+  }
+
+  export type UserXBizumUpdateManyWithoutUserXBizumXEstadoNestedInput = {
+    create?: XOR<Enumerable<UserXBizumCreateWithoutUserXBizumXEstadoInput>, Enumerable<UserXBizumUncheckedCreateWithoutUserXBizumXEstadoInput>>
+    connectOrCreate?: Enumerable<UserXBizumCreateOrConnectWithoutUserXBizumXEstadoInput>
+    upsert?: Enumerable<UserXBizumUpsertWithWhereUniqueWithoutUserXBizumXEstadoInput>
+    createMany?: UserXBizumCreateManyUserXBizumXEstadoInputEnvelope
+    set?: Enumerable<UserXBizumWhereUniqueInput>
+    disconnect?: Enumerable<UserXBizumWhereUniqueInput>
+    delete?: Enumerable<UserXBizumWhereUniqueInput>
+    connect?: Enumerable<UserXBizumWhereUniqueInput>
+    update?: Enumerable<UserXBizumUpdateWithWhereUniqueWithoutUserXBizumXEstadoInput>
+    updateMany?: Enumerable<UserXBizumUpdateManyWithWhereWithoutUserXBizumXEstadoInput>
+    deleteMany?: Enumerable<UserXBizumScalarWhereInput>
+  }
+
+  export type UserXBizumUncheckedUpdateManyWithoutUserXBizumXEstadoNestedInput = {
+    create?: XOR<Enumerable<UserXBizumCreateWithoutUserXBizumXEstadoInput>, Enumerable<UserXBizumUncheckedCreateWithoutUserXBizumXEstadoInput>>
+    connectOrCreate?: Enumerable<UserXBizumCreateOrConnectWithoutUserXBizumXEstadoInput>
+    upsert?: Enumerable<UserXBizumUpsertWithWhereUniqueWithoutUserXBizumXEstadoInput>
+    createMany?: UserXBizumCreateManyUserXBizumXEstadoInputEnvelope
+    set?: Enumerable<UserXBizumWhereUniqueInput>
+    disconnect?: Enumerable<UserXBizumWhereUniqueInput>
+    delete?: Enumerable<UserXBizumWhereUniqueInput>
+    connect?: Enumerable<UserXBizumWhereUniqueInput>
+    update?: Enumerable<UserXBizumUpdateWithWhereUniqueWithoutUserXBizumXEstadoInput>
+    updateMany?: Enumerable<UserXBizumUpdateManyWithWhereWithoutUserXBizumXEstadoInput>
+    deleteMany?: Enumerable<UserXBizumScalarWhereInput>
+  }
+
   export type NestedIntFilter = {
     equals?: number
     in?: Enumerable<number> | number
@@ -12293,19 +16054,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter
   }
 
-  export type NestedBoolFilter = {
-    equals?: boolean
-    not?: NestedBoolFilter | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    _count?: NestedIntFilter
-    _min?: NestedBoolFilter
-    _max?: NestedBoolFilter
-  }
-
   export type NestedUuidFilter = {
     equals?: string
     in?: Enumerable<string> | string
@@ -12385,17 +16133,17 @@ export namespace Prisma {
 
   export type UserXBizumCreateWithoutUserInput = {
     importe: Decimal | DecimalJsLike | number | string
-    pendiente?: boolean
     createdAt?: Date | string
-    UserXMovimiento: UserXMovimientoCreateNestedOneWithoutUserXBizumInput
+    UserXBizumXEstado: UserXBizumXEstadoCreateNestedOneWithoutUserXBizumInput
+    BizumXMovimiento?: BizumXMovimientoCreateNestedManyWithoutUserXBizumInput
   }
 
   export type UserXBizumUncheckedCreateWithoutUserInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    movimientoId: number
-    pendiente?: boolean
+    estadoId: number
     createdAt?: Date | string
+    BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXBizumInput
   }
 
   export type UserXBizumCreateOrConnectWithoutUserInput = {
@@ -12412,7 +16160,8 @@ export namespace Prisma {
     importe: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     UserXMovimientoXTipo: UserXMovimientoXTipoCreateNestedOneWithoutUserXMovimientoInput
-    UserXBizum?: UserXBizumCreateNestedManyWithoutUserXMovimientoInput
+    UserXSaldoXTmp?: UserXSaldoXTmpCreateNestedManyWithoutUserXMovimientoInput
+    BizumXMovimiento?: BizumXMovimientoCreateNestedManyWithoutUserXMovimientoInput
   }
 
   export type UserXMovimientoUncheckedCreateWithoutUserInput = {
@@ -12420,7 +16169,8 @@ export namespace Prisma {
     importe: Decimal | DecimalJsLike | number | string
     tipoId: number
     createdAt?: Date | string
-    UserXBizum?: UserXBizumUncheckedCreateNestedManyWithoutUserXMovimientoInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserXMovimientoInput
+    BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXMovimientoInput
   }
 
   export type UserXMovimientoCreateOrConnectWithoutUserInput = {
@@ -12430,6 +16180,29 @@ export namespace Prisma {
 
   export type UserXMovimientoCreateManyUserInputEnvelope = {
     data: Enumerable<UserXMovimientoCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type UserXSaldoXTmpCreateWithoutUserInput = {
+    saldo: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    UserXMovimiento: UserXMovimientoCreateNestedOneWithoutUserXSaldoXTmpInput
+  }
+
+  export type UserXSaldoXTmpUncheckedCreateWithoutUserInput = {
+    id?: number
+    saldo: Decimal | DecimalJsLike | number | string
+    movimientoId: number
+    createdAt?: Date | string
+  }
+
+  export type UserXSaldoXTmpCreateOrConnectWithoutUserInput = {
+    where: UserXSaldoXTmpWhereUniqueInput
+    create: XOR<UserXSaldoXTmpCreateWithoutUserInput, UserXSaldoXTmpUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserXSaldoXTmpCreateManyUserInputEnvelope = {
+    data: Enumerable<UserXSaldoXTmpCreateManyUserInput>
     skipDuplicates?: boolean
   }
 
@@ -12512,8 +16285,7 @@ export namespace Prisma {
     id?: IntFilter | number
     importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
     userId?: IntFilter | number
-    movimientoId?: IntFilter | number
-    pendiente?: BoolFilter | boolean
+    estadoId?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
   }
 
@@ -12544,6 +16316,33 @@ export namespace Prisma {
     createdAt?: DateTimeFilter | Date | string
   }
 
+  export type UserXSaldoXTmpUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserXSaldoXTmpWhereUniqueInput
+    update: XOR<UserXSaldoXTmpUpdateWithoutUserInput, UserXSaldoXTmpUncheckedUpdateWithoutUserInput>
+    create: XOR<UserXSaldoXTmpCreateWithoutUserInput, UserXSaldoXTmpUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserXSaldoXTmpUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserXSaldoXTmpWhereUniqueInput
+    data: XOR<UserXSaldoXTmpUpdateWithoutUserInput, UserXSaldoXTmpUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserXSaldoXTmpUpdateManyWithWhereWithoutUserInput = {
+    where: UserXSaldoXTmpScalarWhereInput
+    data: XOR<UserXSaldoXTmpUpdateManyMutationInput, UserXSaldoXTmpUncheckedUpdateManyWithoutUserXSaldoXTmpInput>
+  }
+
+  export type UserXSaldoXTmpScalarWhereInput = {
+    AND?: Enumerable<UserXSaldoXTmpScalarWhereInput>
+    OR?: Enumerable<UserXSaldoXTmpScalarWhereInput>
+    NOT?: Enumerable<UserXSaldoXTmpScalarWhereInput>
+    id?: IntFilter | number
+    saldo?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    userId?: IntFilter | number
+    movimientoId?: IntFilter | number
+    createdAt?: DateTimeFilter | Date | string
+  }
+
   export type UserCreateWithoutUserXBizumInput = {
     id: number
     name: string
@@ -12556,6 +16355,7 @@ export namespace Prisma {
     UserXEstado: UserXEstadoCreateNestedOneWithoutUserInput
     CodeSecure?: CodeSecureCreateNestedManyWithoutUserInput
     UserXMovimiento?: UserXMovimientoCreateNestedManyWithoutUserInput
+    UserXSaldoXTmp?: UserXSaldoXTmpCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserXBizumInput = {
@@ -12570,6 +16370,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     CodeSecure?: CodeSecureUncheckedCreateNestedManyWithoutUserInput
     UserXMovimiento?: UserXMovimientoUncheckedCreateNestedManyWithoutUserInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserXBizumInput = {
@@ -12577,24 +16378,38 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutUserXBizumInput, UserUncheckedCreateWithoutUserXBizumInput>
   }
 
-  export type UserXMovimientoCreateWithoutUserXBizumInput = {
-    importe: Decimal | DecimalJsLike | number | string
-    createdAt?: Date | string
-    User: UserCreateNestedOneWithoutUserXMovimientoInput
-    UserXMovimientoXTipo: UserXMovimientoXTipoCreateNestedOneWithoutUserXMovimientoInput
+  export type UserXBizumXEstadoCreateWithoutUserXBizumInput = {
+    id: number
+    descripcion: string
   }
 
-  export type UserXMovimientoUncheckedCreateWithoutUserXBizumInput = {
+  export type UserXBizumXEstadoUncheckedCreateWithoutUserXBizumInput = {
+    id: number
+    descripcion: string
+  }
+
+  export type UserXBizumXEstadoCreateOrConnectWithoutUserXBizumInput = {
+    where: UserXBizumXEstadoWhereUniqueInput
+    create: XOR<UserXBizumXEstadoCreateWithoutUserXBizumInput, UserXBizumXEstadoUncheckedCreateWithoutUserXBizumInput>
+  }
+
+  export type BizumXMovimientoCreateWithoutUserXBizumInput = {
+    UserXMovimiento: UserXMovimientoCreateNestedOneWithoutBizumXMovimientoInput
+  }
+
+  export type BizumXMovimientoUncheckedCreateWithoutUserXBizumInput = {
     id?: number
-    importe: Decimal | DecimalJsLike | number | string
-    userId: number
-    tipoId: number
-    createdAt?: Date | string
+    movimientoId: number
   }
 
-  export type UserXMovimientoCreateOrConnectWithoutUserXBizumInput = {
-    where: UserXMovimientoWhereUniqueInput
-    create: XOR<UserXMovimientoCreateWithoutUserXBizumInput, UserXMovimientoUncheckedCreateWithoutUserXBizumInput>
+  export type BizumXMovimientoCreateOrConnectWithoutUserXBizumInput = {
+    where: BizumXMovimientoWhereUniqueInput
+    create: XOR<BizumXMovimientoCreateWithoutUserXBizumInput, BizumXMovimientoUncheckedCreateWithoutUserXBizumInput>
+  }
+
+  export type BizumXMovimientoCreateManyUserXBizumInputEnvelope = {
+    data: Enumerable<BizumXMovimientoCreateManyUserXBizumInput>
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutUserXBizumInput = {
@@ -12614,6 +16429,7 @@ export namespace Prisma {
     UserXEstado?: UserXEstadoUpdateOneRequiredWithoutUserNestedInput
     CodeSecure?: CodeSecureUpdateManyWithoutUserNestedInput
     UserXMovimiento?: UserXMovimientoUpdateManyWithoutUserNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserXBizumInput = {
@@ -12628,26 +16444,47 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CodeSecure?: CodeSecureUncheckedUpdateManyWithoutUserNestedInput
     UserXMovimiento?: UserXMovimientoUncheckedUpdateManyWithoutUserNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type UserXMovimientoUpsertWithoutUserXBizumInput = {
-    update: XOR<UserXMovimientoUpdateWithoutUserXBizumInput, UserXMovimientoUncheckedUpdateWithoutUserXBizumInput>
-    create: XOR<UserXMovimientoCreateWithoutUserXBizumInput, UserXMovimientoUncheckedCreateWithoutUserXBizumInput>
+  export type UserXBizumXEstadoUpsertWithoutUserXBizumInput = {
+    update: XOR<UserXBizumXEstadoUpdateWithoutUserXBizumInput, UserXBizumXEstadoUncheckedUpdateWithoutUserXBizumInput>
+    create: XOR<UserXBizumXEstadoCreateWithoutUserXBizumInput, UserXBizumXEstadoUncheckedCreateWithoutUserXBizumInput>
   }
 
-  export type UserXMovimientoUpdateWithoutUserXBizumInput = {
-    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    User?: UserUpdateOneRequiredWithoutUserXMovimientoNestedInput
-    UserXMovimientoXTipo?: UserXMovimientoXTipoUpdateOneRequiredWithoutUserXMovimientoNestedInput
-  }
-
-  export type UserXMovimientoUncheckedUpdateWithoutUserXBizumInput = {
+  export type UserXBizumXEstadoUpdateWithoutUserXBizumInput = {
     id?: IntFieldUpdateOperationsInput | number
-    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
-    tipoId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserXBizumXEstadoUncheckedUpdateWithoutUserXBizumInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descripcion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BizumXMovimientoUpsertWithWhereUniqueWithoutUserXBizumInput = {
+    where: BizumXMovimientoWhereUniqueInput
+    update: XOR<BizumXMovimientoUpdateWithoutUserXBizumInput, BizumXMovimientoUncheckedUpdateWithoutUserXBizumInput>
+    create: XOR<BizumXMovimientoCreateWithoutUserXBizumInput, BizumXMovimientoUncheckedCreateWithoutUserXBizumInput>
+  }
+
+  export type BizumXMovimientoUpdateWithWhereUniqueWithoutUserXBizumInput = {
+    where: BizumXMovimientoWhereUniqueInput
+    data: XOR<BizumXMovimientoUpdateWithoutUserXBizumInput, BizumXMovimientoUncheckedUpdateWithoutUserXBizumInput>
+  }
+
+  export type BizumXMovimientoUpdateManyWithWhereWithoutUserXBizumInput = {
+    where: BizumXMovimientoScalarWhereInput
+    data: XOR<BizumXMovimientoUpdateManyMutationInput, BizumXMovimientoUncheckedUpdateManyWithoutBizumXMovimientoInput>
+  }
+
+  export type BizumXMovimientoScalarWhereInput = {
+    AND?: Enumerable<BizumXMovimientoScalarWhereInput>
+    OR?: Enumerable<BizumXMovimientoScalarWhereInput>
+    NOT?: Enumerable<BizumXMovimientoScalarWhereInput>
+    id?: IntFilter | number
+    bizumId?: IntFilter | number
+    movimientoId?: IntFilter | number
   }
 
   export type UserCreateWithoutUserXMovimientoInput = {
@@ -12662,6 +16499,7 @@ export namespace Prisma {
     UserXEstado: UserXEstadoCreateNestedOneWithoutUserInput
     CodeSecure?: CodeSecureCreateNestedManyWithoutUserInput
     UserXBizum?: UserXBizumCreateNestedManyWithoutUserInput
+    UserXSaldoXTmp?: UserXSaldoXTmpCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserXMovimientoInput = {
@@ -12676,6 +16514,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     CodeSecure?: CodeSecureUncheckedCreateNestedManyWithoutUserInput
     UserXBizum?: UserXBizumUncheckedCreateNestedManyWithoutUserInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserXMovimientoInput = {
@@ -12698,28 +16537,45 @@ export namespace Prisma {
     create: XOR<UserXMovimientoXTipoCreateWithoutUserXMovimientoInput, UserXMovimientoXTipoUncheckedCreateWithoutUserXMovimientoInput>
   }
 
-  export type UserXBizumCreateWithoutUserXMovimientoInput = {
-    importe: Decimal | DecimalJsLike | number | string
-    pendiente?: boolean
+  export type UserXSaldoXTmpCreateWithoutUserXMovimientoInput = {
+    saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
-    User: UserCreateNestedOneWithoutUserXBizumInput
+    User: UserCreateNestedOneWithoutUserXSaldoXTmpInput
   }
 
-  export type UserXBizumUncheckedCreateWithoutUserXMovimientoInput = {
+  export type UserXSaldoXTmpUncheckedCreateWithoutUserXMovimientoInput = {
     id?: number
-    importe: Decimal | DecimalJsLike | number | string
+    saldo: Decimal | DecimalJsLike | number | string
     userId: number
-    pendiente?: boolean
     createdAt?: Date | string
   }
 
-  export type UserXBizumCreateOrConnectWithoutUserXMovimientoInput = {
-    where: UserXBizumWhereUniqueInput
-    create: XOR<UserXBizumCreateWithoutUserXMovimientoInput, UserXBizumUncheckedCreateWithoutUserXMovimientoInput>
+  export type UserXSaldoXTmpCreateOrConnectWithoutUserXMovimientoInput = {
+    where: UserXSaldoXTmpWhereUniqueInput
+    create: XOR<UserXSaldoXTmpCreateWithoutUserXMovimientoInput, UserXSaldoXTmpUncheckedCreateWithoutUserXMovimientoInput>
   }
 
-  export type UserXBizumCreateManyUserXMovimientoInputEnvelope = {
-    data: Enumerable<UserXBizumCreateManyUserXMovimientoInput>
+  export type UserXSaldoXTmpCreateManyUserXMovimientoInputEnvelope = {
+    data: Enumerable<UserXSaldoXTmpCreateManyUserXMovimientoInput>
+    skipDuplicates?: boolean
+  }
+
+  export type BizumXMovimientoCreateWithoutUserXMovimientoInput = {
+    UserXBizum: UserXBizumCreateNestedOneWithoutBizumXMovimientoInput
+  }
+
+  export type BizumXMovimientoUncheckedCreateWithoutUserXMovimientoInput = {
+    id?: number
+    bizumId: number
+  }
+
+  export type BizumXMovimientoCreateOrConnectWithoutUserXMovimientoInput = {
+    where: BizumXMovimientoWhereUniqueInput
+    create: XOR<BizumXMovimientoCreateWithoutUserXMovimientoInput, BizumXMovimientoUncheckedCreateWithoutUserXMovimientoInput>
+  }
+
+  export type BizumXMovimientoCreateManyUserXMovimientoInputEnvelope = {
+    data: Enumerable<BizumXMovimientoCreateManyUserXMovimientoInput>
     skipDuplicates?: boolean
   }
 
@@ -12740,6 +16596,7 @@ export namespace Prisma {
     UserXEstado?: UserXEstadoUpdateOneRequiredWithoutUserNestedInput
     CodeSecure?: CodeSecureUpdateManyWithoutUserNestedInput
     UserXBizum?: UserXBizumUpdateManyWithoutUserNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserXMovimientoInput = {
@@ -12754,6 +16611,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CodeSecure?: CodeSecureUncheckedUpdateManyWithoutUserNestedInput
     UserXBizum?: UserXBizumUncheckedUpdateManyWithoutUserNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserXMovimientoXTipoUpsertWithoutUserXMovimientoInput = {
@@ -12771,27 +16629,242 @@ export namespace Prisma {
     descripcion?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserXBizumUpsertWithWhereUniqueWithoutUserXMovimientoInput = {
-    where: UserXBizumWhereUniqueInput
-    update: XOR<UserXBizumUpdateWithoutUserXMovimientoInput, UserXBizumUncheckedUpdateWithoutUserXMovimientoInput>
-    create: XOR<UserXBizumCreateWithoutUserXMovimientoInput, UserXBizumUncheckedCreateWithoutUserXMovimientoInput>
+  export type UserXSaldoXTmpUpsertWithWhereUniqueWithoutUserXMovimientoInput = {
+    where: UserXSaldoXTmpWhereUniqueInput
+    update: XOR<UserXSaldoXTmpUpdateWithoutUserXMovimientoInput, UserXSaldoXTmpUncheckedUpdateWithoutUserXMovimientoInput>
+    create: XOR<UserXSaldoXTmpCreateWithoutUserXMovimientoInput, UserXSaldoXTmpUncheckedCreateWithoutUserXMovimientoInput>
   }
 
-  export type UserXBizumUpdateWithWhereUniqueWithoutUserXMovimientoInput = {
-    where: UserXBizumWhereUniqueInput
-    data: XOR<UserXBizumUpdateWithoutUserXMovimientoInput, UserXBizumUncheckedUpdateWithoutUserXMovimientoInput>
+  export type UserXSaldoXTmpUpdateWithWhereUniqueWithoutUserXMovimientoInput = {
+    where: UserXSaldoXTmpWhereUniqueInput
+    data: XOR<UserXSaldoXTmpUpdateWithoutUserXMovimientoInput, UserXSaldoXTmpUncheckedUpdateWithoutUserXMovimientoInput>
   }
 
-  export type UserXBizumUpdateManyWithWhereWithoutUserXMovimientoInput = {
-    where: UserXBizumScalarWhereInput
-    data: XOR<UserXBizumUpdateManyMutationInput, UserXBizumUncheckedUpdateManyWithoutUserXBizumInput>
+  export type UserXSaldoXTmpUpdateManyWithWhereWithoutUserXMovimientoInput = {
+    where: UserXSaldoXTmpScalarWhereInput
+    data: XOR<UserXSaldoXTmpUpdateManyMutationInput, UserXSaldoXTmpUncheckedUpdateManyWithoutUserXSaldoXTmpInput>
+  }
+
+  export type BizumXMovimientoUpsertWithWhereUniqueWithoutUserXMovimientoInput = {
+    where: BizumXMovimientoWhereUniqueInput
+    update: XOR<BizumXMovimientoUpdateWithoutUserXMovimientoInput, BizumXMovimientoUncheckedUpdateWithoutUserXMovimientoInput>
+    create: XOR<BizumXMovimientoCreateWithoutUserXMovimientoInput, BizumXMovimientoUncheckedCreateWithoutUserXMovimientoInput>
+  }
+
+  export type BizumXMovimientoUpdateWithWhereUniqueWithoutUserXMovimientoInput = {
+    where: BizumXMovimientoWhereUniqueInput
+    data: XOR<BizumXMovimientoUpdateWithoutUserXMovimientoInput, BizumXMovimientoUncheckedUpdateWithoutUserXMovimientoInput>
+  }
+
+  export type BizumXMovimientoUpdateManyWithWhereWithoutUserXMovimientoInput = {
+    where: BizumXMovimientoScalarWhereInput
+    data: XOR<BizumXMovimientoUpdateManyMutationInput, BizumXMovimientoUncheckedUpdateManyWithoutBizumXMovimientoInput>
+  }
+
+  export type UserXBizumCreateWithoutBizumXMovimientoInput = {
+    importe: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    User: UserCreateNestedOneWithoutUserXBizumInput
+    UserXBizumXEstado: UserXBizumXEstadoCreateNestedOneWithoutUserXBizumInput
+  }
+
+  export type UserXBizumUncheckedCreateWithoutBizumXMovimientoInput = {
+    id?: number
+    importe: Decimal | DecimalJsLike | number | string
+    userId: number
+    estadoId: number
+    createdAt?: Date | string
+  }
+
+  export type UserXBizumCreateOrConnectWithoutBizumXMovimientoInput = {
+    where: UserXBizumWhereUniqueInput
+    create: XOR<UserXBizumCreateWithoutBizumXMovimientoInput, UserXBizumUncheckedCreateWithoutBizumXMovimientoInput>
+  }
+
+  export type UserXMovimientoCreateWithoutBizumXMovimientoInput = {
+    importe: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    User: UserCreateNestedOneWithoutUserXMovimientoInput
+    UserXMovimientoXTipo: UserXMovimientoXTipoCreateNestedOneWithoutUserXMovimientoInput
+    UserXSaldoXTmp?: UserXSaldoXTmpCreateNestedManyWithoutUserXMovimientoInput
+  }
+
+  export type UserXMovimientoUncheckedCreateWithoutBizumXMovimientoInput = {
+    id?: number
+    importe: Decimal | DecimalJsLike | number | string
+    userId: number
+    tipoId: number
+    createdAt?: Date | string
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserXMovimientoInput
+  }
+
+  export type UserXMovimientoCreateOrConnectWithoutBizumXMovimientoInput = {
+    where: UserXMovimientoWhereUniqueInput
+    create: XOR<UserXMovimientoCreateWithoutBizumXMovimientoInput, UserXMovimientoUncheckedCreateWithoutBizumXMovimientoInput>
+  }
+
+  export type UserXBizumUpsertWithoutBizumXMovimientoInput = {
+    update: XOR<UserXBizumUpdateWithoutBizumXMovimientoInput, UserXBizumUncheckedUpdateWithoutBizumXMovimientoInput>
+    create: XOR<UserXBizumCreateWithoutBizumXMovimientoInput, UserXBizumUncheckedCreateWithoutBizumXMovimientoInput>
+  }
+
+  export type UserXBizumUpdateWithoutBizumXMovimientoInput = {
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    User?: UserUpdateOneRequiredWithoutUserXBizumNestedInput
+    UserXBizumXEstado?: UserXBizumXEstadoUpdateOneRequiredWithoutUserXBizumNestedInput
+  }
+
+  export type UserXBizumUncheckedUpdateWithoutBizumXMovimientoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: IntFieldUpdateOperationsInput | number
+    estadoId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserXMovimientoUpsertWithoutBizumXMovimientoInput = {
+    update: XOR<UserXMovimientoUpdateWithoutBizumXMovimientoInput, UserXMovimientoUncheckedUpdateWithoutBizumXMovimientoInput>
+    create: XOR<UserXMovimientoCreateWithoutBizumXMovimientoInput, UserXMovimientoUncheckedCreateWithoutBizumXMovimientoInput>
+  }
+
+  export type UserXMovimientoUpdateWithoutBizumXMovimientoInput = {
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    User?: UserUpdateOneRequiredWithoutUserXMovimientoNestedInput
+    UserXMovimientoXTipo?: UserXMovimientoXTipoUpdateOneRequiredWithoutUserXMovimientoNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUpdateManyWithoutUserXMovimientoNestedInput
+  }
+
+  export type UserXMovimientoUncheckedUpdateWithoutBizumXMovimientoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: IntFieldUpdateOperationsInput | number
+    tipoId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserXMovimientoNestedInput
+  }
+
+  export type UserCreateWithoutUserXSaldoXTmpInput = {
+    id: number
+    name: string
+    email: string
+    password: string
+    saldo: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    UserXRole: UserXRoleCreateNestedOneWithoutUserInput
+    UserXEstado: UserXEstadoCreateNestedOneWithoutUserInput
+    CodeSecure?: CodeSecureCreateNestedManyWithoutUserInput
+    UserXBizum?: UserXBizumCreateNestedManyWithoutUserInput
+    UserXMovimiento?: UserXMovimientoCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutUserXSaldoXTmpInput = {
+    id: number
+    name: string
+    email: string
+    password: string
+    roleId: number
+    estadoId: number
+    saldo: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    CodeSecure?: CodeSecureUncheckedCreateNestedManyWithoutUserInput
+    UserXBizum?: UserXBizumUncheckedCreateNestedManyWithoutUserInput
+    UserXMovimiento?: UserXMovimientoUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutUserXSaldoXTmpInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUserXSaldoXTmpInput, UserUncheckedCreateWithoutUserXSaldoXTmpInput>
+  }
+
+  export type UserXMovimientoCreateWithoutUserXSaldoXTmpInput = {
+    importe: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    User: UserCreateNestedOneWithoutUserXMovimientoInput
+    UserXMovimientoXTipo: UserXMovimientoXTipoCreateNestedOneWithoutUserXMovimientoInput
+    BizumXMovimiento?: BizumXMovimientoCreateNestedManyWithoutUserXMovimientoInput
+  }
+
+  export type UserXMovimientoUncheckedCreateWithoutUserXSaldoXTmpInput = {
+    id?: number
+    importe: Decimal | DecimalJsLike | number | string
+    userId: number
+    tipoId: number
+    createdAt?: Date | string
+    BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXMovimientoInput
+  }
+
+  export type UserXMovimientoCreateOrConnectWithoutUserXSaldoXTmpInput = {
+    where: UserXMovimientoWhereUniqueInput
+    create: XOR<UserXMovimientoCreateWithoutUserXSaldoXTmpInput, UserXMovimientoUncheckedCreateWithoutUserXSaldoXTmpInput>
+  }
+
+  export type UserUpsertWithoutUserXSaldoXTmpInput = {
+    update: XOR<UserUpdateWithoutUserXSaldoXTmpInput, UserUncheckedUpdateWithoutUserXSaldoXTmpInput>
+    create: XOR<UserCreateWithoutUserXSaldoXTmpInput, UserUncheckedCreateWithoutUserXSaldoXTmpInput>
+  }
+
+  export type UserUpdateWithoutUserXSaldoXTmpInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    UserXRole?: UserXRoleUpdateOneRequiredWithoutUserNestedInput
+    UserXEstado?: UserXEstadoUpdateOneRequiredWithoutUserNestedInput
+    CodeSecure?: CodeSecureUpdateManyWithoutUserNestedInput
+    UserXBizum?: UserXBizumUpdateManyWithoutUserNestedInput
+    UserXMovimiento?: UserXMovimientoUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUserXSaldoXTmpInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    roleId?: IntFieldUpdateOperationsInput | number
+    estadoId?: IntFieldUpdateOperationsInput | number
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    CodeSecure?: CodeSecureUncheckedUpdateManyWithoutUserNestedInput
+    UserXBizum?: UserXBizumUncheckedUpdateManyWithoutUserNestedInput
+    UserXMovimiento?: UserXMovimientoUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserXMovimientoUpsertWithoutUserXSaldoXTmpInput = {
+    update: XOR<UserXMovimientoUpdateWithoutUserXSaldoXTmpInput, UserXMovimientoUncheckedUpdateWithoutUserXSaldoXTmpInput>
+    create: XOR<UserXMovimientoCreateWithoutUserXSaldoXTmpInput, UserXMovimientoUncheckedCreateWithoutUserXSaldoXTmpInput>
+  }
+
+  export type UserXMovimientoUpdateWithoutUserXSaldoXTmpInput = {
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    User?: UserUpdateOneRequiredWithoutUserXMovimientoNestedInput
+    UserXMovimientoXTipo?: UserXMovimientoXTipoUpdateOneRequiredWithoutUserXMovimientoNestedInput
+    BizumXMovimiento?: BizumXMovimientoUpdateManyWithoutUserXMovimientoNestedInput
+  }
+
+  export type UserXMovimientoUncheckedUpdateWithoutUserXSaldoXTmpInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: IntFieldUpdateOperationsInput | number
+    tipoId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXMovimientoNestedInput
   }
 
   export type UserXMovimientoCreateWithoutUserXMovimientoXTipoInput = {
     importe: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     User: UserCreateNestedOneWithoutUserXMovimientoInput
-    UserXBizum?: UserXBizumCreateNestedManyWithoutUserXMovimientoInput
+    UserXSaldoXTmp?: UserXSaldoXTmpCreateNestedManyWithoutUserXMovimientoInput
+    BizumXMovimiento?: BizumXMovimientoCreateNestedManyWithoutUserXMovimientoInput
   }
 
   export type UserXMovimientoUncheckedCreateWithoutUserXMovimientoXTipoInput = {
@@ -12799,7 +16872,8 @@ export namespace Prisma {
     importe: Decimal | DecimalJsLike | number | string
     userId: number
     createdAt?: Date | string
-    UserXBizum?: UserXBizumUncheckedCreateNestedManyWithoutUserXMovimientoInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserXMovimientoInput
+    BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXMovimientoInput
   }
 
   export type UserXMovimientoCreateOrConnectWithoutUserXMovimientoXTipoInput = {
@@ -12840,6 +16914,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureCreateNestedManyWithoutUserInput
     UserXBizum?: UserXBizumCreateNestedManyWithoutUserInput
     UserXMovimiento?: UserXMovimientoCreateNestedManyWithoutUserInput
+    UserXSaldoXTmp?: UserXSaldoXTmpCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserXRoleInput = {
@@ -12854,6 +16929,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureUncheckedCreateNestedManyWithoutUserInput
     UserXBizum?: UserXBizumUncheckedCreateNestedManyWithoutUserInput
     UserXMovimiento?: UserXMovimientoUncheckedCreateNestedManyWithoutUserInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserXRoleInput = {
@@ -12909,6 +16985,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureCreateNestedManyWithoutUserInput
     UserXBizum?: UserXBizumCreateNestedManyWithoutUserInput
     UserXMovimiento?: UserXMovimientoCreateNestedManyWithoutUserInput
+    UserXSaldoXTmp?: UserXSaldoXTmpCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserXEstadoInput = {
@@ -12923,6 +17000,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureUncheckedCreateNestedManyWithoutUserInput
     UserXBizum?: UserXBizumUncheckedCreateNestedManyWithoutUserInput
     UserXMovimiento?: UserXMovimientoUncheckedCreateNestedManyWithoutUserInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserXEstadoInput = {
@@ -12963,6 +17041,7 @@ export namespace Prisma {
     UserXEstado: UserXEstadoCreateNestedOneWithoutUserInput
     UserXBizum?: UserXBizumCreateNestedManyWithoutUserInput
     UserXMovimiento?: UserXMovimientoCreateNestedManyWithoutUserInput
+    UserXSaldoXTmp?: UserXSaldoXTmpCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCodeSecureInput = {
@@ -12977,6 +17056,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     UserXBizum?: UserXBizumUncheckedCreateNestedManyWithoutUserInput
     UserXMovimiento?: UserXMovimientoUncheckedCreateNestedManyWithoutUserInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCodeSecureInput = {
@@ -13001,6 +17081,7 @@ export namespace Prisma {
     UserXEstado?: UserXEstadoUpdateOneRequiredWithoutUserNestedInput
     UserXBizum?: UserXBizumUpdateManyWithoutUserNestedInput
     UserXMovimiento?: UserXMovimientoUpdateManyWithoutUserNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCodeSecureInput = {
@@ -13015,6 +17096,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     UserXBizum?: UserXBizumUncheckedUpdateManyWithoutUserNestedInput
     UserXMovimiento?: UserXMovimientoUncheckedUpdateManyWithoutUserNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ApuestaXEstadoCreateWithoutApuestaInput = {
@@ -13100,6 +17182,47 @@ export namespace Prisma {
     createdAt?: DateTimeFilter | Date | string
   }
 
+  export type UserXBizumCreateWithoutUserXBizumXEstadoInput = {
+    importe: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    User: UserCreateNestedOneWithoutUserXBizumInput
+    BizumXMovimiento?: BizumXMovimientoCreateNestedManyWithoutUserXBizumInput
+  }
+
+  export type UserXBizumUncheckedCreateWithoutUserXBizumXEstadoInput = {
+    id?: number
+    importe: Decimal | DecimalJsLike | number | string
+    userId: number
+    createdAt?: Date | string
+    BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXBizumInput
+  }
+
+  export type UserXBizumCreateOrConnectWithoutUserXBizumXEstadoInput = {
+    where: UserXBizumWhereUniqueInput
+    create: XOR<UserXBizumCreateWithoutUserXBizumXEstadoInput, UserXBizumUncheckedCreateWithoutUserXBizumXEstadoInput>
+  }
+
+  export type UserXBizumCreateManyUserXBizumXEstadoInputEnvelope = {
+    data: Enumerable<UserXBizumCreateManyUserXBizumXEstadoInput>
+    skipDuplicates?: boolean
+  }
+
+  export type UserXBizumUpsertWithWhereUniqueWithoutUserXBizumXEstadoInput = {
+    where: UserXBizumWhereUniqueInput
+    update: XOR<UserXBizumUpdateWithoutUserXBizumXEstadoInput, UserXBizumUncheckedUpdateWithoutUserXBizumXEstadoInput>
+    create: XOR<UserXBizumCreateWithoutUserXBizumXEstadoInput, UserXBizumUncheckedCreateWithoutUserXBizumXEstadoInput>
+  }
+
+  export type UserXBizumUpdateWithWhereUniqueWithoutUserXBizumXEstadoInput = {
+    where: UserXBizumWhereUniqueInput
+    data: XOR<UserXBizumUpdateWithoutUserXBizumXEstadoInput, UserXBizumUncheckedUpdateWithoutUserXBizumXEstadoInput>
+  }
+
+  export type UserXBizumUpdateManyWithWhereWithoutUserXBizumXEstadoInput = {
+    where: UserXBizumScalarWhereInput
+    data: XOR<UserXBizumUpdateManyMutationInput, UserXBizumUncheckedUpdateManyWithoutUserXBizumInput>
+  }
+
   export type CodeSecureCreateManyUserInput = {
     code: string
     type: number
@@ -13109,8 +17232,7 @@ export namespace Prisma {
   export type UserXBizumCreateManyUserInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    movimientoId: number
-    pendiente?: boolean
+    estadoId: number
     createdAt?: Date | string
   }
 
@@ -13118,6 +17240,13 @@ export namespace Prisma {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
     tipoId: number
+    createdAt?: Date | string
+  }
+
+  export type UserXSaldoXTmpCreateManyUserInput = {
+    id?: number
+    saldo: Decimal | DecimalJsLike | number | string
+    movimientoId: number
     createdAt?: Date | string
   }
 
@@ -13141,24 +17270,23 @@ export namespace Prisma {
 
   export type UserXBizumUpdateWithoutUserInput = {
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    pendiente?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    UserXMovimiento?: UserXMovimientoUpdateOneRequiredWithoutUserXBizumNestedInput
+    UserXBizumXEstado?: UserXBizumXEstadoUpdateOneRequiredWithoutUserXBizumNestedInput
+    BizumXMovimiento?: BizumXMovimientoUpdateManyWithoutUserXBizumNestedInput
   }
 
   export type UserXBizumUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    movimientoId?: IntFieldUpdateOperationsInput | number
-    pendiente?: BoolFieldUpdateOperationsInput | boolean
+    estadoId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXBizumNestedInput
   }
 
   export type UserXBizumUncheckedUpdateManyWithoutUserXBizumInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    movimientoId?: IntFieldUpdateOperationsInput | number
-    pendiente?: BoolFieldUpdateOperationsInput | boolean
+    estadoId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -13166,7 +17294,8 @@ export namespace Prisma {
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     UserXMovimientoXTipo?: UserXMovimientoXTipoUpdateOneRequiredWithoutUserXMovimientoNestedInput
-    UserXBizum?: UserXBizumUpdateManyWithoutUserXMovimientoNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUpdateManyWithoutUserXMovimientoNestedInput
+    BizumXMovimiento?: BizumXMovimientoUpdateManyWithoutUserXMovimientoNestedInput
   }
 
   export type UserXMovimientoUncheckedUpdateWithoutUserInput = {
@@ -13174,7 +17303,8 @@ export namespace Prisma {
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     tipoId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    UserXBizum?: UserXBizumUncheckedUpdateManyWithoutUserXMovimientoNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserXMovimientoNestedInput
+    BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXMovimientoNestedInput
   }
 
   export type UserXMovimientoUncheckedUpdateManyWithoutUserXMovimientoInput = {
@@ -13184,27 +17314,77 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type UserXBizumCreateManyUserXMovimientoInput = {
+  export type UserXSaldoXTmpUpdateWithoutUserInput = {
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    UserXMovimiento?: UserXMovimientoUpdateOneRequiredWithoutUserXSaldoXTmpNestedInput
+  }
+
+  export type UserXSaldoXTmpUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    movimientoId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserXSaldoXTmpUncheckedUpdateManyWithoutUserXSaldoXTmpInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    movimientoId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BizumXMovimientoCreateManyUserXBizumInput = {
     id?: number
-    importe: Decimal | DecimalJsLike | number | string
+    movimientoId: number
+  }
+
+  export type BizumXMovimientoUpdateWithoutUserXBizumInput = {
+    UserXMovimiento?: UserXMovimientoUpdateOneRequiredWithoutBizumXMovimientoNestedInput
+  }
+
+  export type BizumXMovimientoUncheckedUpdateWithoutUserXBizumInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    movimientoId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BizumXMovimientoUncheckedUpdateManyWithoutBizumXMovimientoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    movimientoId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserXSaldoXTmpCreateManyUserXMovimientoInput = {
+    id?: number
+    saldo: Decimal | DecimalJsLike | number | string
     userId: number
-    pendiente?: boolean
     createdAt?: Date | string
   }
 
-  export type UserXBizumUpdateWithoutUserXMovimientoInput = {
-    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    pendiente?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    User?: UserUpdateOneRequiredWithoutUserXBizumNestedInput
+  export type BizumXMovimientoCreateManyUserXMovimientoInput = {
+    id?: number
+    bizumId: number
   }
 
-  export type UserXBizumUncheckedUpdateWithoutUserXMovimientoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
-    pendiente?: BoolFieldUpdateOperationsInput | boolean
+  export type UserXSaldoXTmpUpdateWithoutUserXMovimientoInput = {
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    User?: UserUpdateOneRequiredWithoutUserXSaldoXTmpNestedInput
+  }
+
+  export type UserXSaldoXTmpUncheckedUpdateWithoutUserXMovimientoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BizumXMovimientoUpdateWithoutUserXMovimientoInput = {
+    UserXBizum?: UserXBizumUpdateOneRequiredWithoutBizumXMovimientoNestedInput
+  }
+
+  export type BizumXMovimientoUncheckedUpdateWithoutUserXMovimientoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    bizumId?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserXMovimientoCreateManyUserXMovimientoXTipoInput = {
@@ -13218,7 +17398,8 @@ export namespace Prisma {
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     User?: UserUpdateOneRequiredWithoutUserXMovimientoNestedInput
-    UserXBizum?: UserXBizumUpdateManyWithoutUserXMovimientoNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUpdateManyWithoutUserXMovimientoNestedInput
+    BizumXMovimiento?: BizumXMovimientoUpdateManyWithoutUserXMovimientoNestedInput
   }
 
   export type UserXMovimientoUncheckedUpdateWithoutUserXMovimientoXTipoInput = {
@@ -13226,7 +17407,8 @@ export namespace Prisma {
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     userId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    UserXBizum?: UserXBizumUncheckedUpdateManyWithoutUserXMovimientoNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserXMovimientoNestedInput
+    BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXMovimientoNestedInput
   }
 
   export type UserCreateManyUserXRoleInput = {
@@ -13252,6 +17434,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureUpdateManyWithoutUserNestedInput
     UserXBizum?: UserXBizumUpdateManyWithoutUserNestedInput
     UserXMovimiento?: UserXMovimientoUpdateManyWithoutUserNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserXRoleInput = {
@@ -13266,6 +17449,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureUncheckedUpdateManyWithoutUserNestedInput
     UserXBizum?: UserXBizumUncheckedUpdateManyWithoutUserNestedInput
     UserXMovimiento?: UserXMovimientoUncheckedUpdateManyWithoutUserNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutUserInput = {
@@ -13302,6 +17486,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureUpdateManyWithoutUserNestedInput
     UserXBizum?: UserXBizumUpdateManyWithoutUserNestedInput
     UserXMovimiento?: UserXMovimientoUpdateManyWithoutUserNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserXEstadoInput = {
@@ -13316,6 +17501,7 @@ export namespace Prisma {
     CodeSecure?: CodeSecureUncheckedUpdateManyWithoutUserNestedInput
     UserXBizum?: UserXBizumUncheckedUpdateManyWithoutUserNestedInput
     UserXMovimiento?: UserXMovimientoUncheckedUpdateManyWithoutUserNestedInput
+    UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ApuestaCreateManyApuestaXEstadoInput = {
@@ -13347,6 +17533,28 @@ export namespace Prisma {
     apostado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     ganado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserXBizumCreateManyUserXBizumXEstadoInput = {
+    id?: number
+    importe: Decimal | DecimalJsLike | number | string
+    userId: number
+    createdAt?: Date | string
+  }
+
+  export type UserXBizumUpdateWithoutUserXBizumXEstadoInput = {
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    User?: UserUpdateOneRequiredWithoutUserXBizumNestedInput
+    BizumXMovimiento?: BizumXMovimientoUpdateManyWithoutUserXBizumNestedInput
+  }
+
+  export type UserXBizumUncheckedUpdateWithoutUserXBizumXEstadoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXBizumNestedInput
   }
 
 

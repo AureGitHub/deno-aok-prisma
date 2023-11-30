@@ -1,12 +1,12 @@
 import prisma from "../db_seed.ts"
-import {Estado, Role, UserXMovimientoXTipo, ApuestaXEstado} from "../../enums.ts"
+import {Estado, Role, UserXMovimientoXTipo, ApuestaXEstado, BizumXEstado} from "../../enums.ts"
 
 
 
 
 const ususFromAcces = [
 
-  { id:0, nombre:'Jose Aurelio de Sande Villarroel', usu:'jdesande',  activo:1, correoExterno: 'aure.desande@gmail.com', saldo: '1,48'} ,
+  { id:135, nombre:'Jose Aurelio de Sande Villarroel', usu:'jdesande',  activo:1, correoExterno: 'aure.desande@gmail.com', saldo: '1,48'} ,
   { id:1, nombre:'Alberto Alonso Alonso', usu:'aalonso ',  activo:1, correoExterno: '', saldo: '14,43'} ,
   { id:2, nombre:'Alberto Aranzueque González', usu:'aaranzue ',  activo:0, correoExterno: '', saldo: '0'} ,
   { id:3, nombre:'Alberto Encinas Escobar', usu:'aencinas ',  activo:1, correoExterno: '', saldo: '20,24'} ,
@@ -149,6 +149,8 @@ await prisma.userXBizum.deleteMany();
 
 await prisma.userXMovimiento.deleteMany();
 
+await prisma.userXSaldoXTmp.deleteMany();
+
 
 
 await prisma.user.deleteMany();
@@ -162,6 +164,14 @@ await prisma.UserXMovimientoXTipo.deleteMany();
 
 await prisma.apuestaXEstado.deleteMany();
 
+await prisma.userXBizumXEstado.deleteMany();
+
+
+await prisma.userXBizumXEstado.createMany({  data: [
+  {id : BizumXEstado.pendiente, descripcion : BizumXEstado[BizumXEstado.pendiente]},
+  {id : BizumXEstado.confirmado, descripcion : BizumXEstado[BizumXEstado.confirmado]},
+
+]});
 
 await prisma.userXRole.createMany({  data: [
   {id : Role.god, descripcion : Role[Role.god]},
@@ -182,6 +192,7 @@ await prisma.UserXMovimientoXTipo.createMany({  data: [
   {id : UserXMovimientoXTipo.reintegro, descripcion : UserXMovimientoXTipo[UserXMovimientoXTipo.reintegro]},
   {id : UserXMovimientoXTipo.ganado, descripcion : UserXMovimientoXTipo[UserXMovimientoXTipo.ganado]},
   {id : UserXMovimientoXTipo.ingreso, descripcion : UserXMovimientoXTipo[UserXMovimientoXTipo.ingreso]},
+  {id : UserXMovimientoXTipo.inicial, descripcion : UserXMovimientoXTipo[UserXMovimientoXTipo.inicial]},
 ]});
 
 
@@ -198,27 +209,59 @@ await prisma.apuestaXEstado.createMany({  data: [
 let lstUserToBD = [];
 
 
-ususFromAcces.forEach(usu => {
-  const datos =  {
+let lstUserXSaldoInicialToBD = [];
+
+
+
+ususFromAcces.forEach(async usu => {
+  const data =  {
     id: usu.id,
     name : usu.nombre.trim(),
     email : usu.correoExterno ? usu.correoExterno : usu.usu.trim() + '@tragsa.es',
-    password:'',
+    password:'111111',
     roleId: Role.normal,
-    estadoId : !usu.activo? Estado.baja : Estado.bloqueado,
+    estadoId : !usu.activo? Estado.baja : Estado.activo,
     saldo: parseFloat(usu.saldo.replace(',','.')) 
    };
 
-   lstUserToBD.push(datos);
+   const createUser = prisma.user.create({data});
+
+   const createMovimiento = prisma.userXMovimiento.create({
+    data: {
+      tipoId: UserXMovimientoXTipo.inicial,      
+      importe :  parseFloat(usu.saldo.replace(',','.')),
+      userId : (await createUser).id
+    }
+  }
+  );
+
+
+  const createSaldoTmp = prisma.userXSaldoXTmp.create({
+    data: {
+      saldo: parseFloat(usu.saldo.replace(',','.')),
+      userId : (await createUser).id ,
+      movimientoId : (await createMovimiento).id   
+    }
+  }
+  );
+
+  await prisma.$transaction([createSaldoTmp]);
+   
+   lstUserToBD.push(createSaldoTmp);
+  //  lstUserToBD.push(datos);
+
+   
 
 });
 
-await prisma.user.createMany({ data :lstUserToBD });
+
+//await prisma.$transaction(lstUserToBD);
+// await prisma.user.createMany({ data :lstUserToBD });
 
 
 //yo!!!  de la id=0 a id=135!!!
 await prisma.user.updateMany({
-  where: {id : 0 },
+  where: {id : 135 },
   data: {
     id: 135,
     roleId : Role.god,

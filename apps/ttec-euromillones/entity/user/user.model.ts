@@ -1,4 +1,5 @@
-import {Role} from "../enums.ts"
+// deno-lint-ignore-file no-explicit-any
+import { Role } from "../../enums.ts";
 
 export class userClass {
   id: number | undefined;
@@ -12,6 +13,9 @@ export class userClass {
   isGod: boolean | undefined;
   isNormal: boolean | undefined;
 
+  saldo: number | undefined;
+
+
   constructor(usarFromDB: any) {
     this.id = usarFromDB['id'];
     this.name = usarFromDB['name'];
@@ -23,6 +27,8 @@ export class userClass {
     this.isGod = this.roleId ===Role.god;
     this.isAdmin = this.roleId ===Role.admin || this.roleId ===Role.god;    
     this.isNormal = this.roleId ===Role.normal;
+
+    this.saldo = usarFromDB['saldo'];
 
     this.roleDescripcion = this.roleId ===Role.god ?  Role[Role.god] : (
       this.roleId ===Role.admin ? Role[Role.admin] : Role[Role.normal]

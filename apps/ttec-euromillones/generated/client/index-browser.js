@@ -100,6 +100,12 @@ exports.Prisma.ApuestaXEstadoScalarFieldEnum = {
   descripcion: 'descripcion'
 };
 
+exports.Prisma.BizumXMovimientoScalarFieldEnum = {
+  id: 'id',
+  bizumId: 'bizumId',
+  movimientoId: 'movimientoId'
+};
+
 exports.Prisma.CodeSecureScalarFieldEnum = {
   code: 'code',
   type: 'type',
@@ -140,9 +146,13 @@ exports.Prisma.UserXBizumScalarFieldEnum = {
   id: 'id',
   importe: 'importe',
   userId: 'userId',
-  movimientoId: 'movimientoId',
-  pendiente: 'pendiente',
+  estadoId: 'estadoId',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.UserXBizumXEstadoScalarFieldEnum = {
+  id: 'id',
+  descripcion: 'descripcion'
 };
 
 exports.Prisma.UserXEstadoScalarFieldEnum = {
@@ -168,17 +178,28 @@ exports.Prisma.UserXRoleScalarFieldEnum = {
   descripcion: 'descripcion'
 };
 
+exports.Prisma.UserXSaldoXTmpScalarFieldEnum = {
+  id: 'id',
+  saldo: 'saldo',
+  userId: 'userId',
+  movimientoId: 'movimientoId',
+  createdAt: 'createdAt'
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
   UserXBizum: 'UserXBizum',
   UserXMovimiento: 'UserXMovimiento',
+  BizumXMovimiento: 'BizumXMovimiento',
+  UserXSaldoXTmp: 'UserXSaldoXTmp',
   UserXMovimientoXTipo: 'UserXMovimientoXTipo',
   UserXRole: 'UserXRole',
   UserXEstado: 'UserXEstado',
   CodeSecure: 'CodeSecure',
   Apuesta: 'Apuesta',
-  ApuestaXEstado: 'ApuestaXEstado'
+  ApuestaXEstado: 'ApuestaXEstado',
+  UserXBizumXEstado: 'UserXBizumXEstado'
 };
 
 /**

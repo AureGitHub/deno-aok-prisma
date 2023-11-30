@@ -25,20 +25,21 @@ model User {
   CodeSecure      CodeSecure[]
   UserXBizum      UserXBizum[]
   UserXMovimiento UserXMovimiento[]
+  UserXSaldoXTmp  UserXSaldoXTmp[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model UserXBizum {
-  id              Int             @id @default(autoincrement())
-  importe         Decimal         @db.Decimal(9, 2)
-  userId          Int
-  User            User            @relation(fields: [userId], references: [id])
-  movimientoId    Int
-  UserXMovimiento UserXMovimiento @relation(fields: [movimientoId], references: [id])
-  pendiente       Boolean         @default(true)
-  createdAt       DateTime        @default(now())
+  id                Int                @id @default(autoincrement())
+  importe           Decimal            @db.Decimal(9, 2)
+  userId            Int
+  User              User               @relation(fields: [userId], references: [id])
+  estadoId          Int
+  UserXBizumXEstado UserXBizumXEstado  @relation(fields: [estadoId], references: [id])
+  BizumXMovimiento     BizumXMovimiento[]
+  createdAt         DateTime           @default(now())
 }
 
 model UserXMovimiento {
@@ -48,8 +49,28 @@ model UserXMovimiento {
   User                 User                 @relation(fields: [userId], references: [id])
   tipoId               Int
   UserXMovimientoXTipo UserXMovimientoXTipo @relation(fields: [tipoId], references: [id])
-  UserXBizum           UserXBizum[]
+  UserXSaldoXTmp       UserXSaldoXTmp[]
+  BizumXMovimiento     BizumXMovimiento[]
   createdAt            DateTime             @default(now())
+}
+
+model BizumXMovimiento {
+  id      Int @id @default(autoincrement())
+  bizumId Int
+  movimientoId    Int
+  UserXBizum      UserXBizum      @relation(fields: [bizumId], references: [id])
+  UserXMovimiento UserXMovimiento @relation(fields: [movimientoId], references: [id])
+}
+
+model UserXSaldoXTmp {
+  id              Int             @id @default(autoincrement())
+  saldo           Decimal         @db.Decimal(9, 2)
+  userId          Int
+  movimientoId    Int
+  User            User            @relation(fields: [userId], references: [id])
+  UserXMovimiento UserXMovimiento @relation(fields: [movimientoId], references: [id])
+
+  createdAt DateTime @default(now())
 }
 
 model UserXMovimientoXTipo {
@@ -81,17 +102,23 @@ model CodeSecure {
 model Apuesta {
   id             Int            @id @default(autoincrement())
   fecha          DateTime
-  apostado       Decimal        @db.Decimal(9, 2) @default(0)
-  ganado         Decimal        @db.Decimal(9, 2) @default(0)
+  apostado       Decimal        @default(0) @db.Decimal(9, 2)
+  ganado         Decimal        @default(0) @db.Decimal(9, 2)
   estadoId       Int
   ApuestaXEstado ApuestaXEstado @relation(fields: [estadoId], references: [id])
-  createdAt DateTime @default(now())
+  createdAt      DateTime       @default(now())
 }
 
 model ApuestaXEstado {
   id          Int       @id
   descripcion String    @unique
   Apuesta     Apuesta[]
+}
+
+model UserXBizumXEstado {
+  id          Int          @id
+  descripcion String       @unique
+  UserXBizum  UserXBizum[]
 }
 
 // model UserxRole {

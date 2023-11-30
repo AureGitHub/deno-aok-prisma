@@ -16,7 +16,8 @@ export enum Role {
 export enum UserXMovimientoXTipo {  
     reintegro = 1,  // pago apuesta
     ingreso = 2,    // aumento de saldo
-    ganado = 3      // repato premio
+    ganado = 3,      // repato premio
+    inicial = 4    // cuando haga el transpaso de datos
 }
 
 
@@ -24,4 +25,9 @@ export enum ApuestaXEstado {
     abierta = 1,  
     cerrada = 2,    
     finalizada = 3      
+}
+
+export enum BizumXEstado {  
+    pendiente = 1,  
+    confirmado = 2
 }

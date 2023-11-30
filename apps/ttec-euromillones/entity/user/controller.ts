@@ -1,12 +1,12 @@
 // deno-lint-ignore-file no-explicit-any
 import { StatusCodes } from "../../../../dep/deps.ts";
 import { Prisma } from "../../generated/client/deno/edge.ts";
-import { userClass } from "../../models/user.model.ts";
+import { userClass } from "./user.model.ts";
 import prisma from "../../prisma/db.ts";
 
 import authController from "../../../general/entity/auth/controller.ts"
 
-import { Estado, UserXMovimientoXTipo } from "../../enums.ts"
+import { BizumXEstado, Estado, UserXMovimientoXTipo } from "../../enums.ts"
 import { sendEmail } from "../../../../utils/sendEmail.ts";
 import { execute_query} from "../../../../utils/query.ts";
 import { setStatus, statusError, statusOK } from "../../../../utils/status.ts";
@@ -134,7 +134,7 @@ const login = async (ctx: any) => {
 
 
 
-
+// cuando grabo yo el bizum directamente
 const addSaldo = async (ctx: any) => {
   try {
     const { id, importe, bizum } = await ctx.request.body().value;
@@ -165,22 +165,33 @@ const addSaldo = async (ctx: any) => {
     }
     );
 
+    const createSaldoTmp = prisma.userXSaldoXTmp.create({
+      data: {
+        saldo,
+        userId,
+        movimientoId : (await createMovimiento).id   
+      }
+    }
+    );
+
+
     if (bizum) {
       const createBizum = prisma.userXBizum.create({
         data: {
           importe,
           userId,
-          movimientoId: (await createMovimiento).id  //esto hace que cree el movimiento
+          estadoId : BizumXEstado.confirmado,
+          // movimientoId: (await createMovimiento).id  //esto hace que cree el movimiento
         }
       }
 
       );
 
-      await prisma.$transaction([updateUser, createBizum]);
+      await prisma.$transaction([updateUser,createSaldoTmp, createBizum]);
 
     }
     else {
-      await prisma.$transaction([updateUser, createMovimiento]);
+      await prisma.$transaction([updateUser, createSaldoTmp]);
     }
 
 
