@@ -128,7 +128,16 @@ const update = async (ctx: any) => {
       }
       );
 
-      prisma.$transaction([updateUserBizum, userUpdateSaldo, createSaldoTmp]);
+      const createBizumXMov = prisma.bizumXMovimiento.create({
+        data: {
+          bizumId : id,          
+          movimientoId: (await createMovimiento).id
+        }
+      }
+      );
+
+
+      prisma.$transaction([updateUserBizum, userUpdateSaldo, createSaldoTmp, createBizumXMov]);
 
     }
     else {

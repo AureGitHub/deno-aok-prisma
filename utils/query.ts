@@ -38,7 +38,7 @@ export const getFilter = (colums : any[]) =>{
     let offset =0;
   let limit=0;
   let  count=0;
-  let withCache = false;
+  let withCache = true;
 
   if(!ctx.state.objPagFilterOrder){
   ctx.state.objPagFilterOrder.pagination = {};
@@ -52,13 +52,18 @@ export const getFilter = (colums : any[]) =>{
 
   }
 
-  withCache=ctx.state.objPagFilterOrder.pagination?.withCache;
-  limit = ctx.state.objPagFilterOrder.pagination.limit;
-  offset = ctx.state.objPagFilterOrder.pagination.offset;
+  if(ctx.state.objPagFilterOrder.pagination){
+    withCache=ctx.state.objPagFilterOrder.pagination?.withCache;
+    limit = ctx.state.objPagFilterOrder.pagination.limit;
+    offset = ctx.state.objPagFilterOrder.pagination.offset;
+    offset *= limit;
+    count = ctx.state.objPagFilterOrder.pagination.count;
+  }
+
+
   const columns = ctx.state.objPagFilterOrder.columns;
   const mode = ctx.state.objPagFilterOrder.mode;   // 'C' => Consulta    'P'=>Paginación
-  offset *= limit;
-  count = ctx.state.objPagFilterOrder.pagination.count;
+
 
 
   const sqlSelectOnlyCount =` select  to_char(count(*), '9999999')  as total `;

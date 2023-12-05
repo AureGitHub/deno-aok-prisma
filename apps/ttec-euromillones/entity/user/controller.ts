@@ -8,7 +8,7 @@ import authController from "../../../general/entity/auth/controller.ts"
 
 import { BizumXEstado, Estado, UserXMovimientoXTipo } from "../../enums.ts"
 import { sendEmail } from "../../../../utils/sendEmail.ts";
-import { execute_query} from "../../../../utils/query.ts";
+import { execute_query } from "../../../../utils/query.ts";
 import { setStatus, statusError, statusOK } from "../../../../utils/status.ts";
 
 
@@ -19,7 +19,7 @@ const get = async (ctx: any) => {
   const sqlFrom = ` from "User"  `;
   const orderBydefect = ``;
   await execute_query(ctx, prisma, sqlSelect, sqlFrom, orderBydefect);
- 
+
 
 };
 
@@ -27,7 +27,7 @@ const get = async (ctx: any) => {
 const getById = async (ctx: any) => {
   const id = Number(ctx?.params?.id);
   const data = await prisma.user.findFirst({ where: { id } });
-  statusOK(ctx,data);
+  statusOK(ctx, data);
 
 };
 
@@ -40,20 +40,20 @@ const add = async (ctx: any) => {
 
     const empleadaExists = await prisma.user.findUnique({ where: { email } });
     if (empleadaExists) {
-      setStatus(ctx,409,StatusCodes.CONFLICT,'usuario ya existe!')
+      setStatus(ctx, 409, StatusCodes.CONFLICT, 'usuario ya existe!')
       return;
     }
 
 
-    const dataMAx = await prisma.user.aggregate({_max: {id: true}});
+    const dataMAx = await prisma.user.aggregate({ _max: { id: true } });
     const max = dataMAx._max.id ? dataMAx._max.id : 0;
-    newItem['id'] = max+ 1;  //mejor usar una secuencia  AUREMEJORAS
+    newItem['id'] = max + 1;  //mejor usar una secuencia  AUREMEJORAS
 
-    const data = await prisma.user.create({data: newItem});
+    const data = await prisma.user.create({ data: newItem });
 
-    statusOK(ctx,data);    
+    statusOK(ctx, data);
   } catch (error) {
-    statusError(ctx,error);
+    statusError(ctx, error);
     return;
   }
 };
@@ -69,9 +69,9 @@ const update = async (ctx: any) => {
       where: { id },
       data: itemUpdateInput
     })
-    statusOK(ctx,data); 
+    statusOK(ctx, data);
   } catch (error) {
-    statusError(ctx,error);
+    statusError(ctx, error);
     return;
   }
 };
@@ -83,9 +83,9 @@ const del = async (ctx: any) => {
   try {
     const id = Number(ctx?.params?.id);
     const data = await prisma.user.deleteMany({ where: { id } });
-    statusOK(ctx,data); 
+    statusOK(ctx, data);
   } catch (error) {
-    statusError(ctx,error);
+    statusError(ctx, error);
     return;
   }
 };
@@ -104,19 +104,19 @@ const login = async (ctx: any) => {
 
 
     if (!user) {
-      setStatus(ctx,200,StatusCodes.CONFLICT,"Usuario o password incorrecta!!");      
+      setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario o password incorrecta!!");
       return;
     }
 
 
     if (user && (user.estadoId == Estado.baja || user.estadoId == Estado.bloqueado)) {
-      setStatus(ctx,200,StatusCodes.CONFLICT,"Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
+      setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
       return;
     }
 
 
     if (user && user.estadoId == Estado.cambiar_pass) {
-      setStatus(ctx,200,StatusCodes.CONFLICT,"Password bloqueda. Debe cambiar su password");
+      setStatus(ctx, 200, StatusCodes.CONFLICT, "Password bloqueda. Debe cambiar su password");
       return;
     }
 
@@ -124,20 +124,20 @@ const login = async (ctx: any) => {
 
     const data = await authController.giveMeToken(userRet);
 
-    statusOK(ctx,data); 
+    statusOK(ctx, data);
 
   } catch (error) {
-    statusError(ctx,error);
+    statusError(ctx, error);
     return;
   }
 };
 
 
 
-// cuando grabo yo el bizum directamente
+// cuando grabo yo. Solo se incrementa el importe
 const addSaldo = async (ctx: any) => {
   try {
-    const { id, importe, bizum } = await ctx.request.body().value;
+    const { id, importe } = await ctx.request.body().value;
     const user = await prisma.user.findFirst(
       {
         where: { id }
@@ -145,7 +145,7 @@ const addSaldo = async (ctx: any) => {
 
 
     if (user && user.estadoId == Estado.baja) {
-      setStatus(ctx,200,StatusCodes.CONFLICT,"Usuario dado de baja. Póngase en contacto con el administrador");
+      setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja. Póngase en contacto con el administrador");
       return;
     }
 
@@ -154,7 +154,7 @@ const addSaldo = async (ctx: any) => {
     const userId = user ? user.id : 0;
 
 
-    const updateUser = prisma.user.updateMany({where: { id: user?.id }, data: { saldo }});
+    const updateUser = prisma.user.updateMany({ where: { id: user?.id }, data: { saldo } });
 
     const createMovimiento = prisma.userXMovimiento.create({
       data: {
@@ -169,37 +169,19 @@ const addSaldo = async (ctx: any) => {
       data: {
         saldo,
         userId,
-        movimientoId : (await createMovimiento).id   
+        movimientoId: (await createMovimiento).id
       }
     }
     );
 
-
-    if (bizum) {
-      const createBizum = prisma.userXBizum.create({
-        data: {
-          importe,
-          userId,
-          estadoId : BizumXEstado.confirmado,
-          // movimientoId: (await createMovimiento).id  //esto hace que cree el movimiento
-        }
-      }
-
-      );
-
-      await prisma.$transaction([updateUser,createSaldoTmp, createBizum]);
-
-    }
-    else {
-      await prisma.$transaction([updateUser, createSaldoTmp]);
-    }
+    await prisma.$transaction([updateUser, createSaldoTmp]);
 
 
-    const  data = { ok: true }
-    statusOK(ctx,data); 
-    
+    const data = { ok: true }
+    statusOK(ctx, data);
+
   } catch (error) {
-    statusError(ctx,error);
+    statusError(ctx, error);
     return;
   }
 };
@@ -211,11 +193,11 @@ const reserPassByCode = async (ctx: any) => {
     const { code, password }: { code: string; password: string; } =
       await ctx.request.body().value;
 
-    const codeSecure = await prisma.codeSecure.findFirst({where: { code } });
+    const codeSecure = await prisma.codeSecure.findFirst({ where: { code } });
 
 
     if (!codeSecure) {
-      setStatus(ctx,200,StatusCodes.CONFLICT,"código no válido!!");
+      setStatus(ctx, 200, StatusCodes.CONFLICT, "código no válido!!");
       return;
     }
 
@@ -225,7 +207,7 @@ const reserPassByCode = async (ctx: any) => {
       });
 
     if (user && (user.estadoId == Estado.baja || user.estadoId == Estado.bloqueado)) {
-      setStatus(ctx,200,StatusCodes.CONFLICT,"Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
+      setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
       return;
     }
 
@@ -239,11 +221,11 @@ const reserPassByCode = async (ctx: any) => {
     })
 
 
-    const  data = { code: true }
-    statusOK(ctx,data); 
+    const data = { code: true }
+    statusOK(ctx, data);
 
   } catch (error) {
-    statusError(ctx,error);
+    statusError(ctx, error);
     return;
   }
 };
@@ -263,13 +245,13 @@ const getCodeResetPass = async (ctx: any) => {
 
 
     if (!user) {
-      setStatus(ctx,200,StatusCodes.CONFLICT,"correo no válido!!");
+      setStatus(ctx, 200, StatusCodes.CONFLICT, "correo no válido!!");
       return;
     }
 
 
     if (user && (user.estadoId == Estado.baja || user.estadoId == Estado.bloqueado)) {
-      setStatus(ctx,200,StatusCodes.CONFLICT,"Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
+      setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
       return;
     }
 
@@ -303,14 +285,14 @@ const getCodeResetPass = async (ctx: any) => {
 
     }
     catch (error) {
-      statusError(ctx,error);
+      statusError(ctx, error);
       return;
     }
 
-    const  data = { code: true }
-    statusOK(ctx,data); 
+    const data = { code: true }
+    statusOK(ctx, data);
   } catch (error) {
-    statusError(ctx,error);
+    statusError(ctx, error);
 
   }
 };
