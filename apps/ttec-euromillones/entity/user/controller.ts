@@ -109,13 +109,13 @@ const login = async (ctx: any) => {
     }
 
 
-    if (user && (user.estadoId == Estado.baja || user.estadoId == Estado.bloqueado)) {
+    if (user && (user.estadoid == Estado.baja || user.estadoid == Estado.bloqueado)) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
       return;
     }
 
 
-    if (user && user.estadoId == Estado.cambiar_pass) {
+    if (user && user.estadoid == Estado.cambiar_pass) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Password bloqueda. Debe cambiar su password");
       return;
     }
@@ -144,23 +144,23 @@ const addSaldo = async (ctx: any) => {
       });
 
 
-    if (user && user.estadoId == Estado.baja) {
+    if (user && user.estadoid == Estado.baja) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja. Póngase en contacto con el administrador");
       return;
     }
 
     let saldo = user ? user.saldo.toNumber() : 0;
     saldo += importe;
-    const userId = user ? user.id : 0;
+    const userid = user ? user.id : 0;
 
 
     const updateUser = prisma.user.updateMany({ where: { id: user?.id }, data: { saldo } });
 
     const createMovimiento = prisma.userXMovimiento.create({
       data: {
-        tipoId: UserXMovimientoXTipo.ingreso,
+        tipoid: UserXMovimientoXTipo.ingreso,
         importe,
-        userId
+        userid
       }
     }
     );
@@ -168,8 +168,8 @@ const addSaldo = async (ctx: any) => {
     const createSaldoTmp = prisma.userXSaldoXTmp.create({
       data: {
         saldo,
-        userId,
-        movimientoId: (await createMovimiento).id
+        userid,
+        movimientoid: (await createMovimiento).id
       }
     }
     );
@@ -203,10 +203,10 @@ const reserPassByCode = async (ctx: any) => {
 
     const user = await prisma.user.findFirst(
       {
-        where: { id: codeSecure.userId }
+        where: { id: codeSecure.userid }
       });
 
-    if (user && (user.estadoId == Estado.baja || user.estadoId == Estado.bloqueado)) {
+    if (user && (user.estadoid == Estado.baja || user.estadoid == Estado.bloqueado)) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
       return;
     }
@@ -216,7 +216,7 @@ const reserPassByCode = async (ctx: any) => {
       where: { id: user?.id },
       data: {
         password,
-        estadoId: Estado.activo
+        estadoid: Estado.activo
       }
     })
 
@@ -250,7 +250,7 @@ const getCodeResetPass = async (ctx: any) => {
     }
 
 
-    if (user && (user.estadoId == Estado.baja || user.estadoId == Estado.bloqueado)) {
+    if (user && (user.estadoid == Estado.baja || user.estadoid == Estado.bloqueado)) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
       return;
     }
@@ -267,7 +267,7 @@ const getCodeResetPass = async (ctx: any) => {
       data: {
         code: myUUID,
         type: 1,
-        userId: user.id
+        userid: user.id
       }
     })
 

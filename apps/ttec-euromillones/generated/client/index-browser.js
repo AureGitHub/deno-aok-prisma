@@ -91,7 +91,7 @@ exports.Prisma.ApuestaScalarFieldEnum = {
   fecha: 'fecha',
   apostado: 'apostado',
   ganado: 'ganado',
-  estadoId: 'estadoId',
+  estadoid: 'estadoid',
   createdAt: 'createdAt'
 };
 
@@ -102,14 +102,14 @@ exports.Prisma.ApuestaXEstadoScalarFieldEnum = {
 
 exports.Prisma.BizumXMovimientoScalarFieldEnum = {
   id: 'id',
-  bizumId: 'bizumId',
-  movimientoId: 'movimientoId'
+  bizumid: 'bizumid',
+  movimientoid: 'movimientoid'
 };
 
 exports.Prisma.CodeSecureScalarFieldEnum = {
   code: 'code',
   type: 'type',
-  userId: 'userId',
+  userid: 'userid',
   createdAt: 'createdAt'
 };
 
@@ -135,8 +135,8 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   password: 'password',
-  roleId: 'roleId',
-  estadoId: 'estadoId',
+  roleid: 'roleid',
+  estadoid: 'estadoid',
   saldo: 'saldo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -145,8 +145,8 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.UserXBizumScalarFieldEnum = {
   id: 'id',
   importe: 'importe',
-  userId: 'userId',
-  estadoId: 'estadoId',
+  userid: 'userid',
+  estadoid: 'estadoid',
   createdAt: 'createdAt'
 };
 
@@ -163,8 +163,8 @@ exports.Prisma.UserXEstadoScalarFieldEnum = {
 exports.Prisma.UserXMovimientoScalarFieldEnum = {
   id: 'id',
   importe: 'importe',
-  userId: 'userId',
-  tipoId: 'tipoId',
+  userid: 'userid',
+  tipoid: 'tipoid',
   createdAt: 'createdAt'
 };
 
@@ -181,8 +181,8 @@ exports.Prisma.UserXRoleScalarFieldEnum = {
 exports.Prisma.UserXSaldoXTmpScalarFieldEnum = {
   id: 'id',
   saldo: 'saldo',
-  userId: 'userId',
-  movimientoId: 'movimientoId',
+  userid: 'userid',
+  movimientoid: 'movimientoid',
   createdAt: 'createdAt'
 };
 

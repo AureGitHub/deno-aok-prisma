@@ -11,7 +11,7 @@ const get= async (ctx: any) => {
 
   const sqlFrom =` 
   from "Apuesta" a 
-  inner join "ApuestaXEstado" ax on a."estadoId" = ax.id  `;
+  inner join "ApuestaXEstado" ax on a."estadoid" = ax.id  `;
   const orderBydefect = ``;
   await execute_query(ctx, prisma, sqlSelect, sqlFrom, orderBydefect);
  

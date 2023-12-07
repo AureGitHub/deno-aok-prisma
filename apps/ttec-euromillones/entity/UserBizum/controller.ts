@@ -1,11 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
 import { StatusCodes } from "../../../../dep/deps.ts";
-import { execute_query } from "../../../../utils/query.ts";
+import { execute_query, execute_query_deno_postgress } from "../../../../utils/query.ts";
 import { setStatus, statusError, statusOK } from "../../../../utils/status.ts";
 import { BizumXEstado, UserXMovimientoXTipo } from "../../enums.ts";
 import { Prisma } from "../../generated/client/deno/edge.ts";
 import prisma from "../../prisma/db.ts";
+import client from "../../prisma/db_deno-postgres.ts";
 
+import bizumBusiness from "../../business/bizum.ts";
 
 
 const get = async (ctx: any) => {
@@ -16,18 +18,23 @@ const get = async (ctx: any) => {
     u."name" as dequien,
     ux.importe,
     ux."createdAt"  as fecha,
-    ux."estadoId" as estadoId,
+    ux."estadoid",
+    ux."userid",
     uxx.descripcion as estadodesc
     
   `;
 
   const sqlFrom = ` 
   from "UserXBizum" ux 
-  inner join "User" u on u.id = ux."userId" 
-  inner join "UserXBizumXEstado" uxx on ux."estadoId" = uxx.id 
+  inner join "User" u on u.id = ux."userid" 
+  inner join "UserXBizumXEstado" uxx on ux."estadoid" = uxx.id 
     `;
   const orderBydefect = ``;
-  await execute_query(ctx, prisma, sqlSelect, sqlFrom, orderBydefect);
+   await execute_query(ctx, prisma, sqlSelect, sqlFrom, orderBydefect);
+  
+ // await execute_query_deno_postgress(ctx, client, sqlSelect, sqlFrom, orderBydefect);
+
+  
 
 };
 
@@ -35,7 +42,6 @@ const get = async (ctx: any) => {
 const getById = async (ctx: any) => {
   const id = Number(ctx?.params?.id);
   const data = await prisma.userXBizum.findFirst({ where: { id } });
-
   statusOK(ctx, data);
 
 };
@@ -44,14 +50,9 @@ const getById = async (ctx: any) => {
 const add = async (ctx: any) => {
   try {
     const newItem: Prisma.UserXBizumUncheckedCreateInput = await ctx.request.body().value;
-
-    newItem.estadoId = BizumXEstado.pendiente;
-
-
-    const data = await prisma.userXBizum.create({
-      data: newItem
-    });
-
+    newItem.estadoid = BizumXEstado.pendiente;
+    const data = await bizumBusiness.create(newItem);
+      
     statusOK(ctx, data);
   } catch (error) {
     statusError(ctx, error);
@@ -62,118 +63,68 @@ const add = async (ctx: any) => {
 
 const update = async (ctx: any) => {
   try {
-
-
     const id = Number(ctx?.params?.id);
-    const itemUpdateInput: Prisma.UserXBizumUpdateInput = await ctx.request.body().value;
-
-    const { estadoId } = await ctx.request.body().value;
-
-
-
-    //const {id}  = await request.body().value;
+    
+    const itemUpdateInput: Prisma.UserXBizumUncheckedUpdateInput = await ctx.request.body().value;
 
     const oldBizum = await prisma.userXBizum.findFirst({ where: { id } });
 
+    if(oldBizum?.estadoid == BizumXEstado.pendiente && itemUpdateInput.estadoid == BizumXEstado.confirmado ){
+      // Esta pendiente y lo pasamos a Confirmado
+      const result = await bizumBusiness.confirmar(id);
+      if(result){
+        setStatus(ctx, result.code, result.StatusCodes, result.text);
+      }
+      else{
+        statusOK(ctx, {ok: true});
+      }
+      
+    } else if(oldBizum?.estadoid == BizumXEstado.confirmado && itemUpdateInput.estadoid == BizumXEstado.pendiente ){
+      // está Confirmado y lo pasamos a pendiente
+      const result = await bizumBusiness.desconfirmar(id);
+      if(result){
+        setStatus(ctx, result.code, result.StatusCodes, result.text);
+      }
+      else{
+        statusOK(ctx, {ok: true});
+      }
+    }
 
-    if (!oldBizum) {
-      setStatus(ctx, 200, StatusCodes.CONFLICT, "No existe el bizum buscado!!");
+    else if(oldBizum?.estadoid == BizumXEstado.cerrado && itemUpdateInput.estadoid == BizumXEstado.confirmado ){
+      // está Cerrado y lo pasamos a Confirmado
+      const data = await bizumBusiness.update(id,itemUpdateInput );          
+      statusOK(ctx, data);
+    }
+
+    else{
+
+      if(itemUpdateInput.estadoid != BizumXEstado.pendiente){
+        setStatus(ctx, 200, StatusCodes.CONFLICT, "Solo se puede modificar si está pendiente!!!");
+        return;
+      }
+
+    const data = await bizumBusiness.update(id,itemUpdateInput );      
+    statusOK(ctx, data);
+    }
+    
+  } catch (error) {
+    statusError(ctx, error);
+    return;
+  }
+};
+
+const confirmar = async (ctx: any) => {
+  try {
+
+
+    const id = Number(ctx?.params?.id);
+        // const itemUpdateInput: Prisma.UserXBizumUncheckedUpdateInput = await ctx.request.body().value;
+    const result = await bizumBusiness.confirmar(id);
+    if(result){
+      //Hay error!!!
+      setStatus(ctx, result.code, result.StatusCodes, result.text);
       return;
     }
-
-    if (estadoId == oldBizum?.estadoId) {
-      setStatus(ctx, 200, StatusCodes.CONFLICT, "El estado no ha cambiado!!");
-      return;
-    }
-
-
-    const userUpdate = await prisma.user.findFirst({ where: { id: oldBizum?.userId } });
-
-
-    if (!userUpdate) {
-      setStatus(ctx, 200, StatusCodes.CONFLICT, "No existe el usuario del bizum!!");
-      return;
-    }
-
-    const updateUserBizum = prisma.userXBizum.updateMany({
-      where: { id },
-      data: itemUpdateInput
-    })
-
-    if (oldBizum.estadoId == BizumXEstado.pendiente) {
-      // lo vamos a pasar a confirmado...
-      const saldo = oldBizum.importe.toNumber() + userUpdate?.saldo.toNumber();
-
-      const userUpdateSaldo = prisma.user.updateMany({
-        where: { id: oldBizum.userId },
-        data: { saldo }
-
-      });
-
-      const createMovimiento = prisma.userXMovimiento.create({
-        data: {
-          tipoId: UserXMovimientoXTipo.ingreso,
-          importe: oldBizum.importe,
-          userId: oldBizum.userId
-        }
-      }
-      );
-
-      const createSaldoTmp = prisma.userXSaldoXTmp.create({
-        data: {
-          saldo,
-          userId: oldBizum.userId,
-          movimientoId: (await createMovimiento).id
-        }
-      }
-      );
-
-      const createBizumXMov = prisma.bizumXMovimiento.create({
-        data: {
-          bizumId : id,          
-          movimientoId: (await createMovimiento).id
-        }
-      }
-      );
-
-
-      prisma.$transaction([updateUserBizum, userUpdateSaldo, createSaldoTmp, createBizumXMov]);
-
-    }
-    else {
-      //lo vamos a pasar a pendiente..
-
-      const saldo = userUpdate?.saldo.toNumber() - oldBizum.importe.toNumber();
-
-      const userUpdateSaldo = prisma.user.updateMany({
-        where: { id: oldBizum.userId },
-        data: { saldo }
-
-      });
-
-      //borro el movimiento
-
-      // const deleteMovimiento = prisma.userXMovimiento.delete({
-      //   data: {
-      //     tipoId: UserXMovimientoXTipo.ingreso,
-      //     importe: oldBizum.importe,
-      //     userId: oldBizum.userId
-      //   }
-      // }
-      // );
-
-
-
-
-    }
-
-
-
-
-
-
-
-
     statusOK(ctx, {ok: true});
   } catch (error) {
     statusError(ctx, error);
@@ -181,13 +132,11 @@ const update = async (ctx: any) => {
   }
 };
 
-const updatependientesAll = async (ctx: any) => {
+
+const cerrarAll = async (ctx: any) => {
   try {
 
-    const data = await prisma.userXBizum.updateMany({
-      where: { estadoId: BizumXEstado.pendiente },
-      data: { estadoId: BizumXEstado.confirmado }
-    })
+    const data = await bizumBusiness.cerrarAll();
 
     statusOK(ctx, data);
   } catch (error) {
@@ -197,14 +146,21 @@ const updatependientesAll = async (ctx: any) => {
 };
 
 
-
-
 const del = async (ctx: any) => {
   try {
 
-    const id = Number(ctx?.params?.id);
-    const data = await prisma.userXBizum.deleteMany({ where: { id } });
+   
 
+    const id = Number(ctx?.params?.id);
+
+    const oldBizum = await prisma.userXBizum.findFirst({ where: { id } });
+
+    if(oldBizum?.estadoid != BizumXEstado.pendiente){
+      setStatus(ctx, 200, StatusCodes.CONFLICT, "Para poder borrarlo, el bizum tiene qeu estar pendiente!!!");
+      return;
+    }
+
+    const data = await bizumBusiness.del(id);
     statusOK(ctx, data);
   } catch (error) {
     statusError(ctx, error);
@@ -218,6 +174,7 @@ export default {
   getById,
   add,
   update,
-  updatependientesAll,
+  cerrarAll,
+  confirmar,
   del
 };

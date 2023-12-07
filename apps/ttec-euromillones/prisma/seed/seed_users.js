@@ -145,11 +145,15 @@ const ususFromAcces = [
 ];
 
 
+await prisma.bizumXMovimiento.deleteMany();
+
 await prisma.userXBizum.deleteMany();
+
+await prisma.userXSaldoXTmp.deleteMany();
+
 
 await prisma.userXMovimiento.deleteMany();
 
-await prisma.userXSaldoXTmp.deleteMany();
 
 
 
@@ -170,6 +174,7 @@ await prisma.userXBizumXEstado.deleteMany();
 await prisma.userXBizumXEstado.createMany({  data: [
   {id : BizumXEstado.pendiente, descripcion : BizumXEstado[BizumXEstado.pendiente]},
   {id : BizumXEstado.confirmado, descripcion : BizumXEstado[BizumXEstado.confirmado]},
+  {id : BizumXEstado.cerrado, descripcion : BizumXEstado[BizumXEstado.cerrado]},
 
 ]});
 
@@ -219,8 +224,8 @@ ususFromAcces.forEach(async usu => {
     name : usu.nombre.trim(),
     email : usu.correoExterno ? usu.correoExterno : usu.usu.trim() + '@tragsa.es',
     password:'111111',
-    roleId: Role.normal,
-    estadoId : !usu.activo? Estado.baja : Estado.activo,
+    roleid: Role.normal,
+    estadoid : !usu.activo? Estado.baja : Estado.activo,
     saldo: parseFloat(usu.saldo.replace(',','.')) 
    };
 
@@ -228,9 +233,9 @@ ususFromAcces.forEach(async usu => {
 
    const createMovimiento = prisma.userXMovimiento.create({
     data: {
-      tipoId: UserXMovimientoXTipo.inicial,      
+      tipoid: UserXMovimientoXTipo.inicial,      
       importe :  parseFloat(usu.saldo.replace(',','.')),
-      userId : (await createUser).id
+      userid : (await createUser).id
     }
   }
   );
@@ -239,8 +244,8 @@ ususFromAcces.forEach(async usu => {
   const createSaldoTmp = prisma.userXSaldoXTmp.create({
     data: {
       saldo: parseFloat(usu.saldo.replace(',','.')),
-      userId : (await createUser).id ,
-      movimientoId : (await createMovimiento).id   
+      userid : (await createUser).id ,
+      movimientoid : (await createMovimiento).id   
     }
   }
   );
@@ -264,11 +269,25 @@ await prisma.user.updateMany({
   where: {id : 135 },
   data: {
     id: 135,
-    roleId : Role.god,
-    estadoId: Estado.activo,
-    password: '11111111'
+    email:'aure.euromillones@gmail.com',
+    roleid : Role.god,
+    estadoid: Estado.activo,
+    password: '111111'
   }
 })
+
+
+await prisma.user.deleteMany({where: {id : 98 }});
+
+
+await prisma.user.updateMany({
+  where: {id : 68 },
+  data: {    
+    email:'ismael1.hernandez.fernandez@madrid.org'
+    
+  }
+})
+
 
 
 // await prisma.user.createMany({

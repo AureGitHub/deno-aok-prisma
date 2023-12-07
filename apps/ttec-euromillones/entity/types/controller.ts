@@ -21,8 +21,14 @@ const get = async (ctx: any) => {
         result = await prisma.apuestaXEstado.findMany();
       break;
 
+      case 'UserXBizumXEstado':
+        result = await prisma.userXBizumXEstado.findMany();
+      break;
+
+      
+
   }
-  const data = { result, count: result.length };
+  const data = { data: result, count: result.length };
   statusOK(ctx,data);   
 
 };

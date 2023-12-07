@@ -29,5 +29,7 @@ export enum ApuestaXEstado {
 
 export enum BizumXEstado {  
     pendiente = 1,  
-    confirmado = 2
+    confirmado = 2,
+    cerrado = 3,
+
 }

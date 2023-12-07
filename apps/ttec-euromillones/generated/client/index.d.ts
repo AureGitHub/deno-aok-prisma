@@ -21,8 +21,8 @@ export type User = {
   name: string
   email: string
   password: string
-  roleId: number
-  estadoId: number
+  roleid: number
+  estadoid: number
   saldo: Prisma.Decimal
   createdAt: Date
   updatedAt: Date
@@ -35,8 +35,8 @@ export type User = {
 export type UserXBizum = {
   id: number
   importe: Prisma.Decimal
-  userId: number
-  estadoId: number
+  userid: number
+  estadoid: number
   createdAt: Date
 }
 
@@ -47,8 +47,8 @@ export type UserXBizum = {
 export type UserXMovimiento = {
   id: number
   importe: Prisma.Decimal
-  userId: number
-  tipoId: number
+  userid: number
+  tipoid: number
   createdAt: Date
 }
 
@@ -58,8 +58,8 @@ export type UserXMovimiento = {
  */
 export type BizumXMovimiento = {
   id: number
-  bizumId: number
-  movimientoId: number
+  bizumid: number
+  movimientoid: number
 }
 
 /**
@@ -69,8 +69,8 @@ export type BizumXMovimiento = {
 export type UserXSaldoXTmp = {
   id: number
   saldo: Prisma.Decimal
-  userId: number
-  movimientoId: number
+  userid: number
+  movimientoid: number
   createdAt: Date
 }
 
@@ -108,7 +108,7 @@ export type UserXEstado = {
 export type CodeSecure = {
   code: string
   type: number
-  userId: number
+  userid: number
   createdAt: Date
 }
 
@@ -121,7 +121,7 @@ export type Apuesta = {
   fecha: Date
   apostado: Prisma.Decimal
   ganado: Prisma.Decimal
-  estadoId: number
+  estadoid: number
   createdAt: Date
 }
 
@@ -1392,15 +1392,15 @@ export namespace Prisma {
 
   export type UserAvgAggregateOutputType = {
     id: number | null
-    roleId: number | null
-    estadoId: number | null
+    roleid: number | null
+    estadoid: number | null
     saldo: Decimal | null
   }
 
   export type UserSumAggregateOutputType = {
     id: number | null
-    roleId: number | null
-    estadoId: number | null
+    roleid: number | null
+    estadoid: number | null
     saldo: Decimal | null
   }
 
@@ -1409,8 +1409,8 @@ export namespace Prisma {
     name: string | null
     email: string | null
     password: string | null
-    roleId: number | null
-    estadoId: number | null
+    roleid: number | null
+    estadoid: number | null
     saldo: Decimal | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1421,8 +1421,8 @@ export namespace Prisma {
     name: string | null
     email: string | null
     password: string | null
-    roleId: number | null
-    estadoId: number | null
+    roleid: number | null
+    estadoid: number | null
     saldo: Decimal | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1433,8 +1433,8 @@ export namespace Prisma {
     name: number
     email: number
     password: number
-    roleId: number
-    estadoId: number
+    roleid: number
+    estadoid: number
     saldo: number
     createdAt: number
     updatedAt: number
@@ -1444,15 +1444,15 @@ export namespace Prisma {
 
   export type UserAvgAggregateInputType = {
     id?: true
-    roleId?: true
-    estadoId?: true
+    roleid?: true
+    estadoid?: true
     saldo?: true
   }
 
   export type UserSumAggregateInputType = {
     id?: true
-    roleId?: true
-    estadoId?: true
+    roleid?: true
+    estadoid?: true
     saldo?: true
   }
 
@@ -1461,8 +1461,8 @@ export namespace Prisma {
     name?: true
     email?: true
     password?: true
-    roleId?: true
-    estadoId?: true
+    roleid?: true
+    estadoid?: true
     saldo?: true
     createdAt?: true
     updatedAt?: true
@@ -1473,8 +1473,8 @@ export namespace Prisma {
     name?: true
     email?: true
     password?: true
-    roleId?: true
-    estadoId?: true
+    roleid?: true
+    estadoid?: true
     saldo?: true
     createdAt?: true
     updatedAt?: true
@@ -1485,8 +1485,8 @@ export namespace Prisma {
     name?: true
     email?: true
     password?: true
-    roleId?: true
-    estadoId?: true
+    roleid?: true
+    estadoid?: true
     saldo?: true
     createdAt?: true
     updatedAt?: true
@@ -1585,8 +1585,8 @@ export namespace Prisma {
     name: string
     email: string
     password: string
-    roleId: number
-    estadoId: number
+    roleid: number
+    estadoid: number
     saldo: Decimal
     createdAt: Date
     updatedAt: Date
@@ -1616,8 +1616,8 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     password?: boolean
-    roleId?: boolean
-    estadoId?: boolean
+    roleid?: boolean
+    estadoid?: boolean
     saldo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2520,38 +2520,38 @@ export namespace Prisma {
   export type UserXBizumAvgAggregateOutputType = {
     id: number | null
     importe: Decimal | null
-    userId: number | null
-    estadoId: number | null
+    userid: number | null
+    estadoid: number | null
   }
 
   export type UserXBizumSumAggregateOutputType = {
     id: number | null
     importe: Decimal | null
-    userId: number | null
-    estadoId: number | null
+    userid: number | null
+    estadoid: number | null
   }
 
   export type UserXBizumMinAggregateOutputType = {
     id: number | null
     importe: Decimal | null
-    userId: number | null
-    estadoId: number | null
+    userid: number | null
+    estadoid: number | null
     createdAt: Date | null
   }
 
   export type UserXBizumMaxAggregateOutputType = {
     id: number | null
     importe: Decimal | null
-    userId: number | null
-    estadoId: number | null
+    userid: number | null
+    estadoid: number | null
     createdAt: Date | null
   }
 
   export type UserXBizumCountAggregateOutputType = {
     id: number
     importe: number
-    userId: number
-    estadoId: number
+    userid: number
+    estadoid: number
     createdAt: number
     _all: number
   }
@@ -2560,38 +2560,38 @@ export namespace Prisma {
   export type UserXBizumAvgAggregateInputType = {
     id?: true
     importe?: true
-    userId?: true
-    estadoId?: true
+    userid?: true
+    estadoid?: true
   }
 
   export type UserXBizumSumAggregateInputType = {
     id?: true
     importe?: true
-    userId?: true
-    estadoId?: true
+    userid?: true
+    estadoid?: true
   }
 
   export type UserXBizumMinAggregateInputType = {
     id?: true
     importe?: true
-    userId?: true
-    estadoId?: true
+    userid?: true
+    estadoid?: true
     createdAt?: true
   }
 
   export type UserXBizumMaxAggregateInputType = {
     id?: true
     importe?: true
-    userId?: true
-    estadoId?: true
+    userid?: true
+    estadoid?: true
     createdAt?: true
   }
 
   export type UserXBizumCountAggregateInputType = {
     id?: true
     importe?: true
-    userId?: true
-    estadoId?: true
+    userid?: true
+    estadoid?: true
     createdAt?: true
     _all?: true
   }
@@ -2686,8 +2686,8 @@ export namespace Prisma {
   export type UserXBizumGroupByOutputType = {
     id: number
     importe: Decimal
-    userId: number
-    estadoId: number
+    userid: number
+    estadoid: number
     createdAt: Date
     _count: UserXBizumCountAggregateOutputType | null
     _avg: UserXBizumAvgAggregateOutputType | null
@@ -2713,8 +2713,8 @@ export namespace Prisma {
   export type UserXBizumSelect = {
     id?: boolean
     importe?: boolean
-    userId?: boolean
-    estadoId?: boolean
+    userid?: boolean
+    estadoid?: boolean
     createdAt?: boolean
     User?: boolean | UserArgs
     UserXBizumXEstado?: boolean | UserXBizumXEstadoArgs
@@ -3534,38 +3534,38 @@ export namespace Prisma {
   export type UserXMovimientoAvgAggregateOutputType = {
     id: number | null
     importe: Decimal | null
-    userId: number | null
-    tipoId: number | null
+    userid: number | null
+    tipoid: number | null
   }
 
   export type UserXMovimientoSumAggregateOutputType = {
     id: number | null
     importe: Decimal | null
-    userId: number | null
-    tipoId: number | null
+    userid: number | null
+    tipoid: number | null
   }
 
   export type UserXMovimientoMinAggregateOutputType = {
     id: number | null
     importe: Decimal | null
-    userId: number | null
-    tipoId: number | null
+    userid: number | null
+    tipoid: number | null
     createdAt: Date | null
   }
 
   export type UserXMovimientoMaxAggregateOutputType = {
     id: number | null
     importe: Decimal | null
-    userId: number | null
-    tipoId: number | null
+    userid: number | null
+    tipoid: number | null
     createdAt: Date | null
   }
 
   export type UserXMovimientoCountAggregateOutputType = {
     id: number
     importe: number
-    userId: number
-    tipoId: number
+    userid: number
+    tipoid: number
     createdAt: number
     _all: number
   }
@@ -3574,38 +3574,38 @@ export namespace Prisma {
   export type UserXMovimientoAvgAggregateInputType = {
     id?: true
     importe?: true
-    userId?: true
-    tipoId?: true
+    userid?: true
+    tipoid?: true
   }
 
   export type UserXMovimientoSumAggregateInputType = {
     id?: true
     importe?: true
-    userId?: true
-    tipoId?: true
+    userid?: true
+    tipoid?: true
   }
 
   export type UserXMovimientoMinAggregateInputType = {
     id?: true
     importe?: true
-    userId?: true
-    tipoId?: true
+    userid?: true
+    tipoid?: true
     createdAt?: true
   }
 
   export type UserXMovimientoMaxAggregateInputType = {
     id?: true
     importe?: true
-    userId?: true
-    tipoId?: true
+    userid?: true
+    tipoid?: true
     createdAt?: true
   }
 
   export type UserXMovimientoCountAggregateInputType = {
     id?: true
     importe?: true
-    userId?: true
-    tipoId?: true
+    userid?: true
+    tipoid?: true
     createdAt?: true
     _all?: true
   }
@@ -3700,8 +3700,8 @@ export namespace Prisma {
   export type UserXMovimientoGroupByOutputType = {
     id: number
     importe: Decimal
-    userId: number
-    tipoId: number
+    userid: number
+    tipoid: number
     createdAt: Date
     _count: UserXMovimientoCountAggregateOutputType | null
     _avg: UserXMovimientoAvgAggregateOutputType | null
@@ -3727,8 +3727,8 @@ export namespace Prisma {
   export type UserXMovimientoSelect = {
     id?: boolean
     importe?: boolean
-    userId?: boolean
-    tipoId?: boolean
+    userid?: boolean
+    tipoid?: boolean
     createdAt?: boolean
     User?: boolean | UserArgs
     UserXMovimientoXTipo?: boolean | UserXMovimientoXTipoArgs
@@ -4574,64 +4574,64 @@ export namespace Prisma {
 
   export type BizumXMovimientoAvgAggregateOutputType = {
     id: number | null
-    bizumId: number | null
-    movimientoId: number | null
+    bizumid: number | null
+    movimientoid: number | null
   }
 
   export type BizumXMovimientoSumAggregateOutputType = {
     id: number | null
-    bizumId: number | null
-    movimientoId: number | null
+    bizumid: number | null
+    movimientoid: number | null
   }
 
   export type BizumXMovimientoMinAggregateOutputType = {
     id: number | null
-    bizumId: number | null
-    movimientoId: number | null
+    bizumid: number | null
+    movimientoid: number | null
   }
 
   export type BizumXMovimientoMaxAggregateOutputType = {
     id: number | null
-    bizumId: number | null
-    movimientoId: number | null
+    bizumid: number | null
+    movimientoid: number | null
   }
 
   export type BizumXMovimientoCountAggregateOutputType = {
     id: number
-    bizumId: number
-    movimientoId: number
+    bizumid: number
+    movimientoid: number
     _all: number
   }
 
 
   export type BizumXMovimientoAvgAggregateInputType = {
     id?: true
-    bizumId?: true
-    movimientoId?: true
+    bizumid?: true
+    movimientoid?: true
   }
 
   export type BizumXMovimientoSumAggregateInputType = {
     id?: true
-    bizumId?: true
-    movimientoId?: true
+    bizumid?: true
+    movimientoid?: true
   }
 
   export type BizumXMovimientoMinAggregateInputType = {
     id?: true
-    bizumId?: true
-    movimientoId?: true
+    bizumid?: true
+    movimientoid?: true
   }
 
   export type BizumXMovimientoMaxAggregateInputType = {
     id?: true
-    bizumId?: true
-    movimientoId?: true
+    bizumid?: true
+    movimientoid?: true
   }
 
   export type BizumXMovimientoCountAggregateInputType = {
     id?: true
-    bizumId?: true
-    movimientoId?: true
+    bizumid?: true
+    movimientoid?: true
     _all?: true
   }
 
@@ -4724,8 +4724,8 @@ export namespace Prisma {
 
   export type BizumXMovimientoGroupByOutputType = {
     id: number
-    bizumId: number
-    movimientoId: number
+    bizumid: number
+    movimientoid: number
     _count: BizumXMovimientoCountAggregateOutputType | null
     _avg: BizumXMovimientoAvgAggregateOutputType | null
     _sum: BizumXMovimientoSumAggregateOutputType | null
@@ -4749,8 +4749,8 @@ export namespace Prisma {
 
   export type BizumXMovimientoSelect = {
     id?: boolean
-    bizumId?: boolean
-    movimientoId?: boolean
+    bizumid?: boolean
+    movimientoid?: boolean
     UserXBizum?: boolean | UserXBizumArgs
     UserXMovimiento?: boolean | UserXMovimientoArgs
   }
@@ -5538,38 +5538,38 @@ export namespace Prisma {
   export type UserXSaldoXTmpAvgAggregateOutputType = {
     id: number | null
     saldo: Decimal | null
-    userId: number | null
-    movimientoId: number | null
+    userid: number | null
+    movimientoid: number | null
   }
 
   export type UserXSaldoXTmpSumAggregateOutputType = {
     id: number | null
     saldo: Decimal | null
-    userId: number | null
-    movimientoId: number | null
+    userid: number | null
+    movimientoid: number | null
   }
 
   export type UserXSaldoXTmpMinAggregateOutputType = {
     id: number | null
     saldo: Decimal | null
-    userId: number | null
-    movimientoId: number | null
+    userid: number | null
+    movimientoid: number | null
     createdAt: Date | null
   }
 
   export type UserXSaldoXTmpMaxAggregateOutputType = {
     id: number | null
     saldo: Decimal | null
-    userId: number | null
-    movimientoId: number | null
+    userid: number | null
+    movimientoid: number | null
     createdAt: Date | null
   }
 
   export type UserXSaldoXTmpCountAggregateOutputType = {
     id: number
     saldo: number
-    userId: number
-    movimientoId: number
+    userid: number
+    movimientoid: number
     createdAt: number
     _all: number
   }
@@ -5578,38 +5578,38 @@ export namespace Prisma {
   export type UserXSaldoXTmpAvgAggregateInputType = {
     id?: true
     saldo?: true
-    userId?: true
-    movimientoId?: true
+    userid?: true
+    movimientoid?: true
   }
 
   export type UserXSaldoXTmpSumAggregateInputType = {
     id?: true
     saldo?: true
-    userId?: true
-    movimientoId?: true
+    userid?: true
+    movimientoid?: true
   }
 
   export type UserXSaldoXTmpMinAggregateInputType = {
     id?: true
     saldo?: true
-    userId?: true
-    movimientoId?: true
+    userid?: true
+    movimientoid?: true
     createdAt?: true
   }
 
   export type UserXSaldoXTmpMaxAggregateInputType = {
     id?: true
     saldo?: true
-    userId?: true
-    movimientoId?: true
+    userid?: true
+    movimientoid?: true
     createdAt?: true
   }
 
   export type UserXSaldoXTmpCountAggregateInputType = {
     id?: true
     saldo?: true
-    userId?: true
-    movimientoId?: true
+    userid?: true
+    movimientoid?: true
     createdAt?: true
     _all?: true
   }
@@ -5704,8 +5704,8 @@ export namespace Prisma {
   export type UserXSaldoXTmpGroupByOutputType = {
     id: number
     saldo: Decimal
-    userId: number
-    movimientoId: number
+    userid: number
+    movimientoid: number
     createdAt: Date
     _count: UserXSaldoXTmpCountAggregateOutputType | null
     _avg: UserXSaldoXTmpAvgAggregateOutputType | null
@@ -5731,8 +5731,8 @@ export namespace Prisma {
   export type UserXSaldoXTmpSelect = {
     id?: boolean
     saldo?: boolean
-    userId?: boolean
-    movimientoId?: boolean
+    userid?: boolean
+    movimientoid?: boolean
     createdAt?: boolean
     User?: boolean | UserArgs
     UserXMovimiento?: boolean | UserXMovimientoArgs
@@ -9418,32 +9418,32 @@ export namespace Prisma {
 
   export type CodeSecureAvgAggregateOutputType = {
     type: number | null
-    userId: number | null
+    userid: number | null
   }
 
   export type CodeSecureSumAggregateOutputType = {
     type: number | null
-    userId: number | null
+    userid: number | null
   }
 
   export type CodeSecureMinAggregateOutputType = {
     code: string | null
     type: number | null
-    userId: number | null
+    userid: number | null
     createdAt: Date | null
   }
 
   export type CodeSecureMaxAggregateOutputType = {
     code: string | null
     type: number | null
-    userId: number | null
+    userid: number | null
     createdAt: Date | null
   }
 
   export type CodeSecureCountAggregateOutputType = {
     code: number
     type: number
-    userId: number
+    userid: number
     createdAt: number
     _all: number
   }
@@ -9451,32 +9451,32 @@ export namespace Prisma {
 
   export type CodeSecureAvgAggregateInputType = {
     type?: true
-    userId?: true
+    userid?: true
   }
 
   export type CodeSecureSumAggregateInputType = {
     type?: true
-    userId?: true
+    userid?: true
   }
 
   export type CodeSecureMinAggregateInputType = {
     code?: true
     type?: true
-    userId?: true
+    userid?: true
     createdAt?: true
   }
 
   export type CodeSecureMaxAggregateInputType = {
     code?: true
     type?: true
-    userId?: true
+    userid?: true
     createdAt?: true
   }
 
   export type CodeSecureCountAggregateInputType = {
     code?: true
     type?: true
-    userId?: true
+    userid?: true
     createdAt?: true
     _all?: true
   }
@@ -9571,7 +9571,7 @@ export namespace Prisma {
   export type CodeSecureGroupByOutputType = {
     code: string
     type: number
-    userId: number
+    userid: number
     createdAt: Date
     _count: CodeSecureCountAggregateOutputType | null
     _avg: CodeSecureAvgAggregateOutputType | null
@@ -9597,7 +9597,7 @@ export namespace Prisma {
   export type CodeSecureSelect = {
     code?: boolean
     type?: boolean
-    userId?: boolean
+    userid?: boolean
     createdAt?: boolean
     User?: boolean | UserArgs
   }
@@ -10381,14 +10381,14 @@ export namespace Prisma {
     id: number | null
     apostado: Decimal | null
     ganado: Decimal | null
-    estadoId: number | null
+    estadoid: number | null
   }
 
   export type ApuestaSumAggregateOutputType = {
     id: number | null
     apostado: Decimal | null
     ganado: Decimal | null
-    estadoId: number | null
+    estadoid: number | null
   }
 
   export type ApuestaMinAggregateOutputType = {
@@ -10396,7 +10396,7 @@ export namespace Prisma {
     fecha: Date | null
     apostado: Decimal | null
     ganado: Decimal | null
-    estadoId: number | null
+    estadoid: number | null
     createdAt: Date | null
   }
 
@@ -10405,7 +10405,7 @@ export namespace Prisma {
     fecha: Date | null
     apostado: Decimal | null
     ganado: Decimal | null
-    estadoId: number | null
+    estadoid: number | null
     createdAt: Date | null
   }
 
@@ -10414,7 +10414,7 @@ export namespace Prisma {
     fecha: number
     apostado: number
     ganado: number
-    estadoId: number
+    estadoid: number
     createdAt: number
     _all: number
   }
@@ -10424,14 +10424,14 @@ export namespace Prisma {
     id?: true
     apostado?: true
     ganado?: true
-    estadoId?: true
+    estadoid?: true
   }
 
   export type ApuestaSumAggregateInputType = {
     id?: true
     apostado?: true
     ganado?: true
-    estadoId?: true
+    estadoid?: true
   }
 
   export type ApuestaMinAggregateInputType = {
@@ -10439,7 +10439,7 @@ export namespace Prisma {
     fecha?: true
     apostado?: true
     ganado?: true
-    estadoId?: true
+    estadoid?: true
     createdAt?: true
   }
 
@@ -10448,7 +10448,7 @@ export namespace Prisma {
     fecha?: true
     apostado?: true
     ganado?: true
-    estadoId?: true
+    estadoid?: true
     createdAt?: true
   }
 
@@ -10457,7 +10457,7 @@ export namespace Prisma {
     fecha?: true
     apostado?: true
     ganado?: true
-    estadoId?: true
+    estadoid?: true
     createdAt?: true
     _all?: true
   }
@@ -10554,7 +10554,7 @@ export namespace Prisma {
     fecha: Date
     apostado: Decimal
     ganado: Decimal
-    estadoId: number
+    estadoid: number
     createdAt: Date
     _count: ApuestaCountAggregateOutputType | null
     _avg: ApuestaAvgAggregateOutputType | null
@@ -10582,7 +10582,7 @@ export namespace Prisma {
     fecha?: boolean
     apostado?: boolean
     ganado?: boolean
-    estadoId?: boolean
+    estadoid?: boolean
     createdAt?: boolean
     ApuestaXEstado?: boolean | ApuestaXEstadoArgs
   }
@@ -13293,7 +13293,7 @@ export namespace Prisma {
     fecha: 'fecha',
     apostado: 'apostado',
     ganado: 'ganado',
-    estadoId: 'estadoId',
+    estadoid: 'estadoid',
     createdAt: 'createdAt'
   };
 
@@ -13310,8 +13310,8 @@ export namespace Prisma {
 
   export const BizumXMovimientoScalarFieldEnum: {
     id: 'id',
-    bizumId: 'bizumId',
-    movimientoId: 'movimientoId'
+    bizumid: 'bizumid',
+    movimientoid: 'movimientoid'
   };
 
   export type BizumXMovimientoScalarFieldEnum = (typeof BizumXMovimientoScalarFieldEnum)[keyof typeof BizumXMovimientoScalarFieldEnum]
@@ -13320,7 +13320,7 @@ export namespace Prisma {
   export const CodeSecureScalarFieldEnum: {
     code: 'code',
     type: 'type',
-    userId: 'userId',
+    userid: 'userid',
     createdAt: 'createdAt'
   };
 
@@ -13358,8 +13358,8 @@ export namespace Prisma {
     name: 'name',
     email: 'email',
     password: 'password',
-    roleId: 'roleId',
-    estadoId: 'estadoId',
+    roleid: 'roleid',
+    estadoid: 'estadoid',
     saldo: 'saldo',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -13371,8 +13371,8 @@ export namespace Prisma {
   export const UserXBizumScalarFieldEnum: {
     id: 'id',
     importe: 'importe',
-    userId: 'userId',
-    estadoId: 'estadoId',
+    userid: 'userid',
+    estadoid: 'estadoid',
     createdAt: 'createdAt'
   };
 
@@ -13398,8 +13398,8 @@ export namespace Prisma {
   export const UserXMovimientoScalarFieldEnum: {
     id: 'id',
     importe: 'importe',
-    userId: 'userId',
-    tipoId: 'tipoId',
+    userid: 'userid',
+    tipoid: 'tipoid',
     createdAt: 'createdAt'
   };
 
@@ -13425,8 +13425,8 @@ export namespace Prisma {
   export const UserXSaldoXTmpScalarFieldEnum: {
     id: 'id',
     saldo: 'saldo',
-    userId: 'userId',
-    movimientoId: 'movimientoId',
+    userid: 'userid',
+    movimientoid: 'movimientoid',
     createdAt: 'createdAt'
   };
 
@@ -13446,8 +13446,8 @@ export namespace Prisma {
     name?: StringFilter | string
     email?: StringFilter | string
     password?: StringFilter | string
-    roleId?: IntFilter | number
-    estadoId?: IntFilter | number
+    roleid?: IntFilter | number
+    estadoid?: IntFilter | number
     saldo?: DecimalFilter | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
@@ -13464,8 +13464,8 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    roleId?: SortOrder
-    estadoId?: SortOrder
+    roleid?: SortOrder
+    estadoid?: SortOrder
     saldo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13487,8 +13487,8 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    roleId?: SortOrder
-    estadoId?: SortOrder
+    roleid?: SortOrder
+    estadoid?: SortOrder
     saldo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13507,8 +13507,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter | string
     email?: StringWithAggregatesFilter | string
     password?: StringWithAggregatesFilter | string
-    roleId?: IntWithAggregatesFilter | number
-    estadoId?: IntWithAggregatesFilter | number
+    roleid?: IntWithAggregatesFilter | number
+    estadoid?: IntWithAggregatesFilter | number
     saldo?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
@@ -13520,8 +13520,8 @@ export namespace Prisma {
     NOT?: Enumerable<UserXBizumWhereInput>
     id?: IntFilter | number
     importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    userId?: IntFilter | number
-    estadoId?: IntFilter | number
+    userid?: IntFilter | number
+    estadoid?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     User?: XOR<UserRelationFilter, UserWhereInput>
     UserXBizumXEstado?: XOR<UserXBizumXEstadoRelationFilter, UserXBizumXEstadoWhereInput>
@@ -13531,8 +13531,8 @@ export namespace Prisma {
   export type UserXBizumOrderByWithRelationInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    estadoId?: SortOrder
+    userid?: SortOrder
+    estadoid?: SortOrder
     createdAt?: SortOrder
     User?: UserOrderByWithRelationInput
     UserXBizumXEstado?: UserXBizumXEstadoOrderByWithRelationInput
@@ -13546,8 +13546,8 @@ export namespace Prisma {
   export type UserXBizumOrderByWithAggregationInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    estadoId?: SortOrder
+    userid?: SortOrder
+    estadoid?: SortOrder
     createdAt?: SortOrder
     _count?: UserXBizumCountOrderByAggregateInput
     _avg?: UserXBizumAvgOrderByAggregateInput
@@ -13562,8 +13562,8 @@ export namespace Prisma {
     NOT?: Enumerable<UserXBizumScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
     importe?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    userId?: IntWithAggregatesFilter | number
-    estadoId?: IntWithAggregatesFilter | number
+    userid?: IntWithAggregatesFilter | number
+    estadoid?: IntWithAggregatesFilter | number
     createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
@@ -13573,8 +13573,8 @@ export namespace Prisma {
     NOT?: Enumerable<UserXMovimientoWhereInput>
     id?: IntFilter | number
     importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    userId?: IntFilter | number
-    tipoId?: IntFilter | number
+    userid?: IntFilter | number
+    tipoid?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     User?: XOR<UserRelationFilter, UserWhereInput>
     UserXMovimientoXTipo?: XOR<UserXMovimientoXTipoRelationFilter, UserXMovimientoXTipoWhereInput>
@@ -13585,8 +13585,8 @@ export namespace Prisma {
   export type UserXMovimientoOrderByWithRelationInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    tipoId?: SortOrder
+    userid?: SortOrder
+    tipoid?: SortOrder
     createdAt?: SortOrder
     User?: UserOrderByWithRelationInput
     UserXMovimientoXTipo?: UserXMovimientoXTipoOrderByWithRelationInput
@@ -13601,8 +13601,8 @@ export namespace Prisma {
   export type UserXMovimientoOrderByWithAggregationInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    tipoId?: SortOrder
+    userid?: SortOrder
+    tipoid?: SortOrder
     createdAt?: SortOrder
     _count?: UserXMovimientoCountOrderByAggregateInput
     _avg?: UserXMovimientoAvgOrderByAggregateInput
@@ -13617,8 +13617,8 @@ export namespace Prisma {
     NOT?: Enumerable<UserXMovimientoScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
     importe?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    userId?: IntWithAggregatesFilter | number
-    tipoId?: IntWithAggregatesFilter | number
+    userid?: IntWithAggregatesFilter | number
+    tipoid?: IntWithAggregatesFilter | number
     createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
@@ -13627,16 +13627,16 @@ export namespace Prisma {
     OR?: Enumerable<BizumXMovimientoWhereInput>
     NOT?: Enumerable<BizumXMovimientoWhereInput>
     id?: IntFilter | number
-    bizumId?: IntFilter | number
-    movimientoId?: IntFilter | number
+    bizumid?: IntFilter | number
+    movimientoid?: IntFilter | number
     UserXBizum?: XOR<UserXBizumRelationFilter, UserXBizumWhereInput>
     UserXMovimiento?: XOR<UserXMovimientoRelationFilter, UserXMovimientoWhereInput>
   }
 
   export type BizumXMovimientoOrderByWithRelationInput = {
     id?: SortOrder
-    bizumId?: SortOrder
-    movimientoId?: SortOrder
+    bizumid?: SortOrder
+    movimientoid?: SortOrder
     UserXBizum?: UserXBizumOrderByWithRelationInput
     UserXMovimiento?: UserXMovimientoOrderByWithRelationInput
   }
@@ -13647,8 +13647,8 @@ export namespace Prisma {
 
   export type BizumXMovimientoOrderByWithAggregationInput = {
     id?: SortOrder
-    bizumId?: SortOrder
-    movimientoId?: SortOrder
+    bizumid?: SortOrder
+    movimientoid?: SortOrder
     _count?: BizumXMovimientoCountOrderByAggregateInput
     _avg?: BizumXMovimientoAvgOrderByAggregateInput
     _max?: BizumXMovimientoMaxOrderByAggregateInput
@@ -13661,8 +13661,8 @@ export namespace Prisma {
     OR?: Enumerable<BizumXMovimientoScalarWhereWithAggregatesInput>
     NOT?: Enumerable<BizumXMovimientoScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
-    bizumId?: IntWithAggregatesFilter | number
-    movimientoId?: IntWithAggregatesFilter | number
+    bizumid?: IntWithAggregatesFilter | number
+    movimientoid?: IntWithAggregatesFilter | number
   }
 
   export type UserXSaldoXTmpWhereInput = {
@@ -13671,8 +13671,8 @@ export namespace Prisma {
     NOT?: Enumerable<UserXSaldoXTmpWhereInput>
     id?: IntFilter | number
     saldo?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    userId?: IntFilter | number
-    movimientoId?: IntFilter | number
+    userid?: IntFilter | number
+    movimientoid?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     User?: XOR<UserRelationFilter, UserWhereInput>
     UserXMovimiento?: XOR<UserXMovimientoRelationFilter, UserXMovimientoWhereInput>
@@ -13681,8 +13681,8 @@ export namespace Prisma {
   export type UserXSaldoXTmpOrderByWithRelationInput = {
     id?: SortOrder
     saldo?: SortOrder
-    userId?: SortOrder
-    movimientoId?: SortOrder
+    userid?: SortOrder
+    movimientoid?: SortOrder
     createdAt?: SortOrder
     User?: UserOrderByWithRelationInput
     UserXMovimiento?: UserXMovimientoOrderByWithRelationInput
@@ -13695,8 +13695,8 @@ export namespace Prisma {
   export type UserXSaldoXTmpOrderByWithAggregationInput = {
     id?: SortOrder
     saldo?: SortOrder
-    userId?: SortOrder
-    movimientoId?: SortOrder
+    userid?: SortOrder
+    movimientoid?: SortOrder
     createdAt?: SortOrder
     _count?: UserXSaldoXTmpCountOrderByAggregateInput
     _avg?: UserXSaldoXTmpAvgOrderByAggregateInput
@@ -13711,8 +13711,8 @@ export namespace Prisma {
     NOT?: Enumerable<UserXSaldoXTmpScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
     saldo?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    userId?: IntWithAggregatesFilter | number
-    movimientoId?: IntWithAggregatesFilter | number
+    userid?: IntWithAggregatesFilter | number
+    movimientoid?: IntWithAggregatesFilter | number
     createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
@@ -13836,7 +13836,7 @@ export namespace Prisma {
     NOT?: Enumerable<CodeSecureWhereInput>
     code?: UuidFilter | string
     type?: IntFilter | number
-    userId?: IntFilter | number
+    userid?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     User?: XOR<UserRelationFilter, UserWhereInput>
   }
@@ -13844,7 +13844,7 @@ export namespace Prisma {
   export type CodeSecureOrderByWithRelationInput = {
     code?: SortOrder
     type?: SortOrder
-    userId?: SortOrder
+    userid?: SortOrder
     createdAt?: SortOrder
     User?: UserOrderByWithRelationInput
   }
@@ -13856,7 +13856,7 @@ export namespace Prisma {
   export type CodeSecureOrderByWithAggregationInput = {
     code?: SortOrder
     type?: SortOrder
-    userId?: SortOrder
+    userid?: SortOrder
     createdAt?: SortOrder
     _count?: CodeSecureCountOrderByAggregateInput
     _avg?: CodeSecureAvgOrderByAggregateInput
@@ -13871,7 +13871,7 @@ export namespace Prisma {
     NOT?: Enumerable<CodeSecureScalarWhereWithAggregatesInput>
     code?: UuidWithAggregatesFilter | string
     type?: IntWithAggregatesFilter | number
-    userId?: IntWithAggregatesFilter | number
+    userid?: IntWithAggregatesFilter | number
     createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
@@ -13883,7 +13883,7 @@ export namespace Prisma {
     fecha?: DateTimeFilter | Date | string
     apostado?: DecimalFilter | Decimal | DecimalJsLike | number | string
     ganado?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    estadoId?: IntFilter | number
+    estadoid?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     ApuestaXEstado?: XOR<ApuestaXEstadoRelationFilter, ApuestaXEstadoWhereInput>
   }
@@ -13893,7 +13893,7 @@ export namespace Prisma {
     fecha?: SortOrder
     apostado?: SortOrder
     ganado?: SortOrder
-    estadoId?: SortOrder
+    estadoid?: SortOrder
     createdAt?: SortOrder
     ApuestaXEstado?: ApuestaXEstadoOrderByWithRelationInput
   }
@@ -13907,7 +13907,7 @@ export namespace Prisma {
     fecha?: SortOrder
     apostado?: SortOrder
     ganado?: SortOrder
-    estadoId?: SortOrder
+    estadoid?: SortOrder
     createdAt?: SortOrder
     _count?: ApuestaCountOrderByAggregateInput
     _avg?: ApuestaAvgOrderByAggregateInput
@@ -13924,7 +13924,7 @@ export namespace Prisma {
     fecha?: DateTimeWithAggregatesFilter | Date | string
     apostado?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     ganado?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    estadoId?: IntWithAggregatesFilter | number
+    estadoid?: IntWithAggregatesFilter | number
     createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
@@ -14025,8 +14025,8 @@ export namespace Prisma {
     name: string
     email: string
     password: string
-    roleId: number
-    estadoId: number
+    roleid: number
+    estadoid: number
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14057,8 +14057,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    roleId?: IntFieldUpdateOperationsInput | number
-    estadoId?: IntFieldUpdateOperationsInput | number
+    roleid?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14073,8 +14073,8 @@ export namespace Prisma {
     name: string
     email: string
     password: string
-    roleId: number
-    estadoId: number
+    roleid: number
+    estadoid: number
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14095,8 +14095,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    roleId?: IntFieldUpdateOperationsInput | number
-    estadoId?: IntFieldUpdateOperationsInput | number
+    roleid?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14113,8 +14113,8 @@ export namespace Prisma {
   export type UserXBizumUncheckedCreateInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    userId: number
-    estadoId: number
+    userid: number
+    estadoid: number
     createdAt?: Date | string
     BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXBizumInput
   }
@@ -14130,8 +14130,8 @@ export namespace Prisma {
   export type UserXBizumUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
-    estadoId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXBizumNestedInput
   }
@@ -14139,8 +14139,8 @@ export namespace Prisma {
   export type UserXBizumCreateManyInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    userId: number
-    estadoId: number
+    userid: number
+    estadoid: number
     createdAt?: Date | string
   }
 
@@ -14152,8 +14152,8 @@ export namespace Prisma {
   export type UserXBizumUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
-    estadoId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14169,8 +14169,8 @@ export namespace Prisma {
   export type UserXMovimientoUncheckedCreateInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    userId: number
-    tipoId: number
+    userid: number
+    tipoid: number
     createdAt?: Date | string
     UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserXMovimientoInput
     BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXMovimientoInput
@@ -14188,8 +14188,8 @@ export namespace Prisma {
   export type UserXMovimientoUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
-    tipoId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
+    tipoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserXMovimientoNestedInput
     BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXMovimientoNestedInput
@@ -14198,8 +14198,8 @@ export namespace Prisma {
   export type UserXMovimientoCreateManyInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    userId: number
-    tipoId: number
+    userid: number
+    tipoid: number
     createdAt?: Date | string
   }
 
@@ -14211,8 +14211,8 @@ export namespace Prisma {
   export type UserXMovimientoUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
-    tipoId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
+    tipoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14223,8 +14223,8 @@ export namespace Prisma {
 
   export type BizumXMovimientoUncheckedCreateInput = {
     id?: number
-    bizumId: number
-    movimientoId: number
+    bizumid: number
+    movimientoid: number
   }
 
   export type BizumXMovimientoUpdateInput = {
@@ -14234,14 +14234,14 @@ export namespace Prisma {
 
   export type BizumXMovimientoUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    bizumId?: IntFieldUpdateOperationsInput | number
-    movimientoId?: IntFieldUpdateOperationsInput | number
+    bizumid?: IntFieldUpdateOperationsInput | number
+    movimientoid?: IntFieldUpdateOperationsInput | number
   }
 
   export type BizumXMovimientoCreateManyInput = {
     id?: number
-    bizumId: number
-    movimientoId: number
+    bizumid: number
+    movimientoid: number
   }
 
   export type BizumXMovimientoUpdateManyMutationInput = {
@@ -14250,8 +14250,8 @@ export namespace Prisma {
 
   export type BizumXMovimientoUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    bizumId?: IntFieldUpdateOperationsInput | number
-    movimientoId?: IntFieldUpdateOperationsInput | number
+    bizumid?: IntFieldUpdateOperationsInput | number
+    movimientoid?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserXSaldoXTmpCreateInput = {
@@ -14264,8 +14264,8 @@ export namespace Prisma {
   export type UserXSaldoXTmpUncheckedCreateInput = {
     id?: number
     saldo: Decimal | DecimalJsLike | number | string
-    userId: number
-    movimientoId: number
+    userid: number
+    movimientoid: number
     createdAt?: Date | string
   }
 
@@ -14279,16 +14279,16 @@ export namespace Prisma {
   export type UserXSaldoXTmpUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
-    movimientoId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
+    movimientoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserXSaldoXTmpCreateManyInput = {
     id?: number
     saldo: Decimal | DecimalJsLike | number | string
-    userId: number
-    movimientoId: number
+    userid: number
+    movimientoid: number
     createdAt?: Date | string
   }
 
@@ -14300,8 +14300,8 @@ export namespace Prisma {
   export type UserXSaldoXTmpUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
-    movimientoId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
+    movimientoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14432,7 +14432,7 @@ export namespace Prisma {
   export type CodeSecureUncheckedCreateInput = {
     code: string
     type: number
-    userId: number
+    userid: number
     createdAt?: Date | string
   }
 
@@ -14446,14 +14446,14 @@ export namespace Prisma {
   export type CodeSecureUncheckedUpdateInput = {
     code?: StringFieldUpdateOperationsInput | string
     type?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CodeSecureCreateManyInput = {
     code: string
     type: number
-    userId: number
+    userid: number
     createdAt?: Date | string
   }
 
@@ -14466,7 +14466,7 @@ export namespace Prisma {
   export type CodeSecureUncheckedUpdateManyInput = {
     code?: StringFieldUpdateOperationsInput | string
     type?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14483,7 +14483,7 @@ export namespace Prisma {
     fecha: Date | string
     apostado?: Decimal | DecimalJsLike | number | string
     ganado?: Decimal | DecimalJsLike | number | string
-    estadoId: number
+    estadoid: number
     createdAt?: Date | string
   }
 
@@ -14500,7 +14500,7 @@ export namespace Prisma {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     apostado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     ganado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    estadoId?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14509,7 +14509,7 @@ export namespace Prisma {
     fecha: Date | string
     apostado?: Decimal | DecimalJsLike | number | string
     ganado?: Decimal | DecimalJsLike | number | string
-    estadoId: number
+    estadoid: number
     createdAt?: Date | string
   }
 
@@ -14525,7 +14525,7 @@ export namespace Prisma {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     apostado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     ganado?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    estadoId?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14710,8 +14710,8 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    roleId?: SortOrder
-    estadoId?: SortOrder
+    roleid?: SortOrder
+    estadoid?: SortOrder
     saldo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14719,8 +14719,8 @@ export namespace Prisma {
 
   export type UserAvgOrderByAggregateInput = {
     id?: SortOrder
-    roleId?: SortOrder
-    estadoId?: SortOrder
+    roleid?: SortOrder
+    estadoid?: SortOrder
     saldo?: SortOrder
   }
 
@@ -14729,8 +14729,8 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    roleId?: SortOrder
-    estadoId?: SortOrder
+    roleid?: SortOrder
+    estadoid?: SortOrder
     saldo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14741,8 +14741,8 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    roleId?: SortOrder
-    estadoId?: SortOrder
+    roleid?: SortOrder
+    estadoid?: SortOrder
     saldo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14750,8 +14750,8 @@ export namespace Prisma {
 
   export type UserSumOrderByAggregateInput = {
     id?: SortOrder
-    roleId?: SortOrder
-    estadoId?: SortOrder
+    roleid?: SortOrder
+    estadoid?: SortOrder
     saldo?: SortOrder
   }
 
@@ -14842,39 +14842,39 @@ export namespace Prisma {
   export type UserXBizumCountOrderByAggregateInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    estadoId?: SortOrder
+    userid?: SortOrder
+    estadoid?: SortOrder
     createdAt?: SortOrder
   }
 
   export type UserXBizumAvgOrderByAggregateInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    estadoId?: SortOrder
+    userid?: SortOrder
+    estadoid?: SortOrder
   }
 
   export type UserXBizumMaxOrderByAggregateInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    estadoId?: SortOrder
+    userid?: SortOrder
+    estadoid?: SortOrder
     createdAt?: SortOrder
   }
 
   export type UserXBizumMinOrderByAggregateInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    estadoId?: SortOrder
+    userid?: SortOrder
+    estadoid?: SortOrder
     createdAt?: SortOrder
   }
 
   export type UserXBizumSumOrderByAggregateInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    estadoId?: SortOrder
+    userid?: SortOrder
+    estadoid?: SortOrder
   }
 
   export type UserXMovimientoXTipoRelationFilter = {
@@ -14885,39 +14885,39 @@ export namespace Prisma {
   export type UserXMovimientoCountOrderByAggregateInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    tipoId?: SortOrder
+    userid?: SortOrder
+    tipoid?: SortOrder
     createdAt?: SortOrder
   }
 
   export type UserXMovimientoAvgOrderByAggregateInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    tipoId?: SortOrder
+    userid?: SortOrder
+    tipoid?: SortOrder
   }
 
   export type UserXMovimientoMaxOrderByAggregateInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    tipoId?: SortOrder
+    userid?: SortOrder
+    tipoid?: SortOrder
     createdAt?: SortOrder
   }
 
   export type UserXMovimientoMinOrderByAggregateInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    tipoId?: SortOrder
+    userid?: SortOrder
+    tipoid?: SortOrder
     createdAt?: SortOrder
   }
 
   export type UserXMovimientoSumOrderByAggregateInput = {
     id?: SortOrder
     importe?: SortOrder
-    userId?: SortOrder
-    tipoId?: SortOrder
+    userid?: SortOrder
+    tipoid?: SortOrder
   }
 
   export type UserXBizumRelationFilter = {
@@ -14932,70 +14932,70 @@ export namespace Prisma {
 
   export type BizumXMovimientoCountOrderByAggregateInput = {
     id?: SortOrder
-    bizumId?: SortOrder
-    movimientoId?: SortOrder
+    bizumid?: SortOrder
+    movimientoid?: SortOrder
   }
 
   export type BizumXMovimientoAvgOrderByAggregateInput = {
     id?: SortOrder
-    bizumId?: SortOrder
-    movimientoId?: SortOrder
+    bizumid?: SortOrder
+    movimientoid?: SortOrder
   }
 
   export type BizumXMovimientoMaxOrderByAggregateInput = {
     id?: SortOrder
-    bizumId?: SortOrder
-    movimientoId?: SortOrder
+    bizumid?: SortOrder
+    movimientoid?: SortOrder
   }
 
   export type BizumXMovimientoMinOrderByAggregateInput = {
     id?: SortOrder
-    bizumId?: SortOrder
-    movimientoId?: SortOrder
+    bizumid?: SortOrder
+    movimientoid?: SortOrder
   }
 
   export type BizumXMovimientoSumOrderByAggregateInput = {
     id?: SortOrder
-    bizumId?: SortOrder
-    movimientoId?: SortOrder
+    bizumid?: SortOrder
+    movimientoid?: SortOrder
   }
 
   export type UserXSaldoXTmpCountOrderByAggregateInput = {
     id?: SortOrder
     saldo?: SortOrder
-    userId?: SortOrder
-    movimientoId?: SortOrder
+    userid?: SortOrder
+    movimientoid?: SortOrder
     createdAt?: SortOrder
   }
 
   export type UserXSaldoXTmpAvgOrderByAggregateInput = {
     id?: SortOrder
     saldo?: SortOrder
-    userId?: SortOrder
-    movimientoId?: SortOrder
+    userid?: SortOrder
+    movimientoid?: SortOrder
   }
 
   export type UserXSaldoXTmpMaxOrderByAggregateInput = {
     id?: SortOrder
     saldo?: SortOrder
-    userId?: SortOrder
-    movimientoId?: SortOrder
+    userid?: SortOrder
+    movimientoid?: SortOrder
     createdAt?: SortOrder
   }
 
   export type UserXSaldoXTmpMinOrderByAggregateInput = {
     id?: SortOrder
     saldo?: SortOrder
-    userId?: SortOrder
-    movimientoId?: SortOrder
+    userid?: SortOrder
+    movimientoid?: SortOrder
     createdAt?: SortOrder
   }
 
   export type UserXSaldoXTmpSumOrderByAggregateInput = {
     id?: SortOrder
     saldo?: SortOrder
-    userId?: SortOrder
-    movimientoId?: SortOrder
+    userid?: SortOrder
+    movimientoid?: SortOrder
   }
 
   export type UserXMovimientoXTipoCountOrderByAggregateInput = {
@@ -15092,32 +15092,32 @@ export namespace Prisma {
   export type CodeSecureCountOrderByAggregateInput = {
     code?: SortOrder
     type?: SortOrder
-    userId?: SortOrder
+    userid?: SortOrder
     createdAt?: SortOrder
   }
 
   export type CodeSecureAvgOrderByAggregateInput = {
     type?: SortOrder
-    userId?: SortOrder
+    userid?: SortOrder
   }
 
   export type CodeSecureMaxOrderByAggregateInput = {
     code?: SortOrder
     type?: SortOrder
-    userId?: SortOrder
+    userid?: SortOrder
     createdAt?: SortOrder
   }
 
   export type CodeSecureMinOrderByAggregateInput = {
     code?: SortOrder
     type?: SortOrder
-    userId?: SortOrder
+    userid?: SortOrder
     createdAt?: SortOrder
   }
 
   export type CodeSecureSumOrderByAggregateInput = {
     type?: SortOrder
-    userId?: SortOrder
+    userid?: SortOrder
   }
 
   export type UuidWithAggregatesFilter = {
@@ -15145,7 +15145,7 @@ export namespace Prisma {
     fecha?: SortOrder
     apostado?: SortOrder
     ganado?: SortOrder
-    estadoId?: SortOrder
+    estadoid?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -15153,7 +15153,7 @@ export namespace Prisma {
     id?: SortOrder
     apostado?: SortOrder
     ganado?: SortOrder
-    estadoId?: SortOrder
+    estadoid?: SortOrder
   }
 
   export type ApuestaMaxOrderByAggregateInput = {
@@ -15161,7 +15161,7 @@ export namespace Prisma {
     fecha?: SortOrder
     apostado?: SortOrder
     ganado?: SortOrder
-    estadoId?: SortOrder
+    estadoid?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -15170,7 +15170,7 @@ export namespace Prisma {
     fecha?: SortOrder
     apostado?: SortOrder
     ganado?: SortOrder
-    estadoId?: SortOrder
+    estadoid?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -15178,7 +15178,7 @@ export namespace Prisma {
     id?: SortOrder
     apostado?: SortOrder
     ganado?: SortOrder
-    estadoId?: SortOrder
+    estadoid?: SortOrder
   }
 
   export type ApuestaListRelationFilter = {
@@ -16141,7 +16141,7 @@ export namespace Prisma {
   export type UserXBizumUncheckedCreateWithoutUserInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    estadoId: number
+    estadoid: number
     createdAt?: Date | string
     BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXBizumInput
   }
@@ -16167,7 +16167,7 @@ export namespace Prisma {
   export type UserXMovimientoUncheckedCreateWithoutUserInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    tipoId: number
+    tipoid: number
     createdAt?: Date | string
     UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserXMovimientoInput
     BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXMovimientoInput
@@ -16192,7 +16192,7 @@ export namespace Prisma {
   export type UserXSaldoXTmpUncheckedCreateWithoutUserInput = {
     id?: number
     saldo: Decimal | DecimalJsLike | number | string
-    movimientoId: number
+    movimientoid: number
     createdAt?: Date | string
   }
 
@@ -16258,7 +16258,7 @@ export namespace Prisma {
     NOT?: Enumerable<CodeSecureScalarWhereInput>
     code?: UuidFilter | string
     type?: IntFilter | number
-    userId?: IntFilter | number
+    userid?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
   }
 
@@ -16284,8 +16284,8 @@ export namespace Prisma {
     NOT?: Enumerable<UserXBizumScalarWhereInput>
     id?: IntFilter | number
     importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    userId?: IntFilter | number
-    estadoId?: IntFilter | number
+    userid?: IntFilter | number
+    estadoid?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
   }
 
@@ -16311,8 +16311,8 @@ export namespace Prisma {
     NOT?: Enumerable<UserXMovimientoScalarWhereInput>
     id?: IntFilter | number
     importe?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    userId?: IntFilter | number
-    tipoId?: IntFilter | number
+    userid?: IntFilter | number
+    tipoid?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
   }
 
@@ -16338,8 +16338,8 @@ export namespace Prisma {
     NOT?: Enumerable<UserXSaldoXTmpScalarWhereInput>
     id?: IntFilter | number
     saldo?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    userId?: IntFilter | number
-    movimientoId?: IntFilter | number
+    userid?: IntFilter | number
+    movimientoid?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
   }
 
@@ -16363,8 +16363,8 @@ export namespace Prisma {
     name: string
     email: string
     password: string
-    roleId: number
-    estadoId: number
+    roleid: number
+    estadoid: number
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16399,7 +16399,7 @@ export namespace Prisma {
 
   export type BizumXMovimientoUncheckedCreateWithoutUserXBizumInput = {
     id?: number
-    movimientoId: number
+    movimientoid: number
   }
 
   export type BizumXMovimientoCreateOrConnectWithoutUserXBizumInput = {
@@ -16437,8 +16437,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    roleId?: IntFieldUpdateOperationsInput | number
-    estadoId?: IntFieldUpdateOperationsInput | number
+    roleid?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16483,8 +16483,8 @@ export namespace Prisma {
     OR?: Enumerable<BizumXMovimientoScalarWhereInput>
     NOT?: Enumerable<BizumXMovimientoScalarWhereInput>
     id?: IntFilter | number
-    bizumId?: IntFilter | number
-    movimientoId?: IntFilter | number
+    bizumid?: IntFilter | number
+    movimientoid?: IntFilter | number
   }
 
   export type UserCreateWithoutUserXMovimientoInput = {
@@ -16507,8 +16507,8 @@ export namespace Prisma {
     name: string
     email: string
     password: string
-    roleId: number
-    estadoId: number
+    roleid: number
+    estadoid: number
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16546,7 +16546,7 @@ export namespace Prisma {
   export type UserXSaldoXTmpUncheckedCreateWithoutUserXMovimientoInput = {
     id?: number
     saldo: Decimal | DecimalJsLike | number | string
-    userId: number
+    userid: number
     createdAt?: Date | string
   }
 
@@ -16566,7 +16566,7 @@ export namespace Prisma {
 
   export type BizumXMovimientoUncheckedCreateWithoutUserXMovimientoInput = {
     id?: number
-    bizumId: number
+    bizumid: number
   }
 
   export type BizumXMovimientoCreateOrConnectWithoutUserXMovimientoInput = {
@@ -16604,8 +16604,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    roleId?: IntFieldUpdateOperationsInput | number
-    estadoId?: IntFieldUpdateOperationsInput | number
+    roleid?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16671,8 +16671,8 @@ export namespace Prisma {
   export type UserXBizumUncheckedCreateWithoutBizumXMovimientoInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    userId: number
-    estadoId: number
+    userid: number
+    estadoid: number
     createdAt?: Date | string
   }
 
@@ -16692,8 +16692,8 @@ export namespace Prisma {
   export type UserXMovimientoUncheckedCreateWithoutBizumXMovimientoInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    userId: number
-    tipoId: number
+    userid: number
+    tipoid: number
     createdAt?: Date | string
     UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserXMovimientoInput
   }
@@ -16718,8 +16718,8 @@ export namespace Prisma {
   export type UserXBizumUncheckedUpdateWithoutBizumXMovimientoInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
-    estadoId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16739,8 +16739,8 @@ export namespace Prisma {
   export type UserXMovimientoUncheckedUpdateWithoutBizumXMovimientoInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
-    tipoId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
+    tipoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserXMovimientoNestedInput
   }
@@ -16765,8 +16765,8 @@ export namespace Prisma {
     name: string
     email: string
     password: string
-    roleId: number
-    estadoId: number
+    roleid: number
+    estadoid: number
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16791,8 +16791,8 @@ export namespace Prisma {
   export type UserXMovimientoUncheckedCreateWithoutUserXSaldoXTmpInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    userId: number
-    tipoId: number
+    userid: number
+    tipoid: number
     createdAt?: Date | string
     BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXMovimientoInput
   }
@@ -16827,8 +16827,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    roleId?: IntFieldUpdateOperationsInput | number
-    estadoId?: IntFieldUpdateOperationsInput | number
+    roleid?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16853,8 +16853,8 @@ export namespace Prisma {
   export type UserXMovimientoUncheckedUpdateWithoutUserXSaldoXTmpInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
-    tipoId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
+    tipoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXMovimientoNestedInput
   }
@@ -16870,7 +16870,7 @@ export namespace Prisma {
   export type UserXMovimientoUncheckedCreateWithoutUserXMovimientoXTipoInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    userId: number
+    userid: number
     createdAt?: Date | string
     UserXSaldoXTmp?: UserXSaldoXTmpUncheckedCreateNestedManyWithoutUserXMovimientoInput
     BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXMovimientoInput
@@ -16922,7 +16922,7 @@ export namespace Prisma {
     name: string
     email: string
     password: string
-    estadoId: number
+    estadoid: number
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16966,8 +16966,8 @@ export namespace Prisma {
     name?: StringFilter | string
     email?: StringFilter | string
     password?: StringFilter | string
-    roleId?: IntFilter | number
-    estadoId?: IntFilter | number
+    roleid?: IntFilter | number
+    estadoid?: IntFilter | number
     saldo?: DecimalFilter | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
@@ -16993,7 +16993,7 @@ export namespace Prisma {
     name: string
     email: string
     password: string
-    roleId: number
+    roleid: number
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17049,8 +17049,8 @@ export namespace Prisma {
     name: string
     email: string
     password: string
-    roleId: number
-    estadoId: number
+    roleid: number
+    estadoid: number
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17089,8 +17089,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    roleId?: IntFieldUpdateOperationsInput | number
-    estadoId?: IntFieldUpdateOperationsInput | number
+    roleid?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17178,7 +17178,7 @@ export namespace Prisma {
     fecha?: DateTimeFilter | Date | string
     apostado?: DecimalFilter | Decimal | DecimalJsLike | number | string
     ganado?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    estadoId?: IntFilter | number
+    estadoid?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
   }
 
@@ -17192,7 +17192,7 @@ export namespace Prisma {
   export type UserXBizumUncheckedCreateWithoutUserXBizumXEstadoInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    userId: number
+    userid: number
     createdAt?: Date | string
     BizumXMovimiento?: BizumXMovimientoUncheckedCreateNestedManyWithoutUserXBizumInput
   }
@@ -17232,21 +17232,21 @@ export namespace Prisma {
   export type UserXBizumCreateManyUserInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    estadoId: number
+    estadoid: number
     createdAt?: Date | string
   }
 
   export type UserXMovimientoCreateManyUserInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    tipoId: number
+    tipoid: number
     createdAt?: Date | string
   }
 
   export type UserXSaldoXTmpCreateManyUserInput = {
     id?: number
     saldo: Decimal | DecimalJsLike | number | string
-    movimientoId: number
+    movimientoid: number
     createdAt?: Date | string
   }
 
@@ -17278,7 +17278,7 @@ export namespace Prisma {
   export type UserXBizumUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    estadoId?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXBizumNestedInput
   }
@@ -17286,7 +17286,7 @@ export namespace Prisma {
   export type UserXBizumUncheckedUpdateManyWithoutUserXBizumInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    estadoId?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -17301,7 +17301,7 @@ export namespace Prisma {
   export type UserXMovimientoUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tipoId?: IntFieldUpdateOperationsInput | number
+    tipoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserXMovimientoNestedInput
     BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXMovimientoNestedInput
@@ -17310,7 +17310,7 @@ export namespace Prisma {
   export type UserXMovimientoUncheckedUpdateManyWithoutUserXMovimientoInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    tipoId?: IntFieldUpdateOperationsInput | number
+    tipoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -17323,20 +17323,20 @@ export namespace Prisma {
   export type UserXSaldoXTmpUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    movimientoId?: IntFieldUpdateOperationsInput | number
+    movimientoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserXSaldoXTmpUncheckedUpdateManyWithoutUserXSaldoXTmpInput = {
     id?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    movimientoId?: IntFieldUpdateOperationsInput | number
+    movimientoid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BizumXMovimientoCreateManyUserXBizumInput = {
     id?: number
-    movimientoId: number
+    movimientoid: number
   }
 
   export type BizumXMovimientoUpdateWithoutUserXBizumInput = {
@@ -17345,24 +17345,24 @@ export namespace Prisma {
 
   export type BizumXMovimientoUncheckedUpdateWithoutUserXBizumInput = {
     id?: IntFieldUpdateOperationsInput | number
-    movimientoId?: IntFieldUpdateOperationsInput | number
+    movimientoid?: IntFieldUpdateOperationsInput | number
   }
 
   export type BizumXMovimientoUncheckedUpdateManyWithoutBizumXMovimientoInput = {
     id?: IntFieldUpdateOperationsInput | number
-    movimientoId?: IntFieldUpdateOperationsInput | number
+    movimientoid?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserXSaldoXTmpCreateManyUserXMovimientoInput = {
     id?: number
     saldo: Decimal | DecimalJsLike | number | string
-    userId: number
+    userid: number
     createdAt?: Date | string
   }
 
   export type BizumXMovimientoCreateManyUserXMovimientoInput = {
     id?: number
-    bizumId: number
+    bizumid: number
   }
 
   export type UserXSaldoXTmpUpdateWithoutUserXMovimientoInput = {
@@ -17374,7 +17374,7 @@ export namespace Prisma {
   export type UserXSaldoXTmpUncheckedUpdateWithoutUserXMovimientoInput = {
     id?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -17384,13 +17384,13 @@ export namespace Prisma {
 
   export type BizumXMovimientoUncheckedUpdateWithoutUserXMovimientoInput = {
     id?: IntFieldUpdateOperationsInput | number
-    bizumId?: IntFieldUpdateOperationsInput | number
+    bizumid?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserXMovimientoCreateManyUserXMovimientoXTipoInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    userId: number
+    userid: number
     createdAt?: Date | string
   }
 
@@ -17405,7 +17405,7 @@ export namespace Prisma {
   export type UserXMovimientoUncheckedUpdateWithoutUserXMovimientoXTipoInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     UserXSaldoXTmp?: UserXSaldoXTmpUncheckedUpdateManyWithoutUserXMovimientoNestedInput
     BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXMovimientoNestedInput
@@ -17416,7 +17416,7 @@ export namespace Prisma {
     name: string
     email: string
     password: string
-    estadoId: number
+    estadoid: number
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17442,7 +17442,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    estadoId?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17457,7 +17457,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    estadoId?: IntFieldUpdateOperationsInput | number
+    estadoid?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17468,7 +17468,7 @@ export namespace Prisma {
     name: string
     email: string
     password: string
-    roleId: number
+    roleid: number
     saldo: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17494,7 +17494,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    roleId?: IntFieldUpdateOperationsInput | number
+    roleid?: IntFieldUpdateOperationsInput | number
     saldo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17538,7 +17538,7 @@ export namespace Prisma {
   export type UserXBizumCreateManyUserXBizumXEstadoInput = {
     id?: number
     importe: Decimal | DecimalJsLike | number | string
-    userId: number
+    userid: number
     createdAt?: Date | string
   }
 
@@ -17552,7 +17552,7 @@ export namespace Prisma {
   export type UserXBizumUncheckedUpdateWithoutUserXBizumXEstadoInput = {
     id?: IntFieldUpdateOperationsInput | number
     importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userid?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     BizumXMovimiento?: BizumXMovimientoUncheckedUpdateManyWithoutUserXBizumNestedInput
   }

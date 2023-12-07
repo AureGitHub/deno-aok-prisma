@@ -5,9 +5,9 @@ export class userClass {
   id: number | undefined;
   name: string | undefined;
   email: string | undefined;
-  roleId: number | undefined;
+  roleid: number | undefined;
   roleDescripcion: string | undefined;
-  estadoId: number | undefined;
+  estadoid: number | undefined;
   SessionexpiredIn: string | undefined;
   isAdmin: boolean | undefined;
   isGod: boolean | undefined;
@@ -21,17 +21,17 @@ export class userClass {
     this.name = usarFromDB['name'];
     this.email = usarFromDB['email'];
     
-    this.roleId = usarFromDB['roleId'];
-    this.estadoId = usarFromDB['estadoId'];
+    this.roleid = usarFromDB['roleid'];
+    this.estadoid = usarFromDB['estadoid'];
     
-    this.isGod = this.roleId ===Role.god;
-    this.isAdmin = this.roleId ===Role.admin || this.roleId ===Role.god;    
-    this.isNormal = this.roleId ===Role.normal;
+    this.isGod = this.roleid ===Role.god;
+    this.isAdmin = this.roleid ===Role.admin || this.roleid ===Role.god;    
+    this.isNormal = this.roleid ===Role.normal;
 
     this.saldo = usarFromDB['saldo'];
 
-    this.roleDescripcion = this.roleId ===Role.god ?  Role[Role.god] : (
-      this.roleId ===Role.admin ? Role[Role.admin] : Role[Role.normal]
+    this.roleDescripcion = this.roleid ===Role.god ?  Role[Role.god] : (
+      this.roleid ===Role.admin ? Role[Role.admin] : Role[Role.normal]
     );
 
   }
