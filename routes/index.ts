@@ -5,16 +5,16 @@ import gestionCasaRouter from "../apps/gestion-casa/router.js"
 
 import vallegrandeRouter from "../apps/vallegrande/router.js"
 
-import ttecEuromillonesRouter from "../apps/ttec-euromillones/router.js"
+// import ttecEuromillonesRouter from "../apps/ttec-euromillones/router.js"
 
 
 
 function init(app: Application) {
    app.use(generalRouter.routes());  
-  // app.use(gestionCasaRouter.routes());
+  app.use(gestionCasaRouter.routes());
 
   // app.use(vallegrandeRouter.routes());
-  app.use(ttecEuromillonesRouter.routes());
+  // app.use(ttecEuromillonesRouter.routes());
 
   // app.use(vallegrandeRouter.routes());
 }
