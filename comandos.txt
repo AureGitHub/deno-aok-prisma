@@ -17,6 +17,9 @@ https://clients.cloudclusters.io/applications/5df28b734cdb444da2aa3b570f6d9004/d
 Crear proxy (login with github)
 https://cloud.prisma.io/projects
 
+Crear proxy primsa (NUEVO)
+https://console.prisma.io/closbs6am01twmv0fuiy0g5vd/clq2a1kml0760yc0u04ubpzlm/accelerate/setup
+
 
 
 version actual deno:  v12.22.12
