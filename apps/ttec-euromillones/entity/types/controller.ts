@@ -1,33 +1,14 @@
-import { StatusCodes } from "../../../../dep/deps.ts";
 import { statusOK } from "../../../../utils/status.ts";
-import prisma from "../../prisma/db.ts";
-
+import {aureDB} from "../../../../aureDB/aureDB.ts"
+import client from "../../aureDB/client.ts";
+import entities from "../../aureDB/entities.ts";
 
 // deno-lint-ignore no-explicit-any
 const get = async (ctx: any) => {
 
   const cual = ctx?.params?.cual;
-  let result: any;
-  switch (cual) {
-    case 'UserXEstado':
-      result = await prisma['userXEstado']['findMany']();
-      break;
-
-    case 'UserXRole':
-      result = await prisma.userXRole.findMany();
-      break;
-
-      case 'ApuestaXEstado':
-        result = await prisma.apuestaXEstado.findMany();
-      break;
-
-      case 'UserXBizumXEstado':
-        result = await prisma.userXBizumXEstado.findMany();
-      break;
-
-      
-
-  }
+  const entity =new aureDB(client,entities,cual);
+  const result =await entity.findMany();
   const data = { data: result, count: result.length };
   statusOK(ctx,data);   
 

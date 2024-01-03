@@ -5,7 +5,10 @@ export enum Estado {
       cambiar_pass = 4
 }
 
-
+export enum Validators{
+    required = 1,
+    email= 2
+}
 
 export enum Role {  
     god = 1,

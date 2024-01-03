@@ -1,5 +1,9 @@
-import { execute_query } from "../../../../utils/query.ts";
-import prisma from "../../prisma/db.ts";
+import {aureDB} from "../../../../aureDB/aureDB.ts"
+import client from "../../aureDB/client.ts";
+import entities from "../../aureDB/entities.ts";
+
+
+const entity =new aureDB(client,entities,'UserXMovimiento' );
 
 
 const get = async (ctx: any) => {
@@ -21,7 +25,7 @@ const get = async (ctx: any) => {
   left join "BizumXMovimiento" bx on ux.id=bx.movimientoid
     `;
   const orderBydefect = ``;
-   await execute_query(ctx, prisma, sqlSelect, sqlFrom, orderBydefect);
+   await entity.execute_query(ctx, client, sqlSelect, sqlFrom, orderBydefect);
 };
 
 

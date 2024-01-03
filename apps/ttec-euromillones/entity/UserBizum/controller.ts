@@ -5,7 +5,7 @@ import { setStatus, statusError, statusOK } from "../../../../utils/status.ts";
 import { BizumXEstado, UserXMovimientoXTipo } from "../../enums.ts";
 import { Prisma } from "../../generated/client/deno/edge.ts";
 import prisma from "../../prisma/db.ts";
-import client from "../../prisma/db_deno-postgres.ts";
+import client from "../../aureDB/client.ts";
 
 import bizumBusiness from "../../business/bizum.ts";
 
@@ -30,9 +30,9 @@ const get = async (ctx: any) => {
   inner join "UserXBizumXEstado" uxx on ux."estadoid" = uxx.id 
     `;
   const orderBydefect = ``;
-   await execute_query(ctx, prisma, sqlSelect, sqlFrom, orderBydefect);
+   //await execute_query(ctx, prisma, sqlSelect, sqlFrom, orderBydefect);
   
- // await execute_query_deno_postgress(ctx, client, sqlSelect, sqlFrom, orderBydefect);
+  await execute_query_deno_postgress(ctx, client, sqlSelect, sqlFrom, orderBydefect);
 
   
 

@@ -4,7 +4,7 @@ import requireUser from "../../../../middleware/requireUser.ts";
 import requireGod from "../../../../middleware/requireGod.ts";
 
 const router = new Router({
-    prefix: "/movimiento",
+    prefix: "/UserXMovimiento",
   });
 
 router.get("/", controller.get);

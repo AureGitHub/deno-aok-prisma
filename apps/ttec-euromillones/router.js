@@ -10,6 +10,7 @@ const router = new Router({
   prefix: "/api/ttec-euromillones",
 });
 
+
 router.use(typesRouter.routes());  
 router.use(userRouter.routes());  
 router.use(userxbizumRouter.routes());  

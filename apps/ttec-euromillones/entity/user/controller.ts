@@ -6,10 +6,18 @@ import prisma from "../../prisma/db.ts";
 
 import authController from "../../../general/entity/auth/controller.ts"
 
-import { BizumXEstado, Estado, UserXMovimientoXTipo } from "../../enums.ts"
+import {  Estado, UserXMovimientoXTipo } from "../../enums.ts"
 import { sendEmail } from "../../../../utils/sendEmail.ts";
-import { execute_query } from "../../../../utils/query.ts";
 import { setStatus, statusError, statusOK } from "../../../../utils/status.ts";
+
+
+import {aureDB} from "../../../../aureDB/aureDB.ts"
+import client from "../../aureDB/client.ts";
+import entities from "../../aureDB/entities.ts";
+
+
+const entity =new aureDB(client,entities,'User' );
+
 
 
 
@@ -18,7 +26,7 @@ const get = async (ctx: any) => {
   const sqlSelect = ` select * `;
   const sqlFrom = ` from "User"  `;
   const orderBydefect = ``;
-  await execute_query(ctx, prisma, sqlSelect, sqlFrom, orderBydefect);
+  await entity.execute_query(ctx, client, sqlSelect, sqlFrom, orderBydefect);
 
 
 };
@@ -26,7 +34,7 @@ const get = async (ctx: any) => {
 
 const getById = async (ctx: any) => {
   const id = Number(ctx?.params?.id);
-  const data = await prisma.user.findFirst({ where: { id } });
+  const data = await entity.findFirst({where: {id}});
   statusOK(ctx, data);
 
 };
@@ -35,21 +43,20 @@ const getById = async (ctx: any) => {
 
 const add = async (ctx: any) => {
   try {
-    const newItem: Prisma.UserCreateInput = await ctx.request.body().value;
+    const newItem = await ctx.request.body().value;
     const { email } = newItem;
 
-    const empleadaExists = await prisma.user.findUnique({ where: { email } });
+    const empleadaExists = await entity.findFirst({ where: { email } });
     if (empleadaExists) {
       setStatus(ctx, 409, StatusCodes.CONFLICT, 'usuario ya existe!')
       return;
     }
 
 
-    const dataMAx = await prisma.user.aggregate({ _max: { id: true } });
-    const max = dataMAx._max.id ? dataMAx._max.id : 0;
-    newItem['id'] = max + 1;  //mejor usar una secuencia  AUREMEJORAS
+    const maximoId = await entity.aggregate({ _max: 'id' });
+    newItem['id'] = maximoId + 1;  //mejor usar una secuencia  AUREMEJORAS
 
-    const data = await prisma.user.create({ data: newItem });
+    const data = await entity.create({ data: newItem });
 
     statusOK(ctx, data);
   } catch (error) {
@@ -62,13 +69,8 @@ const add = async (ctx: any) => {
 const update = async (ctx: any) => {
   try {
     const id = Number(ctx?.params?.id);
-    const itemUpdateInput: Prisma.UserUpdateInput = await ctx.request.body().value;
-    //const {id}  = await request.body().value;
-
-    const data = await prisma.user.updateMany({
-      where: { id },
-      data: itemUpdateInput
-    })
+    const itemUpdateInput = await ctx.request.body().value;
+    const data = await entity.update({data: itemUpdateInput, where : {id}});
     statusOK(ctx, data);
   } catch (error) {
     statusError(ctx, error);
@@ -82,7 +84,7 @@ const update = async (ctx: any) => {
 const del = async (ctx: any) => {
   try {
     const id = Number(ctx?.params?.id);
-    const data = await prisma.user.deleteMany({ where: { id } });
+    const data = await entity.del({where: {id}});
     statusOK(ctx, data);
   } catch (error) {
     statusError(ctx, error);
@@ -93,15 +95,13 @@ const del = async (ctx: any) => {
 
 const login = async (ctx: any) => {
   try {
+
+   
     const { email, password }: { email: string; password: string } =
       await ctx.request.body().value;
 
-    const user = await prisma.user.findFirst(
-      {
-        where: { email, password }
-      });
 
-
+    const user = await entity.findFirst({where : {email, password}});
 
     if (!user) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario o password incorrecta!!");

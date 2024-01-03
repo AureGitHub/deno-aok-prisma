@@ -6,7 +6,6 @@ import appRouter from "./routes/index.ts";
 
 import authController from "./apps/general/entity/auth/controller.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
-import { FlashServer } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 
 
 // import { db } from "./apps/ttec-euromillones/DB/db.ts";
