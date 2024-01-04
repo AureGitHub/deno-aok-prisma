@@ -1,4 +1,5 @@
-import { create, decode, StatusCodes } from "../../../../dep/deps.ts";
+import { RouterContext, create,  decode, StatusCodes } from "../dep/deps.ts";
+
 import "https://deno.land/x/dotenv@v3.2.2/load.ts";
 
 
@@ -67,11 +68,8 @@ const giveMeToken = async(user: any) => {
 
   let expires_in = 30;
 
-
-  const { ACCESS_TOKEN_EXPIRES_IN } = Deno.env.toObject();
-
   if(Deno.env.get('ACCESS_TOKEN_EXPIRES_IN')){
-    expires_in =parseInt(ACCESS_TOKEN_EXPIRES_IN);
+    expires_in =parseInt(Deno.env.get('ACCESS_TOKEN_EXPIRES_IN')?.toString());
 
   }
 
@@ -99,10 +97,89 @@ const giveMeToken = async(user: any) => {
 
 
 
+const loginUserController = async ({
+  request,
+  response,
+}: RouterContext<string>) => {
+  try {
+    const { email, password, appId }: { email: string; password: string ; appId:number} =
+      await request.body().value;
 
+      const user = await prisma.user.findFirst(
+        {where: {email,password }, 
+        include : {
+          apps: {
+            where : {appId},
+            include : {app : true}
+          }          
+        }
+      });
+
+
+
+    if (!user) {
+      response.status = 200;
+      response.body = {
+        status:StatusCodes.CONFLICT,
+        message: "Invalid email or password",
+      };
+      return;
+    }
+
+    if (user.apps.length ==0) {
+      response.status = 200;
+      response.body = {
+        status:StatusCodes.CONFLICT,
+        message: "no app",
+      };
+      return;
+    }
+
+    if (user.id==0) {
+      response.status = 401;
+      response.body = {
+        status:StatusCodes.CONFLICT,
+        message: "No tiene aplicaciones asociadas",
+      };
+      return;
+    }
+
+    let userRet = new userClass(user);
+
+    const key = await crypto.subtle.generateKey(
+      { name: "HMAC", hash: "SHA-512" },
+      true,
+      ["sign", "verify"],
+    );
+
+    const secure = await giveMeToken(userRet);
+
+    response.status = 200;
+    response.body = { 
+      status:StatusCodes.OK,
+      data: secure };
+  } catch (error) {
+    response.status = 500;
+    response.body = {  status:StatusCodes.INTERNAL_SERVER_ERROR, message: error.message };
+    return;
+  }
+};
+
+
+
+const logoutController = (ctx: any) => {
+ 
+  ctx.state.secure = null;
+  ctx.state.token = null;
+
+  ctx.response.status = 200;
+  ctx.response.body = {  status:StatusCodes.OK };
+};
 
 
 export default {
+  loginUserController,
+  logoutController,
   secureTokenController,
   giveMeToken
   

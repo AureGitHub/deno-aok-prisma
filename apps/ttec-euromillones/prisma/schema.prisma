@@ -109,6 +109,13 @@ model Apuesta {
   createdAt      DateTime       @default(now())
 }
 
+
+model UserXApuesta {
+  id      Int @id @default(autoincrement())
+  userid Int
+  apuestaid  Int  
+}
+
 model ApuestaXEstado {
   id          Int       @id
   descripcion String    @unique

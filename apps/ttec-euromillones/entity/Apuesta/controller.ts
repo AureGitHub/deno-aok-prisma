@@ -3,6 +3,7 @@ import { statusError, statusOK } from "../../../../utils/status.ts";
 import {aureDB} from "../../../../aureDB/aureDB.ts"
 import client from "../../aureDB/client.ts";
 import entities from "../../aureDB/entities.ts";
+import apuestaBusiness from "../../business/apuesta.ts";
 
 
 const entity =new aureDB(client,entities,'Apuesta' );
@@ -65,11 +66,41 @@ const del = async (ctx: any) =>  {
     }
   };
 
+  const cerrar=async (ctx: any) =>  {
+    try {
+
+      const  id  = Number(ctx?.params?.id);
+      const data = await apuestaBusiness.cerrar(id);
+      statusOK(ctx,{ok : data}); 
+    } catch (error) {
+      statusError(ctx,error);
+      return;
+    }
+  };
+
+  const finalizar=async (ctx: any) =>  {
+    try {
+
+      const  id  = Number(ctx?.params?.id);
+      const {ganado} = await ctx.request.body().value; 
+      const data = await apuestaBusiness.finalizar(id, ganado);
+      statusOK(ctx,{ok : data}); 
+    } catch (error) {
+      statusError(ctx,error);
+      return;
+    }
+  };
+
+
+  
+
 
 export default { 
     get,
     getById,
     add, 
     update, 
-    del
+    del,
+    cerrar,
+    finalizar
 };

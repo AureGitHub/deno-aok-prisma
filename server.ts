@@ -4,7 +4,10 @@ import { Application, isHttpError, logger, Router, RouterContext, Status, send }
 
 import appRouter from "./routes/index.ts";
 
-import authController from "./apps/general/entity/auth/controller.ts";
+//import authController from "./apps/general/entity/auth/controller.ts";
+
+import authController from "./AUTH/controller.ts";
+
 import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 
 

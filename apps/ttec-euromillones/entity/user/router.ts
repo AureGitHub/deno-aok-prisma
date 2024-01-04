@@ -22,6 +22,7 @@ router
 .post("/reserPassByCode", controller.reserPassByCode)
 .post("/getCodeResetPass", controller.getCodeResetPass)
 .post("/login", controller.login)
+.get("/InRed",  controller.InRed)
 .get("/", controller.get)
 .get("/:id",  controller.getById)
 .post("/",  controller.add)

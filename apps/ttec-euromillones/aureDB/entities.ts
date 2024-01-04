@@ -104,6 +104,13 @@ const entities = {
          
       ],
 
+      UserXApuesta : [
+         { name: 'userid', type: 'number', title: 'userid', validators: [Validators.required] },
+         { name: 'apuestaid', type: 'number', title: 'apuestaid', validators: [Validators.required] },
+
+         
+      ],
+      
       UserXBizumXEstado :[
          { name: 'descripcion', type: 'text', title: 'descripcion', validators: [Validators.required] },
 

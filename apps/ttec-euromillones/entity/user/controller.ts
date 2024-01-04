@@ -30,6 +30,11 @@ const getById = async (ctx: any) => {
 
 };
 
+const InRed=async (ctx: any) => {
+  const total = await entity.aggregate({ _count: 'id', where: {estadoid: Estado.activo }, whereLstStr : ['saldo < 1'] });  
+  statusOK(ctx, {total : Number(total)});
+};
+
 
 
 const add = async (ctx: any) => {
@@ -240,5 +245,6 @@ export default {
   getById,
   add,
   update,
-  del
+  del,
+  InRed
 };

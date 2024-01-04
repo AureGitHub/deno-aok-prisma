@@ -187,7 +187,19 @@ export class aureDB {
     if(!params || !params['where']) return '';
       this.validate(params['where']);   
       let str = this.objecToPropertieAndValues(params['where']);
+
+
+      if(params['whereLstStr']){                  
+        str+= ' , ' + params['whereLstStr'].toString();
+
+      }
+
+
       str = str.replaceAll(',', ' and ');
+
+      
+
+
       return  " WHERE " + str;
   }
 
@@ -291,8 +303,14 @@ export class aureDB {
       const str = `SELECT  Max(${field}) from "${this.table}"  ${strValuesWhere} `;
       const resutl = await this.execute_sentence(str, params?.tr);
       return resutl && resutl.rows && resutl.rows[0] && resutl.rows[0]['max'] ? resutl.rows[0]['max'] : null;
+    }
 
-
+    else if (params['_count']) {
+      const field = params['_count'];      
+      const strValuesWhere = this.getWhereStr(params);
+      const str = `SELECT  to_char(count(${field}), '9999999')  as total  from "${this.table}"  ${strValuesWhere} `;
+      const resutl = await this.execute_sentence(str, params?.tr);
+      return resutl && resutl.rows && resutl.rows[0] && resutl.rows[0]['total'] ? resutl.rows[0]['total'] : null;
     }
     
   }

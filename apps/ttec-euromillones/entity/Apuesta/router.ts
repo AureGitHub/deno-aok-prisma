@@ -12,6 +12,8 @@ router
 .get("/", controller.get)
 .get("/:id",  controller.getById)
 .post("/",  controller.add)
+.put("/cerrar/:id",   controller.cerrar)
+.put("/finalizar/:id",   controller.finalizar)
 .put("/:id",   controller.update)
 .delete("/:id",   controller.del)
 
