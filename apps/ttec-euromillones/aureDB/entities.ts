@@ -74,8 +74,50 @@ const entities = {
 
       ],
 
-      
+      UserXSaldoXTmp: 
+      [
+         { name: 'saldo', type: 'number', title: 'Saldo', validators: [Validators.required] },
+         { name: 'userid', type: 'select', title: 'Usuario', validators: [Validators.required], multiple: false, noTC : true,  coleccion: 'user', id: 'id', desc: 'name', disabled : true, filterInit: ' "estadoid" <> 2' },
+         { name: 'movimientoid', type: 'number', title: 'Movimientoid', validators: [Validators.required] },
+      ],
+      CodeSecure: 
+      [
+         { name: 'code', type: 'text', title: 'code', validators: [Validators.required] },
+         { name: 'type', type: 'number', title: 'type', validators: [Validators.required] },
+         { name: 'userid', type: 'select', title: 'Usuario', validators: [Validators.required], multiple: false, noTC : true,  coleccion: 'user', id: 'id', desc: 'name', disabled : true, filterInit: ' "estadoid" <> 2' },
+         { name: 'updatedAt', type: 'date', title: 'updatedAt', validators: [Validators.required] },         
 
+      ],
+
+      UserXBizum : [
+         { name: 'importe', type: 'number', title: 'importe', validators: [Validators.required] },
+         { name: 'userid', type: 'select', title: 'Usuario', validators: [Validators.required], multiple: false, noTC : true,  coleccion: 'user', id: 'id', desc: 'name', disabled : true, filterInit: ' "estadoid" <> 2' },
+         { name: 'estadoid', type: 'select', title: 'Estado', validators: [Validators.required], multiple: false, coleccion: 'UserXBizumXEstado', id: 'id', desc: 'descripcion', default: 1, disabled : true },
+         { name: 'createdAt', type: 'date', title: 'createdAt', validators: [Validators.required] },         
+
+         
+      ],
+      BizumXMovimiento : [
+         { name: 'bizumid', type: 'number', title: 'bizumid', validators: [Validators.required] },
+         { name: 'movimientoid', type: 'number', title: 'movimientoid', validators: [Validators.required] },
+
+         
+      ],
+
+      UserXBizumXEstado :[
+         { name: 'descripcion', type: 'text', title: 'descripcion', validators: [Validators.required] },
+
+      ]
 };
 
 export default entities;
+
+/*
+model BizumXMovimiento {
+  id      Int @id @default(autoincrement())
+  bizumid Int
+  movimientoid    Int
+  UserXBizum      UserXBizum      @relation(fields: [bizumid], references: [id])
+  UserXMovimiento UserXMovimiento @relation(fields: [movimientoid], references: [id])
+}
+*/

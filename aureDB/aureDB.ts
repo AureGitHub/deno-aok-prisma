@@ -6,13 +6,11 @@ import { StatusCodes } from "../dep/deps.ts";
 
 export class aureDB {
   private table: string;
-  private tr: any;
   private entities : any;
   private client : any;
   
-  constructor(client: any, entities : any, table: string, tr: any = null) {
+  constructor(client: any, entities : any, table: string) {
     this.table = table;
-    this.tr = tr;
     this.entities = entities;
     this.client = client;
 
@@ -157,7 +155,7 @@ export class aureDB {
   }
 
 
-  private async execute_sentence (str: string, tr: any = null){
+  private async execute_sentence (str: string, tr: any){
 
     if (tr) {
       const data = await tr.queryObject(
@@ -280,7 +278,7 @@ export class aureDB {
     const strValuesWhere = this.getWhereStr(params);
     const columsStr = this.getColumsSelectStr(params);
     const str = `SELECT  ${columsStr} from "${this.table}" ${strValuesWhere} `;
-    const resutl = await this.execute_sentence(str, this.tr);
+    const resutl = await this.execute_sentence(str, params?.tr);
     return resutl?.rows && resutl?.rows[0] ? resutl?.rows[0] : null;
 
   }
@@ -291,7 +289,7 @@ export class aureDB {
       const field = params['_max'];      
       const strValuesWhere = this.getWhereStr(params);
       const str = `SELECT  Max(${field}) from "${this.table}"  ${strValuesWhere} `;
-      const resutl = await this.execute_sentence(str, this.tr);
+      const resutl = await this.execute_sentence(str, params?.tr);
       return resutl && resutl.rows && resutl.rows[0] && resutl.rows[0]['max'] ? resutl.rows[0]['max'] : null;
 
 
@@ -306,7 +304,7 @@ export class aureDB {
     const columsStr = this.getColumsSelectStr(params);
     
     const str = `SELECT  ${columsStr} from "${this.table}"   ${strValuesWhere} `;
-    const resutl = await this.execute_sentence(str, this.tr);
+    const resutl = await this.execute_sentence(str, params?.tr);
     return resutl?.rows  ? resutl?.rows : null;
 
   }
@@ -335,7 +333,7 @@ export class aureDB {
     const srtColums = this.propertiesToColumns(data);
     const strValues = this.objecToValues(data);
     const str = `INSERT INTO "${this.table}" (${srtColums}) VALUES (${strValues}) RETURNING *`;
-    const resutl = await this.execute_sentence(str, this.tr);
+    const resutl = await this.execute_sentence(str, params?.tr);
     return resutl?.rows && resutl?.rows[0] ? resutl?.rows[0] : null;
   }
 
@@ -363,7 +361,7 @@ export class aureDB {
 
     const strValuesWhere = this.getWhereStr(params);
     str += strValuesWhere;
-    const resutl = await this.execute_sentence(str, this.tr);
+    const resutl = await this.execute_sentence(str, params?.tr);
     return resutl;
   }
 
@@ -372,7 +370,7 @@ export class aureDB {
     let str = `DELETE FROM "${this.table}" `;
     const strValuesWhere = this.getWhereStr(params);
     str += strValuesWhere;
-    const resutl = await this.execute_sentence(str, this.tr);
+    const resutl = await this.execute_sentence(str, params?.tr);
     return resutl;
   }
 }

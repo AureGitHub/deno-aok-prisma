@@ -1,27 +1,28 @@
-import prisma from "../prisma/db.ts";
-import { Prisma } from "../generated/client/deno/edge.ts";
+// deno-lint-ignore-file no-explicit-any
 import { StatusCodes } from "../../../dep/deps.ts";
 import { BizumXEstado, UserXMovimientoXTipo } from "../enums.ts";
-import userBusiness from "./user.ts";
-import movimientoBusiness from "./movimiento.ts";
-import saldoTmpBusiness from "./saldoTmp.ts";
-import bizumXMovimientoBusiness from "./bizumXmovimiento.ts";
+import { aureDB } from "../../../aureDB/aureDB.ts"
+import client from "../aureDB/client.ts";
+import entities from "../aureDB/entities.ts";
+
+
+const entityUserXBizum = new aureDB(client, entities, 'UserXBizum');
 
 
 const create = (data: any) => {
-    return prisma.userXBizum.create({ data });
+    return entityUserXBizum.create({ data });
 }
 
 
 const update = (id: any, itemUpdateInput: any) => {
-    return prisma.userXBizum.updateMany({
+    return entityUserXBizum.update({
         where: { id },
         data: itemUpdateInput
     })
 }
 
 const del = async (id: any) => {
-    return await prisma.userXBizum.deleteMany({ where: { id } });
+    return await entityUserXBizum.del({ where: { id } });
   };
 
 
@@ -62,9 +63,12 @@ function valicion(oldBizum: any, userUpdate: any) {
 const confirmar = async (id: any) => {
 
 
-    const oldBizum = await prisma.userXBizum.findFirst({ where: { id } });
+    const oldBizum = await entityUserXBizum.findFirst({ where: { id } });
 
-    const userUpdate = await prisma.user.findFirst({ where: { id: oldBizum?.userid } });
+    const entityUser = new aureDB(client, entities, 'User');
+
+
+    const userUpdate = await entityUser.findFirst({ where: { id: oldBizum?.userid } });
 
     const val = valicion(oldBizum, userUpdate);
     if (val) { return val; }
@@ -80,13 +84,32 @@ const confirmar = async (id: any) => {
 
     }
     else {
-        const saldo = oldBizum.importe.toNumber() + userUpdate?.saldo.toNumber();
-        const updateBizum = update(id, {estadoid : BizumXEstado.confirmado});
-        const updateUser = userBusiness.update(oldBizum.userid, { saldo });
-        const createMovimiento = movimientoBusiness.create(UserXMovimientoXTipo.ingreso, oldBizum.importe, oldBizum.userid);
-        const createSaldoTmp = saldoTmpBusiness.create(oldBizum.userid, saldo, (await createMovimiento).id);
-        const createBizumXMov = bizumXMovimientoBusiness.create(id, (await createMovimiento).id);
-        await prisma.$transaction([updateBizum, updateUser, createSaldoTmp, createBizumXMov]);
+        const saldo = Number(oldBizum.importe) + Number(userUpdate?.saldo);
+
+        const entityUserXMovimiento = new aureDB(client, entities, 'UserXMovimiento');
+        const entityUserXSaldoXTmp = new aureDB(client, entities, 'UserXSaldoXTmp');
+        const entityBizumXMovimiento = new aureDB(client, entities, 'BizumXMovimiento');
+
+        
+
+        const transaction = client.createTransaction("transaction_1", {
+            isolation_level: "repeatable_read",
+        });
+    
+        await transaction.begin();
+        await entityUserXBizum.update({where: {id}, data:{estadoid : BizumXEstado.confirmado} ,tr :  transaction })
+        await entityUser.update({where: {id :oldBizum.userid }, data:{saldo} ,tr :  transaction})
+        const objMov={ tipoid: UserXMovimientoXTipo.ingreso, importe : oldBizum.importe, userid : oldBizum.userid }
+        const createMovimiento = await entityUserXMovimiento.create({data:objMov ,tr :  transaction  });
+        const objMovTmp =  {saldo, userid : oldBizum.userid, movimientoid: createMovimiento.id};
+        await entityUserXSaldoXTmp.create({data: objMovTmp, tr :  transaction });
+        const objBizumXMov =  {bizumid : id, movimientoid: createMovimiento.id};
+        await entityBizumXMovimiento.create({data: objBizumXMov, tr :  transaction });
+        await transaction.commit();
+
+
+
+       
     }
 
     return null;
@@ -97,10 +120,9 @@ const confirmar = async (id: any) => {
 
 const desconfirmar = async (id: any) => {
 
-
-    const oldBizum = await prisma.userXBizum.findFirst({ where: { id } });
-
-    const userUpdate = await prisma.user.findFirst({ where: { id: oldBizum?.userid } });
+    const entityUser = new aureDB(client, entities, 'User');
+    const oldBizum = await entityUserXBizum.findFirst({ where: { id } });
+    const userUpdate = await entityUser.findFirst({ where: { id: oldBizum?.userid } });
 
     const val = valicion(oldBizum, userUpdate);
     if (val) { return val; }
@@ -117,24 +139,30 @@ const desconfirmar = async (id: any) => {
     }
     else {
 
-        const bizumXMovimiento=  await prisma.bizumXMovimiento.findFirst({ where: { bizumid: oldBizum?.id } });
+        const entityBizumXMovimiento = new aureDB(client, entities, 'BizumXMovimiento');
+        const entityUserXSaldoXTmp = new aureDB(client, entities, 'UserXSaldoXTmp');
+        const entityUserXMovimiento = new aureDB(client, entities, 'UserXMovimiento');
+        
+
+        const bizumXMovimiento=  await entityBizumXMovimiento.findFirst({ where: { bizumid: oldBizum?.id } });
 
         const movimientoid = bizumXMovimiento?.movimientoid;
 
 
-        const saldo =  userUpdate?.saldo.toNumber() - oldBizum.importe.toNumber();
-        const updateBizum = update(id, {estadoid : BizumXEstado.pendiente});
-        const updateUser = userBusiness.update(oldBizum.userid, { saldo });
+        const saldo =  Number(userUpdate?.saldo) - Number(oldBizum.importe);
 
-        const delSaldoTmp = saldoTmpBusiness.delBymovimientoid(movimientoid);
-        const delBizumXMov = bizumXMovimientoBusiness.delBymovimientoid(movimientoid);
+        const transaction = client.createTransaction("transaction_1", {
+            isolation_level: "repeatable_read",
+        });
+    
+        await transaction.begin();
+        await entityUserXBizum.update({where: {id}, data:{estadoid : BizumXEstado.pendiente} ,tr :  transaction });
+        await entityUser.update({where: {id :oldBizum.userid }, data:{saldo} ,tr :  transaction})
+        await entityUserXSaldoXTmp.del({where: {movimientoid } ,tr :  transaction})
+        await entityBizumXMovimiento.del({where: {movimientoid } ,tr :  transaction})
+        await entityUserXMovimiento.del({where: {id: movimientoid } ,tr :  transaction})
+        await transaction.commit();
 
-        const delMovimiento = movimientoBusiness.del(movimientoid);
-
-        
-
-
-        await prisma.$transaction([updateBizum, updateUser, delSaldoTmp, delBizumXMov, delMovimiento]);
     }
 
     return null;
@@ -143,7 +171,7 @@ const desconfirmar = async (id: any) => {
 
 
 const cerrarAll=()=>{
-    return  prisma.userXBizum.updateMany({
+    return entityUserXBizum.update({
         where: { estadoid: BizumXEstado.confirmado },
         data: { estadoid: BizumXEstado.cerrado }
       });

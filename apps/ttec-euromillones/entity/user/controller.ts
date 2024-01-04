@@ -1,25 +1,16 @@
 // deno-lint-ignore-file no-explicit-any
 import { StatusCodes } from "../../../../dep/deps.ts";
-import { Prisma } from "../../generated/client/deno/edge.ts";
 import { userClass } from "./user.model.ts";
-import prisma from "../../prisma/db.ts";
-
 import authController from "../../../general/entity/auth/controller.ts"
-
-import {  Estado, UserXMovimientoXTipo } from "../../enums.ts"
+import { Estado } from "../../enums.ts"
 import { sendEmail } from "../../../../utils/sendEmail.ts";
 import { setStatus, statusError, statusOK } from "../../../../utils/status.ts";
-
-
-import {aureDB} from "../../../../aureDB/aureDB.ts"
+import { aureDB } from "../../../../aureDB/aureDB.ts"
 import client from "../../aureDB/client.ts";
 import entities from "../../aureDB/entities.ts";
+import userBusiness from "../../business/user.ts";
 
-
-const entity =new aureDB(client,entities,'User' );
-
-
-
+const entity = new aureDB(client, entities, 'User');
 
 const get = async (ctx: any) => {
 
@@ -34,7 +25,7 @@ const get = async (ctx: any) => {
 
 const getById = async (ctx: any) => {
   const id = Number(ctx?.params?.id);
-  const data = await entity.findFirst({where: {id}});
+  const data = await entity.findFirst({ where: { id } });
   statusOK(ctx, data);
 
 };
@@ -70,7 +61,7 @@ const update = async (ctx: any) => {
   try {
     const id = Number(ctx?.params?.id);
     const itemUpdateInput = await ctx.request.body().value;
-    const data = await entity.update({data: itemUpdateInput, where : {id}});
+    const data = await entity.update({ data: itemUpdateInput, where: { id } });
     statusOK(ctx, data);
   } catch (error) {
     statusError(ctx, error);
@@ -84,7 +75,7 @@ const update = async (ctx: any) => {
 const del = async (ctx: any) => {
   try {
     const id = Number(ctx?.params?.id);
-    const data = await entity.del({where: {id}});
+    const data = await entity.del({ where: { id } });
     statusOK(ctx, data);
   } catch (error) {
     statusError(ctx, error);
@@ -96,12 +87,12 @@ const del = async (ctx: any) => {
 const login = async (ctx: any) => {
   try {
 
-   
+
     const { email, password }: { email: string; password: string } =
       await ctx.request.body().value;
 
 
-    const user = await entity.findFirst({where : {email, password}});
+    const user = await entity.findFirst({ where: { email, password } });
 
     if (!user) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario o password incorrecta!!");
@@ -138,47 +129,8 @@ const login = async (ctx: any) => {
 const addSaldo = async (ctx: any) => {
   try {
     const { id, importe } = await ctx.request.body().value;
-    const user = await prisma.user.findFirst(
-      {
-        where: { id }
-      });
-
-
-    if (user && user.estadoid == Estado.baja) {
-      setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja. Póngase en contacto con el administrador");
-      return;
-    }
-
-    let saldo = user ? user.saldo.toNumber() : 0;
-    saldo += importe;
-    const userid = user ? user.id : 0;
-
-
-    const updateUser = prisma.user.updateMany({ where: { id: user?.id }, data: { saldo } });
-
-    const createMovimiento = prisma.userXMovimiento.create({
-      data: {
-        tipoid: UserXMovimientoXTipo.ingreso,
-        importe,
-        userid
-      }
-    }
-    );
-
-    const createSaldoTmp = prisma.userXSaldoXTmp.create({
-      data: {
-        saldo,
-        userid,
-        movimientoid: (await createMovimiento).id
-      }
-    }
-    );
-
-    await prisma.$transaction([updateUser, createSaldoTmp]);
-
-
-    const data = { ok: true }
-    statusOK(ctx, data);
+    const result = await userBusiness.addSaldo(id, importe);
+    statusOK(ctx, { ok: result });
 
   } catch (error) {
     statusError(ctx, error);
@@ -193,33 +145,23 @@ const reserPassByCode = async (ctx: any) => {
     const { code, password }: { code: string; password: string; } =
       await ctx.request.body().value;
 
-    const codeSecure = await prisma.codeSecure.findFirst({ where: { code } });
+    const entityCodeSecure = new aureDB(client, entities, 'CodeSecure');
 
+    const codeSecure = await entityCodeSecure.findFirst({ where: { code } });
 
     if (!codeSecure) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "código no válido!!");
       return;
     }
 
-    const user = await prisma.user.findFirst(
-      {
-        where: { id: codeSecure.userid }
-      });
+    const user = await entity.findFirst({where: { id: codeSecure.userid }});
 
     if (user && (user.estadoid == Estado.baja || user.estadoid == Estado.bloqueado)) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
       return;
     }
 
-
-    await prisma.user.updateMany({
-      where: { id: user?.id },
-      data: {
-        password,
-        estadoid: Estado.activo
-      }
-    })
-
+    await entity.update({where: { id: user?.id }, data: {password, estadoid: Estado.activo}});
 
     const data = { code: true }
     statusOK(ctx, data);
@@ -237,12 +179,7 @@ const getCodeResetPass = async (ctx: any) => {
     const { email }: { email: string; } =
       await ctx.request.body().value;
 
-    const user = await prisma.user.findFirst(
-      {
-        where: { email }
-      });
-
-
+    const user = await entity.findFirst({where: { email }});
 
     if (!user) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "correo no válido!!");
@@ -263,13 +200,9 @@ const getCodeResetPass = async (ctx: any) => {
 
     const myUUID = crypto.randomUUID();
 
-    await prisma.codeSecure.create({
-      data: {
-        code: myUUID,
-        type: 1,
-        userid: user.id
-      }
-    })
+    const entityCodeSecure = new aureDB(client, entities, 'CodeSecure');
+
+    await entityCodeSecure.create({ data: { code: myUUID, type: 1, userid: user.id }});
 
     const subject = "TTEC-euromillones. Su codigo para resetear la password";
 

@@ -1,13 +1,14 @@
 // deno-lint-ignore-file no-explicit-any
 import { StatusCodes } from "../../../../dep/deps.ts";
-import { execute_query, execute_query_deno_postgress } from "../../../../utils/query.ts";
 import { setStatus, statusError, statusOK } from "../../../../utils/status.ts";
-import { BizumXEstado, UserXMovimientoXTipo } from "../../enums.ts";
-import { Prisma } from "../../generated/client/deno/edge.ts";
-import prisma from "../../prisma/db.ts";
+import { BizumXEstado } from "../../enums.ts";
+import { aureDB } from "../../../../aureDB/aureDB.ts"
 import client from "../../aureDB/client.ts";
-
+import entities from "../../aureDB/entities.ts";
 import bizumBusiness from "../../business/bizum.ts";
+
+
+const entity = new aureDB(client, entities, 'UserXBizum');
 
 
 const get = async (ctx: any) => {
@@ -30,9 +31,7 @@ const get = async (ctx: any) => {
   inner join "UserXBizumXEstado" uxx on ux."estadoid" = uxx.id 
     `;
   const orderBydefect = ``;
-   //await execute_query(ctx, prisma, sqlSelect, sqlFrom, orderBydefect);
-  
-  await execute_query_deno_postgress(ctx, client, sqlSelect, sqlFrom, orderBydefect);
+  await entity.execute_query(ctx, client, sqlSelect, sqlFrom, orderBydefect);
 
   
 
@@ -41,7 +40,7 @@ const get = async (ctx: any) => {
 
 const getById = async (ctx: any) => {
   const id = Number(ctx?.params?.id);
-  const data = await prisma.userXBizum.findFirst({ where: { id } });
+  const data = await entity.findFirst({ where: { id } });
   statusOK(ctx, data);
 
 };
@@ -49,9 +48,9 @@ const getById = async (ctx: any) => {
 
 const add = async (ctx: any) => {
   try {
-    const newItem: Prisma.UserXBizumUncheckedCreateInput = await ctx.request.body().value;
-    newItem.estadoid = BizumXEstado.pendiente;
-    const data = await bizumBusiness.create(newItem);
+    const newItem = await ctx.request.body().value;
+    newItem.estadoid = BizumXEstado.pendiente;    
+    const data = await entity.create({ data: newItem });   
       
     statusOK(ctx, data);
   } catch (error) {
@@ -65,9 +64,9 @@ const update = async (ctx: any) => {
   try {
     const id = Number(ctx?.params?.id);
     
-    const itemUpdateInput: Prisma.UserXBizumUncheckedUpdateInput = await ctx.request.body().value;
+    const itemUpdateInput = await ctx.request.body().value;
 
-    const oldBizum = await prisma.userXBizum.findFirst({ where: { id } });
+    const oldBizum = await entity.findFirst({ where: { id } });
 
     if(oldBizum?.estadoid == BizumXEstado.pendiente && itemUpdateInput.estadoid == BizumXEstado.confirmado ){
       // Esta pendiente y lo pasamos a Confirmado
@@ -153,7 +152,7 @@ const del = async (ctx: any) => {
 
     const id = Number(ctx?.params?.id);
 
-    const oldBizum = await prisma.userXBizum.findFirst({ where: { id } });
+    const oldBizum = await entity.findFirst({ where: { id } });
 
     if(oldBizum?.estadoid != BizumXEstado.pendiente){
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Para poder borrarlo, el bizum tiene qeu estar pendiente!!!");
