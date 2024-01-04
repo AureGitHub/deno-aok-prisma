@@ -7,7 +7,7 @@ const { DATABASE_URL_GENERAL } = Deno.env.toObject();
 const prisma = new PrismaClient({
   datasources: {
     db: {
-      url: DATABASE_URL_GENERAL
+      url: "DATABASE_URL_GENERAL"
     },
   },
 });
