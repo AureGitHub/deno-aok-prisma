@@ -3,20 +3,35 @@ import { aureDB } from "../../../aureDB/aureDB.ts"
 import client from "../aureDB/client.ts";
 import entities from "../aureDB/entities.ts";
 import { StatusCodes } from "../../../dep/deps.ts";
-import { Estado, UserXMovimientoXTipo } from "../enums.ts";
+import { TC_UserEstado, TC_MovimientoTipo } from "../enums.ts";
 
+const entityUser = new aureDB(client, entities, 'User');
+
+
+const CambiarSaldo = async (userid: number, beforesaldo : number, importe: number, tipoid : number, apuestaid:any,bizumid : any, transaction: any)=>{
+
+    const entityUserXMovimiento = new aureDB(client, entities, 'UserXMovimiento');
+
+    const saldo = beforesaldo + importe; 
+
+    //update el saldo del usuario
+    await entityUser.update({where: {id :userid }, data:{saldo} ,tr :  transaction});
+
+    // creo el movimiento
+    const createMovimiento = await entityUserXMovimiento.create({data:{ beforesaldo, actualsaldo:saldo,  tipoid, importe , userid, apuestaid, bizumid } ,tr :  transaction  });
+
+    return{
+        movimientoid : createMovimiento.id
+    }
+
+
+}
 
 
 const addSaldo = async (id: number, importe: number) => {
 
-
-    const entityUser = new aureDB(client, entities, 'User');
-    const entityUserXMovimiento = new aureDB(client, entities, 'UserXMovimiento');
-    const entityUserXSaldoXTmp = new aureDB(client, entities, 'UserXSaldoXTmp');
-
-
     const user = await entityUser.findFirst({ where: { id } });
-    if (!user || (user && user.estadoid == Estado.baja)) {
+    if (!user || (user && user.estadoid == TC_UserEstado.baja)) {
         return {
             error: {
                 Status: 200,
@@ -26,35 +41,25 @@ const addSaldo = async (id: number, importe: number) => {
         }
     }
 
-    let saldo = Number(user.saldo);
-    saldo += importe;
-    const userid = user.id;
-
-    const transaction = client.createTransaction("transaction_1", {
-        isolation_level: "repeatable_read",
-    });
-
-    await transaction.begin();
-
-    await entityUser.update({ where: { id: user?.id }, data: { saldo }, tr :  transaction});
+    const transaction = client.createTransaction("tr_addSaldo");
+    try{
+        await transaction.begin();    
+        await CambiarSaldo(id,Number(user.saldo),importe,TC_MovimientoTipo.ingreso,null,null,transaction);
+        await transaction.commit();
     
-    const objMov = {tipoid: UserXMovimientoXTipo.ingreso,importe,userid}
-
-    const createMovimiento = await entityUserXMovimiento.create({data:objMov ,tr :  transaction  });
-
-
-    const objMovTmp =  {saldo, userid, movimientoid: createMovimiento.id};
-
-    await entityUserXSaldoXTmp.create({data: objMovTmp, tr :  transaction });
-
-
-    await transaction.commit();
-
+    }
+    catch(err){
+        transaction.rollback(); 
+        throw err;
+    }
+  
+   
     return true;
 
 
 }
 
 export default {
-    addSaldo
+    addSaldo,
+    CambiarSaldo
 }

@@ -12,19 +12,22 @@ const get = async (ctx: any) => {
   select
   ux."createdAt" fecha,
   ux."importe",
-  CASE WHEN bx.id IS NULL 
+  CASE WHEN ux.bizumid IS NULL 
+            THEN  CASE WHEN ux.apuestaid IS NULL 
             THEN uxx.descripcion
+            ELSE uxx.descripcion || '(' || to_char(a.fecha, 'dd/mm/yyyy') || ')'
+    END 
             ELSE uxx.descripcion || ' (b)'
-    END AS tipo
+    END AS tipo  
   `;
 
   const sqlFrom = ` 
   from "UserXMovimiento" ux 
   inner join "User" u on ux.userid=u.id
-  inner join "UserXMovimientoXTipo" uxx on ux.tipoid=uxx.id
-  left join "BizumXMovimiento" bx on ux.id=bx.movimientoid
+  inner join "TC_MovimientoTipo" uxx on ux.tipoid=uxx.id  
+  left join  "Apuesta" a on  ux.apuestaid = a.id 
     `;
-  const orderBydefect = ``;
+  const orderBydefect = `  ux."createdAt"  `;
    await entity.execute_query(ctx, client, sqlSelect, sqlFrom, orderBydefect);
 };
 

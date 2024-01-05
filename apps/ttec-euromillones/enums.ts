@@ -1,4 +1,4 @@
-export enum Estado {  
+export enum TC_UserEstado {  
       activo = 1,
       baja = 2,
       bloqueado = 3,
@@ -10,13 +10,13 @@ export enum Validators{
     email= 2
 }
 
-export enum Role {  
+export enum TC_UserRole {  
     god = 1,
     admin = 2,
     normal = 3
 }
 
-export enum UserXMovimientoXTipo {  
+export enum TC_MovimientoTipo {  
     reintegro = 1,  // pago apuesta
     ingreso = 2,    // aumento de saldo
     ganado = 3,      // repato premio
@@ -24,13 +24,13 @@ export enum UserXMovimientoXTipo {
 }
 
 
-export enum ApuestaXEstado {  
+export enum TC_ApuestaEstado {  
     abierta = 1,  
     cerrada = 2,    
     finalizada = 3      
 }
 
-export enum BizumXEstado {  
+export enum TC_BizumEstado {  
     pendiente = 1,  
     confirmado = 2,
     cerrado = 3,

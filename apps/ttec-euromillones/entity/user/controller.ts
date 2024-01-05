@@ -2,7 +2,7 @@
 import { StatusCodes } from "../../../../dep/deps.ts";
 import { userClass } from "./user.model.ts";
 import authController from "../../../general/entity/auth/controller.ts"
-import { Estado } from "../../enums.ts"
+import { TC_UserEstado } from "../../enums.ts"
 import { sendEmail } from "../../../../utils/sendEmail.ts";
 import { setStatus, statusError, statusOK } from "../../../../utils/status.ts";
 import { aureDB } from "../../../../aureDB/aureDB.ts"
@@ -31,7 +31,7 @@ const getById = async (ctx: any) => {
 };
 
 const InRed=async (ctx: any) => {
-  const total = await entity.aggregate({ _count: 'id', where: {estadoid: Estado.activo }, whereLstStr : ['saldo < 1'] });  
+  const total = await entity.aggregate({ _count: 'id', where: {estadoid: TC_UserEstado.activo }, whereLstStr : ['saldo < 1'] });  
   statusOK(ctx, {total : Number(total)});
 };
 
@@ -105,13 +105,13 @@ const login = async (ctx: any) => {
     }
 
 
-    if (user && (user.estadoid == Estado.baja || user.estadoid == Estado.bloqueado)) {
+    if (user && (user.estadoid == TC_UserEstado.baja || user.estadoid == TC_UserEstado.bloqueado)) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
       return;
     }
 
 
-    if (user && user.estadoid == Estado.cambiar_pass) {
+    if (user && user.estadoid == TC_UserEstado.cambiar_pass) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Password bloqueda. Debe cambiar su password");
       return;
     }
@@ -161,12 +161,12 @@ const reserPassByCode = async (ctx: any) => {
 
     const user = await entity.findFirst({where: { id: codeSecure.userid }});
 
-    if (user && (user.estadoid == Estado.baja || user.estadoid == Estado.bloqueado)) {
+    if (user && (user.estadoid == TC_UserEstado.baja || user.estadoid == TC_UserEstado.bloqueado)) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
       return;
     }
 
-    await entity.update({where: { id: user?.id }, data: {password, estadoid: Estado.activo}});
+    await entity.update({where: { id: user?.id }, data: {password, estadoid: TC_UserEstado.activo}});
 
     const data = { code: true }
     statusOK(ctx, data);
@@ -192,7 +192,7 @@ const getCodeResetPass = async (ctx: any) => {
     }
 
 
-    if (user && (user.estadoid == Estado.baja || user.estadoid == Estado.bloqueado)) {
+    if (user && (user.estadoid == TC_UserEstado.baja || user.estadoid == TC_UserEstado.bloqueado)) {
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Usuario dado de baja ó bloqueado. Póngase en contacto con el administrador");
       return;
     }

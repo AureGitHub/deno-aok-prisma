@@ -4,6 +4,7 @@ import {aureDB} from "../../../../aureDB/aureDB.ts"
 import client from "../../aureDB/client.ts";
 import entities from "../../aureDB/entities.ts";
 import apuestaBusiness from "../../business/apuesta.ts";
+import { TC_ApuestaEstado } from "../../enums.ts";
 
 
 const entity =new aureDB(client,entities,'Apuesta' );
@@ -15,7 +16,7 @@ const get= async (ctx: any) => {
 
   const sqlFrom =` 
   from "Apuesta" a 
-  inner join "ApuestaXEstado" ax on a."estadoid" = ax.id  `;
+  inner join "TC_ApuestaEstado" ax on a."estadoid" = ax.id  `;
   const orderBydefect = ``;
   await entity.execute_query(ctx, client, sqlSelect, sqlFrom, orderBydefect);
  
@@ -70,6 +71,17 @@ const del = async (ctx: any) =>  {
     try {
 
       const  id  = Number(ctx?.params?.id);
+
+      const apuesta = await entity.findFirst({where:{id}});
+
+      if(!apuesta){
+          throw new Error('Problemas para acceder a la apuesta')
+      }
+  
+      if(apuesta.estadoid != TC_ApuestaEstado.abierta){
+          throw new Error('La apuesta debe estar abierta para poder cerrarla')
+      }
+
       const data = await apuestaBusiness.cerrar(id);
       statusOK(ctx,{ok : data}); 
     } catch (error) {
@@ -82,8 +94,23 @@ const del = async (ctx: any) =>  {
     try {
 
       const  id  = Number(ctx?.params?.id);
-      const {ganado} = await ctx.request.body().value; 
-      const data = await apuestaBusiness.finalizar(id, ganado);
+      const {apostado, ganado} = await ctx.request.body().value; 
+
+      if(!ganado){
+        throw new Error('No se puede finalizar la apuesta. Debe especificar la cantidad ganada')
+      }
+
+      const apuesta = await entity.findFirst({where:{id}});
+
+      if(!apuesta){
+          throw new Error('Problemas para acceder a la apuesta')
+      }
+  
+      if(apuesta.estadoid != TC_ApuestaEstado.cerrada){
+          throw new Error('La apuesta debe estar cerrada para poder Finalizar')
+      }
+
+      const data = await apuestaBusiness.finalizar(id,apostado, ganado);
       statusOK(ctx,{ok : data}); 
     } catch (error) {
       statusError(ctx,error);

@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { StatusCodes } from "../../../../dep/deps.ts";
 import { setStatus, statusError, statusOK } from "../../../../utils/status.ts";
-import { BizumXEstado } from "../../enums.ts";
+import { TC_BizumEstado } from "../../enums.ts";
 import { aureDB } from "../../../../aureDB/aureDB.ts"
 import client from "../../aureDB/client.ts";
 import entities from "../../aureDB/entities.ts";
@@ -28,7 +28,7 @@ const get = async (ctx: any) => {
   const sqlFrom = ` 
   from "UserXBizum" ux 
   inner join "User" u on u.id = ux."userid" 
-  inner join "UserXBizumXEstado" uxx on ux."estadoid" = uxx.id 
+  inner join "TC_BizumEstado" uxx on ux."estadoid" = uxx.id 
     `;
   const orderBydefect = ``;
   await entity.execute_query(ctx, client, sqlSelect, sqlFrom, orderBydefect);
@@ -49,7 +49,7 @@ const getById = async (ctx: any) => {
 const add = async (ctx: any) => {
   try {
     const newItem = await ctx.request.body().value;
-    newItem.estadoid = BizumXEstado.pendiente;    
+    newItem.estadoid = TC_BizumEstado.pendiente;    
     const data = await entity.create({ data: newItem });   
       
     statusOK(ctx, data);
@@ -68,28 +68,18 @@ const update = async (ctx: any) => {
 
     const oldBizum = await entity.findFirst({ where: { id } });
 
-    if(oldBizum?.estadoid == BizumXEstado.pendiente && itemUpdateInput.estadoid == BizumXEstado.confirmado ){
+    if(oldBizum?.estadoid == TC_BizumEstado.pendiente && itemUpdateInput.estadoid == TC_BizumEstado.confirmado ){
       // Esta pendiente y lo pasamos a Confirmado
-      const result = await bizumBusiness.confirmar(id);
-      if(result){
-        setStatus(ctx, result.code, result.StatusCodes, result.text);
-      }
-      else{
-        statusOK(ctx, {ok: true});
-      }
+       await bizumBusiness.confirmar(id, oldBizum?.userid, oldBizum?.importe);
+       statusOK(ctx, {ok: true});
       
-    } else if(oldBizum?.estadoid == BizumXEstado.confirmado && itemUpdateInput.estadoid == BizumXEstado.pendiente ){
+    } else if(oldBizum?.estadoid == TC_BizumEstado.confirmado && itemUpdateInput.estadoid == TC_BizumEstado.pendiente ){
       // está Confirmado y lo pasamos a pendiente
-      const result = await bizumBusiness.desconfirmar(id);
-      if(result){
-        setStatus(ctx, result.code, result.StatusCodes, result.text);
-      }
-      else{
-        statusOK(ctx, {ok: true});
-      }
+      await bizumBusiness.desconfirmar(id, oldBizum?.userid, oldBizum?.importe);
+      statusOK(ctx, {ok: true});
     }
 
-    else if(oldBizum?.estadoid == BizumXEstado.cerrado && itemUpdateInput.estadoid == BizumXEstado.confirmado ){
+    else if(oldBizum?.estadoid == TC_BizumEstado.cerrado && itemUpdateInput.estadoid == TC_BizumEstado.confirmado ){
       // está Cerrado y lo pasamos a Confirmado
       const data = await bizumBusiness.update(id,itemUpdateInput );          
       statusOK(ctx, data);
@@ -97,7 +87,7 @@ const update = async (ctx: any) => {
 
     else{
 
-      if(itemUpdateInput.estadoid != BizumXEstado.pendiente){
+      if(itemUpdateInput.estadoid != TC_BizumEstado.pendiente){
         setStatus(ctx, 200, StatusCodes.CONFLICT, "Solo se puede modificar si está pendiente!!!");
         return;
       }
@@ -115,15 +105,16 @@ const update = async (ctx: any) => {
 const confirmar = async (ctx: any) => {
   try {
 
+    const id = Number(ctx?.params?.id);        
+    const oldBizum = await entity.findFirst({ where: { id } });
 
-    const id = Number(ctx?.params?.id);
-        // const itemUpdateInput: Prisma.UserXBizumUncheckedUpdateInput = await ctx.request.body().value;
-    const result = await bizumBusiness.confirmar(id);
-    if(result){
-      //Hay error!!!
-      setStatus(ctx, result.code, result.StatusCodes, result.text);
-      return;
+    if (!oldBizum) {
+      return {code: 200, StatusCodes: StatusCodes.CONFLICT, text: "No existe el usuario o el bizum!!"}  
     }
+    
+
+    await bizumBusiness.confirmar(id, oldBizum?.userid, oldBizum?.importe);    
+
     statusOK(ctx, {ok: true});
   } catch (error) {
     statusError(ctx, error);
@@ -154,7 +145,7 @@ const del = async (ctx: any) => {
 
     const oldBizum = await entity.findFirst({ where: { id } });
 
-    if(oldBizum?.estadoid != BizumXEstado.pendiente){
+    if(oldBizum?.estadoid != TC_BizumEstado.pendiente){
       setStatus(ctx, 200, StatusCodes.CONFLICT, "Para poder borrarlo, el bizum tiene qeu estar pendiente!!!");
       return;
     }

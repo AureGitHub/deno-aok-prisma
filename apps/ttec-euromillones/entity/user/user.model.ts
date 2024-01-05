@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { Role } from "../../enums.ts";
+import { TC_UserRole } from "../../enums.ts";
 
 export class userClass {
   id: number | undefined;
@@ -24,14 +24,14 @@ export class userClass {
     this.roleid = usarFromDB['roleid'];
     this.estadoid = usarFromDB['estadoid'];
     
-    this.isGod = this.roleid ===Role.god;
-    this.isAdmin = this.roleid ===Role.admin || this.roleid ===Role.god;    
-    this.isNormal = this.roleid ===Role.normal;
+    this.isGod = this.roleid ===TC_UserRole.god;
+    this.isAdmin = this.roleid ===TC_UserRole.admin || this.roleid ===TC_UserRole.god;    
+    this.isNormal = this.roleid ===TC_UserRole.normal;
 
     this.saldo = usarFromDB['saldo'];
 
-    this.roleDescripcion = this.roleid ===Role.god ?  Role[Role.god] : (
-      this.roleid ===Role.admin ? Role[Role.admin] : Role[Role.normal]
+    this.roleDescripcion = this.roleid ===TC_UserRole.god ?  TC_UserRole[TC_UserRole.god] : (
+      this.roleid ===TC_UserRole.admin ? TC_UserRole[TC_UserRole.admin] : TC_UserRole[TC_UserRole.normal]
     );
 
   }

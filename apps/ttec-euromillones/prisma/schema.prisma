@@ -25,7 +25,6 @@ model User {
   CodeSecure      CodeSecure[]
   UserXBizum      UserXBizum[]
   UserXMovimiento UserXMovimiento[]
-  UserXSaldoXTmp  UserXSaldoXTmp[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -47,9 +46,11 @@ model UserXMovimiento {
   importe              Decimal              @db.Decimal(9, 2)
   userid               Int  
   tipoid               Int
+  apuestaid            Int
+  beforesaldo         Int
+  bizumid             Int
   User                 User                 @relation(fields: [userid], references: [id])
   UserXMovimientoXTipo UserXMovimientoXTipo @relation(fields: [tipoid], references: [id])
-  UserXSaldoXTmp       UserXSaldoXTmp[]
   BizumXMovimiento     BizumXMovimiento[]
   createdAt            DateTime             @default(now())
 }
@@ -62,16 +63,7 @@ model BizumXMovimiento {
   UserXMovimiento UserXMovimiento @relation(fields: [movimientoid], references: [id])
 }
 
-model UserXSaldoXTmp {
-  id              Int             @id @default(autoincrement())
-  saldo           Decimal         @db.Decimal(9, 2)
-  userid          Int
-  movimientoid    Int
-  User            User            @relation(fields: [userid], references: [id])
-  UserXMovimiento UserXMovimiento @relation(fields: [movimientoid], references: [id])
 
-  createdAt DateTime @default(now())
-}
 
 model UserXMovimientoXTipo {
   id              Int               @id
