@@ -160,7 +160,7 @@ Authorization : eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJuYW1
 GET http://localhost:3000/public/sample.txt
 
 ###
-GET  http://localhost:3000/api/ttec-euromillones/user
+GET  http://localhost:3000/api/ttec-euromillones/entities/Apuesta
 
 ###
 

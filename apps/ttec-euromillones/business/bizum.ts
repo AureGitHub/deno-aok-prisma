@@ -3,7 +3,7 @@ import { StatusCodes } from "../../../dep/deps.ts";
 import { TC_BizumEstado, TC_MovimientoTipo } from "../enums.ts";
 import { aureDB } from "../../../aureDB/aureDB.ts"
 import client from "../aureDB/client.ts";
-import entities from "../aureDB/entities.ts";
+import entities from "../aureDB/entities/entities.ts";
 
 import userBusiness from "./user.ts";
 

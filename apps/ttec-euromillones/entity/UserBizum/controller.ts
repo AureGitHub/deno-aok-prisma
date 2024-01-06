@@ -4,7 +4,7 @@ import { setStatus, statusError, statusOK } from "../../../../utils/status.ts";
 import { TC_BizumEstado } from "../../enums.ts";
 import { aureDB } from "../../../../aureDB/aureDB.ts"
 import client from "../../aureDB/client.ts";
-import entities from "../../aureDB/entities.ts";
+import entities from "../../aureDB/entities/entities.ts";
 import bizumBusiness from "../../business/bizum.ts";
 
 

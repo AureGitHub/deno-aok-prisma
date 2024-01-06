@@ -1,5 +1,5 @@
 // import { Validators } from "@angular/forms";
-import { Validators } from "../enums.ts";
+import { Validators } from "../../enums.ts";
 
 /*
   tipoid               Int
@@ -43,8 +43,8 @@ const entities = {
          { name: 'saldo', type: 'number', title: 'Saldo', validators: [Validators.required] },
          { name: 'estadoid', type: 'select', title: 'Estado', validators: [Validators.required], multiple: false, coleccion: 'TC_UserEstado', id: 'id', desc: 'descripcion', default: 3 },
          { name: 'roleid', type: 'select', title: 'Role', validators: [Validators.required], multiple: false, coleccion: 'TC_UserRole', id: 'id', desc: 'descripcion', default: 3  },
-         { name: 'createdAt', type: 'date', title: 'createdAt', validators: [Validators.required] },         
-         { name: 'updatedAt', type: 'date', title: 'updatedAt', validators: [Validators.required] },         
+         { name: 'createdAt', type: 'date', title: 'createdAt', validators: [Validators.required], hide : true },         
+         { name: 'updatedAt', type: 'date', title: 'updatedAt', validators: [Validators.required], hide : true },         
 
 
       ],

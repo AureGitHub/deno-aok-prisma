@@ -2,7 +2,7 @@
 import { TC_ApuestaEstado,  TC_UserEstado, TC_MovimientoTipo } from "../enums.ts";
 import { aureDB } from "../../../aureDB/aureDB.ts"
 import client from "../aureDB/client.ts";
-import entities from "../aureDB/entities.ts";
+import entities from "../aureDB/entities/entities.ts";
 
 import userBusiness from "./user.ts";
 

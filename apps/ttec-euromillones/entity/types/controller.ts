@@ -1,7 +1,7 @@
 import { statusOK } from "../../../../utils/status.ts";
 import {aureDB} from "../../../../aureDB/aureDB.ts"
 import client from "../../aureDB/client.ts";
-import entities from "../../aureDB/entities.ts";
+import entities from "../../aureDB/entities/entities.ts";
 
 // deno-lint-ignore no-explicit-any
 const get = async (ctx: any) => {

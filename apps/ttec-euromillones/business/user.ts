@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { aureDB } from "../../../aureDB/aureDB.ts"
 import client from "../aureDB/client.ts";
-import entities from "../aureDB/entities.ts";
+import entities from "../aureDB/entities/entities.ts";
 import { StatusCodes } from "../../../dep/deps.ts";
 import { TC_UserEstado, TC_MovimientoTipo } from "../enums.ts";
 

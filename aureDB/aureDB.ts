@@ -338,10 +338,11 @@ export class aureDB {
 
     const updatedAt = this.entities[this.table].find(a=> a.name=='updatedAt');
     const createdAt = this.entities[this.table].find(a=> a.name=='createdAt');
-    if(updatedAt && !data['updatedAt']){
+    //if(updatedAt && !data['updatedAt']){
+      if(updatedAt){ //siempre se crea desde el servidor
       data['updatedAt'] = new Date().toISOString();
     }
-    if(createdAt && !data['createdAt']){
+    if(createdAt){
       data['createdAt'] = new Date().toISOString();
     }
 
@@ -369,7 +370,7 @@ export class aureDB {
     this.validate(data);
 
     const updatedAt = this.entities[this.table].find(a=> a.name=='updatedAt');
-    if(updatedAt && !data['updatedAt']){
+    if(updatedAt){
       data['updatedAt'] = new Date().toISOString();
     }
 
