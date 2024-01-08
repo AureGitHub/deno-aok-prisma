@@ -17,7 +17,6 @@ router
 // .delete("/:id", requireUser,  controller.del)
 
 
-
 .post("/addSaldo", controller.addSaldo)
 .post("/reserPassByCode", controller.reserPassByCode)
 .post("/getCodeResetPass", controller.getCodeResetPass)

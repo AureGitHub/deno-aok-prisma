@@ -214,7 +214,8 @@ export class aureDB {
   }
 
 
-  async execute_query(ctx: any, client: any, sqlSelect : string, sqlFrom :string, orderBydefect : string){
+
+  async execute_query_data(ctx: any, client: any, sqlSelect : string, sqlFrom :string, orderBydefect : string){
     let offset =0;
   let limit=0;
   let  count=0;
@@ -273,10 +274,18 @@ export class aureDB {
       text: sqlSelect + sqlFrom + strPrismaFilter + order + sql_limit,
     }    
     );
+    return {data, count};
+
+  }
+
+
+  async execute_query(ctx: any, client: any, sqlSelect : string, sqlFrom :string, orderBydefect : string){
+
+    const result = await this.execute_query_data(ctx,client,sqlSelect,sqlFrom,orderBydefect);
    ctx.response.status = 201;
    ctx.response.body = {
      status: StatusCodes.OK,
-     data: { data: data.rows, count },
+     data: { data: result.data.rows, count: result.count },
    };
 
   }

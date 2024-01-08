@@ -13,7 +13,7 @@ const entities = {
       { name: 'apostado', type: 'number', title: 'Apostado', validators: [Validators.required], default: 0, disabled : true },
       { name: 'ganado', type: 'number', title: 'Ganado', validators: [Validators.required] , default: 0, disabled : true},
       { name: 'estadoid', type: 'select', title: 'Estado', validators: [Validators.required], multiple: false, coleccion: 'TC_ApuestaEstado', id: 'id', desc: 'descripcion', default: 1, disabled : true },
-      { name: 'createdAt', type: 'date', title: 'createdAt', validators: [Validators.required] },         
+      { name: 'createdAt', type: 'date', title: 'createdAt', validators: [Validators.required], hide : true },         
 
 
    ],

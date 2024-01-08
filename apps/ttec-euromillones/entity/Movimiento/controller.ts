@@ -15,7 +15,7 @@ const get = async (ctx: any) => {
   CASE WHEN ux.bizumid IS NULL 
             THEN  CASE WHEN ux.apuestaid IS NULL 
             THEN uxx.descripcion
-            ELSE uxx.descripcion || '(' || to_char(a.fecha, 'dd/mm/yyyy') || ')'
+            ELSE uxx.descripcion || ' (' || to_char(a.fecha, 'dd/mm/yy') || ')'
     END 
             ELSE uxx.descripcion || ' (b)'
     END AS tipo  

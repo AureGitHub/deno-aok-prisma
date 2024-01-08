@@ -5,6 +5,11 @@ import userxbizumRouter from "./entity/UserBizum/router.ts";
 import apuestaRouter from "./entity/Apuesta/router.ts";
 import movimientoRouter from "./entity/Movimiento/router.ts";
 import entitiesRouter from "./aureDB/entities/router.ts";
+import prormacion from "./programacion/programacion.ts"
+
+
+prormacion.execute();
+
 
 
 

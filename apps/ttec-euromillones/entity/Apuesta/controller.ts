@@ -5,6 +5,7 @@ import client from "../../aureDB/client.ts";
 import entities from "../../aureDB/entities/entities.ts";
 import apuestaBusiness from "../../business/apuesta.ts";
 import { TC_ApuestaEstado } from "../../enums.ts";
+import { StatusCodes } from "https://deno.land/x/https_status_codes@v1.2.0/mod.ts";
 
 
 const entity =new aureDB(client,entities,'Apuesta' );
@@ -16,9 +17,19 @@ const get= async (ctx: any) => {
 
   const sqlFrom =` 
   from "Apuesta" a 
-  inner join "TC_ApuestaEstado" ax on a."estadoid" = ax.id  `;
+  inner join "TC_ApuestaEstado" ax on a."estadoid" = ax.id  
+  inner join "UserXApuesta" uxa on a.id=uxa.apuestaid
+  `
+
+  ;
   const orderBydefect = ``;
-  await entity.execute_query(ctx, client, sqlSelect, sqlFrom, orderBydefect);
+  const result=await entity.execute_query_data(ctx, client, sqlSelect, sqlFrom, orderBydefect);
+  ctx.response.status = 201;
+   ctx.response.body = {
+     status: StatusCodes.OK,
+     data: { data: result.data.rows, count: result.count },
+   };
+
  
 };
 
