@@ -29,6 +29,13 @@ export const sendEmail = async (lstDestinatarios: string[], subject : string, bo
  }
   `;
 
+
+  /*
+  MESSAGE='{"key": "$YOUR_API_KEY", "message": {"from_email": "hello@example.com", "subject": "Hello World", "text": "Welcome to Mailchimp Transactional!", "to": [{ "email": "freddie@example.com", "type": "to" }]}}'
+
+curl -sS -X POST "https://mandrillapp.com/api/1.0/messages/send" --header 'Content-Type: application/json' --data-raw "$MESSAGE"
+  */
+
   let resp = await fetch("https://api.brevo.com/v3/smtp/email", {
   method: "POST",
   headers: {
@@ -38,6 +45,7 @@ export const sendEmail = async (lstDestinatarios: string[], subject : string, bo
   },
   body,
 });
+
 
 
 const jsonData = await resp.json();

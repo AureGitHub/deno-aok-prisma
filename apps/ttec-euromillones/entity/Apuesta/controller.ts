@@ -18,7 +18,7 @@ const get= async (ctx: any) => {
   const sqlFrom =` 
   from "Apuesta" a 
   inner join "TC_ApuestaEstado" ax on a."estadoid" = ax.id  
-  inner join "UserXApuesta" uxa on a.id=uxa.apuestaid
+  left join "UserXApuesta" uxa on a.id=uxa.apuestaid
   `
 
   ;
