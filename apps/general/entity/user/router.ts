@@ -1,6 +1,6 @@
 import { Router } from "../../../../dep/deps.ts";
 import controller from "./controller.ts";
-import requireUser from "../../../../middleware/requireUser.ts";
+import requireUser from "../../../../middleware/require.ts";
 
 const router = new Router({
     prefix: "/users",
