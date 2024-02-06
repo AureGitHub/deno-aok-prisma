@@ -5,6 +5,7 @@ import userxbizumRouter from "./entity/UserBizum/router.ts";
 import apuestaRouter from "./entity/Apuesta/router.ts";
 import movimientoRouter from "./entity/Movimiento/router.ts";
 import entitiesRouter from "./aureDB/entities/router.ts";
+import administracionRouter from "./entity/Administracion/router.ts";
 import prormacion from "./programacion/programacion.ts"
 
 
@@ -24,6 +25,8 @@ router.use(userxbizumRouter.routes());
 router.use(apuestaRouter.routes());  
 router.use(movimientoRouter.routes());  
 router.use(entitiesRouter.routes());  
+router.use(administracionRouter.routes());  
+
 
 export default router;
 
