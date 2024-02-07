@@ -15,7 +15,7 @@ router
 .post("/getCodeResetPass", controller.getCodeResetPass)
 .post("/login", controller.login)
 .get("/InRed", require.requireAdmin,  controller.InRed)
-.get("/", require.requireAdmin, controller.get)
+.get("/",  controller.get)  //require.requireAdmin,
 .get("/:id", require.requireUser,  controller.getById)
 .post("/", require.requireGod,  controller.add)
 .put("/:id", require.requireGod,   controller.update)
