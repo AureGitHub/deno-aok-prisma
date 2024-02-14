@@ -2,7 +2,7 @@ import { SMTPClient } from "https://deno.land/x/denomailer/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
 
 
-export const sendEmail = async (lstDestinatarios: string[], subject : string, bodyHtml: string) => {
+export const sendEmail = async (emailTo: string, subject : string, bodyHtml: string) => {
 
   const { email_user_smtp, email_api_key, email_bcc } = Deno.env.toObject();
 
@@ -14,14 +14,13 @@ export const sendEmail = async (lstDestinatarios: string[], subject : string, bo
     },
     "to":[  
        {  
-          "email":"aure.desande@gmail.com",
-          "name":"Aure"
+          "email":"${emailTo}"
        }
     ],
     "bcc":[  
       {  
          "email":"${email_bcc}",
-         "name":"Aure"
+         "name":"ttec-Euromillones"
       }
    ],
     "subject":"${subject}",
