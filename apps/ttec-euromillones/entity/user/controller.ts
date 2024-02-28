@@ -214,7 +214,7 @@ const getCodeResetPass = async (ctx: any) => {
     const bodyHtml = `<div>Prueba final.Su codigo para resetear la password</div><div><span style='font-size: 15px;color : green'>${myUUID}</span></div>`;
 
     try {
-      const sender_email = await sendEmail(['aure.desande@gmail.com', 'jdesande@tragsa.es'], subject, bodyHtml);
+      const sender_email = await sendEmail('aure.desande@gmail.com', subject, bodyHtml);
 
       if (!sender_email.enviado) {
         throw new Error(sender_email.message);

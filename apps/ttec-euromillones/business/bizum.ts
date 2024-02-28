@@ -6,6 +6,7 @@ import client from "../aureDB/client.ts";
 import entities from "../aureDB/entities/entities.ts";
 
 import userBusiness from "./user.ts";
+import { sendEmail } from "../../../utils/sendEmail.ts";
 
 
 const entityUserXBizum = new aureDB(client, entities, 'UserXBizum');
@@ -33,6 +34,11 @@ const confirmar = async (bizumid: number, userid: number, importe: number) => {
     const entityUser = new aureDB(client, entities, 'User');
     const userUpdate = await entityUser.findFirst({ where: { id: userid } });
 
+    const saldoFinal =  Number(userUpdate?.saldo) + Number(importe);
+    
+    
+
+
     const transaction = client.createTransaction("tr_bizum_confirm");
 
     try {
@@ -45,6 +51,21 @@ const confirmar = async (bizumid: number, userid: number, importe: number) => {
         transaction.rollback();
         throw err;
     }
+
+    const subject = "TTEC-euromillones. Bizum recibido (email automático)";
+    const bodyHtml = `<div>Bizum recibido : ${importe} €</div><div>(saldo anterior: ${userUpdate?.saldo})</div><div><span style='font-size: 15px;color : green'>${userUpdate.name}: ${saldoFinal} €</span></div>`;
+    
+
+    // const subject = "TTEC-euromillones. Su codigo para resetear la password";
+
+    // const bodyHtml = `<div>Prueba final.Su codigo para resetear la password</div><div><span style='font-size: 15px;color : green'></span></div>`;
+
+
+
+
+    const sender_email = await sendEmail(userUpdate.email, subject, bodyHtml);
+
+
 
     return null;
 
