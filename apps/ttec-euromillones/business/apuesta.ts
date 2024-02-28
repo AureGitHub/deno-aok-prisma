@@ -48,7 +48,7 @@ const finalizar = async (apuestaid: number, apostado: number, ganado : number)=>
 const cerrar = async (apuestaid: number)=>{
     const entityUser = new aureDB(client, entities, 'User');
     const entityUserXApuesta = new aureDB(client, entities, 'UserXApuesta');
-    const users = await entityUser.findMany({where: {estadoid: TC_UserEstado.activo }, whereLstStr : ['saldo > 1']});
+    const users = await entityUser.findMany({where: {estadoid: TC_UserEstado.activo }, whereLstStr : ['saldo >= 1']});
     const apostado = users.length;
     const transaction = client.createTransaction("tr_apu_cerrar");
     try{
